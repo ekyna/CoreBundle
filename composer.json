@@ -1,39 +1,39 @@
 {
-	"name" : "ekyna/core-bundle",
-	"description" : "Various utilities",
-	"type" : "symfony-bundle",
-	"authors" : [{
-			"name" : "Etienne Dauvergne",
-			"homepage" : "http://ekyna.com"
-		}
-	],
-	"keywords" : [
-		"symfony2",
-		"bundle"
-	],
-	"homepage" : "https://github.com/ekyna/CoreBundle",
-	"license" : [
-		"MIT"
-	],
-	"require" : {
+    "name" : "ekyna/core-bundle",
+    "description" : "Various utilities",
+    "type" : "symfony-bundle",
+    "authors" : [{
+            "name" : "Etienne Dauvergne",
+            "homepage" : "http://ekyna.com"
+        }
+    ],
+    "keywords" : [
+        "symfony2",
+        "bundle"
+    ],
+    "homepage" : "https://github.com/ekyna/CoreBundle",
+    "license" : [
+        "MIT"
+    ],
+    "require" : {
         "php" : ">=5.3.3",
-		"symfony/framework-bundle" : "~2.3",
-		"doctrine/doctrine-bundle" : "~1.2",
+        "symfony/framework-bundle" : "~2.3",
+        "doctrine/doctrine-bundle" : "~1.2",
         "symfony-cmf/routing" : "1.2.*@dev",
         "liip/imagine-bundle": "0.*@dev",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
         "knplabs/gaufrette" : "0.2.*@dev"
-	},
-	"autoload" : {
-		"psr-0" : {
-			"Ekyna\\Bundle\\CoreBundle" : ""
-		}
-	},
-	"target-dir" : "Ekyna/Bundle/CoreBundle",
-	"minimum-stability" : "dev",
-	"extra" : {
-		"branch-alias" : {
-			"dev-master" : "0.1.x-dev"
-		}
-	}
+    },
+    "autoload" : {
+        "psr-0" : {
+            "Ekyna\\Bundle\\CoreBundle" : ""
+        }
+    },
+    "target-dir" : "Ekyna/Bundle/CoreBundle",
+    "minimum-stability" : "dev",
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "0.1.x-dev"
+        }
+    }
 }
