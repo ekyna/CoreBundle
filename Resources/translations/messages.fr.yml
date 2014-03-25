@@ -1,0 +1,50 @@
+ekyna:
+    core:
+        yes: Oui
+        no: Non
+        button:
+            previous: Précédente
+            next: Suivante
+        field:
+            name:
+                label: Nom
+            title:
+                label: Titre
+            category:
+                label: Catégorie
+            subtitle:
+                label: Sous-Titre
+            url:
+                label: Url
+            email:
+                label: Email
+            description:
+                label: Description
+            content:
+                label: Contenu
+            images:
+                label: Images
+            file:
+                label: Fichier
+            path:
+                label: Chemin
+            alt:
+                label: Alt
+            seo:
+                label: Référencement
+            keywords:
+                label: Mots clés
+            index:
+                label: Indexer
+            follow:
+                label: Suivre les liens
+            route:
+                label: Route
+            tag:
+                label: Tag
+            tags:
+                label: Tags
+    config:
+        label: Configuration
+    content:
+        label: Contenu
