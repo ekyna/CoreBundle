@@ -21,8 +21,7 @@
         "doctrine/doctrine-bundle" : "~1.2",
         "symfony-cmf/routing" : "1.2.*@dev",
         "liip/imagine-bundle": "0.*@dev",
-        "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
-        "knplabs/gaufrette" : "0.2.*@dev"
+        "knplabs/knp-gaufrette-bundle" : "0.2.*@dev"
     },
     "autoload" : {
         "psr-0" : {
