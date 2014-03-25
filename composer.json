@@ -19,10 +19,10 @@
         "php" : ">=5.3.3",
         "symfony/framework-bundle" : "~2.3",
         "doctrine/doctrine-bundle" : "~1.2",
-        "symfony-cmf/routing": "~1.2",
-        "liip/imagine-bundle": "0.21.1",
-        "knplabs/knp-gaufrette-bundle" : "~0.2",
-        "knplabs/gaufrette" : "~0.2"
+        "symfony-cmf/routing" : "1.2.*@dev",
+        "liip/imagine-bundle": "0.*@dev",
+        "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
+        "knplabs/gaufrette" : "0.2.*@dev"
     },
     "autoload" : {
         "psr-0" : {
