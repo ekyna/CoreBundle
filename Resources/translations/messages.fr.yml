@@ -22,6 +22,8 @@ ekyna:
                 label: Description
             content:
                 label: Contenu
+            image:
+                label: Image
             images:
                 label: Images
             file:
