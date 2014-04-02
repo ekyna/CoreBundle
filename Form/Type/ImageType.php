@@ -10,30 +10,14 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Image Form Type
+ * ImageType
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ImageType extends AbstractType
 {
     /**
-     * The image class
-     * 
-     * @var string
-     */
-    protected $dataClass;
-
-    /**
-     * Constructor
-     * 
-     * @param string $dataClass
-     */
-    public function __construct($dataClass)
-    {
-        $this->dataClass = $dataClass;
-    }
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -41,42 +25,49 @@ class ImageType extends AbstractType
             ->add('file', 'file', array(
                 'label' => 'ekyna.core.field.file.label',
                 'required' => false,
-                'sizing' => 'sm'
+                'sizing' => 'sm',
+                'attr' => array(
+                    'widget_col' => 2,
+                    'widget_col' => 10
+                )
             ))
             ->add('name', 'text', array(
                 'label' => 'ekyna.core.field.name.label',
                 'sizing' => 'sm',
                 'attr' => array(
-                    'class' => 'rename-widget'
+                    'class' => 'rename-widget',
+                    'widget_col' => 2,
+                    'widget_col' => 10
                 )
             ))
             ->add('alt', 'text', array(
                 'label' => 'ekyna.core.field.alt.label',
-                'sizing' => 'sm'
+                'sizing' => 'sm',
+                'attr' => array(
+                    'widget_col' => 2,
+                    'widget_col' => 10
+                )
             ))
         ;
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
             ->setDefaults(array(
-                'data_class' => $this->dataClass,
+                'data_class' => null,
                 'image_path' => 'path',
             ))
-            ->setOptional(array('image_path'));
+            ->setRequired(array('data_class'))
+            ->setOptional(array('image_path'))
         ;
     }
 
     /**
-     * Passe l'url de l'image à la vue
-     *
-     * @param \Symfony\Component\Form\FormView $view
-     * @param \Symfony\Component\Form\FormInterface $form
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -91,9 +82,9 @@ class ImageType extends AbstractType
             $view->vars['image_path'] = $imageUrl;
         }
     }
-    
+
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {

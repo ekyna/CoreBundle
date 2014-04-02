@@ -2,28 +2,36 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
-use Ekyna\Bundle\CoreBundle\Form\Type\ImageType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Gallery Image Form Type
+ * GalleryImageType
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class GalleryImageType extends ImageType
+class GalleryImageType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder
             ->add('position', 'hidden', array('attr' => array('data-role' => 'position')))
         ;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return 'ekyna_image';
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getName()
     {

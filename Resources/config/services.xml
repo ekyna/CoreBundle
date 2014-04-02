@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="ekyna_core.doctrine.entity_listener_resolver.class">Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver</parameter>
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
+        <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
         <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
@@ -20,15 +21,6 @@
             </call>
         </service>
 
-        <!-- Image uploader -->
-        <service id="ekyna_core.image_uploader" class="%ekyna_core.image_uploader.class%">
-            <argument type="service">
-                <service class="Gaufrette\Filesystem" factory-service="knp_gaufrette.filesystem_map" factory-method="get">
-                    <argument>ekyna_image</argument>
-                </service>
-            </argument>
-        </service>
-
         <!-- Chain router -->
         <service id="ekyna_core.router" class="%ekyna_core.chain_router.class%">
             <argument type="service" id="logger" on-invalid="ignore" />
@@ -36,6 +28,32 @@
                 <argument type="service" id="router.request_context" />
             </call>
         </service>
+
+        <!-- Image uploader -->
+        <service id="ekyna_core.image_uploader" class="%ekyna_core.image_uploader.class%">
+            <argument type="service">
+                <service 
+                    class="Gaufrette\Filesystem"
+                    factory-service="knp_gaufrette.filesystem_map"
+                    factory-method="get"
+                >
+                    <argument>ekyna_image</argument>
+                </service>
+            </argument>
+        </service>
+        <service id="ekyna_core.image_event_subscriber" class="%ekyna_core.image_event_subscriber.class%">
+            <argument type="service" id="ekyna_core.image_uploader" />
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+
+        <!-- Form types -->
+        <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
+            <tag name="form.type" alias="ekyna_image" />
+        </service>
+        <service id="ekyna_core.gallery_image.form_type" class="%ekyna_core.gallery_image.form_type.class%">
+            <tag name="form.type" alias="ekyna_gallery_image" />
+        </service>
+
     </services>
 
 </container>
