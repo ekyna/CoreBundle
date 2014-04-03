@@ -29,7 +29,7 @@ class ImageEventSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
-
+        
         if($entity instanceof ImageInterface) {
             $this->uploadImage($entity);
         }
@@ -44,10 +44,10 @@ class ImageEventSubscriber implements EventSubscriber
         }
     }
 
-    public function postRemove(LifecycleEventArgs $eventArgs)
+    public function preRemove(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
-
+        
         if($entity instanceof ImageInterface) {
             $this->removeImage($entity);
         }

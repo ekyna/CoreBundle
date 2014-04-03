@@ -2,11 +2,19 @@
 
 namespace Ekyna\Bundle\CoreBundle\Uploader;
 
-use Gaufrette\Filesystem;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
+use Gaufrette\Filesystem;
 
+/**
+ * ImageUploader
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
+ */
 class ImageUploader implements ImageUploaderInterface
 {
+    /**
+     * @var \Gaufrette\Filesystem
+     */
     protected $filesystem;
 
     public function __construct(Filesystem $filesystem)

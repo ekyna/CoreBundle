@@ -1,0 +1,105 @@
+{# Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig #}
+
+{% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
+
+{% block collection_widget %}
+{% spaceless %}
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'class': 'collection-container' }) %}
+    {% endif %}
+    {{ parent() }}
+{% endspaceless %}
+{% endblock collection_widget %}
+
+{% block form_widget_compound %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+        {% if form.parent is empty %}
+            {{ form_errors(form) }}
+        {% endif %}
+        <div class="childs">
+        {{ block('form_rows') }}
+        {{ form_rest(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block form_widget_simple %}
+{% spaceless %}
+    {% if sizing is defined and sizing is not empty %}
+	    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
+    {% endif %}
+    {{ parent() }}
+{% endspaceless %}
+{% endblock form_widget_simple %}
+
+{% block file_widget %}
+{% spaceless %}
+    <div class="file-widget">
+        <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+        {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
+        <div class="input-group{{ size_class }}">
+            <input type="text" class="form-control" value="{{ value }}" readonly="true"  placeholder="Choisissez un fichier" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock file_widget %}
+
+{% block ekyna_image_widget %}
+{% spaceless %}
+    <div class="row image-widget modal-gallery">
+        <div class="col-md-3">
+            {% if image_path is not null %}
+            <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
+                <img src="{{ image_path|imagine_filter('admin_modal') }}" />
+            </a>
+            {% else %}
+            <span class="thumbnail">
+                <img src="http://placehold.it/145x96/f7f7f7/6e829b&text=New+image" />
+            </span>
+            {% endif %}
+        </div>
+        {#{ block('form_widget_compound') }#}
+        {% set attr = attr|merge({'class': 'col-md-9' }) %}
+        <div {{ block('widget_container_attributes') }}>
+	        {% if form.parent is empty %}
+	            {{ block('global_form_errors') }}
+	        {% endif %}
+	        {#{ block('form_rows') }#}
+		    {% for child in form %}
+		        {{ form_row(child, {'style': 'horizontal'}) }}
+		    {% endfor %}
+	        {{ form_rest(form) }}
+	    </div>
+    </div>
+{% endspaceless %}
+{% endblock ekyna_image_widget %}
+
+{% block ekyna_gallery_image_widget %}
+{% spaceless %}
+    <div class="row image-widget modal-gallery">
+        <div class="col-md-3">
+            {% if image_path is not null %}
+            <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
+                <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
+            </a>
+            {% else %}
+            <span class="thumbnail">
+                <img src="http://placehold.it/145x96/f7f7f7/6e829b&text=New+image" />
+            </span>
+            {% endif %}
+        </div>
+        {% set attr = attr|merge({'class': 'col-md-8' }) %}
+        {{ block('form_widget_compound') }}
+        <div class="col-md-1 child-controls">
+            <button class="btn btn-default btn-sm" data-role="move-up" type="button"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <button class="btn btn-default btn-danger btn-sm" data-role="remove" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+            <button class="btn btn-default btn-sm" data-role="move-down" type="button"><span class="glyphicon glyphicon-chevron-down"></span></button>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock ekyna_gallery_image_widget %}
