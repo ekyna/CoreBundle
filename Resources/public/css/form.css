@@ -38,83 +38,99 @@
 }
 
 .form-body .form-footer {
-	padding:20px 20px 0 20px;
+    padding: 20px 20px 0 20px;
     margin-bottom: 0;
 }
-.form-body .form-footer .btn {
-	margin-right:20px;
-}
 
+.form-body .form-footer .btn {
+    margin-right: 20px;
+}
 
 /**
  *  Field Box
  */
 .form-body .control-label {
-	display: inline-block;
-	float: left;
-	font-weight: 600;
-	cursor: auto;
-	line-height: 34px;
-	margin-bottom: 0;
-	text-align: right;
+    display: inline-block;
+    float: left;
+    font-weight: 600;
+    cursor: auto;
+    line-height: 34px;
+    margin-bottom: 0;
+    text-align: right;
     padding: 0px 15px;
 }
+
 .form-body input:-moz-placeholder {
-	font-style: italic;
+    font-style: italic;
 }
+
 .form-body input:-ms-input-placeholder {
-	font-style: italic;
+    font-style: italic;
 }
+
 .form-body input::-webkit-input-placeholder {
-	font-style: italic;
+    font-style: italic;
 }
+
 .form-body .predefined {
-	position: relative;
+    position: relative;
 }
+
 .form-body .predefined input {
-	padding-left: 40px;
+    padding-left: 40px;
 }
+
 .form-body .predefined .value {
-	position: absolute;
-	top: 6px;
+    position: absolute;
+    top: 6px;
 }
+
 .form-body label.checkbox {
-	cursor: pointer;
-	color: #555;
+    cursor: pointer;
+    color: #555;
 }
+
 .form-body label.radio {
-	position: relative;
-	left: -20px;
-	width: 100%;
-	cursor: pointer;
-	color: #555;
+    position: relative;
+    left: -20px;
+    width: 100%;
+    cursor: pointer;
+    color: #555;
 }
-.form-body label.checkbox,.form-body label.radio
-	{
-	font-weight: lighter;
+
+.form-body label.checkbox,
+.form-body label.radio {
+    font-weight: lighter;
 }
+
 .form-body label.checkbox input[type="checkbox"],
 .form-body label.checkbox input[type="radio"],
 .form-body label.radio input[type="checkbox"],
-.form-body label.radio input[type="radio"] {
-	font-size: large;
-	margin-left: 0px;
+.form-body label.radio input[type="radio"]
+    {
+    font-size: large;
+    margin-left: 0px;
 }
+
 .form-body .wysi-column {
-	float: left;
-	width: 75%;
+    float: left;
+    width: 75%;
 }
+
 .form-body .column.pull-right label {
-	display: block;
-	width: 100%;
+    display: block;
+    width: 100%;
 }
+
 .form-body .column.pull-right .ui-select {
-	width: 250px;
+    width: 250px;
 }
+
 .form-body .column.pull-right .input-group {
     margin-bottom: 10px;
     width: 250px;
 }
+
 .form-body .column.pull-right .input-datepicker {
     width: 250px;
 }
@@ -122,20 +138,89 @@
 /**
  *  Select2 Fixes
  */
+/* Select 2 overrides */
+.select2-container,
+.select2-drop {
+    font-size: 14px;
+}
+
+.select2-container .select2-choice {
+    height: 34px;
+    padding-left: 12px;
+    line-height: 32px;
+    border-color: #ccc;
+}
+
+.select2-container-active {
+    border-radius: 5px;
+    box-shadow: 0 0 4px rgba(82, 168, 236, 0.6);
+}
+
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices,
+.select2-drop-active {
+    border-color: #a2cef0;
+}
+
+.select2-container .select2-choice>.select2-chosen {
+    margin-right: 36px;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    width: 24px;
+    border-color: #ccc;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+    background-position: 3px 3px;
+}
+
+.select2-drop {
+    box-shadow: 0 1px 4px rgba(82, 168, 236, 0.6);
+}
+
+.select2-dropdown-open .select2-choice .select2-arrow b {
+    background-position: -14px 3px;
+}
+
+.select2-container-multi .select2-choices {
+    border-color: #cccccc;
+}
+
+.select2-container-multi.select2-container-active .select2-choices {
+    border-color: #a2cef0;
+    box-shadow: none;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    line-height: 13px;
+    padding: 5px 7px 6px 20px;
+    margin: 3px 0 3px 3px;
+}
+
+.select2-container-multi .select2-search-choice-close {
+    top: 5px;
+    left: 5px;
+}
+
 .form-body .select2-container {
-    border:none;
-    padding:0;
+    border: none;
+    padding: 0;
     width: 100%;
 }
+
 .form-body .form-group .select2-container .select2-choice {
-	border-radius: 4px;
+    border-radius: 4px;
 }
+
 .form-body .form-group .select2-container-disabled .select2-choice {
     cursor: not-allowed;
 }
+
 .form-body .form-group .select2-container.select2-dropdown-open .select2-choice {
-	border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
 }
+
 .form-body .form-group .select2-container .select2-choice .select2-arrow {
     border-radius: 0 4px 4px 0;
 }
@@ -145,71 +230,78 @@
  */
 .form-body div.checker,
 .form-body div.radio {
-	padding-top: 7px;
+    padding-top: 7px;
 }
 
 /**
  *  Collections
  */
-.form-body .collection-container > .childs > .row {
-	border-bottom: 1px dotted #dddddd;
-	margin-bottom: 15px;
-	padding-bottom: 16px;
+.form-body .collection-container>.childs>.row {
+    border-bottom: 1px dotted #dddddd;
+    margin-bottom: 15px;
+    padding-bottom: 16px;
 }
+
 .form-body .collection-container .childs .form-row:last-child {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .form-body .collection-container .collection-add {
-	text-align: center;
-	margin-bottom: 15px;
+    text-align: center;
+    margin-bottom: 15px;
 }
+
 .form-body .child-controls {
-	text-align: right;
+    text-align: right;
 }
+
 .form-body .child-controls button {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
+
 .form-body .child-controls button:last-child {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /**
  *  File Widget
  */
 .file-widget {
-	position: relative;
-	overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
+
 .file-widget input[type="file"] {
-	opacity: 0;
-	filter: alpha(opacity=0);
-	-moz-opacity: 0;
-	border: none;
-	background: none;
-	position: absolute;
-	top: 0;
-	right: 0;
-	float: right;
-	cursor: default;
-	width: 100%;
-	height: 100%;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    -moz-opacity: 0;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    cursor: default;
+    width: 100%;
+    height: 100%;
 }
 
 /**
  *  Bootstrap "extension"
  */
 .form-body label.label-sm {
-  font-size: 12px;
-  line-height: 30px;
-}
-.form-body label.label-lg {
-	/* TODO */
+    font-size: 12px;
+    line-height: 30px;
 }
 
+.form-body label.label-lg {
+    /* TODO */
+    
+}
 
 /* Responsive */
-@media (max-width: 767px) {
-  .form-body label.radio {
-    left: 0px;
-  }
+@media ( max-width : 767px) {
+    .form-body label.radio {
+        left: 0px;
+    }
 }
