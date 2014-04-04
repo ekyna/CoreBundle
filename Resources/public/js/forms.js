@@ -282,7 +282,12 @@
 	$(document).ready(function() {
 
 		/* Selects to select2 */
-		$('.form-body select').select2();
+		$('.form-body select').each(function () {
+			var allowClear = $(this).data('allow-clear') == 1 ? true : false;
+			$(this).select2({
+				allowClear: allowClear
+			});
+		});
 
 		/* Checkboxes, Radios */
 		//$('.form-wrapper input:checkbox, .form-wrapper input:radio').uniform();
