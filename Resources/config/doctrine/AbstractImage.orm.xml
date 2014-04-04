@@ -12,7 +12,7 @@
             <generator strategy="AUTO" />
         </id>
         <field name="path" type="string" column="path" length="255" />
-        <field name="alt" type="string" column="alt" length="255" />
+        <field name="alt" type="string" column="alt" length="255" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create" />
         </field>

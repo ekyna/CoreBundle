@@ -4,6 +4,8 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 
 /**
  * GallerySubjectInterface
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 interface GallerySubjectInterface
 {

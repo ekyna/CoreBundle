@@ -18,13 +18,16 @@
     "require" : {
         "php" : ">=5.3.3",
         "symfony/framework-bundle" : "~2.3",
-        "doctrine/doctrine-bundle" : "~1.2",
         "symfony-cmf/routing" : "1.2.*@dev",
-        "liip/imagine-bundle": "0.*@dev",
+        "doctrine/doctrine-bundle" : "~1.2",
+        "stof/doctrine-extensions-bundle" : "~1.1@dev",
+        "knplabs/knp-menu-bundle" : "~2.0.@dev",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
+        "liip/imagine-bundle": "0.*@dev",
         "jquery/jquery" : "1.11.*",
         "twbs/bootstrap" : "3.1.*",
-        "braincrafted/bootstrap-bundle" : "2.0.0"
+        "braincrafted/bootstrap-bundle" : "2.0.0",
+        "stfalcon/tinymce-bundle" : "0.3.*@dev"
     },
     "autoload" : {
         "psr-0" : {

@@ -4,9 +4,13 @@ namespace Ekyna\Bundle\CoreBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
+use Gedmo\Sluggable\Util\Urlizer;
+
 
 /**
  * AbstractImage
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractImage implements ImageInterface
 {
@@ -79,9 +83,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Image has file
-     * 
-     * @return boolean
+     * {@inheritdoc}
      */
     public function hasFile()
     {
@@ -89,9 +91,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Get file
-     * 
-     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     * {@inheritdoc}
      */
     public function getFile()
     {
@@ -107,14 +107,12 @@ abstract class AbstractImage implements ImageInterface
     public function setFile(UploadedFile $file)
     {
         $this->file = $file;
-        
+
         return $this;
     }
 
     /**
-     * Image has path
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function hasPath()
     {
@@ -122,9 +120,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Get path
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getPath()
     {
@@ -132,22 +128,17 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Set path
-     *
-     * @param string $path
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * {@inheritdoc}
      */
     public function setPath($path)
     {
         $this->path = $path;
-        
+
         return $this;
     }
 
     /**
-     * Image should be renamed
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function shouldBeRenamed()
     {
@@ -155,34 +146,40 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Guess file name
-     *
-     * @return string
+     * {@inheritdoc}
+     */
+    public function guessExtension()
+    {
+        if($this->hasFile()) {
+            return $this->file->guessExtension();
+        }elseif($this->hasPath()) {
+            return pathinfo($this->getPath(), PATHINFO_EXTENSION);
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function guessFilename()
     {
         // Extension
-        $extension = null;
-        if($this->hasFile()) {
-            $extension = $this->file->guessExtension();
-        }elseif($this->hasPath()) {
-            $extension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
-        }
-        
+        $extension = $this->guessExtension();
+
         // Filename
         $filename = null;
         if($this->hasName()) {
-            $filename = pathinfo($this->name, PATHINFO_FILENAME);
+            $filename = Urlizer::transliterate(pathinfo($this->name, PATHINFO_FILENAME));
         }elseif($this->hasFile()) {
             $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
         }elseif($this->hasPath()) {
             $filename = pathinfo($this->path, PATHINFO_FILENAME);
         }
-        
+
         if($filename !== null && $extension !== null) {
             return $filename.'.'.$extension;
         }
-        
+
         return null;
     }
 
@@ -193,7 +190,8 @@ abstract class AbstractImage implements ImageInterface
      */
     public function hasName()
     {
-        return (bool) (1 === preg_match('/^[a-z0-9-]+\.(jpg|jpeg|gif|png)$/', $this->name));
+        return 0 < strlen($this->name);
+        //return (bool) (1 === preg_match('/^[a-z0-9-]+\.(jpg|jpeg|gif|png)$/', $this->name));
     }
 
     /**
@@ -214,7 +212,7 @@ abstract class AbstractImage implements ImageInterface
     public function setName($name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
 
@@ -283,7 +281,7 @@ abstract class AbstractImage implements ImageInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 }

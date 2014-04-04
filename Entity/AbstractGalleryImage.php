@@ -6,6 +6,8 @@ use Ekyna\Bundle\CoreBundle\Entity\AbstractImage;
 
 /**
  * AbstractGalleryImage
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractGalleryImage extends AbstractImage
 {
@@ -35,7 +37,7 @@ abstract class AbstractGalleryImage extends AbstractImage
     public function setPosition($position)
     {
         $this->position = $position;
-        
+
         return $this;
     }
 }

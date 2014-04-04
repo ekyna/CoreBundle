@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 use Gaufrette\Filesystem;
+use Gedmo\Sluggable\Util\Urlizer;
 
 /**
  * ImageUploader
@@ -22,6 +23,9 @@ class ImageUploader implements ImageUploaderInterface
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upload(ImageInterface $image)
     {
         if (!$image->hasFile()) {
@@ -47,6 +51,9 @@ class ImageUploader implements ImageUploaderInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function remove(ImageInterface $image)
     {
         if ($image->hasPath()) {
@@ -55,6 +62,11 @@ class ImageUploader implements ImageUploaderInterface
         return true;
     }
 
+    /**
+     * Generates a unique image path
+     * 
+     * @param ImageInterface $image
+     */
     protected function generatePath(ImageInterface $image)
     {
         if($image->hasPath()) {
@@ -64,17 +76,17 @@ class ImageUploader implements ImageUploaderInterface
                 return;
             }
         }
-        
+
         do {
             $hash = md5(uniqid(mt_rand(), true));
             $path = sprintf(
                 '%s/%s/%s',
-                substr($hash, 0, 2),
-                substr($hash, 2, 2),
+                substr($hash, 0, 3),
+                substr($hash, 3, 3),
                 $image->guessFilename()
             );
         } while ($this->filesystem->has($path));
-        
+
         $image->setPath($path);
     }
 }
