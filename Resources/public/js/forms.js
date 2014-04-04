@@ -283,9 +283,9 @@
 
 		/* Selects to select2 */
 		$('.form-body select').each(function () {
-			var allowClear = $(this).data('allow-clear') == 1 ? true : false;
+			var allowclear = $(this).data('allow-clear') == 1 ? true : false;
 			$(this).select2({
-				allowClear: allowClear
+				allowClear: allowclear
 			});
 		});
 

@@ -202,7 +202,19 @@
     top: 5px;
     left: 5px;
 }
-
+.select2-container .select2-choice abbr {
+    width: 20px;
+    height: 16px;
+    background: none;
+}
+.select2-container .select2-choice abbr:before {
+    display: inline-block;
+    width: 20px;
+    height: 16px;
+    line-height:16px;
+    font-size: 24px;
+    content: "\00d7";
+}
 .form-body .select2-container {
     border: none;
     padding: 0;
