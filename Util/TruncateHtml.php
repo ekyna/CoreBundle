@@ -20,7 +20,7 @@ class TruncateHtml
     public function __construct($string, $encoding = 'UTF-8')
     {
         $this->tempDiv = new \DomDocument();
-        $this->tempDiv->loadHTML('<div>' . $string . '</div>');
+        $this->tempDiv->loadHTML('<div>' . $string . '</div>', LIBXML_HTML_NOIMPLIED);
         $this->encoding = $encoding;
         $this->charCount = 0;
     }
