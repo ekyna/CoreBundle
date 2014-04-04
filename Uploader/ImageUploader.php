@@ -4,7 +4,6 @@ namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 use Gaufrette\Filesystem;
-use Gedmo\Sluggable\Util\Urlizer;
 
 /**
  * ImageUploader

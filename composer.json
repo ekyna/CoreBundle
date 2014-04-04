@@ -19,6 +19,7 @@
         "php" : ">=5.3.3",
         "symfony/framework-bundle" : "~2.3",
         "symfony-cmf/routing" : "1.2.*@dev",
+        "twig/extensions": "~1.0",
         "doctrine/doctrine-bundle" : "~1.2",
         "stof/doctrine-extensions-bundle" : "~1.1@dev",
         "knplabs/knp-menu-bundle" : "~2.0.@dev",

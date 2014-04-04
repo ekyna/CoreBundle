@@ -5,6 +5,7 @@ Provides various utilities.
 - Doctrine entity listener resolver.
 - Cmf chain router and dynamic router registration.
 - Image upload.
+- Text, Intl and Html twig extensions.
 
 ## Instation
 TODO
