@@ -18,6 +18,8 @@ ekyna:
                 label: Url
             email:
                 label: Email
+            price:
+                label: Prix
             description:
                 label: Description
             content:
