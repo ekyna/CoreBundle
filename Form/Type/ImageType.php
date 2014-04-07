@@ -88,6 +88,6 @@ class ImageType extends AbstractType
      */
     public function getName()
     {
-        return 'ekyna_image';
+        return 'ekyna_core_image';
     }
 }

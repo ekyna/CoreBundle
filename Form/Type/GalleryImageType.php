@@ -27,7 +27,7 @@ class GalleryImageType extends AbstractType
      */
     public function getParent()
     {
-        return 'ekyna_image';
+        return 'ekyna_core_image';
     }
 
     /**
@@ -35,6 +35,6 @@ class GalleryImageType extends AbstractType
      */
     public function getName()
     {
-        return 'ekyna_gallery_image';
+        return 'ekyna_core_gallery_image';
     }
 }
