@@ -103,3 +103,21 @@
     </div>
 {% endspaceless %}
 {% endblock ekyna_core_gallery_image_widget %}
+
+{% block choice_widget_collapsed %}
+{% spaceless %}
+    {% if add_route is defined and add_route is not sameas(false) %}
+    <div class="input-group entity_widget">
+    {% endif %}
+    {% if required and empty_value is none and not empty_value_in_choices %}
+        {% set required = false %}
+    {% endif %}
+    {{ parent() }}
+    {% if add_route is defined and add_route is not sameas(false) %}
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" data-path="{{ path(add_route) }}"><span class="glyphicon glyphicon-plus"></button>
+    </span>
+    </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock choice_widget_collapsed %}

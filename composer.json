@@ -21,11 +21,12 @@
         "symfony-cmf/routing" : "1.2.*@dev",
         "twig/extensions": "~1.0",
         "doctrine/doctrine-bundle" : "~1.2",
+        "jms/serializer-bundle": "0.13.*@dev",
         "stof/doctrine-extensions-bundle" : "~1.1@dev",
         "knplabs/knp-menu-bundle" : "~2.0.@dev",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
         "liip/imagine-bundle": "0.*@dev",
-        "jquery/jquery" : "1.11.*",
+        "malsup/form": "dev-master",
         "twbs/bootstrap" : "3.1.*",
         "braincrafted/bootstrap-bundle" : "2.0.0",
         "stfalcon/tinymce-bundle" : "0.3.*@dev"

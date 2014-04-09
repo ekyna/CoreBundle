@@ -147,20 +147,20 @@
 				var $imageWidget = $child.find('.image-widget');
 				if($imageWidget.length == 1) {
 					$imageWidget.imageWidget();
-					
+
 					$child.find('button[data-role="remove"]').bind('click', function(e) {
 						e.preventDefault();
 						if(confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
 							$child.remove();
 						}
 					});
-					
+
 					$child.find('button[data-role="move-up"]').bind('click', function(e) {
 						e.preventDefault();
 						$child.prev().before($child.detach());
 						$collection.updateChilds();
 					});
-					
+
 					$child.find('button[data-role="move-down"]').bind('click', function(e) {
 						e.preventDefault();
 						$child.next().after($child.detach());
@@ -168,28 +168,28 @@
 					});
 				}
 			};
-			
+
 			$collection.newChild = function() {
 				var $child = $(prototype.replace(/__name__/g, $container.children().length));
 				$container.append($child);
 				$collection.initChild($child);
 				$collection.updateChilds();
 			};
-			
+
 			$collection.init = function() {
 				var $addChildLink = $('<a href="#" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus"></i> Ajouter un élément</a>');
 				$collection.append($addChildLink);
 				$addChildLink.wrap('<div class="row collection-add"></div>').wrap('<div class="col-md-12"></div>');
-				
+
 				$addChildLink.bind('click', function(e) {
 					e.preventDefault();
 					$collection.newChild();
 				});
-				
+
 				$container.find('> div').each(function(index, child) {
 					$collection.initChild($(child));
 				});
-				
+
 				$collection.updateChilds();
 			};
 			
@@ -197,38 +197,40 @@
 		});
 		return this;
 	};
-	
+
 	$.fn.entityWidget = function(params) {
-		
+
 		params = $.extend({}, params);
-		
+
 		this.each(function() {
-			
+
 			var $entity = $(this);
 			var $modal = $('#modal');
 			var $addButton = $entity.find('button');
 			var $select = $entity.find('select');
-			
+
 			if($addButton.length == 1) {
 				$addButton.bind('click', function(e) {
 					e.preventDefault();
-					console.log('[Entity] Add button click');
+					//console.log('[Entity] Add button click');
 
 					$modal
-						.off('hide.bs.modal')
-						.on('hide.bs.modal', function() {
-							console.log('#modal hide');
+						.off('hidden.bs.modal')
+						.on('hidden.bs.modal', function() {
+							$modal.find('textarea.tinymce').each(function() {
+								$(this).tinymce().remove();
+							});
 							$modal.find('.modal-title').html('Modal title');
 							$modal.find('.modal-body').empty();
-						});					
-					
+						});
+
 					var path = $(this).data('path');
 					$.ajax({
 						url: path,
 						dataType: 'xml'
 					})
 					.done(function(xmldata) {
-						console.log('[Entity] Add ajax response');
+						//console.log('[Entity] Add ajax response');
 						//console.log(xmldata);
 						var $title = $(xmldata).find('title');
 						var $form = $($(xmldata).find('form').text());
@@ -236,38 +238,38 @@
 							$modal.find('.modal-title').html($title);
 						}
 						if($form.length == 1) {
-							
-							$form.find('.form-footer a').click(function(e) {
+
+							$form.find('.form-footer a.form-cancel-btn').click(function(e) {
 								e.preventDefault();
 								$modal.modal('hide');
 							});
-							
-							$form.submit(function(e) {
-								e.preventDefault();
-								console.log('[Entity] Form submit');
-								$.ajax({
-									url: $form.attr('action'),
-									type: 'POST',
-									data: $form.serialize(),
-									dataType: 'json'
-								})
-								.done(function(json) {
-									console.log(json);
+
+							$form.ajaxForm({
+								dataType: 'json',
+								success: function(data) {
+									//console.log(data);
 									var $option = $('<option />');
-									$option.prop('value', json.id);
+									$option.prop('value', data.id);
 									$option.prop('selected', true);
-									if(json.name != undefined) {
-										$option.html(json.name);
-									}else if(json.title != undefined) {
-										$option.html(json.title);
+									if(data.name != undefined) {
+										$option.html(data.name);
+									}else if(data.title != undefined) {
+										$option.html(data.title);
 									}else{
-										$option.html('Entity #' + json.id);
+										$option.html('Entity #' + data.id);
 									}
 									$select.append($option).select2();
 									$modal.modal('hide');
+								}
+				            });
+
+							$modal
+								.off('shown.bs.modal')
+								.on('shown.bs.modal', function() {
+									$form.formWidget();
+									initTinyMCE();
 								});
-							});
-							
+
 							$modal.find('.modal-body').html($form);
 							$modal.modal({show:true});
 						}
@@ -279,39 +281,54 @@
 		return this;
 	};
 
+	
+	$.fn.formWidget = function(params) {
+
+		params = $.extend({}, params);
+
+		this.each(function() {
+
+			/* Selects to select2 */
+			$(this).find('select').each(function () {
+				var allowclear = $(this).data('allow-clear') == 1 ? true : false;
+				$(this).select2({
+					allowClear: allowclear
+				});
+			});
+
+			/* Checkboxes, Radios */
+			//$('.form-wrapper input:checkbox, .form-wrapper input:radio').uniform();
+
+			/* Date picker */
+			$(this).find('input.date-picker').datepicker().on('changeDate', function (ev) {
+	            $(this).datepicker('hide');
+	        });
+
+			/* Textarea autosize */
+			$(this).find('textarea').not('.tinymce').autosize({append: "\n"});
+
+			/* Image widget */
+			$(this).find('.image-widget').imageWidget();
+
+			/* Collections */
+			$(this).find('.collection-container').collectionWidget();
+
+			/* Entities */
+			$(this).find('.entity_widget').entityWidget();
+
+		});
+		return this;
+	};
+
 	$(document).ready(function() {
 
-		/* Selects to select2 */
-		$('.form-body select').each(function () {
-			var allowclear = $(this).data('allow-clear') == 1 ? true : false;
-			$(this).select2({
-				allowClear: allowclear
-			});
-		});
+		$('.form-body').formWidget();
 
-		/* Checkboxes, Radios */
-		//$('.form-wrapper input:checkbox, .form-wrapper input:radio').uniform();
-
-		/* Date picker */
-		$('.form-body input.date-picker').datepicker().on('changeDate', function (ev) {
-            $(this).datepicker('hide');
-        });
-
-		/* Textarea autosize */
-		$('.form-body textarea').not('.tinymce').autosize();
-
-		/* Image widget */
-		$('.form-body .image-widget').imageWidget();
-
-		/* Collections */
-		$('.form-body .collection-container').collectionWidget();
-
-		/* Entities */
-		$('.form-body .entity_widget').entityWidget();
-
-		/* Form with tabs error handler */
-		// http://jsfiddle.net/GJeez/8/
-		// http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/?redirect_from_locale=fr#toc-checkValidity
+		/**
+		 * Form with tabs error handler
+		 * @see http://jsfiddle.net/GJeez/8/
+		 * @see http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/?redirect_from_locale=fr#toc-checkValidity
+		 */
 		$(".form-with-tabs input, .form-with-tabs textarea, .form-with-tabs select").on('invalid', function(event) {
 			var $tab = $(event.target).parents('.tab-pane').eq(0);
 			if ($tab.length == 1) {
@@ -324,6 +341,16 @@
 			event.preventDefault();
 		});
 
+		/**
+		 * this workaround makes magic happen
+		 * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+		 * @see http://jsfiddle.net/e99xf/13/
+		 */
+		$(document).on('focusin', function(e) {
+		    if ($(event.target).closest(".mce-window").length) {
+		        e.stopImmediatePropagation();
+		    }
+		});
 	});
 
 })(window.jQuery);

@@ -1,0 +1,20 @@
+{% block link %}
+<a class="{{ class }}" href="{{ href }}">{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</a>
+{% endblock %}
+
+{% block button %}
+<button class="{{ class }}"{% if id|length > 0 %} id="{{ id }}"{% endif %} type="{{ type }}">{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</button>
+{% endblock %}
+
+{% block form_footer %}
+<div class="form-footer">
+    <div class="form-group row">
+        <div class="col-sm-offset-{{ offset }} col-sm-{{ 12 - offset }}">
+            <button type="submit" class="btn btn-{{ theme }}">{{ icon|raw }}{{ label|trans|raw }}</button>
+            {% if path is not sameas(null) %}
+            <a href="{{ path }}" class="btn btn-default form-cancel-btn"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

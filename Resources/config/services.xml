@@ -6,11 +6,19 @@
 
     <parameters>
         <parameter key="ekyna_core.doctrine.entity_listener_resolver.class">Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver</parameter>
+
+        <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
+
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
         <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
-        <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
+
+        <parameter key="ekyna_core.form_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeExtension</parameter>
+        <parameter key="ekyna_core.entity_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension</parameter>
+
+        <parameter key="ekyna_core.twig.ui_extension.class">Ekyna\Bundle\CoreBundle\Twig\UiExtension</parameter>
+        <parameter key="ekyna_core.twig.ui_extension.template">EkynaCoreBundle:Ui:controls.html.twig</parameter>
     </parameters>
 
     <services>
@@ -54,6 +62,14 @@
             <tag name="form.type" alias="ekyna_core_gallery_image" />
         </service>
 
+        <!-- Form Extensions -->
+        <service id="ekyna_core.form_type_extension" class="%ekyna_core.form_type_extension.class%">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+        <service id="ekyna_core.entity_type_extension" class="%ekyna_core.entity_type_extension.class%">
+            <tag name="form.type_extension" alias="entity" />
+        </service>
+
         <!-- Twig extensions -->
         <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">
             <tag name="twig.extension" />
@@ -62,6 +78,10 @@
             <tag name="twig.extension" />
         </service>
         <service id="twig.extension.html" class="Ekyna\Bundle\CoreBundle\Twig\HtmlExtension">
+            <tag name="twig.extension" />
+        </service>
+        <service id="ekyna_core.twig.ui_extension" class="%ekyna_core.twig.ui_extension.class%">
+            <argument>%ekyna_core.twig.ui_extension.template%</argument>
             <tag name="twig.extension" />
         </service>
     </services>

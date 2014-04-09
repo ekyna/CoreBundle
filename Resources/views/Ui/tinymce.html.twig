@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+{% stylesheets '@content_css' filter='rewrite, yui_css' output='/css/content.css' %}
+<link href="{{ asset_url }}" rel="stylesheet">
+{% endstylesheets %}
+</head>
+<body>
+{{ content|raw }}
+</body>
+</html>

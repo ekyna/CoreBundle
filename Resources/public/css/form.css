@@ -10,7 +10,8 @@
 }
 
 .form-body textarea {
-    resize: none;
+    resize: none !important;
+    min-height: 34px;
 }
 
 .form-with-tabs .form-body {
@@ -138,7 +139,6 @@
 /**
  *  Select2 Fixes
  */
-/* Select 2 overrides */
 .select2-container,
 .select2-drop {
     font-size: 14px;
@@ -202,19 +202,22 @@
     top: 5px;
     left: 5px;
 }
+
 .select2-container .select2-choice abbr {
     width: 20px;
     height: 16px;
     background: none;
 }
+
 .select2-container .select2-choice abbr:before {
-    display: inline-block;
-    width: 20px;
-    height: 16px;
-    line-height:16px;
-    font-size: 24px;
     content: "\00d7";
+    display: inline-block;
+    font-size: 24px;
+    height: 16px;
+    line-height: 16px;
+    width: 20px;
 }
+
 .form-body .select2-container {
     border: none;
     padding: 0;
@@ -235,6 +238,18 @@
 
 .form-body .form-group .select2-container .select2-choice .select2-arrow {
     border-radius: 0 4px 4px 0;
+}
+
+.form-body .input-group .select2-container .select2-choice {
+    border-radius: 4px 0 0 4px;
+}
+
+.form-body .input-group .select2-container .select2-choice .select2-arrow {
+    border-radius: 0;
+}
+
+.form-body .entity_widget .input-group-btn .btn {
+    padding: 6px 9px;
 }
 
 /**
