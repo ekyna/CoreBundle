@@ -40,6 +40,10 @@ ekyna:
                 label: Mots clés
             index:
                 label: Indexer
+            priority:
+                label: Priorité
+            changefreq:
+                label: Fréq. de modif.
             follow:
                 label: Suivre les liens
             route:
@@ -48,6 +52,8 @@ ekyna:
                 label: Tag
             tags:
                 label: Tags
+            general:
+                label: Général
     config:
         label: Configuration
     content:

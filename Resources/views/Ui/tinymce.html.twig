@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-{% stylesheets '@content_css' filter='rewrite, yui_css' output='/css/content.css' %}
-<link href="{{ asset_url }}" rel="stylesheet">
-{% endstylesheets %}
+<link href="{{ asset('css/content.css') }}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 {{ content|raw }}

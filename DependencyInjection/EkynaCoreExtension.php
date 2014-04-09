@@ -7,13 +7,14 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * EkynaCoreExtension
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class EkynaCoreExtension extends Extension
+class EkynaCoreExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritDoc}
@@ -36,6 +37,42 @@ class EkynaCoreExtension extends Extension
             $router = $container->getDefinition($this->getAlias() . '.router');
             foreach ($config['chain_router']['routers_by_id'] as $id => $priority) {
                 $router->addMethodCall('add', array(new Reference($id), $priority));
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $configs);
+
+        if (true === isset($bundles['AsseticBundle'])) {
+            $this->configureAsseticBundle($container, $config);
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     *
+     * @return void
+     */
+    protected function configureAsseticBundle(ContainerBuilder $container, array $config)
+    {
+        foreach (array_keys($container->getExtensions()) as $name) {
+            if ($name == 'assetic') {
+                $asseticConfig = new AsseticConfiguration;
+                $container->prependExtensionConfig(
+                    $name,
+                    array(
+                        'assets' => $asseticConfig->build($config),
+                    )
+                );
+                break;
             }
         }
     }
