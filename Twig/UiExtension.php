@@ -19,7 +19,7 @@ class UiExtension extends \Twig_Extension
      */
     private $prefix;
 
-    public function __construct($template = 'EkynaAdminBundle:Ui:controls.html.twig', $prefix = 'ui')
+    public function __construct($template = 'EkynaCoreBundle:Ui:controls.html.twig', $prefix = 'ui')
     {
         $this->template = $template;
         $this->prefix = $prefix;
@@ -119,6 +119,6 @@ class UiExtension extends \Twig_Extension
 
     public function getName()
     {
-    	return 'ekyna_admin_ui';
+    	return 'ekyna_core_ui';
     }
 }

@@ -44,6 +44,6 @@ class HtmlExtension extends \Twig_Extension
      */
     public function getName()
     {
-    	return 'ekyna_html';
+    	return 'ekyna_core_html';
     }
 }

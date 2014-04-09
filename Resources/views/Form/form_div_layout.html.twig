@@ -40,7 +40,7 @@
         <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
-            <input type="text" class="form-control" value="{{ value }}" readonly="true"  placeholder="Choisissez un fichier" />
+            <input type="text" class="form-control" value="{{ value }}" readonly="true"  placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i></button>
             </span>

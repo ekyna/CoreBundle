@@ -1,60 +1,79 @@
-ekyna:
-    core:
-        yes: Oui
-        no: Non
-        button:
-            previous: Précédente
-            next: Suivante
-        field:
-            name:
-                label: Nom
-            title:
-                label: Titre
-            category:
-                label: Catégorie
-            subtitle:
-                label: Sous-Titre
-            url:
-                label: Url
-            email:
-                label: Email
-            price:
-                label: Prix
-            description:
-                label: Description
-            content:
-                label: Contenu
-            image:
-                label: Image
-            images:
-                label: Images
-            file:
-                label: Fichier
-            path:
-                label: Chemin
-            alt:
-                label: Alt
-            seo:
-                label: Référencement
-            keywords:
-                label: Mots clés
-            index:
-                label: Indexer
-            priority:
-                label: Priorité
-            changefreq:
-                label: Fréq. de modif.
-            follow:
-                label: Suivre les liens
-            route:
-                label: Route
-            tag:
-                label: Tag
-            tags:
-                label: Tags
-            general:
-                label: Général
-    config:
-        label: Configuration
-    content:
-        label: Contenu
+ekyna_core:
+    yes: Oui
+    no: Non
+    button:
+        previous: Précédente
+        next: Suivante
+        close: Fermer
+        login: Connexion
+        logout: Se déconnecter
+        manage: Gérer
+        back: Retour
+        back_to_show: Retour au détail
+        back_to_list: Retour à la liste
+        show: Detail
+        content: Contenu
+        create: Nouveau
+        edit: Modifier
+        remove: Supprimer
+        cancel: Annuler
+        save: Enregistrer
+    field:
+        name: Nom
+        title: Titre
+        subtitle: Sous-Titre
+        parent: Parent
+        root: Racine
+        category: Catégorie
+        url: Url
+        email: Email
+        price: Prix
+        description: Description
+        content: Contenu
+        image: Image
+        images: Images
+        date: Date
+        add_date: Date de création
+        update_date: Date de modification
+        file: Fichier
+        choose_file: Choisissez un fichier
+        path: Chemin
+        alt: Alt
+        seo: Référencement
+        keywords: Mots clés
+        index: Indexer
+        priority: Priorité
+        changefreq: Fréq. de modif.
+        follow: Suivre les liens
+        route: Route
+        tag: Tag
+        tags: Tags
+        login: Identifiant
+        password: Mot de passe
+        remember_me: Se souvenir de moi
+        username: Nom d'utilisateur
+        group: Groupe
+        roles: Roles
+        company: Entreprise
+        gender: Civilité
+        firstname: Prénom
+        lastname: Nom
+        street: Rue
+        supplement: Complément
+        postal_code: Code postal
+        city: Ville
+        phone: Téléphone
+        mobile: Mobile
+        general: Général
+        config: Configuration
+    gender:
+        mr: Monsieur
+        mrs: Madame
+        miss: Mademoiselle
+    changefreq:
+        hourly: Toutes les heures 
+        monthly: Tous les mois
+        yearly: Tous les ans
+    auth:
+        allowed_to_switch: Authorisé à switcher
+        admin: Administrateur

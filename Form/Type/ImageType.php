@@ -23,7 +23,7 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('file', 'file', array(
-                'label' => 'ekyna.core.field.file.label',
+                'label' => 'ekyna_core.field.file',
                 'required' => false,
                 'sizing' => 'sm',
                 'attr' => array(
@@ -32,7 +32,7 @@ class ImageType extends AbstractType
                 )
             ))
             ->add('name', 'text', array(
-                'label' => 'ekyna.core.field.name.label',
+                'label' => 'ekyna_core.field.name',
                 'sizing' => 'sm',
                 'attr' => array(
                     'class' => 'rename-widget',
@@ -41,7 +41,7 @@ class ImageType extends AbstractType
                 )
             ))
             ->add('alt', 'text', array(
-                'label' => 'ekyna.core.field.alt.label',
+                'label' => 'ekyna_core.field.alt',
                 'sizing' => 'sm',
                 'attr' => array(
                     'widget_col' => 2,
