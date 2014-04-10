@@ -77,3 +77,5 @@ ekyna_core:
     auth:
         allowed_to_switch: Authorisé à switcher
         admin: Administrateur
+    error:
+        operation_failed: L'opération a échoué
