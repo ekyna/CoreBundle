@@ -26,12 +26,16 @@ ekyna_core:
         root: Racine
         category: Catégorie
         url: Url
+        website: Site internet
         email: Email
         price: Prix
         description: Description
         content: Contenu
+        logo: Logo
         image: Image
         images: Images
+        photo: Photo
+        photos: Photos
         date: Date
         add_date: Date de création
         update_date: Date de modification
@@ -62,6 +66,9 @@ ekyna_core:
         supplement: Complément
         postal_code: Code postal
         city: Ville
+        province: Département
+        state: Région
+        country: Pays
         phone: Téléphone
         mobile: Mobile
         general: Général
