@@ -74,9 +74,15 @@ ekyna_core:
         general: Général
         config: Configuration
     gender:
-        mr: Monsieur
-        mrs: Madame
-        miss: Mademoiselle
+        mr: 
+            short: Mr
+            long: Monsieur
+        mrs: 
+            short: Mme
+            long: Madame
+        miss: 
+            short: Melle
+            long: Mademoiselle
     changefreq:
         hourly: Toutes les heures 
         monthly: Tous les mois

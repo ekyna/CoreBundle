@@ -252,13 +252,17 @@
     padding: 6px 9px;
 }
 
-/**
- *  Uniform Fixes
- */
-.form-body div.checker,
+.form-body div.checkbox,
 .form-body div.radio {
-    padding-top: 7px;
+    padding-top: 8px;
 }
+
+.form-body .form-choices.inline div.checkbox,
+.form-body .form-choices.inline div.radio {
+    display: inline-block;
+    margin-right: 16px;
+}
+
 
 /**
  *  Collections

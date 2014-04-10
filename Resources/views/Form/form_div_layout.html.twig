@@ -104,6 +104,127 @@
 {% endspaceless %}
 {% endblock ekyna_core_gallery_image_widget %}
 
+{% block checkbox_row %}
+{% spaceless %}
+    {% set style = style|default(bootstrap_get_style()) %}
+    {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+
+    {% if attr.label_col is defined and attr.label_col is not empty %}
+        {% set label_col = attr.label_col %}
+    {% endif %}
+    {% if attr.widget_col is defined and attr.widget_col is not empty %}
+        {% set widget_col = attr.widget_col %}
+    {% endif %}
+    {% if attr.col_size is defined and attr.col_size is not empty %}
+        {% set col_size = attr.col_size %}
+    {% endif %}
+    {% if attr.style is defined and attr.style is not empty %}
+        {% set style = attr.style %}
+    {% endif %}
+
+    {% set class = '' %}
+    {% if align_with_widget is defined or attr.align_with_widget is defined %}
+        {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
+        {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+        {% set class = 'col-' ~ col_size ~ '-' ~ widget_col ~ ' col-' ~ col_size ~ '-offset-' ~ label_col %}
+        <div class="form-group row{% if not form.vars.valid %} has-error{% endif %}">
+            <div class="{{ class }}">
+    {% elseif no_form_group is not defined or no_form_group == false %}
+        <div class="form-group{% if not form.vars.valid %} has-error{% endif %}">
+    {% endif %}
+        <div class="checkbox">
+            {% if label is not sameas(false) %}
+                {% if not compound %}
+                    {% set label_attr = label_attr|merge({'for': id}) %}
+                {% endif %}
+                {% if required %}
+                    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+                {% endif %}
+                {% if label is empty %}
+                    {% set label = name|humanize %}
+                {% endif %}
+                <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                    {{- block('checkbox_widget') -}}
+                    {{- label|trans({}, translation_domain) -}}
+                </label>
+            {% else %}
+                {{- block('checkbox_widget') -}}
+            {% endif %}
+            {{ form_errors(form) }}
+        </div>
+    {% if align_with_widget is defined or attr.align_with_widget is defined %}
+        </div>
+        </div>
+    {% elseif no_form_group is not defined or no_form_group == false %}
+        </div>
+    {% endif %}
+
+    {% if style == 'inline' %}&nbsp;{% endif %}
+{% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block radio_row %}
+{% spaceless %}
+    {% set class = '' %}
+
+    {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+
+    {% if attr.label_col is defined and attr.label_col is not empty %}
+        {% set label_col = attr.label_col %}
+    {% endif %}
+    {% if attr.widget_col is defined and attr.widget_col is not empty %}
+        {% set widget_col = attr.widget_col %}
+    {% endif %}
+    {% if attr.col_size is defined and attr.col_size is not empty %}
+        {% set col_size = attr.col_size %}
+    {% endif %}
+
+    {% if align_with_widget is defined or attr.align_with_widget is defined %}
+        {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
+        {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+        {% set class = ' col-'~ col_size ~ '-' ~ widget_col ~ ' col-' ~ col_size ~ '-offset-' ~ label_col %}
+        <div class="form-group row{% if not form.vars.valid %} has-error{% endif %}">
+            <div class="{{ class }}">
+    {% elseif no_form_group is not defined or no_form_group == false %}
+        <div class="form-group{% if not form.vars.valid %} has-error{% endif %}">
+    {% endif %}
+
+        <div class="radio">
+            {% if label is not sameas(false) %}
+                {% if not compound %}
+                    {% set label_attr = label_attr|merge({'for': id}) %}
+                {% endif %}
+                {% if required %}
+                    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+                {% endif %}
+                {% if label is empty %}
+                    {% set label = name|humanize %}
+                {% endif %}
+                <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                    {{- block('radio_widget') -}}
+                    {{- label|trans({}, translation_domain) -}}
+                </label>
+            {% else %}
+                {{- block('radio_widget') -}}
+            {% endif %}
+            {{ form_errors(form) }}
+        </div>
+    {% if align_with_widget is defined or attr.align_with_widget is defined %}
+        </div>
+        </div>
+    {% elseif no_form_group is not defined or no_form_group == false %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock radio_row %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+    {% set attr = attr|merge({ 'class': 'form-choices ' ~ (attr.class|default(''))|trim }) %}
+    {{ parent() }}
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+
 {% block choice_widget_collapsed %}
 {% spaceless %}
     {% if add_route is defined and add_route is not sameas(false) %}
