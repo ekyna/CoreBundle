@@ -54,11 +54,13 @@ ekyna_core:
         tags: Tags
         login: Identifiant
         password: Mot de passe
+        verify: Vérification
         remember_me: Se souvenir de moi
         username: Nom d'utilisateur
         group: Groupe
         roles: Roles
         company: Entreprise
+        identity: Identité
         gender: Civilité
         firstname: Prénom
         lastname: Nom

@@ -12,7 +12,7 @@
         <div class="col-sm-offset-{{ offset }} col-sm-{{ 12 - offset }}">
             <button type="submit" class="btn btn-{{ theme }}">{{ icon|raw }}{{ label|trans|raw }}</button>
             {% if path is not sameas(null) %}
-            <a href="{{ path }}" class="btn btn-default form-cancel-btn"><span class="glyphicon glyphicon-remove"></span> {{ 'ekyna_core.button.cancel'|trans }}</a>
+            <a href="{{ path }}" class="btn btn-default form-cancel-btn"><span class="glyphicon glyphicon-remove"></span> {{ 'ekyna_core.button.cancel'|trans|raw }}</a>
             {% endif %}
         </div>
     </div>
