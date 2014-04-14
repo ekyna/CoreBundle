@@ -29,7 +29,12 @@ ekyna_core:
         website: Site internet
         email: Email
         price: Prix
+        tax: Taxe
+        rate: Taux
         description: Description
+        designation: Désignation
+        reference: Référence
+        number: Numéro
         content: Contenu
         logo: Logo
         image: Image
@@ -71,6 +76,7 @@ ekyna_core:
         province: Département
         state: Région
         country: Pays
+        locale: Langue
         phone: Téléphone
         mobile: Mobile
         general: Général
