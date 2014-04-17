@@ -347,7 +347,7 @@
 		 * @see http://jsfiddle.net/e99xf/13/
 		 */
 		$(document).on('focusin', function(e) {
-		    if ($(event.target).closest(".mce-window").length) {
+		    if ($(e.target).closest(".mce-window").length) {
 		        e.stopImmediatePropagation();
 		    }
 		});
