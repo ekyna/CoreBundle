@@ -10,98 +10,105 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 interface ImageInterface
 {
     /**
-     * Image has file
+     * Image has file.
      * 
      * @return boolean
      */
     public function hasFile();
 
     /**
-     * Get file
+     * Get file.
      * 
      * @return \Symfony\Component\HttpFoundation\File\UploadedFile
      */
     public function getFile();
 
     /**
-     * Image has path
+     * Image has path.
      * 
      * @return boolean
      */
     public function hasPath();
 
     /**
-     * Get path
+     * Get path.
      * 
      * @return string
      */
     public function getPath();
 
     /**
-     * Set path
+     * Set path.
      * 
      * @param string $path
      */
     public function setPath($path);
 
     /**
-     * Image has old path
+     * Image has old path.
      * 
      * @return boolean
      */
     public function hasOldPath();
 
     /**
-     * Get old path
+     * Get old path.
      * 
      * @return string
      */
     public function getOldPath();
 
     /**
-     * Set old path
+     * Set old path.
      * 
      * @param string $oldPath
      */
     public function setOldPath($oldPath);
 
     /**
-     * Image should be renamed
+     * Returns whether the image should be renamed or not.
      * 
      * @return boolean
      */
     public function shouldBeRenamed();
 
     /**
-     * Guess file extension
+     * Guess file extension.
      * 
      * @return string
      */
     public function guessExtension();
 
     /**
-     * Guess file name
+     * Guess file name.
      * 
      * @return string
      */
     public function guessFilename();
 
     /**
-     * Get image alt
+     * Returns whether the image has a name or not.
+     * 
+     * @return boolean
+     */
+    public function hasName();
+
+    /**
+     * Get image alt.
      * 
      * @return string
      */
     public function getAlt();
 
     /**
-     * Get image creation datetime
+     * Get image creation datetime.
      * 
      * @return \DateTime
      */
     public function getCreatedAt();
 
     /**
-     * Get image last update datetime
+     * Get image last update datetime.
      * 
      * @return \DateTime
      */
