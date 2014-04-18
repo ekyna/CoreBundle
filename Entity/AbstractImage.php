@@ -2,10 +2,9 @@
 
 namespace Ekyna\Bundle\CoreBundle\Entity;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 use Gedmo\Sluggable\Util\Urlizer;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * AbstractImage
@@ -34,6 +33,13 @@ abstract class AbstractImage implements ImageInterface
      * @var string
      */
     protected $path;
+
+    /**
+     * Old path (to be removed)
+     * 
+     * @var string
+     */
+    protected $oldPath;
 
     /**
      * Name
@@ -102,11 +108,12 @@ abstract class AbstractImage implements ImageInterface
      * Set file
      * 
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @return AbstractImage
      */
     public function setFile(UploadedFile $file)
     {
         $this->file = $file;
+        $this->updatedAt = new \DateTime();
 
         return $this;
     }
@@ -133,6 +140,32 @@ abstract class AbstractImage implements ImageInterface
     public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasOldPath()
+    {
+        return null !== $this->oldPath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOldPath()
+    {
+        return $this->oldPath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOldPath($oldPath)
+    {
+        $this->oldPath = $oldPath;
 
         return $this;
     }
@@ -207,10 +240,13 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Set name
      * @param string $name
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @return AbstractImage
      */
     public function setName($name)
     {
+        if($name !== $this->name) {
+            $this->updatedAt = new \DateTime();
+        }
         $this->name = $name;
 
         return $this;
@@ -230,7 +266,7 @@ abstract class AbstractImage implements ImageInterface
      * Set alternative text
      * 
      * @param string $alt
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @return AbstractImage
      */
     public function setAlt($alt)
     {
@@ -253,7 +289,7 @@ abstract class AbstractImage implements ImageInterface
      * Set createdAt
      * 
      * @param \Datetime $createdAt
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @return AbstractImage
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -276,7 +312,7 @@ abstract class AbstractImage implements ImageInterface
      * Set updatedAt
      *
      * @param \Datetime $updated
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @return AbstractImage
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

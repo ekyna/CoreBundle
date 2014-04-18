@@ -15,8 +15,11 @@ class ImageUploader implements ImageUploaderInterface
     /**
      * @var \Gaufrette\Filesystem
      */
-    protected $filesystem;
+    private $filesystem;
 
+    /**
+     * @param Filesystem $filesystem
+     */
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
@@ -25,29 +28,31 @@ class ImageUploader implements ImageUploaderInterface
     /**
      * {@inheritdoc}
      */
+    public function prepare(ImageInterface $image)
+    {
+        if ($image->hasFile() || $image->shouldBeRenamed()) {
+            $image->setOldPath($image->getPath());
+            $this->generatePath($image);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function upload(ImageInterface $image)
     {
-        if (!$image->hasFile()) {
-            // No upload but rename ?
-            if($image->shouldBeRenamed()) {
-                $old_path = $image->getPath();
-                $this->generatePath($image);
-                return $this->filesystem->rename($old_path, $image->getPath());
+        if ($image->hasPath()) {
+            if ($image->hasFile()) {
+                $this->filesystem->write(
+                    $image->getPath(),
+                    file_get_contents($image->getFile()->getPathname())
+                );
+            } elseif ($image->hasOldPath()) {
+                $this->filesystem->rename($image->getOldPath(), $image->getPath());
             }
-            return true;
         }
 
-        // Remove before upload
-        if(!$this->remove($image)) {
-            return false;
-        }
-
-        $this->generatePath($image);
-
-        return $this->filesystem->write(
-            $image->getPath(),
-            file_get_contents($image->getFile()->getPathname())
-        );
+        $this->remove($image);
     }
 
     /**
@@ -55,10 +60,13 @@ class ImageUploader implements ImageUploaderInterface
      */
     public function remove(ImageInterface $image)
     {
-        if ($image->hasPath()) {
-            return $this->filesystem->delete($image->getPath());
+        if ($image->hasOldPath()) {
+            if ($this->filesystem->has($image->getOldPath())) {
+                $this->filesystem->delete($image->getOldPath());
+            }
+            // TODO: remove empty directory ?
+            $image->setOldPath(null);
         }
-        return true;
     }
 
     /**
@@ -66,23 +74,17 @@ class ImageUploader implements ImageUploaderInterface
      * 
      * @param ImageInterface $image
      */
-    protected function generatePath(ImageInterface $image)
+    private function generatePath(ImageInterface $image)
     {
-        if($image->hasPath()) {
-            $path = pathinfo($image->getPath(), PATHINFO_DIRNAME).'/'.$image->guessFilename();
-            if(!$this->filesystem->has($path)) {
-                $image->setPath($path);
-                return;
-            }
-        }
+        $filename = $image->guessFilename();
 
         do {
-            $hash = md5(uniqid(mt_rand(), true));
+            $hash = md5(uniqid(mt_rand()));
             $path = sprintf(
                 '%s/%s/%s',
                 substr($hash, 0, 3),
                 substr($hash, 3, 3),
-                $image->guessFilename()
+                $filename
             );
         } while ($this->filesystem->has($path));
 

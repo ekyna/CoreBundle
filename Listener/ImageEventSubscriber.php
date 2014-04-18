@@ -21,6 +21,9 @@ class ImageEventSubscriber implements EventSubscriber
      */
     private $uploader;
 
+    /**
+     * @param ImageUploader $uploader
+     */
     public function __construct(ImageUploader $uploader)
     {
         $this->uploader = $uploader;
@@ -29,13 +32,31 @@ class ImageEventSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
-        
+
+        if($entity instanceof ImageInterface) {
+            $this->prepareImage($entity);
+        }
+    }
+
+    public function postPersist(LifecycleEventArgs $eventArgs)
+    {
+        $entity = $eventArgs->getObject();
+
         if($entity instanceof ImageInterface) {
             $this->uploadImage($entity);
         }
     }
 
     public function preUpdate(PreUpdateEventArgs $eventArgs)
+    {
+        $entity = $eventArgs->getObject();
+
+        if($entity instanceof ImageInterface) {
+            $this->prepareImage($entity);
+        }
+    }
+
+    public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
@@ -47,9 +68,25 @@ class ImageEventSubscriber implements EventSubscriber
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
-        
+
+        if($entity instanceof ImageInterface) {
+            $entity->setOldPath($entity->getPath());
+        }
+    }
+
+    public function postRemove(LifecycleEventArgs $eventArgs)
+    {
+        $entity = $eventArgs->getObject();
+
         if($entity instanceof ImageInterface) {
             $this->removeImage($entity);
+        }
+    }
+
+    private function prepareImage(ImageInterface $image)
+    {
+        if(!$this->uploader->prepare($image)) {
+            //$event->stop('Failed to upload '.$image->getFile()->getFilename().'. Maybe the file allready exists.');
         }
     }
 
@@ -71,8 +108,11 @@ class ImageEventSubscriber implements EventSubscriber
     {
         return array(
             Events::prePersist,
+            Events::postPersist,
             Events::preUpdate,
+            Events::postUpdate,
             Events::preRemove,
+            Events::postRemove,
         );
     }
 }

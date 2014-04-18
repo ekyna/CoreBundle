@@ -32,7 +32,7 @@ abstract class AbstractGalleryImage extends AbstractImage
      * Set the image position in the gallery
      *
      * @param interger $position
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractGalleryImage
+     * @return AbstractGalleryImage
      */
     public function setPosition($position)
     {
