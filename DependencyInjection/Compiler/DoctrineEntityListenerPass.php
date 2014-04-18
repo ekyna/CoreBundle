@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * DoctrineEntityListenerPass
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class DoctrineEntityListenerPass implements CompilerPassInterface
 {

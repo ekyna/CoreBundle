@@ -101,13 +101,6 @@ interface ImageInterface
     public function getAlt();
 
     /**
-     * Get image creation datetime.
-     * 
-     * @return \DateTime
-     */
-    public function getCreatedAt();
-
-    /**
      * Get image last update datetime.
      * 
      * @return \DateTime

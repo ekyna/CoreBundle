@@ -8,6 +8,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Cmf\Component\Routing\DependencyInjection\Compiler\RegisterRoutersPass;
 //use Symfony\Cmf\Component\Routing\DependencyInjection\Compiler\RegisterRouteEnhancersPass;
 
+/**
+ * EkynaCoreBundle
+ *
+ * @author Étienne Dauvergne <contact@ekyna.com>
+ */
 class EkynaCoreBundle extends Bundle
 {
     public function build(ContainerBuilder $container)

@@ -239,6 +239,7 @@ abstract class AbstractImage implements ImageInterface
 
     /**
      * Set name
+     * 
      * @param string $name
      * @return AbstractImage
      */
