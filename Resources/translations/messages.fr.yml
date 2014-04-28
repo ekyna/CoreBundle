@@ -25,12 +25,17 @@ ekyna_core:
         parent: Parent
         root: Racine
         category: Catégorie
+        type: Type
         url: Url
         website: Site internet
         email: Email
+        pricing: Tarifs
         price: Prix
         tax: Taxe
         rate: Taux
+        weight: Poids
+        option: Option
+        options: Options
         description: Description
         designation: Désignation
         reference: Référence

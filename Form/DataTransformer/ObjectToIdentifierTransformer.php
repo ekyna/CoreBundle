@@ -11,8 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * ObjectToIdentifierTransformer
  *
- * @author Alexandre Bacco <alexandre.bacco@gmail.com>
- * @see https://github.com/Sylius/SyliusResourceBundle/blob/master/Form/DataTransformer/ObjectToIdentifierTransformer.php
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ObjectToIdentifierTransformer implements DataTransformerInterface
 {
@@ -47,6 +46,26 @@ class ObjectToIdentifierTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
+        if (null === $value) {
+            return '';
+        }
+
+        $class = $this->repository->getClassName();
+
+        if (!$value instanceof $class) {
+            throw new UnexpectedTypeException($value, $class);
+        }
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        return $accessor->getValue($value, $this->identifier);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reverseTransform($value)
+    {
         if (!$value) {
             return null;
         }
@@ -61,25 +80,5 @@ class ObjectToIdentifierTransformer implements DataTransformerInterface
         }
 
         return $entity;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function reverseTransform($value)
-    {
-        if (null === $value) {
-            return '';
-        }
-
-        $class = $this->repository->getClassName();
-
-        if (!$value instanceof $class) {
-            throw new UnexpectedTypeException($value, $class);
-        }
-
-        $accessor = PropertyAccess::createPropertyAccessor();
-
-        return $accessor->getValue($value, $this->identifier);
     }
 }
