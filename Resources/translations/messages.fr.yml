@@ -49,6 +49,7 @@ ekyna_core:
         date: Date
         add_date: Date de création
         update_date: Date de modification
+        duration: Durée
         file: Fichier
         choose_file: Choisissez un fichier
         path: Chemin
