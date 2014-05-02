@@ -267,6 +267,16 @@
 /**
  *  Collections
  */
+.form-body .bc-collection li {
+    border-bottom: 1px dotted #CCC;
+    margin-bottom: 15px;
+}
+
+.form-body .bc-collection li:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
 .form-body .collection-container>.childs>.row {
     border-bottom: 1px dotted #dddddd;
     margin-bottom: 15px;
