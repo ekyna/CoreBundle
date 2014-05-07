@@ -9,6 +9,8 @@
 
         <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
 
+        <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\KernelEventSubscriber</parameter>
+
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
         <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
@@ -35,6 +37,11 @@
             <call method="setContext">
                 <argument type="service" id="router.request_context" />
             </call>
+        </service>
+
+        <service id="ekyna_core.kernel_event_subscriber" class="%ekyna_core.kernel_event_subscriber.class%">
+            <argument type="service" id="session" />
+            <tag name="kernel.event_subscriber" />
         </service>
 
         <!-- Image uploader -->
