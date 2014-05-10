@@ -31,6 +31,7 @@ ekyna_core:
         email: Email
         pricing: Tarifs
         price: Prix
+        promotion: Promotion
         tax: Taxe
         rate: Taux
         weight: Poids
