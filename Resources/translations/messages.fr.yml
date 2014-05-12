@@ -50,6 +50,8 @@ ekyna_core:
         date: Date
         add_date: Date de création
         update_date: Date de modification
+        start_date: Date de début
+        end_date: Date de fin
         duration: Durée
         file: Fichier
         choose_file: Choisissez un fichier
