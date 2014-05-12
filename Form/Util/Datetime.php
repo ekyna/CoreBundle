@@ -1,68 +1,16 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\Form\Type;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
+namespace Ekyna\Bundle\CoreBundle\Form\Util;
 
 /**
- * DatetimeType.
+ * Datetime.
  *
  * @author Stephane Collot
  * @see https://github.com/stephanecollot/DatetimepickerBundle/blob/master/Form/Type/DatetimeType.php
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class DatetimeType extends AbstractType
+class Datetime
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $pickerOptions = $options['pickerOptions'];
-
-        // Set automatically the language
-        if (!isset($options['pickerOptions']['language'])) {
-            $pickerOptions['language'] = \Locale::getDefault();
-        }
-        if ($pickerOptions['language'] == 'en') {
-            unset($pickerOptions['language']);
-        }
-
-        // Set the defaut format of malot.fr/bootstrap-datetimepicker
-        if (!isset($options['pickerOptions']['format'])) {
-            $pickerOptions['format'] = 'dd/mm/yyyy hh:ii';
-        }
-
-        $view->vars = array_replace($view->vars, array(
-            'pickerOptions' => $pickerOptions,
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'widget' => 'single_text',
-            'read_only' => true,
-            'format' => function (Options $options, $value) {
-                if (isset($options['pickerOptions']['format'])) {
-                    return DatetimeType::convertMalotToIntlFormater( $options['pickerOptions']['format'] );
-                } else {
-                    return DatetimeType::convertMalotToIntlFormater( 'dd/mm/yyyy hh:ii' );
-                }
-            },
-            'pickerOptions' => array(
-            	'pickerPosition' => 'bottom-left',
-            ),
-        ));
-    }
-
     /**
      * Convert the Bootstrap Datetimepicker date format to PHP date format
      */
@@ -134,21 +82,5 @@ class DatetimeType extends AbstractType
         }
 
         return str_replace(array_keys($exits), array_values($exits), $formatter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return 'datetime';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ekyna_core_datetime';
     }
 }

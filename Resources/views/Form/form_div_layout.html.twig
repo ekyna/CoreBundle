@@ -104,7 +104,7 @@
 {% endspaceless %}
 {% endblock ekyna_core_gallery_image_widget %}
 
-{% block ekyna_core_datetime_widget %}
+{% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
 	    <div class="input-group date form_datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
@@ -132,7 +132,7 @@
         </div>
     {% endif %}
 {% endspaceless %}
-{% endblock ekyna_core_datetime_widget %}
+{% endblock datetime_widget %}
 
 {% block checkbox_row %}
 {% spaceless %}
