@@ -276,7 +276,6 @@
 					});
 				});
 			}
-
 		});
 		return this;
 	};
@@ -296,13 +295,10 @@
 				});
 			});
 
-			/* Checkboxes, Radios */
-			//$('.form-wrapper input:checkbox, .form-wrapper input:radio').uniform();
-
-			/* Date picker */
-			$(this).find('input.date-picker').datepicker().on('changeDate', function (ev) {
-	            $(this).datepicker('hide');
-	        });
+			/* Datetime picker */
+			$(this).find('.form_datetime').each(function() {
+				$(this).datetimepicker($(this).data('options'));
+			});
 
 			/* Textarea autosize */
 			$(this).find('textarea').not('.tinymce').autosize({append: "\n"});

@@ -63,7 +63,7 @@ class AsseticConfiguration
     protected function buildCoreCss(array $config)
     {
         $inputs = array(
-            'bundles/ekynacore/css/lib/bootstrap.datepicker.css',
+            'bundles/ekynacore/css/lib/bootstrap.datetimepicker.css',
             'bundles/ekynacore/css/lib/select2.css',
             'bundles/ekynacore/css/form.css',
             'bundles/ekynacore/css/modal-gallery.css',
@@ -87,10 +87,10 @@ class AsseticConfiguration
     {
         $inputs = array(
             '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
-            'bundles/ekynacore/js/jquery.autosize.min.js',
-            'bundles/ekynacore/js/bootstrap.datepicker.js',
-            'bundles/ekynacore/js/select2.min.js',
-            'bundles/ekynacore/js/load-image.js',
+            'bundles/ekynacore/js/lib/jquery.autosize.min.js',
+            'bundles/ekynacore/js/lib/bootstrap.datetimepicker.js',
+            'bundles/ekynacore/js/lib/select2.min.js',
+            'bundles/ekynacore/js/lib/load-image.js',
             'bundles/ekynacore/js/modal-gallery.js',
             'bundles/ekynacore/js/string.prototypes.js',
             'bundles/ekynacore/js/forms.js',

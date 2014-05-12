@@ -104,6 +104,32 @@
 {% endspaceless %}
 {% endblock ekyna_core_gallery_image_widget %}
 
+{% block ekyna_core_datetime_widget %}
+{% spaceless %}
+    {% if widget == "single_text" %}
+	    <div class="input-group date form_datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
+	        {{ block("form_widget_simple") }}
+		    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		</div>
+    {% else %}
+        <div {{ block("widget_container_attributes") }}>
+            {{ date_pattern|replace({
+                "{{ year }}":  form_widget(form.year),
+                "{{ month }}": form_widget(form.month),
+                "{{ day }}":   form_widget(form.day),
+            })|raw }}
+
+            {% set attr = {"size": 10}|merge(attr) %}
+            {% set id = "datepicker_" ~ id %}
+            {% set value = '' %}
+            {% set full_name = "datepicker_" ~ full_name %}
+            {{ block("hidden_widget") }}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock ekyna_core_datetime_widget %}
+
 {% block checkbox_row %}
 {% spaceless %}
     {% set style = style|default(bootstrap_get_style()) %}
