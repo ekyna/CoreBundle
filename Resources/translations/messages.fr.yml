@@ -1,6 +1,7 @@
 ekyna_core:
     yes: Oui
     no: Non
+    undefined: Indéfini
     button:
         previous: Précédente
         next: Suivante
@@ -71,6 +72,7 @@ ekyna_core:
         verify: Vérification
         remember_me: Se souvenir de moi
         username: Nom d'utilisateur
+        user: Utilisateur
         group: Groupe
         roles: Roles
         company: Entreprise
