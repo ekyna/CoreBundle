@@ -8,33 +8,24 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * FormTypeExtension
+ * FormTypeExtension.
  *
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class FormTypeExtension extends AbstractTypeExtension
 {
     /**
-     * Ajoute l'option sizing
-     *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        /*$resolver->setOptional(array(
-            'sizing'
-        ));*/
         $resolver->setDefaults(array(
             'sizing' => null,
         ));
     }
 
     /**
-     * Ajoute les variables à la vue
-     *
-     * @param \Symfony\Component\Form\FormView $view
-     * @param \Symfony\Component\Form\FormInterface $form
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -42,7 +33,7 @@ class FormTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @return string Le nom du type qui est étendu
+     * {@inheritDoc}
      */
     public function getExtendedType()
     {
