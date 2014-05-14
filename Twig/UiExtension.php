@@ -2,6 +2,8 @@
 
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
+use Symfony\Component\Form\FormView;
+
 /**
  * UiExtension
  *
@@ -102,19 +104,12 @@ class UiExtension extends \Twig_Extension
         )));
     }
 
-    public function renderFormFooter($path = null, $label = 'ekyna_core.button.save', $theme = 'primary', $icon = 'ok', $faIcon = false, $offset = 2)
+    public function renderFormFooter(FormView $form)
     {
-        if(0 < strlen($icon)) {
-            $icon = $faIcon ? 'fa fa-'.$icon : 'glyphicon glyphicon-'.$icon;
-            $icon = sprintf('<span class="%s"></span>', $icon);
+        if(array_key_exists('footer', $form->vars)) {
+            return $this->template->renderBlock('form_footer', $form->vars['footer']);
         }
-        return $this->template->renderBlock('form_footer', array(
-            'path' => $path,
-            'label' => $label,
-            'theme' => $theme,
-            'icon' => $icon,
-            'offset' => $offset,
-        ));
+        return '';
     }
 
     public function getName()

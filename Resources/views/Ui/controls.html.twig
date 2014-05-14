@@ -10,10 +10,13 @@
 <div class="form-footer">
     <div class="form-group row">
         <div class="col-sm-offset-{{ offset }} col-sm-{{ 12 - offset }}">
-            <button type="submit" class="btn btn-{{ theme }}">{{ icon|raw }}{{ label|trans|raw }}</button>
-            {% if path is not sameas(null) %}
-            <a href="{{ path }}" class="btn btn-default form-cancel-btn"><span class="glyphicon glyphicon-remove"></span> {{ 'ekyna_core.button.cancel'|trans|raw }}</a>
+            {% for button in buttons %}
+            {% if button.type == 'link' %}
+                <a href="{{ button.path }}" class="btn btn-{{ button.theme }}"><span class="glyphicon glyphicon-remove"></span> {{ button.label|trans|raw }}</a>
+            {% else %}
+                <button type="{{ button.type }}" name="{{ button.name }}" class="btn btn-{{ button.theme }}"><span class="glyphicon glyphicon-{{ button.icon }}"></span> {{ button.label|trans|raw }}</button>
             {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>

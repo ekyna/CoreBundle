@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * FormTypeRedirectExtension.
@@ -52,6 +54,10 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
                 $form = $event->getForm();
+                // Only "root" form
+                if(null !== $form->getParent()) {
+                    return;
+                }
                 $form->add('_redirect', 'hidden', array('mapped' => false));
             }
         );
@@ -61,6 +67,10 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
             FormEvents::POST_SET_DATA,
             function (FormEvent $event) use ($redirectPath, $request) {
                 $form = $event->getForm();
+                // Only "root" form
+                if(null !== $form->getParent()) {
+                    return;
+                }
                 // If form has been posted => retrieve _redirect path from request (POST)
                 if(null === $redirectPath && null !== $request) {
                     $redirectPath = $request->request->get($form->getName(), array('_redirect' => null))['_redirect'];
@@ -69,6 +79,14 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
             }
         );
     }
+
+	public function buildView(FormView $view, FormInterface $form, array $options)
+	{
+	    // Only "root" form
+	    if(null !== $form->getParent()) {
+	        return;
+	    }
+	}
 
     /**
      * {@inheritDoc}

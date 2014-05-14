@@ -18,6 +18,7 @@
 
         <parameter key="ekyna_core.form_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeExtension</parameter>
         <parameter key="ekyna_core.form_type_redirect_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension</parameter>
+        <parameter key="ekyna_core.form_type_footer_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension</parameter>
         <parameter key="ekyna_core.entity_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension</parameter>
         <parameter key="ekyna_core.datetime_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension</parameter>
 
@@ -77,6 +78,9 @@
         </service>
         <service id="ekyna_core.form_type_redirect_extension" class="%ekyna_core.form_type_redirect_extension.class%">
             <argument type="service" id="request_stack" />
+            <tag name="form.type_extension" alias="form" />
+        </service>
+        <service id="ekyna_core.form_type_footer_extension" class="%ekyna_core.form_type_footer_extension.class%">
             <tag name="form.type_extension" alias="form" />
         </service>
         <service id="ekyna_core.entity_type_extension" class="%ekyna_core.entity_type_extension.class%">
