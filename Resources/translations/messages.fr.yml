@@ -36,6 +36,7 @@ ekyna_core:
         tax: Taxe
         rate: Taux
         weight: Poids
+        quantity: Quantité
         option: Option
         options: Options
         description: Description
