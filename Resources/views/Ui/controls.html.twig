@@ -1,5 +1,5 @@
 {% block link %}
-<a class="{{ class }}" href="{{ href }}">{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</a>
+<a class="{{ class }}" href="{{ href }}"{{ target|raw }}>{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</a>
 {% endblock %}
 
 {% block button %}

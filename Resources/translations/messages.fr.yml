@@ -19,6 +19,7 @@ ekyna_core:
         remove: Supprimer
         cancel: Annuler
         save: Enregistrer
+        download: Télécharger
     field:
         name: Nom
         title: Titre

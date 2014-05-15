@@ -49,7 +49,7 @@ class UiExtension extends \Twig_Extension
         );
     }
 
-    public function renderLink($href, $label = '', $theme = 'default', $size = 'sm', $icon = null, $right = false, $faIcon = false)
+    public function renderLink($href, $label = '', $theme = 'default', $size = 'sm', $icon = null, $right = false, $faIcon = false, $target = null)
     {
         $rightIcon = $leftIcon = '';
         if(0 < strlen($icon)) {
@@ -66,6 +66,8 @@ class UiExtension extends \Twig_Extension
         }else{
             $class = sprintf('btn btn-%s', str_replace('btn-', '', $theme));
         }
+        
+        $target = null !== $target ? sprintf(' target="%s"', $target) : '';
 
         return trim($this->template->renderBlock('link', array(
             'class' => $class,
@@ -73,6 +75,7 @@ class UiExtension extends \Twig_Extension
             'left_icon' => $leftIcon,
             'right_icon' => $rightIcon,
             'href' => $href,
+            'target' => $target
         )));
     }
 
