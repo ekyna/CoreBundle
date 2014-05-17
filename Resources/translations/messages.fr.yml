@@ -12,7 +12,10 @@ ekyna_core:
         back: Retour
         back_to_show: Retour au détail
         back_to_list: Retour à la liste
+        list: Liste
         show: Detail
+        contenu_show: Voir le contenu
+        contenu_edit: Modifier le contenu
         content: Contenu
         create: Nouveau
         edit: Modifier

@@ -1,21 +1,36 @@
-{% block link %}
-<a class="{{ class }}" href="{{ href }}"{{ target|raw }}>{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</a>
+{% block button %}
+{% spaceless %}
+<{{ tag }} {{ block('attributes') }}>{{ block('icon') }}{{ label|trans|raw }}</{{ tag }}>
+{% endspaceless %}
 {% endblock %}
 
-{% block button %}
-<button class="{{ class }}"{% if id|length > 0 %} id="{{ id }}"{% endif %} type="{{ type }}">{{ left_icon|raw }}{{ label|trans|raw }}{{ right_icon|raw }}</button>
-{% endblock %}
+{% block icon %}
+{% spaceless %}
+{% if icon %}<span class="{{ icon }}"></span>{% endif %}
+{% endspaceless %}
+{% endblock icon %}
+
+{% block attributes %}
+{% spaceless %}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{% endspaceless %}
+{% endblock attributes %}
 
 {% block form_footer %}
 <div class="form-footer">
     <div class="form-group row">
         <div class="col-sm-offset-{{ offset }} col-sm-{{ 12 - offset }}">
             {% for button in buttons %}
-            {% if button.type == 'link' %}
-                <a href="{{ button.path }}" class="btn btn-{{ button.theme }}"><span class="glyphicon glyphicon-remove"></span> {{ button.label|trans|raw }}</a>
-            {% else %}
-                <button type="{{ button.type }}" name="{{ button.name }}" class="btn btn-{{ button.theme }}"><span class="glyphicon glyphicon-{{ button.icon }}"></span> {{ button.label|trans|raw }}</button>
-            {% endif %}
+            {{ ui_button(button.label, button.options, button.attributes) }}
             {% endfor %}
         </div>
     </div>

@@ -29,7 +29,29 @@ class FormTypeFooterExtension extends AbstractTypeExtension
 
         $footerOptions = $this->resolveFooterOptions($options['_footer'], $form);
 
+        $footerOptions['buttons'] = $this->transformButtons($footerOptions['buttons']);
+
         $view->vars['footer'] = $footerOptions;
+    }
+
+    private function transformButtons(array $buttons)
+    {
+        $transformedButtons = array();
+        foreach ($buttons as $button) {
+            $attributes = $button['name'] !== null ? array_merge($button['attr'], array('name' => $button['name'])) : $button['attr'];
+            $transformedButtons[] = array(
+                'label'      => $button['label'],
+                'options'    => array(
+                    'type'    => $button['type'],
+                    'theme'   => $button['theme'],
+                    'size'    => 'md',
+                    'icon'    => $button['icon'],
+                    'path'    => $button['path'],
+                ),
+                'attributes' => $attributes,
+            );
+        }
+        return $transformedButtons;
     }
 
     private function resolveFooterOptions(array $options, FormInterface $form)
@@ -40,17 +62,20 @@ class FormTypeFooterExtension extends AbstractTypeExtension
                 'type'  => 'submit',
                 'theme' => 'primary',
                 'icon'  => 'ok',
-                'path'  => '',
+                'name'  => null,
+                'path'  => null,
+                'attr'  => array(),
             ))
-            ->setRequired(array('name', 'type', 'label', 'theme', 'icon'))
-            ->setOptional(array('path'))
+            ->setRequired(array('type', 'label', 'theme', 'icon'))
+            ->setOptional(array('name', 'path'))
             ->setAllowedTypes(array(
-                'name'  => 'string',
+                'name'  => array('string', 'null'),
                 'type'  => 'string',
                 'label' => 'string',
                 'theme' => 'string',
                 'icon'  => 'string',
-                'path'  => 'string',
+                'path'  => array('string', 'null'),
+                'attr'  => 'array',
             ))
             ->setAllowedValues(array(
                 'type'  => array('submit', 'link'),
@@ -62,7 +87,16 @@ class FormTypeFooterExtension extends AbstractTypeExtension
             	        throw new InvalidOptionsException('"path" option is mandatory for "link" type buttons.');
             	    }
             	    return $value;
-            	}
+            	},
+            	'name' => function(Options $options, $value) {
+            	    if ('link' !== $options['type']) {
+            	        if (0 === strlen($value)) {
+            	           throw new InvalidOptionsException('"name" option is mandatory for non "link" type buttons.');
+            	        }
+            	        return $value;
+            	    }
+            	    return null;
+            	}, 
             ))
         ;
 
@@ -95,8 +129,9 @@ class FormTypeFooterExtension extends AbstractTypeExtension
     	        'type'  => 'link',
     	        'label' => 'ekyna_core.button.cancel',
     	        'theme' => 'default',
-    	        'icon'  => 'ok',
+    	        'icon'  => 'remove',
                 'path' => $cancelPath,
+                'attr' => array('class' => 'form-cancel-btn'),
     	    );
         }
 

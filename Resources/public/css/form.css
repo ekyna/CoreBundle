@@ -51,14 +51,15 @@
  *  Field Box
  */
 .form-body .control-label {
+    cursor: auto;
     display: inline-block;
     float: left;
     font-weight: 600;
-    cursor: auto;
-    line-height: 34px;
+    line-height: 16px;
     margin-bottom: 0;
+    min-height: 34px;
+    padding: 9px 15px 0 15px;
     text-align: right;
-    padding: 0px 15px;
 }
 
 .form-body input:-moz-placeholder {
