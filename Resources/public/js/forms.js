@@ -56,7 +56,7 @@
 
 			$rename.normalize = function() {
 				$rename.stripExtension();
-				var value = $rename.val().trim().normalize();
+				var value = $rename.val().trim().urlize();
 				if(value.length > 0) {
 					$rename.val(value);
 					$rename.appendExtension();
