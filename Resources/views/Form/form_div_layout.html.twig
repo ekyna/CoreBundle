@@ -69,10 +69,9 @@
 	        {% if form.parent is empty %}
 	            {{ block('global_form_errors') }}
 	        {% endif %}
-	        {#{ block('form_rows') }#}
-		    {% for child in form %}
-		        {{ form_row(child, {'style': 'horizontal'}) }}
-		    {% endfor %}
+	        {{ form_row(form.file, {'style': 'horizontal'}) }}
+	        {{ form_row(form.name, {'style': 'horizontal'}) }}
+	        {{ form_row(form.alt, {'style': 'horizontal'}) }}
 	        {{ form_rest(form) }}
 	    </div>
     </div>

@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 /**
  * ImageType
@@ -22,15 +24,6 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', 'file', array(
-                'label' => 'ekyna_core.field.file',
-                'required' => $options['required'],
-                'sizing' => 'sm',
-                'attr' => array(
-                    'widget_col' => 2,
-                    'widget_col' => 10
-                )
-            ))
             ->add('name', 'text', array(
                 'label' => 'ekyna_core.field.name',
                 'required' => $options['required'],
@@ -51,6 +44,36 @@ class ImageType extends AbstractType
                 )
             ))
         ;
+            
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function(FormEvent $event) use ($options) {
+                $form = $event->getForm();
+                $image = $event->getData();
+
+                if (null !== $image && null !== $image->getPath()) {
+                    $form->add('file', 'file', array(
+                        'label' => 'ekyna_core.field.file',
+                        'required' => false,
+                        'sizing' => 'sm',
+                        'attr' => array(
+                            'widget_col' => 2,
+                            'widget_col' => 10
+                        )
+                    ));
+                } else {
+                    $form->add('file', 'file', array(
+                        'label' => 'ekyna_core.field.file',
+                        'required' => $options['required'],
+                        'sizing' => 'sm',
+                        'attr' => array(
+                            'widget_col' => 2,
+                            'widget_col' => 10
+                        )
+                    ));
+                }
+            }
+        );
     }
 
     /**
