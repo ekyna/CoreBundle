@@ -14,8 +14,8 @@ ekyna_core:
         back_to_list: Retour à la liste
         list: Liste
         show: Detail
-        contenu_show: Voir le contenu
-        contenu_edit: Modifier le contenu
+        content_show: Voir le contenu
+        content_edit: Modifier le contenu
         content: Contenu
         create: Nouveau
         edit: Modifier

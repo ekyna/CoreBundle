@@ -134,11 +134,11 @@
 			$collection.updateChilds = function() {
 				var maxIndex = $container.children().length-1;
 				$container.find('> div').each(function(index, child) {
-					var $child = $(child);
-					if($child.find('.image-widget').length == 1) {
-						$child.find('button[data-role="move-up"]').prop('disabled', (index == 0));
-						$child.find('button[data-role="move-down"]').prop('disabled', (index == maxIndex));
-						$child.find('input[data-role="position"]').val(index);
+					var $controls = $(child).find('.child-controls');
+					if($controls.length == 1) {
+						$controls.find('button[data-role="move-up"]').prop('disabled', (index == 0));
+						$controls.find('button[data-role="move-down"]').prop('disabled', (index == maxIndex));
+						$controls.find('input[data-role="position"]').val(index);
 					}
 				});
 			};
@@ -147,26 +147,27 @@
 				var $imageWidget = $child.find('.image-widget');
 				if($imageWidget.length == 1) {
 					$imageWidget.imageWidget();
-
-					$child.find('button[data-role="remove"]').bind('click', function(e) {
+				}
+				var $controls = $child.find('.child-controls');
+				if($controls.length == 1) {
+					$controls.find('button[data-role="remove"]').bind('click', function(e) {
 						e.preventDefault();
-						if(confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
+						if(confirm('Êtes-vous sûr de vouloir supprimer cette élément ?')) {
 							$child.remove();
 						}
 					});
-
-					$child.find('button[data-role="move-up"]').bind('click', function(e) {
+					$controls.find('button[data-role="move-up"]').bind('click', function(e) {
 						e.preventDefault();
 						$child.prev().before($child.detach());
 						$collection.updateChilds();
 					});
-
-					$child.find('button[data-role="move-down"]').bind('click', function(e) {
+					$controls.find('button[data-role="move-down"]').bind('click', function(e) {
 						e.preventDefault();
 						$child.next().after($child.detach());
 						$collection.updateChilds();
 					});
 				}
+				$child.formWidget();
 			};
 
 			$collection.newChild = function() {
@@ -217,9 +218,9 @@
 					$modal
 						.off('hidden.bs.modal')
 						.on('hidden.bs.modal', function() {
-							$modal.find('textarea.tinymce').each(function() {
+							/*$modal.find('textarea.tinymce').each(function() {
 								$(this).tinymce().remove();
-							});
+							});*/
 							$modal.find('.modal-title').html('Modal title');
 							$modal.find('.modal-body').empty();
 						});
@@ -280,6 +281,59 @@
 		return this;
 	};
 
+	/**
+	 * Entity search widget
+	 */
+	$.fn.entitySearchWidget = function(params) {
+
+		params = $.extend({
+			limit: 8
+		}, params);
+
+		this.each(function() {
+
+			var $this = $(this);
+			
+			var searchUrl = Routing.generate($this.data('search'));
+			var findUrl = Routing.generate($this.data('find'));
+			var allowClear = $this.data('clear') == 1 ? true : false;
+
+			$this.select2({
+			    placeholder: 'Rechercher ...',
+			    minimumInputLength: 0,
+			    allowClear: allowClear,
+			    ajax: {
+			        quietMillis: 300,
+			        url: searchUrl,
+			        dataType: 'jsonp',
+			        data: function (term, page) {
+			            var query = {
+			                limit: params.limit,
+			                search: term
+			            };
+			            return query;
+			        },
+			        results: function (data, page) {
+			            return { results: data.results };
+			        }
+			    },
+			    initSelection : function (element, callback) {
+			    	var id = parseInt(element.val());
+			    	if(id > 0) {
+			    		$.ajax({
+			    			url: findUrl,
+			    			data: {id: id},
+			    			dataType: 'json'
+			    		})
+			    		.done(function(data) {
+			    			callback(data);
+			    		});
+			    	}
+			    }
+			});
+		});
+		return this;
+	};
 	
 	$.fn.formWidget = function(params) {
 
@@ -310,7 +364,8 @@
 			$(this).find('.collection-container').collectionWidget();
 
 			/* Entities */
-			$(this).find('.entity_widget').entityWidget();
+			$(this).find('.entity-widget').entityWidget();
+			$(this).find('.entity-search').entitySearchWidget();
 
 		});
 		return this;

@@ -86,6 +86,7 @@ class AsseticConfiguration
     protected function buildCoreJs(array $config)
     {
         $inputs = array(
+    	    'bundles/fosjsrouting/js/router.js',
             '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
             'bundles/ekynacore/js/lib/jquery.autosize.min.js',
             'bundles/ekynacore/js/lib/bootstrap.datetimepicker.js',

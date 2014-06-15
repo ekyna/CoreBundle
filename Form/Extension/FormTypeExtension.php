@@ -29,7 +29,7 @@ class FormTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['sizing'] = in_array($options['sizing'], array('sm', 'lg')) ? $options['sizing'] : false;
+        $view->vars['sizing'] = in_array($options['sizing'], array('xs', 'sm', 'md', 'lg')) ? $options['sizing'] : false;
     }
 
     /**

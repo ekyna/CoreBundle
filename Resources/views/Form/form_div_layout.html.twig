@@ -103,6 +103,13 @@
 {% endspaceless %}
 {% endblock ekyna_core_gallery_image_widget %}
 
+{% block ekyna_core_entity_search_widget %}
+{% spaceless %}
+{% set attr = attr|merge({'class': 'entity-search' }) %}
+{{ block('form_widget_simple') }}
+{% endspaceless %}
+{% endblock ekyna_core_entity_search_widget %}
+
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
@@ -257,7 +264,7 @@
 {% block choice_widget_collapsed %}
 {% spaceless %}
     {% if add_route is defined and add_route is not sameas(false) %}
-    <div class="input-group entity_widget">
+    <div class="input-group entity-widget">
     {% endif %}
     {% if required and empty_value is none and not empty_value_in_choices %}
         {% set required = false %}

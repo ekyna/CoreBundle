@@ -16,6 +16,8 @@
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
 
+        <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
+
         <parameter key="ekyna_core.form_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeExtension</parameter>
         <parameter key="ekyna_core.form_type_redirect_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension</parameter>
         <parameter key="ekyna_core.form_type_footer_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension</parameter>
@@ -70,6 +72,10 @@
         </service>
         <service id="ekyna_core.gallery_image.form_type" class="%ekyna_core.gallery_image.form_type.class%">
             <tag name="form.type" alias="ekyna_core_gallery_image" />
+        </service>
+        <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="form.type" alias="ekyna_core_entity_search" />
         </service>
 
         <!-- Form Extensions -->
