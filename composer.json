@@ -22,6 +22,7 @@
         "twig/extensions": "~1.0",
         "doctrine/doctrine-bundle" : "~1.2",
         "doctrine/doctrine-cache-bundle":  "~1.0",
+        "doctrine/doctrine-migrations-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "friendsofsymfony/elastica-bundle": "3.0.*",
         "jms/serializer-bundle": "0.13.*@dev",
