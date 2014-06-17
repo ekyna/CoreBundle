@@ -44,6 +44,7 @@
             </call>
         </service>
 
+        <!-- Redirect Exception listener -->
         <service id="ekyna_core.kernel_event_subscriber" class="%ekyna_core.kernel_event_subscriber.class%">
             <argument type="service" id="session" />
             <tag name="kernel.event_subscriber" />

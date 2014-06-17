@@ -27,11 +27,8 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        // only replace the default router by overwriting the 'router' alias if config tells us to
         if ($config['chain_router']['enable']) {
-            // TODO: Define chain router here instead of in services.xml
-
-            $container->setAlias('router', $this->getAlias() . '.router');
+            $container->setParameter('ekyna_core.enable_chain_router', true);
 
             // add the routers defined in the configuration mapping
             $router = $container->getDefinition($this->getAlias() . '.router');
