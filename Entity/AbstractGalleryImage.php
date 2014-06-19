@@ -16,7 +16,7 @@ abstract class AbstractGalleryImage extends AbstractImage
      * 
      * @var integer
      */
-    protected $position;
+    protected $position = 0;
 
     /**
      * Returns the image position in the gallery

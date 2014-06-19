@@ -284,7 +284,15 @@
     padding-bottom: 16px;
 }
 
-.form-body .collection-container .childs .form-row:last-child {
+.form-body .collection-container .image-widget .childs .form-group {
+    margin-bottom: 8px;
+}
+
+.form-body .collection-container .image-widget .childs .form-group .control-label {
+    min-height: 30px;
+}
+
+.form-body .collection-container .image-widget .childs .form-group:last-child {
     margin-bottom: 0;
 }
 
@@ -304,6 +312,7 @@
 .form-body .child-controls button:last-child {
     margin-bottom: 0;
 }
+
 
 /**
  *  File Widget

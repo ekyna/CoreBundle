@@ -11,4 +11,12 @@
             <constraint name="Image" />
         </property>
     </class>
+    <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractGalleryImage">
+        <property name="position">
+            <constraint name="NotNull" />
+            <constraint name="GreaterThanOrEqual">
+	            <option name="value">0</option>
+	        </constraint>
+        </property>
+    </class>
 </constraint-mapping>

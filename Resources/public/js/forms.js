@@ -127,6 +127,8 @@
 		
 		this.each(function() {
 			
+			//console.log('collectionWidget');
+			
 			var $collection = $(this);
 			var $container = $collection.find('> .childs');
 			var prototype = $collection.attr('data-prototype');
@@ -138,7 +140,7 @@
 					if($controls.length == 1) {
 						$controls.find('button[data-role="move-up"]').prop('disabled', (index == 0));
 						$controls.find('button[data-role="move-down"]').prop('disabled', (index == maxIndex));
-						$controls.find('input[data-role="position"]').val(index);
+						$(child).find('input[data-role="position"]').val(index);
 					}
 				});
 			};
@@ -154,6 +156,7 @@
 						e.preventDefault();
 						if(confirm('Êtes-vous sûr de vouloir supprimer cette élément ?')) {
 							$child.remove();
+							$collection.updateChilds();
 						}
 					});
 					$controls.find('button[data-role="move-up"]').bind('click', function(e) {
