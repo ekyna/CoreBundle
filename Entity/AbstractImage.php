@@ -58,14 +58,14 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Creation date
      * 
-     * @var \Datetime
+     * @var \DateTime
      */
     protected $createdAt;
 
     /**
      * Update date
      * 
-     * @var \Datetime
+     * @var \DateTime
      */
     protected $updatedAt;
 
@@ -279,7 +279,7 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Get createdAt
      * 
-     * @return \Datetime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -289,7 +289,7 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Set createdAt
      * 
-     * @param \Datetime $createdAt
+     * @param \DateTime $createdAt
      * @return AbstractImage
      */
     public function setCreatedAt(\DateTime $createdAt)
@@ -302,7 +302,7 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Get updatedAt
      *
-     * @return \Datetime
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -312,7 +312,7 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Set updatedAt
      *
-     * @param \Datetime $updated
+     * @param \DateTime $updated
      * @return AbstractImage
      */
     public function setUpdatedAt(\DateTime $updatedAt)

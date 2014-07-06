@@ -1,6 +1,6 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\Listener;
+namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Exception\RedirectException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

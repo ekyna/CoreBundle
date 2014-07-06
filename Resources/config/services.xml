@@ -9,10 +9,10 @@
 
         <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
 
-        <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\KernelEventSubscriber</parameter>
+        <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber</parameter>
 
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
-        <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageEventSubscriber</parameter>
+        <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
 

@@ -16,10 +16,10 @@ class TruncateHtml
     private $newDiv;
     private $charCount;
     private $encoding;
-    
+
     public function __construct($string, $encoding = 'UTF-8')
     {
-        $this->tempDiv = new \DomDocument();
+        $this->tempDiv = new \DOMDocument();
         $this->tempDiv->loadHTML('<div>' . $string . '</div>', LIBXML_HTML_NOIMPLIED);
         $this->encoding = $encoding;
         $this->charCount = 0;
@@ -27,7 +27,7 @@ class TruncateHtml
 
     public function cut($limit, $endchar = '&hellip;')
     {
-        $this->newDiv = new \DomDocument();
+        $this->newDiv = new \DOMDocument();
         $this->searchEnd($this->tempDiv->documentElement, $this->newDiv, $limit, $endchar);
         $newhtml = $this->newDiv->saveHTML();
         return $newhtml;
