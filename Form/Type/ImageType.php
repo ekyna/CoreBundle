@@ -23,18 +23,19 @@ class ImageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'text', array(
-                'label' => 'ekyna_core.field.name',
-                'required' => $options['required'],
-                'sizing' => 'sm',
-                'attr' => array(
-                    'class' => 'rename-widget',
-                    'widget_col' => 2,
-                    'widget_col' => 10
-                )
-            ))
-            ->add('alt', 'text', array(
+        $builder->add('name', 'text', array(
+            'label' => 'ekyna_core.field.name',
+            'required' => $options['required'],
+            'sizing' => 'sm',
+            'attr' => array(
+                'class' => 'rename-widget',
+                'widget_col' => 2,
+                'widget_col' => 10
+            )
+        ));
+
+        if ($options['alt_field']) {
+            $builder->add('alt', 'text', array(
                 'label' => 'ekyna_core.field.alt',
                 'required' => false,
                 'sizing' => 'sm',
@@ -42,9 +43,9 @@ class ImageType extends AbstractType
                     'widget_col' => 2,
                     'widget_col' => 10
                 )
-            ))
-        ;
-            
+            ));
+        }
+
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function(FormEvent $event) use ($options) {
@@ -85,6 +86,7 @@ class ImageType extends AbstractType
             ->setDefaults(array(
                 'data_class' => null,
                 'image_path' => 'path',
+                'alt_field'  => true,
             ))
             ->setRequired(array('data_class'))
             ->setOptional(array('image_path'))
