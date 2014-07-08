@@ -37,7 +37,7 @@ class ImageEventSubscriber implements EventSubscriberInterface
     {
         $image = $event->getImage();
         
-        $this->uploader->prepare($entity);
+        $this->uploader->prepare($image);
         $this->uploader->upload($image);
     }
 
