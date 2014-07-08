@@ -47,6 +47,7 @@ class ImageUploader implements ImageUploaderInterface
                     $image->getPath(),
                     file_get_contents($image->getFile()->getPathname())
                 );
+                $image->setFile(null);
             } elseif ($image->hasOldPath()) {
                 $this->filesystem->rename($image->getOldPath(), $image->getPath());
             }
@@ -64,7 +65,6 @@ class ImageUploader implements ImageUploaderInterface
             if ($this->filesystem->has($image->getOldPath())) {
                 $this->filesystem->delete($image->getOldPath());
             }
-            // TODO: remove empty directory ?
             $image->setOldPath(null);
         }
     }

@@ -89,7 +89,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasFile()
     {
@@ -97,7 +97,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFile()
     {
@@ -105,12 +105,9 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Set file
-     * 
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
-     * @return AbstractImage
+     * {@inheritDoc}
      */
-    public function setFile(UploadedFile $file)
+    public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
         $this->updatedAt = new \DateTime();
@@ -119,7 +116,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasPath()
     {
@@ -127,7 +124,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getPath()
     {
@@ -135,7 +132,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setPath($path)
     {
@@ -145,7 +142,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasOldPath()
     {
@@ -153,7 +150,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOldPath()
     {
@@ -161,7 +158,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setOldPath($oldPath)
     {
@@ -171,7 +168,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function shouldBeRenamed()
     {
@@ -179,7 +176,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function guessExtension()
     {
@@ -192,7 +189,7 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function guessFilename()
     {
