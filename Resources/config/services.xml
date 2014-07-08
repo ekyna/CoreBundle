@@ -12,6 +12,7 @@
         <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber</parameter>
 
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
+        <parameter key="ekyna_core.image_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber</parameter>
         <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
@@ -63,6 +64,10 @@
             </argument>
         </service>
         <service id="ekyna_core.image_event_subscriber" class="%ekyna_core.image_event_subscriber.class%">
+            <argument type="service" id="ekyna_core.image_uploader" />
+        	<tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ekyna_core.image_subscriber" class="%ekyna_core.image_subscriber.class%">
             <argument type="service" id="ekyna_core.image_uploader" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
