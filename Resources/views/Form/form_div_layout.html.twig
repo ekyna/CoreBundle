@@ -70,7 +70,9 @@
 	            {{ block('global_form_errors') }}
 	        {% endif %}
 	        {{ form_row(form.file, {'style': 'horizontal'}) }}
-	        {{ form_row(form.name, {'style': 'horizontal'}) }}
+            {% if form.name is defined %}
+            {{ form_row(form.name, {'style': 'horizontal'}) }}
+            {% endif %}
 	        {% if form.alt is defined %}
 	        {{ form_row(form.alt, {'style': 'horizontal'}) }}
 	        {% endif %}

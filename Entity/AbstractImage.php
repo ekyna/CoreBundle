@@ -110,6 +110,9 @@ abstract class AbstractImage implements ImageInterface
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
+        if (0 == strlen($this->name)) {
+            $this->name = $file->getClientOriginalName();
+        }
         $this->updatedAt = new \DateTime();
 
         return $this;
