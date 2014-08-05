@@ -32,7 +32,7 @@
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
         "liip/imagine-bundle": "0.*@dev",
         "malsup/form": "dev-master",
-        "twbs/bootstrap" : "3.1.*",
+        "twbs/bootstrap" : "3.2.*",
         "braincrafted/bootstrap-bundle" : "2.0.*",
         "stfalcon/tinymce-bundle" : "0.3.*@dev"
     },
