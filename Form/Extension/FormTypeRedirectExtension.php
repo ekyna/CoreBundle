@@ -73,7 +73,10 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
                 }
                 // If form has been posted => retrieve _redirect path from request (POST)
                 if(null === $redirectPath && null !== $request) {
-                    $redirectPath = $request->request->get($form->getName(), array('_redirect' => null))['_redirect'];
+                    $datas = $request->request->get($form->getName(), array('_redirect' => null));
+                    if (array_key_exists('_redirect', $datas)) {
+                        $redirectPath = $datas['_redirect'];
+                    }
                 }
                 $form->get('_redirect')->setData($redirectPath);
             }
@@ -95,6 +98,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
     {
         $resolver
             ->setOptional(array('_redirect_enabled'))
+            ->setAllowedTypes(array('_redirect_enabled' => 'bool'))
         ;
     }
 
