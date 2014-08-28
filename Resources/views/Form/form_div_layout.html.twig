@@ -119,8 +119,6 @@
     {% if widget == "single_text" %}
 	    <div class="input-group date form_datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
 	        {{ block("form_widget_simple") }}
-		    {#<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-		    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>#}
 		    <span class="input-group-btn">
 		        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
 		        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -270,13 +268,12 @@
     {% if add_route is defined and add_route is not sameas(false) %}
     <div class="input-group entity-widget">
     {% endif %}
-    {% if required and empty_value is none and not empty_value_in_choices %}
-        {% set required = false %}
-    {% endif %}
+    {% if required and empty_value is none and not empty_value_in_choices %}{% set required = false %}{% endif %}
+    {% if not required %}{% set attr = attr|merge({'data-allow-clear': 1}) %}{% endif %}
     {{ parent() }}
     {% if add_route is defined and add_route is not sameas(false) %}
     <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" data-path="{{ path(add_route) }}"><span class="glyphicon glyphicon-plus"></button>
+        <button class="btn btn-primary" type="button" data-path="{{ path(add_route, add_route_params) }}"><span class="glyphicon glyphicon-plus"></span></button>
     </span>
     </div>
     {% endif %}

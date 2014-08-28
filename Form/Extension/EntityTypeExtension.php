@@ -15,34 +15,30 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class EntityTypeExtension extends AbstractTypeExtension
 {
     /**
-     * Ajoute l'option allow_add
-     *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(array(
-            'add_route'
-        ));
-        $resolver->setDefaults(array(
-            'add_route' => false
-        ));
+        $resolver
+            ->setDefaults(array(
+                'add_route' => false,
+                'add_route_params' => array(),
+            ))
+            ->setOptional(array('add_route', 'add_route_params'))
+        ;
     }
 
     /**
-     * Ajoute les variables à la vue
-     *
-     * @param \Symfony\Component\Form\FormView $view
-     * @param \Symfony\Component\Form\FormInterface $form
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['add_route'] = $options['add_route'];
+        $view->vars['add_route_params'] = $options['add_route_params'];
     }
 
     /**
-     * @return string Le nom du type qui est étendu
+     * {@inheritDoc}
      */
     public function getExtendedType()
     {
