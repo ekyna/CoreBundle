@@ -30,6 +30,7 @@ ekyna_core:
         parent: Parent
         root: Racine
         category: Catégorie
+        brand: Marque
         type: Type
         url: Url
         website: Site internet
@@ -40,6 +41,7 @@ ekyna_core:
         tax: Taxe
         rate: Taux
         weight: Poids
+        size: Taille
         quantity: Quantité
         option: Option
         options: Options
