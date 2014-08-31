@@ -47,30 +47,37 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        if (true === isset($bundles['AsseticBundle'])) {
+        if (array_key_exists('AsseticBundle', $bundles)) {
             $this->configureAsseticBundle($container, $config);
+        }
+        if (array_key_exists('TwigBundle', $bundles)) {
+            $this->configureTwigBundle($container);
         }
     }
 
     /**
+     * Configures the TwigBundle.
+     *
+     * @param ContainerBuilder $container
+     */
+    protected function configureTwigBundle(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('twig', array(
+            'form' => array('resources' => array('EkynaCoreBundle:Form:form_div_layout.html.twig')),
+        ));
+    }
+
+    /**
+     * Configures the AsseticBundle.
+     *
      * @param ContainerBuilder $container
      * @param array            $config
-     *
-     * @return void
      */
     protected function configureAsseticBundle(ContainerBuilder $container, array $config)
     {
-        foreach (array_keys($container->getExtensions()) as $name) {
-            if ($name == 'assetic') {
-                $asseticConfig = new AsseticConfiguration;
-                $container->prependExtensionConfig(
-                    $name,
-                    array(
-                        'assets' => $asseticConfig->build($config),
-                    )
-                );
-                break;
-            }
-        }
+        $asseticConfig = new AsseticConfiguration;
+        $container->prependExtensionConfig('assetic', array(
+            'assets' => $asseticConfig->build($config),
+        ));
     }
 }

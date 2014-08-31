@@ -8,11 +8,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * FormTypeExtension.
+ * FormTypeSizingExtension.
  *
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class FormTypeExtension extends AbstractTypeExtension
+class FormTypeSizingExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritDoc}

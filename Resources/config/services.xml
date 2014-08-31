@@ -19,7 +19,7 @@
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
 
-        <parameter key="ekyna_core.form_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeExtension</parameter>
+        <parameter key="ekyna_core.form_type_sizing_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension</parameter>
         <parameter key="ekyna_core.form_type_redirect_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension</parameter>
         <parameter key="ekyna_core.form_type_footer_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension</parameter>
         <parameter key="ekyna_core.entity_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension</parameter>
@@ -84,7 +84,7 @@
         </service>
 
         <!-- Form Extensions -->
-        <service id="ekyna_core.form_type_extension" class="%ekyna_core.form_type_extension.class%">
+        <service id="ekyna_core.form_type_sizing_extension" class="%ekyna_core.form_type_sizing_extension.class%">
             <tag name="form.type_extension" alias="form" />
         </service>
         <service id="ekyna_core.form_type_redirect_extension" class="%ekyna_core.form_type_redirect_extension.class%">

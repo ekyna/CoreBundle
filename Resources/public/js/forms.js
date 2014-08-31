@@ -210,7 +210,8 @@
 
 			var $entity = $(this);
 			var $modal = $('#modal');
-			var $addButton = $entity.find('button');
+			var $addButton = $entity.find('button.new-resource');
+			var $listButton = $entity.find('button.list-resource');
 			var $select = $entity.find('select');
 
 			if($addButton.length == 1) {
@@ -280,6 +281,47 @@
 					});
 				});
 			}
+
+            if($listButton.length == 1) {
+                $listButton.bind('click', function(e) {
+                    e.preventDefault();
+                    console.log('[Entity] List button click');
+
+                    $modal
+                        .off('hidden.bs.modal')
+                        .on('hidden.bs.modal', function() {
+                            /*$modal.find('textarea.tinymce').each(function() {
+                             $(this).tinymce().remove();
+                             });*/
+                            $modal.find('.modal-title').html('Modal title');
+                            $modal.find('.modal-body').empty();
+                        });
+                    var path = $(this).data('path');
+                    $.ajax({
+                        url: path,
+                        dataType: 'xml'
+                    })
+                    .done(function(xmldata) {
+                        //console.log('[Entity] Add ajax response');
+                        //console.log(xmldata);
+                        var $title = $(xmldata).find('title');
+                        var $list = $($(xmldata).find('list').text());
+                        if($title.length == 1) {
+                            $modal.find('.modal-title').html($title);
+                        }
+                        if($list.length == 1) {
+                            $modal
+                                .off('shown.bs.modal')
+                                .on('shown.bs.modal', function() {
+
+                                });
+
+                            $modal.find('.modal-body').html($list);
+                            $modal.modal({show:true});
+                        }
+                    });
+                });
+            }
 		});
 		return this;
 	};

@@ -17,7 +17,7 @@
         {% if form.parent is empty %}
             {{ form_errors(form) }}
         {% endif %}
-        <div class="childs">
+        <div class="childs"> {# TODO "children" >,< #}
         {{ block('form_rows') }}
         {{ form_rest(form) }}
         </div>
@@ -40,9 +40,11 @@
         <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
-            <input type="text" class="form-control" value="{{ value }}" readonly="true"  placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
+            <input type="text" class="form-control" value="{{ value }}" readonly="true" placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
             <span class="input-group-btn">
-                <button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn btn-primary" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
             </span>
         </div>
     </div>
@@ -99,9 +101,15 @@
         {% set attr = attr|merge({'class': 'col-md-8' }) %}
         {{ block('form_widget_compound') }}
         <div class="col-md-1 child-controls">
-            <button class="btn btn-default btn-sm" data-role="move-up" type="button"><span class="glyphicon glyphicon-chevron-up"></span></button>
-            <button class="btn btn-default btn-danger btn-sm" data-role="remove" type="button"><span class="glyphicon glyphicon-remove"></span></button>
-            <button class="btn btn-default btn-sm" data-role="move-down" type="button"><span class="glyphicon glyphicon-chevron-down"></span></button>
+            <button class="btn btn-default btn-sm" data-role="move-up" type="button">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <button class="btn btn-default btn-danger btn-sm" data-role="remove" type="button">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button class="btn btn-default btn-sm" data-role="move-down" type="button">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
         </div>
     </div>
 {% endspaceless %}
@@ -120,8 +128,12 @@
 	    <div class="input-group date form_datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
 	        {{ block("form_widget_simple") }}
 		    <span class="input-group-btn">
-		        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
-		        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+		        <button class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+		        <button class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </button>
             </span>
 		</div>
     {% else %}
@@ -273,7 +285,7 @@
     {{ parent() }}
     {% if add_route is defined and add_route is not sameas(false) %}
     <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" data-path="{{ path(add_route, add_route_params) }}"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="btn btn-primary new-resource" type="button" data-path="{{ path(add_route, add_route_params) }}"><span class="glyphicon glyphicon-plus"></span></button>
     </span>
     </div>
     {% endif %}

@@ -33,8 +33,10 @@ class EntityTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['add_route'] = $options['add_route'];
-        $view->vars['add_route_params'] = $options['add_route_params'];
+        if (0 < strlen($options['add_route'])) {
+            $view->vars['add_route'] = $options['add_route'];
+            $view->vars['add_route_params'] = $options['add_route_params'];
+        }
     }
 
     /**
