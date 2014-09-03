@@ -214,20 +214,16 @@
 			var $listButton = $entity.find('button.list-resource');
 			var $select = $entity.find('select');
 
-			if($addButton.length == 1) {
-				$addButton.bind('click', function(e) {
-					e.preventDefault();
-					//console.log('[Entity] Add button click');
+            $modal
+                .off('hidden.bs.modal')
+                .on('hidden.bs.modal', function() {
+                    $modal.find('.modal-title').html('Modal title');
+                    $modal.find('.modal-body').empty();
+                });
 
-					$modal
-						.off('hidden.bs.modal')
-						.on('hidden.bs.modal', function() {
-							/*$modal.find('textarea.tinymce').each(function() {
-								$(this).tinymce().remove();
-							});*/
-							$modal.find('.modal-title').html('Modal title');
-							$modal.find('.modal-body').empty();
-						});
+            if($addButton.length == 1) {
+                $addButton.bind('click', function(e) {
+					e.preventDefault();
 
 					var path = $(this).data('path');
 					$.ajax({
@@ -235,15 +231,13 @@
 						dataType: 'xml'
 					})
 					.done(function(xmldata) {
-						//console.log('[Entity] Add ajax response');
-						//console.log(xmldata);
 						var $title = $(xmldata).find('title');
-						var $form = $($(xmldata).find('form').text());
+						var $form = $(xmldata).find('form');
 						if($title.length == 1) {
-							$modal.find('.modal-title').html($title);
+							$modal.find('.modal-title').html($title.html());
 						}
 						if($form.length == 1) {
-
+                            $form = $($form.text());
 							$form.find('.form-footer a.form-cancel-btn').click(function(e) {
 								e.preventDefault();
 								$modal.modal('hide');
@@ -252,7 +246,6 @@
 							$form.ajaxForm({
 								dataType: 'json',
 								success: function(data) {
-									//console.log(data);
 									var $option = $('<option />');
 									$option.prop('value', data.id);
 									$option.prop('selected', true);
@@ -285,35 +278,52 @@
             if($listButton.length == 1) {
                 $listButton.bind('click', function(e) {
                     e.preventDefault();
-                    console.log('[Entity] List button click');
 
-                    $modal
-                        .off('hidden.bs.modal')
-                        .on('hidden.bs.modal', function() {
-                            /*$modal.find('textarea.tinymce').each(function() {
-                             $(this).tinymce().remove();
-                             });*/
-                            $modal.find('.modal-title').html('Modal title');
-                            $modal.find('.modal-body').empty();
-                        });
                     var path = $(this).data('path');
                     $.ajax({
                         url: path,
                         dataType: 'xml'
                     })
                     .done(function(xmldata) {
-                        //console.log('[Entity] Add ajax response');
-                        //console.log(xmldata);
                         var $title = $(xmldata).find('title');
-                        var $list = $($(xmldata).find('list').text());
+                        var $list = $(xmldata).find('list');
                         if($title.length == 1) {
-                            $modal.find('.modal-title').html($title);
+                            $modal.find('.modal-title').html($title.html());
                         }
                         if($list.length == 1) {
+                            $list = $($list.text());
                             $modal
                                 .off('shown.bs.modal')
                                 .on('shown.bs.modal', function() {
-
+                                    $list.ekynaTable({
+                                        onSelection: function(elements) {
+                                            if ($select.prop('multiple')) {
+                                                $select.find('option').prop('selected', false);
+                                            }
+                                            $(elements).each(function(index, element) {
+                                                var $option = $select.find('option[value=' + element.id + ']');
+                                                if ($option.length == 1) {
+                                                    console.log('Selecting option #' + element.id);
+                                                    $option.prop('selected', true);
+                                                } else {
+                                                    console.log('Adding option #' + element.id);
+                                                    var $option = $('<option />');
+                                                    $option.prop('value', element.id);
+                                                    $option.prop('selected', true);
+                                                    if(element.name != undefined) {
+                                                        $option.html(element.name);
+                                                    }else if(element.title != undefined) {
+                                                        $option.html(element.title);
+                                                    }else{
+                                                        $option.html('Entity #' + element.id);
+                                                    }
+                                                    $select.append($option);
+                                                }
+                                                $select.select2();
+                                            });
+                                            $modal.modal('hide');
+                                        }
+                                    });
                                 });
 
                             $modal.find('.modal-body').html($list);

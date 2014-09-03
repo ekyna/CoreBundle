@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * ImageInterface
  *
@@ -28,7 +29,7 @@ interface ImageInterface
      * Set file
      *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
-     * @return AbstractImage
+     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
      */
     public function setFile(UploadedFile $file = null);
 

@@ -12,7 +12,7 @@ interface GallerySubjectInterface
     /**
      * Get all images
      * 
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getImages();
 }
