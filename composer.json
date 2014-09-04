@@ -27,13 +27,13 @@
         "friendsofsymfony/elastica-bundle": "3.0.*",
         "jms/serializer-bundle": "0.13.*@dev",
         "stof/doctrine-extensions-bundle" : "~1.1@dev",
-        "knplabs/knp-menu" : "v2.0.0-alpha1",
-        "knplabs/knp-menu-bundle" : "v2.0.0-alpha1",
+        "knplabs/knp-menu" : "v2.0.1",
+        "knplabs/knp-menu-bundle" : "v2.0.0",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
         "liip/imagine-bundle": "0.*@dev",
         "malsup/form": "dev-master",
         "twbs/bootstrap" : "3.2.*",
-        "braincrafted/bootstrap-bundle" : "2.0.*",
+        "braincrafted/bootstrap-bundle" : "2.1.*",
         "stfalcon/tinymce-bundle" : "0.3.*@dev"
     },
     "autoload" : {
