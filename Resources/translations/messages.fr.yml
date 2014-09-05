@@ -42,6 +42,8 @@ ekyna_core:
         rate: Taux
         weight: Poids
         size: Taille
+        color: Couleur
+        code: Code
         quantity: Quantité
         option: Option
         options: Options
