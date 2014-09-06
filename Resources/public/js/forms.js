@@ -130,7 +130,7 @@
 			//console.log('collectionWidget');
 			
 			var $collection = $(this);
-			var $container = $collection.find('> .childs');
+			var $container = $collection.find('> .children');
 			var prototype = $collection.attr('data-prototype');
 			
 			$collection.updateChilds = function() {

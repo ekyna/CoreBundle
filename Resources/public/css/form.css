@@ -278,21 +278,21 @@
     margin-bottom: 0;
 }
 
-.form-body .collection-container>.childs>.row {
+.form-body .collection-container>.children>.row {
     border-bottom: 1px dotted #dddddd;
     margin-bottom: 15px;
     padding-bottom: 16px;
 }
 
-.form-body .collection-container .image-widget .childs .form-group {
+.form-body .collection-container .image-widget .children .form-group {
     margin-bottom: 8px;
 }
 
-.form-body .collection-container .image-widget .childs .form-group .control-label {
+.form-body .collection-container .image-widget .children .form-group .control-label {
     min-height: 30px;
 }
 
-.form-body .collection-container .image-widget .childs .form-group:last-child {
+.form-body .collection-container .image-widget .children .form-group:last-child {
     margin-bottom: 0;
 }
 

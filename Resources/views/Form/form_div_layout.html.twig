@@ -17,7 +17,7 @@
         {% if form.parent is empty %}
             {{ form_errors(form) }}
         {% endif %}
-        <div class="childs"> {# TODO "children" >,< #}
+        <div class="children">
         {{ block('form_rows') }}
         {{ form_rest(form) }}
         </div>
@@ -65,9 +65,9 @@
             </span>
             {% endif %}
         </div>
-        {#{ block('form_widget_compound') }#}
         {% set attr = attr|merge({'class': 'col-md-9' }) %}
-        <div {{ block('widget_container_attributes') }}>
+        {{ block('ekyna_core_image_compound') }}
+        {#<div {{ block('ekyna_core_image_compound') }}>
 	        {% if form.parent is empty %}
 	            {{ block('global_form_errors') }}
 	        {% endif %}
@@ -79,10 +79,30 @@
 	        {{ form_row(form.alt, {'style': 'horizontal'}) }}
 	        {% endif %}
 	        {{ form_rest(form) }}
-	    </div>
+	    </div>#}
     </div>
 {% endspaceless %}
 {% endblock ekyna_core_image_widget %}
+
+{% block ekyna_core_image_compound %}
+{% spaceless %}
+<div {{ block('widget_container_attributes') }}>
+    {% if form.parent is empty %}
+        {{ block('global_form_errors') }}
+    {% endif %}
+    <div class="children">
+    {{ form_row(form.file, {'style': 'horizontal'}) }}
+    {% if form.name is defined %}
+        {{ form_row(form.name, {'style': 'horizontal'}) }}
+    {% endif %}
+    {% if form.alt is defined %}
+        {{ form_row(form.alt, {'style': 'horizontal'}) }}
+    {% endif %}
+    {{ form_rest(form) }}
+    </div>
+</div>
+{% endspaceless %}
+{% endblock ekyna_core_image_compound %}
 
 {% block ekyna_core_gallery_image_widget %}
 {% spaceless %}
@@ -99,7 +119,7 @@
             {% endif %}
         </div>
         {% set attr = attr|merge({'class': 'col-md-8' }) %}
-        {{ block('form_widget_compound') }}
+        {{ block('ekyna_core_image_compound') }}
         <div class="col-md-1 child-controls">
             <button class="btn btn-default btn-sm" data-role="move-up" type="button">
                 <span class="glyphicon glyphicon-chevron-up"></span>
