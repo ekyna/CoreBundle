@@ -110,7 +110,7 @@ abstract class AbstractImage implements ImageInterface
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-        if (0 == strlen($this->name)) {
+        if (0 == strlen($this->name) && $file instanceof UploadedFile) {
             $this->name = $file->getClientOriginalName();
         }
         $this->updatedAt = new \DateTime();
@@ -312,7 +312,7 @@ abstract class AbstractImage implements ImageInterface
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updated
+     * @param \DateTime $updatedAt
      * @return AbstractImage
      */
     public function setUpdatedAt(\DateTime $updatedAt)
