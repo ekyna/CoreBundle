@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Model;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * ImageInterface
@@ -21,17 +21,17 @@ interface ImageInterface
     /**
      * Get file.
      * 
-     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     * @return \Symfony\Component\HttpFoundation\File\File
      */
     public function getFile();
 
     /**
      * Set file
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param \Symfony\Component\HttpFoundation\File\File $file
      * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
      */
-    public function setFile(UploadedFile $file = null);
+    public function setFile(File $file = null);
 
     /**
      * Image has path.

@@ -66,6 +66,7 @@ class ImageUploader implements ImageUploaderInterface
                 $this->filesystem->delete($image->getOldPath());
             }
             $image->setOldPath(null);
+            // TODO remove empty directory
         }
     }
 

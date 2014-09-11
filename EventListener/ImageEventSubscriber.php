@@ -4,7 +4,6 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Event\ImageEvent;
 use Ekyna\Bundle\CoreBundle\Event\ImageEvents;
-use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 use Ekyna\Bundle\CoreBundle\Uploader\ImageUploaderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,7 +20,7 @@ class ImageEventSubscriber implements EventSubscriberInterface
     private $uploader;
 
     /**
-     * @param ImageUploader $uploader
+     * @param ImageUploaderInterface $uploader
      */
     public function __construct(ImageUploaderInterface $uploader)
     {

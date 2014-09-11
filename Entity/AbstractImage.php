@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Entity;
 
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 use Gedmo\Sluggable\Util\Urlizer;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -21,9 +22,9 @@ abstract class AbstractImage implements ImageInterface
     protected $id;
 
     /**
-     * File uploaded
+     * File
      * 
-     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     * @var \Symfony\Component\HttpFoundation\File\File
      */
     protected $file;
 
@@ -107,12 +108,17 @@ abstract class AbstractImage implements ImageInterface
     /**
      * {@inheritDoc}
      */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(File $file = null)
     {
         $this->file = $file;
-        if (0 == strlen($this->name) && $file instanceof UploadedFile) {
-            $this->name = $file->getClientOriginalName();
+        if (0 == strlen($this->name)) {
+            if ($file instanceof UploadedFile) {
+                $this->name = $file->getClientOriginalName();
+            } elseif ($file instanceof File) {
+                $this->name = $file->getBasename();
+            }
         }
+
         $this->updatedAt = new \DateTime();
 
         return $this;
