@@ -60,6 +60,8 @@ ekyna_core:
         date: Date
         add_date: Date de création
         update_date: Date de modification
+        enabled: Activé
+        validated: Validé
         start_date: Date de début
         end_date: Date de fin
         duration: Durée
