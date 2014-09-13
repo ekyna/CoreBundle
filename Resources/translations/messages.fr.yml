@@ -33,6 +33,7 @@ ekyna_core:
         brand: Marque
         type: Type
         url: Url
+        ip_address: Adresse IP
         website: Site internet
         email: Email
         pricing: Tarifs
@@ -40,6 +41,7 @@ ekyna_core:
         promotion: Promotion
         tax: Taxe
         rate: Taux
+        rating: Note
         weight: Poids
         size: Taille
         color: Couleur
