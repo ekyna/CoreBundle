@@ -98,6 +98,9 @@
     {% if form.alt is defined %}
         {{ form_row(form.alt, {'style': 'horizontal'}) }}
     {% endif %}
+    {% if form.position is defined %}
+        {{ form_row(form.position) }}
+    {% endif %}
     {#{ form_rest(form) }#}
     </div>
 </div>
