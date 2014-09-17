@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * AbstractImage
- *
+ * Class AbstractImage
+ * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractImage implements ImageInterface
@@ -247,7 +247,7 @@ abstract class AbstractImage implements ImageInterface
      * Set rename
      * 
      * @param string $rename
-     * @return AbstractImage
+     * @return AbstractImage|$this
      */
     public function setRename($rename)
     {
@@ -273,7 +273,7 @@ abstract class AbstractImage implements ImageInterface
      * Set alternative text
      * 
      * @param string $alt
-     * @return AbstractImage
+     * @return AbstractImage|$this
      */
     public function setAlt($alt)
     {
@@ -296,7 +296,7 @@ abstract class AbstractImage implements ImageInterface
      * Set createdAt
      * 
      * @param \DateTime $createdAt
-     * @return AbstractImage
+     * @return AbstractImage|$this
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -319,7 +319,7 @@ abstract class AbstractImage implements ImageInterface
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return AbstractImage
+     * @return AbstractImage|$this
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

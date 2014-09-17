@@ -2,11 +2,9 @@
 
 namespace Ekyna\Bundle\CoreBundle\Entity;
 
-use Ekyna\Bundle\CoreBundle\Entity\AbstractImage;
-
 /**
- * AbstractGalleryImage
- *
+ * Class AbstractGalleryImage
+ * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractGalleryImage extends AbstractImage
@@ -31,8 +29,8 @@ abstract class AbstractGalleryImage extends AbstractImage
     /**
      * Set the image position in the gallery
      *
-     * @param interger $position
-     * @return AbstractGalleryImage
+     * @param integer $position
+     * @return AbstractGalleryImage|$this
      */
     public function setPosition($position)
     {

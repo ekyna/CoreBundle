@@ -3,8 +3,8 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 /**
- * ImageSubjectInterface
- *
+ * Interface ImageSubjectInterface
+ * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 interface ImageSubjectInterface

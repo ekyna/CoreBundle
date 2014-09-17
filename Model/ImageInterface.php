@@ -5,8 +5,8 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * ImageInterface
- *
+ * Interface ImageInterface
+ * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 interface ImageInterface
@@ -21,15 +21,15 @@ interface ImageInterface
     /**
      * Get file.
      * 
-     * @return \Symfony\Component\HttpFoundation\File\File
+     * @return File
      */
     public function getFile();
 
     /**
      * Set file
      *
-     * @param \Symfony\Component\HttpFoundation\File\File $file
-     * @return \Ekyna\Bundle\CoreBundle\Entity\AbstractImage
+     * @param File $file
+     * @return ImageInterface|$this
      */
     public function setFile(File $file = null);
 
@@ -51,6 +51,7 @@ interface ImageInterface
      * Set path.
      * 
      * @param string $path
+     * @return ImageInterface|$this
      */
     public function setPath($path);
 
@@ -72,6 +73,7 @@ interface ImageInterface
      * Set old path.
      * 
      * @param string $oldPath
+     * @return ImageInterface|$this
      */
     public function setOldPath($oldPath);
 

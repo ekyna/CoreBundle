@@ -3,8 +3,8 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 /**
- * AbstractAddress.
- *
+ * Class AbstractAddress
+ * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractAddress
@@ -33,7 +33,7 @@ abstract class AbstractAddress
      * Set street
      *
      * @param string $street
-     * @return AbstractAddress
+     * @return AbstractAddress|$this
      */
     public function setStreet($street)
     {
@@ -56,7 +56,7 @@ abstract class AbstractAddress
      * Set supplement
      *
      * @param string $supplement
-     * @return AbstractAddress
+     * @return AbstractAddress|$this
      */
     public function setSupplement($supplement)
     {
@@ -79,7 +79,7 @@ abstract class AbstractAddress
      * Set postalCode
      *
      * @param string $postalCode
-     * @return AbstractAddress
+     * @return AbstractAddress|$this
      */
     public function setPostalCode($postalCode)
     {
@@ -102,7 +102,7 @@ abstract class AbstractAddress
      * Set city
      *
      * @param string $city
-     * @return AbstractAddress
+     * @return AbstractAddress|$this
      */
     public function setCity($city)
     {
