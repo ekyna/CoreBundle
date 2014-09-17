@@ -101,7 +101,7 @@ interface ImageInterface
      * 
      * @return boolean
      */
-    public function hasName();
+    public function hasRename();
 
     /**
      * Get image alt.

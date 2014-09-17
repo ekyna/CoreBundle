@@ -67,19 +67,6 @@
         </div>
         {% set attr = attr|merge({'class': 'col-md-9' }) %}
         {{ block('ekyna_core_image_compound') }}
-        {#<div {{ block('ekyna_core_image_compound') }}>
-	        {% if form.parent is empty %}
-	            {{ block('global_form_errors') }}
-	        {% endif %}
-	        {{ form_row(form.file, {'style': 'horizontal'}) }}
-            {% if form.name is defined %}
-            {{ form_row(form.name, {'style': 'horizontal'}) }}
-            {% endif %}
-	        {% if form.alt is defined %}
-	        {{ form_row(form.alt, {'style': 'horizontal'}) }}
-	        {% endif %}
-	        {{ form_rest(form) }}
-	    </div>#}
     </div>
 {% endspaceless %}
 {% endblock ekyna_core_image_widget %}
@@ -92,8 +79,8 @@
     {% endif %}
     <div class="children">
     {{ form_row(form.file, {'style': 'horizontal'}) }}
-    {% if form.name is defined %}
-        {{ form_row(form.name, {'style': 'horizontal'}) }}
+    {% if form.rename is defined %}
+        {{ form_row(form.rename, {'style': 'horizontal'}) }}
     {% endif %}
     {% if form.alt is defined %}
         {{ form_row(form.alt, {'style': 'horizontal'}) }}

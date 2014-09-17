@@ -68,6 +68,7 @@ ekyna_core:
         end_date: Date de fin
         duration: Durée
         file: Fichier
+        rename: Renommer
         choose_file: Choisissez un fichier
         path: Chemin
         alt: Alt

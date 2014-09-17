@@ -23,14 +23,14 @@ class ImageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['name_field']) {
-            $builder->add('name', 'text', array(
-                'label' => 'ekyna_core.field.name',
+        if ($options['rename_field']) {
+            $builder->add('rename', 'text', array(
+                'label' => 'ekyna_core.field.rename',
                 'required' => $options['required'],
                 'sizing' => 'sm',
                 'attr' => array(
                     'class' => 'rename-widget',
-                    'widget_col' => 2,
+                    'label_col' => 2,
                     'widget_col' => 10
                 )
             ));
@@ -42,7 +42,7 @@ class ImageType extends AbstractType
                 'required' => false,
                 'sizing' => 'sm',
                 'attr' => array(
-                    'widget_col' => 2,
+                    'label_col' => 2,
                     'widget_col' => 10
                 )
             ));
@@ -60,7 +60,7 @@ class ImageType extends AbstractType
                         'required' => false,
                         'sizing' => 'sm',
                         'attr' => array(
-                            'widget_col' => 2,
+                            'label_col' => 2,
                             'widget_col' => 10
                         )
                     ));
@@ -70,7 +70,7 @@ class ImageType extends AbstractType
                         'required' => $options['required'],
                         'sizing' => 'sm',
                         'attr' => array(
-                            'widget_col' => 2,
+                            'label_col' => 2,
                             'widget_col' => 10
                         )
                     ));
@@ -89,7 +89,7 @@ class ImageType extends AbstractType
                 'data_class' => null,
                 'image_path' => 'path',
                 'alt_field'  => true,
-                'name_field'  => true,
+                'rename_field'  => true,
             ))
             ->setRequired(array('data_class'))
             ->setOptional(array('image_path'))

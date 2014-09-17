@@ -20,7 +20,7 @@ class AbstractImageValidator extends ConstraintValidator
     	}
     	
     	if ($image->hasFile()) {
-    	    if (! $image->hasName()) {
+    	    if (! $image->hasRename()) {
     	        $this->context->addViolationAt(
     	            'name',
     	            $constraint->nameIsMandatory,
@@ -28,7 +28,7 @@ class AbstractImageValidator extends ConstraintValidator
     	        );
     	    }
     	} elseif (! $image->hasPath()) {
-    	    if ($image->hasName()) {
+    	    if ($image->hasRename()) {
     	        $this->context->addViolationAt(
     	            'name',
     	            $constraint->leaveBlank,

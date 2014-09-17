@@ -43,11 +43,11 @@ abstract class AbstractImage implements ImageInterface
     protected $oldPath;
 
     /**
-     * Name
+     * Rename
      * 
      * @var string
      */
-    protected $name;
+    protected $rename;
 
     /**
      * Alternative text
@@ -111,11 +111,11 @@ abstract class AbstractImage implements ImageInterface
     public function setFile(File $file = null)
     {
         $this->file = $file;
-        if (0 == strlen($this->name)) {
+        if (0 == strlen($this->rename)) {
             if ($file instanceof UploadedFile) {
-                $this->name = $file->getClientOriginalName();
+                $this->rename = $file->getClientOriginalName();
             } elseif ($file instanceof File) {
-                $this->name = $file->getBasename();
+                $this->rename = $file->getBasename();
             }
         }
 
@@ -207,8 +207,8 @@ abstract class AbstractImage implements ImageInterface
 
         // Filename
         $filename = null;
-        if($this->hasName()) {
-            $filename = Urlizer::transliterate(pathinfo($this->name, PATHINFO_FILENAME));
+        if($this->hasRename()) {
+            $filename = Urlizer::transliterate(pathinfo($this->rename, PATHINFO_FILENAME));
         }elseif($this->hasFile()) {
             $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
         }elseif($this->hasPath()) {
@@ -223,38 +223,38 @@ abstract class AbstractImage implements ImageInterface
     }
 
     /**
-     * Image has name
+     * Image has rename
      * 
      * @return boolean
      */
-    public function hasName()
+    public function hasRename()
     {
-        return 0 < strlen($this->name);
-        //return (bool) (1 === preg_match('/^[a-z0-9-]+\.(jpg|jpeg|gif|png)$/', $this->name));
+        return 0 < strlen($this->rename);
+        //return (bool) (1 === preg_match('/^[a-z0-9-]+\.(jpg|jpeg|gif|png)$/', $this->rename));
     }
 
     /**
-     * Get name
+     * Get rename
      * 
      * @return string
      */
-    public function getName()
+    public function getRename()
     {
-        return $this->hasName() ? $this->name : $this->guessFilename();
+        return $this->hasRename() ? $this->rename : $this->guessFilename();
     }
 
     /**
-     * Set name
+     * Set rename
      * 
-     * @param string $name
+     * @param string $rename
      * @return AbstractImage
      */
-    public function setName($name)
+    public function setRename($rename)
     {
-        if($name !== $this->name) {
+        if($rename !== $this->rename) {
             $this->updatedAt = new \DateTime();
         }
-        $this->name = $name;
+        $this->rename = $rename;
 
         return $this;
     }

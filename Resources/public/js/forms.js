@@ -307,7 +307,7 @@
                                                     $option.prop('selected', true);
                                                 } else {
                                                     console.log('Adding option #' + element.id);
-                                                    var $option = $('<option />');
+                                                    $option = $('<option />');
                                                     $option.prop('value', element.id);
                                                     $option.prop('selected', true);
                                                     if(element.name != undefined) {
@@ -351,7 +351,7 @@
 			
 			var searchUrl = Routing.generate($this.data('search'));
 			var findUrl = Routing.generate($this.data('find'));
-			var allowClear = $this.data('clear') == 1 ? true : false;
+			var allowClear = $this.data('clear') == 1;
 
 			$this.select2({
 			    placeholder: 'Rechercher ...',
@@ -362,11 +362,10 @@
 			        url: searchUrl,
 			        dataType: 'jsonp',
 			        data: function (term, page) {
-			            var query = {
+			            return {
 			                limit: params.limit,
 			                search: term
 			            };
-			            return query;
 			        },
 			        results: function (data, page) {
 			            return { results: data.results };
@@ -398,7 +397,7 @@
 
 			/* Selects to select2 */
 			$(this).find('select').each(function () {
-				var allowclear = $(this).data('allow-clear') == 1 ? true : false;
+				var allowclear = $(this).data('allow-clear') == 1;
 				$(this).select2({
 					allowClear: allowclear
 				});
