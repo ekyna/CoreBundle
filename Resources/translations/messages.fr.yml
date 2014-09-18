@@ -36,6 +36,8 @@ ekyna_core:
         ip_address: Adresse IP
         website: Site internet
         email: Email
+        subject: Sujet
+        message: Message
         pricing: Tarifs
         price: Prix
         promotion: Promotion
