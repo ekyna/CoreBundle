@@ -106,6 +106,21 @@ interface ImageInterface
     public function hasRename();
 
     /**
+     * Get image rename.
+     *
+     * @return string
+     */
+    public function getRename();
+
+    /**
+     * Set rename.
+     *
+     * @param string $rename
+     * @return ImageInterface|$this
+     */
+    public function setRename($rename);
+
+    /**
      * Get image alt.
      * 
      * @return string

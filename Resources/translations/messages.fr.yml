@@ -127,8 +127,4 @@ ekyna_core:
         admin: Administrateur
     error:
         operation_failed: L'opération a échoué
-    image:
-        validation:
-            name_is_mandatory: Veuillez saisir un nom de fichier.
-            leave_blank: Ce champ doit être vide s'il n'y a pas de fichier associé.
             

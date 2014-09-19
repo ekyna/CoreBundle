@@ -11,7 +11,9 @@
             <constraint name="Image" />
         </property>
     </class>
+
     <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractGalleryImage">
+        <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractGalleryImage" />
         <property name="position">
             <constraint name="NotNull" />
             <constraint name="GreaterThanOrEqual">
@@ -19,4 +21,5 @@
 	        </constraint>
         </property>
     </class>
+
 </constraint-mapping>

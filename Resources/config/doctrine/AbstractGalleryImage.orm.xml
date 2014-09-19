@@ -7,7 +7,9 @@
                         http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <mapped-superclass name="Ekyna\Bundle\CoreBundle\Entity\AbstractGalleryImage">
+
         <field name="position" type="integer" column="position" />
+
     </mapped-superclass>
 
 </doctrine-mapping>

@@ -5,14 +5,13 @@ namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class AbstractImage
+ * Class AbstractGalleryImage
  * @package Ekyna\Bundle\CoreBundle\Validator\Constraints
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class AbstractImage extends Constraint
+class AbstractGalleryImage extends Constraint
 {
-    public $nameIsMandatory = 'ekyna_core.image.name_is_mandatory';
-    public $leaveBlank = 'ekyna_core.image.leave_blank';
+    public $fileIsMandatory = 'ekyna_core.image.file_is_mandatory';
 
     public function getTargets()
     {

@@ -7,8 +7,8 @@ use Symfony\Component\Validator\Constraint;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 
 /**
- * AbstractImageValidator
- *
+ * Class AbstractImageValidator
+ * @package Ekyna\Bundle\CoreBundle\Validator\Constraints
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class AbstractImageValidator extends ConstraintValidator
@@ -18,28 +18,26 @@ class AbstractImageValidator extends ConstraintValidator
     	if (! $image instanceof ImageInterface) {
     	    throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\ImageInterface');
     	}
-    	
+
+        /** @var ImageInterface $image */
     	if ($image->hasFile()) {
     	    if (! $image->hasRename()) {
     	        $this->context->addViolationAt(
     	            'name',
-    	            $constraint->nameIsMandatory,
-    	            array('%name%' => $image->getFile()->getFilename())
+    	            $constraint->nameIsMandatory
     	        );
     	    }
     	} elseif (! $image->hasPath()) {
     	    if ($image->hasRename()) {
     	        $this->context->addViolationAt(
     	            'name',
-    	            $constraint->leaveBlank,
-    	            array('%name%' => $image->getName())
+    	            $constraint->leaveBlank
     	        );
     	    }
     	    if (0 < strlen($image->getAlt())) {
-    	        $this->context->addViolation(
+    	        $this->context->addViolationAt(
     	            'alt',
-    	            $constraint->leaveBlank,
-    	            array('%alt%' => $image->getAlt())
+    	            $constraint->leaveBlank
     	        );
     	    }
     	}
