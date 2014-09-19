@@ -54,22 +54,36 @@
 {% block ekyna_core_image_widget %}
 {% spaceless %}
     <div class="row image-widget modal-gallery">
+        {% if display_thumb %}
         <div class="col-md-3">
-            {% if image_path is not null %}
-            <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
-                <img src="{{ image_path|imagine_filter('admin_modal') }}" />
-            </a>
-            {% else %}
-            <span class="thumbnail">
-                <img src="http://placehold.it/145x96/f7f7f7/6e829b&text=New+image" />
-            </span>
-            {% endif %}
+            {{ block('ekyna_core_image_thumb') }}
         </div>
-        {% set attr = attr|merge({'class': 'col-md-9' }) %}
+            {% set attr = attr|merge({'class': 'col-md-9' }) %}
+        {% else %}
+            {% set attr = attr|merge({'class': 'col-md-12' }) %}
+        {% endif %}
         {{ block('ekyna_core_image_compound') }}
     </div>
 {% endspaceless %}
 {% endblock ekyna_core_image_widget %}
+
+{% block ekyna_core_image_thumb %}
+{% spaceless %}
+{% if image_path is not null %}
+    <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
+        <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
+    </a>
+{% else %}
+    <span class="thumbnail">
+    {% if new_image_path is defined and new_image_path is not sameas(null) %}
+        <img src="{{ new_image_path }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+    {% else %}
+        <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+    {% endif %}
+    </span>
+{% endif %}
+{% endspaceless %}
+{% endblock ekyna_core_image_thumb %}
 
 {% block ekyna_core_image_compound %}
 {% spaceless %}
@@ -97,18 +111,14 @@
 {% block ekyna_core_gallery_image_widget %}
 {% spaceless %}
     <div class="row image-widget modal-gallery">
-        <div class="col-md-3">
-            {% if image_path is not null %}
-            <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
-                <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
-            </a>
-            {% else %}
-            <span class="thumbnail">
-                <img src="http://placehold.it/145x96/f7f7f7/6e829b&text=New+image" />
-            </span>
-            {% endif %}
-        </div>
-        {% set attr = attr|merge({'class': 'col-md-8' }) %}
+        {% if display_thumb %}
+            <div class="col-md-3">
+                {{ block('ekyna_core_image_thumb') }}
+            </div>
+            {% set attr = attr|merge({'class': 'col-md-8' }) %}
+        {% else %}
+            {% set attr = attr|merge({'class': 'col-md-11' }) %}
+        {% endif %}
         {{ block('ekyna_core_image_compound') }}
         <div class="col-md-1 child-controls">
             <button class="btn btn-default btn-sm" data-role="move-up" type="button">

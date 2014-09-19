@@ -73,6 +73,9 @@
 
         <!-- Form types -->
         <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
+            <call method="setNewImagePath">
+                <argument>%ekyna_core.new_image_path%</argument>
+            </call>
             <tag name="form.type" alias="ekyna_core_image" />
         </service>
         <service id="ekyna_core.gallery_image.form_type" class="%ekyna_core.gallery_image.form_type.class%">

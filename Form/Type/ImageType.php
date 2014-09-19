@@ -19,6 +19,19 @@ use Symfony\Component\Form\FormEvent;
 class ImageType extends AbstractType
 {
     /**
+     * @var string
+     */
+    protected $newImagePath;
+
+    /**
+     * @param $path
+     */
+    public function setNewImagePath($path)
+    {
+        $this->newImagePath = $path;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -87,6 +100,7 @@ class ImageType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => null,
+                'display_thumb' => true,
                 'image_path' => 'path',
                 'alt_field'  => true,
                 'rename_field'  => true,
@@ -111,6 +125,8 @@ class ImageType extends AbstractType
             }
             $view->vars['image_path'] = $imageUrl;
         }
+        $view->vars['new_image_path'] = $this->newImagePath;
+        $view->vars['display_thumb'] = $options['display_thumb'];
     }
 
     /**

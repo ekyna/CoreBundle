@@ -27,6 +27,7 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        $container->setParameter('ekyna_core.new_image_path', $config['new_image_path']);
         if ($config['chain_router']['enable']) {
             $container->setParameter('ekyna_core.enable_chain_router', true);
 

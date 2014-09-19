@@ -109,13 +109,13 @@ ekyna_core:
         general: Général
         config: Configuration
     gender:
-        mr: 
+        mr:
             short: Mr
             long: Monsieur
-        mrs: 
+        mrs:
             short: Mme
             long: Madame
-        miss: 
+        miss:
             short: Melle
             long: Mademoiselle
     changefreq:
@@ -127,4 +127,6 @@ ekyna_core:
         admin: Administrateur
     error:
         operation_failed: L'opération a échoué
+    image:
+        new: Nouvelle image
             
