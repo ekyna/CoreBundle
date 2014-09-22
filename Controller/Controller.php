@@ -42,6 +42,16 @@ class Controller extends BaseController
     }
 
     /**
+     * Returns the translator.
+     *
+     * @return \Symfony\Component\Translation\TranslatorInterface
+     */
+    protected function getTranslator()
+    {
+        return $this->get('translator');
+    }
+
+    /**
      * Adds a flash message.
      *
      * @param string $message
