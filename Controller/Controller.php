@@ -52,6 +52,26 @@ class Controller extends BaseController
     }
 
     /**
+     * Returns the session.
+     *
+     * @return \Symfony\Component\HttpFoundation\Session\Session
+     */
+    protected function getSession()
+    {
+        return $this->get('session');
+    }
+
+    /**
+     * Returns the flash bag.
+     *
+     * @return \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
+     */
+    protected function getFlashBag()
+    {
+        return $this->getSession()->getFlashBag();
+    }
+
+    /**
      * Adds a flash message.
      *
      * @param string $message
