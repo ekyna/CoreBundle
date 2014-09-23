@@ -35,7 +35,7 @@ trait EnabledFilterTrait
     {
         if ($this->_filterEnabled) {
             $qb
-                ->andWhere($qb->getRootAliases()[0].'.enabled', ':enabled')
+                ->andWhere($qb->expr()->eq($qb->getRootAliases()[0].'.enabled', ':enabled'))
                 ->setParameter('enabled', true)
             ;
         }
