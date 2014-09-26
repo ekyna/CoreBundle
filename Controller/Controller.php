@@ -12,17 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 class Controller extends BaseController
 {
     /**
-     * Returns the repository.
-     *
-     * @param $persistentObjectOrName
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    protected function getRepository($persistentObjectOrName)
-    {
-        return $this->getDoctrine()->getRepository($persistentObjectOrName);
-    }
-
-    /**
      * Returns the router.
      *
      * @return \Symfony\Component\Routing\RouterInterface;
