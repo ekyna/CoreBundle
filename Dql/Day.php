@@ -8,14 +8,16 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 /**
  * "DAY" "(" SimpleArithmeticExpression ")". Modified from DoctrineExtensions\Query\Mysql\Year
  *
- * @category    DoctrineExtensions
- * @package     DoctrineExtensions\Query\Mysql
+ * @package     Ekyna\Bundle\CoreBundle\Dql
  * @author      Rafael Kassner <kassner@gmail.com>
  * @author      Sarjono Mukti Aji <me@simukti.net>
  * @license     MIT License
  */
 class Day extends FunctionNode
 {
+    /**
+     * @var mixed
+     */
     public $date;
 
     /**

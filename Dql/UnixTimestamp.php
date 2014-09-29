@@ -6,26 +6,24 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 /**
- * "MONTH" "(" SimpleArithmeticExpression ")". Modified from DoctrineExtensions\Query\Mysql\Year
+ * UnixTimestamp
  *
- * @package     Ekyna\Bundle\CoreBundle\Dql
- * @author      Rafael Kassner <kassner@gmail.com>
- * @author      Sarjono Mukti Aji <me@simukti.net>
- * @license     MIT License
+ * @link labs.ultravioletdesign.co.uk
+ * @author Rob Squires <rob@ultravioletdesign.co.uk>
  */
-class Month extends FunctionNode
+class UnixTimestamp extends FunctionNode
 {
     /**
      * @var mixed
      */
-    public $date;
+    protected $dateExpression;
 
     /**
      * {@inheritdoc}
      */
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
-        return "MONTH(" . $sqlWalker->walkArithmeticPrimary($this->date) . ")";
+        return 'UNIX_TIMESTAMP(' . $sqlWalker->walkArithmeticExpression($this->dateExpression) . ')';
     }
 
     /**
@@ -36,7 +34,7 @@ class Month extends FunctionNode
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->date = $parser->ArithmeticPrimary();
+        $this->dateExpression = $parser->ArithmeticExpression();
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }

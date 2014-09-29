@@ -8,13 +8,15 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 /**
  * "YEAR" "(" SimpleArithmeticExpression ")"
  *
- * @category    DoctrineExtensions
- * @package     DoctrineExtensions\Query\Mysql
+ * @package     Ekyna\Bundle\CoreBundle\Dql
  * @author      Rafael Kassner <kassner@gmail.com>
  * @license     MIT License
  */
 class Year extends FunctionNode
 {
+    /**
+     * @var mixed
+     */
     public $date;
 
     /**
