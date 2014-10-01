@@ -12,5 +12,5 @@
     cursor: pointer;
 }
 #modal-gallery .modal-image {
-  background: url(../img/spinner.gif) center no-repeat;
+  background: url(/bundles/ekynacore/img/spinner.gif) center no-repeat;
 }

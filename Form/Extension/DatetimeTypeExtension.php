@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\Options;
 use Ekyna\Bundle\CoreBundle\Form\Util\Datetime;
 
 /**
- * DatetimeTypeExtension.
- *
+ * Class DatetimeTypeExtension
+ * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Stephane Collot
- * @see https://github.com/stephanecollot/DatetimepickerBundle/blob/master/Form/Type/DatetimeType.php
  * @author Étienne Dauvergne <contact@ekyna.com>
+ * @see https://github.com/stephanecollot/DatetimepickerBundle/blob/master/Form/Type/DatetimeType.php
  */
 class DatetimeTypeExtension extends AbstractTypeExtension
 {
@@ -66,7 +66,7 @@ class DatetimeTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @return string Le nom du type qui est étendu
+     * {@inheritdoc}
      */
     public function getExtendedType()
     {

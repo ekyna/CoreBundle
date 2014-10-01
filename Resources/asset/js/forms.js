@@ -403,8 +403,13 @@
 				});
 			});
 
+			/* Color picker picker */
+			$(this).find('.form-color-picker').each(function() {
+				$(this).find('input[type="text"]').ColorPickerSliders($(this).data('options'));
+			});
+
 			/* Datetime picker */
-			$(this).find('.form_datetime').each(function() {
+			$(this).find('.form-datetime').each(function() {
 				$(this).datetimepicker($(this).data('options'));
 			});
 

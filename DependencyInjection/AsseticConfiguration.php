@@ -60,15 +60,16 @@ class AsseticConfiguration
     protected function buildCoreCss(array $config)
     {
         $inputs = array(
-            'bundles/ekynacore/css/lib/bootstrap.datetimepicker.css',
-            'bundles/ekynacore/css/lib/select2.css',
-            'bundles/ekynacore/css/form.css',
-            'bundles/ekynacore/css/modal-gallery.css',
+            '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.datetimepicker.css',
+            '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
+            '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
+            '@EkynaCoreBundle/Resources/asset/css/form.css',
+            '@EkynaCoreBundle/Resources/asset/css/modal-gallery.css',
         );
 
         return array(
             'inputs'  => $inputs,
-            'filters' => array('cssrewrite', 'yui_css'),
+            'filters' => array('yui_css'), // 'cssrewrite'
             'output'  => $config['output_dir'].'css/core.css',
             'debug'   => false,
         );
@@ -84,18 +85,20 @@ class AsseticConfiguration
         $inputs = array(
     	    'bundles/fosjsrouting/js/router.js',
             '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
-            'bundles/ekynacore/js/lib/jquery.autosize.min.js',
-            'bundles/ekynacore/js/lib/bootstrap.datetimepicker.js',
-            'bundles/ekynacore/js/lib/select2.min.js',
-            'bundles/ekynacore/js/lib/load-image.js',
-            'bundles/ekynacore/js/modal-gallery.js',
-            'bundles/ekynacore/js/string.prototypes.js',
-            'bundles/ekynacore/js/forms.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/tinycolor.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.datetimepicker.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.colorpickersliders.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/jquery.autosize.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/select2.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/load-image.js',
+            '@EkynaCoreBundle/Resources/asset/js/modal-gallery.js',
+            '@EkynaCoreBundle/Resources/asset/js/string.prototypes.js',
+            '@EkynaCoreBundle/Resources/asset/js/forms.js',
         );
 
         return array(
             'inputs'  => $inputs,
-            'filters' => array('closure'),
+            'filters' => array('yui_js'),
             'output'  => $config['output_dir'].'js/core.js',
             'debug'   => false,
         );

@@ -16,6 +16,7 @@
         <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
+        <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
 
@@ -84,6 +85,9 @@
         <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="form.type" alias="ekyna_core_entity_search" />
+        </service>
+        <service id="ekyna_core.color_picker.form_type" class="%ekyna_core.color_picker.form_type.class%">
+            <tag name="form.type" alias="ekyna_core_color_picker" />
         </service>
 
         <!-- Form Extensions -->

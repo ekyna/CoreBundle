@@ -142,10 +142,21 @@
 {% endspaceless %}
 {% endblock ekyna_core_entity_search_widget %}
 
+{% block ekyna_core_color_picker_widget %}
+<div class="input-group form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
+    {{ block("form_widget_simple") }}
+    <span class="input-group-btn">
+        <span class="btn btn-default">
+            <span class="glyphicon glyphicon-tint"></span>
+        </span>
+    </span>
+</div>
+{% endblock ekyna_core_color_picker_widget %}
+
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
-	    <div class="input-group date form_datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
+	    <div class="input-group date form-datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
 	        {{ block("form_widget_simple") }}
 		    <span class="input-group-btn">
 		        <button class="btn btn-default" type="button">
