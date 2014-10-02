@@ -3,3 +3,6 @@ ekyna_core:
         name_is_mandatory: Veuillez saisir un nom de fichier.
         file_is_mandatory: Veuillez sélectionner un fichier.
         leave_blank: Ce champ doit être vide s'il n'y a pas de fichier associé.
+    color:
+        invalid_code: Le code %type% "%code%" n'est pas valide.
+        unknown_format: Le format du code couleur "%color%" est inconnu.
