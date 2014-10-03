@@ -69,42 +69,42 @@
 
 {% block ekyna_core_image_thumb %}
 {% spaceless %}
-{% if image_path is not null %}
-    <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
-        <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
-    </a>
-{% else %}
-    <span class="thumbnail">
-    {% if new_image_path is defined and new_image_path is not sameas(null) %}
-        <img src="{{ new_image_path }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+    {% if image_path is not null %}
+        <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
+            <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
+        </a>
     {% else %}
-        <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+        <span class="thumbnail">
+        {% if new_image_path is defined and new_image_path is not sameas(null) %}
+            <img src="{{ new_image_path }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+        {% else %}
+            <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+        {% endif %}
+        </span>
     {% endif %}
-    </span>
-{% endif %}
 {% endspaceless %}
 {% endblock ekyna_core_image_thumb %}
 
 {% block ekyna_core_image_compound %}
 {% spaceless %}
-<div {{ block('widget_container_attributes') }}>
-    {% if form.parent is empty %}
-        {{ block('global_form_errors') }}
-    {% endif %}
-    <div class="children">
-    {{ form_row(form.file, {'style': 'horizontal'}) }}
-    {% if form.rename is defined %}
-        {{ form_row(form.rename, {'style': 'horizontal'}) }}
-    {% endif %}
-    {% if form.alt is defined %}
-        {{ form_row(form.alt, {'style': 'horizontal'}) }}
-    {% endif %}
-    {% if form.position is defined %}
-        {{ form_row(form.position) }}
-    {% endif %}
-    {#{ form_rest(form) }#}
+    <div {{ block('widget_container_attributes') }}>
+        {% if form.parent is empty %}
+            {{ block('global_form_errors') }}
+        {% endif %}
+        <div class="children">
+        {{ form_row(form.file, {'style': 'horizontal'}) }}
+        {% if form.rename is defined %}
+            {{ form_row(form.rename, {'style': 'horizontal'}) }}
+        {% endif %}
+        {% if form.alt is defined %}
+            {{ form_row(form.alt, {'style': 'horizontal'}) }}
+        {% endif %}
+        {% if form.position is defined %}
+            {{ form_row(form.position) }}
+        {% endif %}
+        {#{ form_rest(form) }#}
+        </div>
     </div>
-</div>
 {% endspaceless %}
 {% endblock ekyna_core_image_compound %}
 
@@ -137,50 +137,50 @@
 
 {% block ekyna_core_entity_search_widget %}
 {% spaceless %}
-{% set attr = attr|merge({'class': 'entity-search' }) %}
-{{ block('form_widget_simple') }}
+    {% set attr = attr|merge({'class': 'entity-search' }) %}
+    {{ block('form_widget_simple') }}
 {% endspaceless %}
 {% endblock ekyna_core_entity_search_widget %}
 
 {% block ekyna_core_color_picker_widget %}
-<div class="input-group form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
-    {{ block("form_widget_simple") }}
-    <span class="input-group-btn">
-        <span class="btn btn-default">
-            <span class="glyphicon glyphicon-tint"></span>
+    <div class="input-group form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
+        {{ block("form_widget_simple") }}
+        <span class="input-group-btn">
+            <span class="btn btn-default">
+                <span class="glyphicon glyphicon-tint"></span>
+            </span>
         </span>
-    </span>
-</div>
+    </div>
 {% endblock ekyna_core_color_picker_widget %}
 
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
-	    <div class="input-group date form-datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
-	        {{ block("form_widget_simple") }}
-		    <span class="input-group-btn">
-		        <button class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>
-		        <button class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </button>
-            </span>
-		</div>
+    <div class="input-group date form-datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
+        {{ block("form_widget_simple") }}
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+        </span>
+    </div>
     {% else %}
-        <div {{ block("widget_container_attributes") }}>
-            {{ date_pattern|replace({
-                "{{ year }}":  form_widget(form.year),
-                "{{ month }}": form_widget(form.month),
-                "{{ day }}":   form_widget(form.day),
-            })|raw }}
+    <div {{ block("widget_container_attributes") }}>
+        {{ date_pattern|replace({
+            "{{ year }}":  form_widget(form.year),
+            "{{ month }}": form_widget(form.month),
+            "{{ day }}":   form_widget(form.day),
+        })|raw }}
 
-            {% set attr = {"size": 10}|merge(attr) %}
-            {% set id = "datepicker_" ~ id %}
-            {% set value = '' %}
-            {% set full_name = "datepicker_" ~ full_name %}
-            {{ block("hidden_widget") }}
-        </div>
+        {% set attr = {"size": 10}|merge(attr) %}
+        {% set id = "datepicker_" ~ id %}
+        {% set value = '' %}
+        {% set full_name = "datepicker_" ~ full_name %}
+        {{ block("hidden_widget") }}
+    </div>
     {% endif %}
 {% endspaceless %}
 {% endblock datetime_widget %}

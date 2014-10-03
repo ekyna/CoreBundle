@@ -2,6 +2,7 @@ ekyna_core:
     yes: Oui
     no: Non
     undefined: Indéfini
+    choose: Choisissez
     button:
         previous: Précédente
         next: Suivante
