@@ -3,8 +3,8 @@
 namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 
 /**
- * AsseticConfiguration
- *
+ * Class AsseticConfiguration
+ * @package Ekyna\Bundle\CoreBundle\DependencyInjection
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class AsseticConfiguration
@@ -13,7 +13,6 @@ class AsseticConfiguration
      * Builds the assetic configuration.
      *
      * @param array $config
-     *
      * @return array
      */
     public function build(array $config)
@@ -34,15 +33,11 @@ class AsseticConfiguration
 
     /**
      * @param array $config
-     *
      * @return array
      */
     protected function buildContentCss(array $config)
     {
-        $inputs = array(
-            '@bootstrap_css',
-	        '%kernel.root_dir%/Resources/public/css/content.css'
-        );
+        $inputs = $config['content_css'];
 
         return array(
             'inputs'  => $inputs,
@@ -54,7 +49,6 @@ class AsseticConfiguration
 
     /**
      * @param array $config
-     *
      * @return array
      */
     protected function buildCoreCss(array $config)
@@ -77,7 +71,6 @@ class AsseticConfiguration
 
     /**
      * @param array $config
-     *
      * @return array
      */
     protected function buildCoreJs(array $config)

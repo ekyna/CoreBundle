@@ -12,16 +12,16 @@
 
 {% block attributes %}
 {% spaceless %}
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
-        {%- elseif attrvalue is sameas(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not sameas(false) -%}
-            {{- attrname }}="{{ attrvalue }}"
-        {%- endif -%}
-    {%- endfor -%}
+{%- for attrname, attrvalue in attr -%}
+    {{- " " -}}
+    {%- if attrname in ['placeholder', 'title'] -%}
+        {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+    {%- elseif attrvalue is sameas(true) -%}
+        {{- attrname }}="{{ attrname }}"
+    {%- elseif attrvalue is not sameas(false) -%}
+        {{- attrname }}="{{ attrvalue }}"
+    {%- endif -%}
+{%- endfor -%}
 {% endspaceless %}
 {% endblock attributes %}
 
@@ -35,4 +35,14 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block no_image %}
+{% spaceless %}
+{% if no_image_path|length > 0 %}
+    <img src="{{ no_image_path }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+{% else %}
+    <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
+{% endif %}
+{% endspaceless %}
 {% endblock %}

@@ -27,7 +27,6 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('ekyna_core.new_image_path', $config['new_image_path']);
         if ($config['chain_router']['enable']) {
             $container->setParameter('ekyna_core.enable_chain_router', true);
 
@@ -37,6 +36,8 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
                 $router->addMethodCall('add', array(new Reference($id), $priority));
             }
         }
+
+        $container->setParameter('ekyna_core.ui_config', $config['ui']);
     }
 
     /**
@@ -53,6 +54,9 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         }
         if (array_key_exists('TwigBundle', $bundles)) {
             $this->configureTwigBundle($container);
+        }
+        if (array_key_exists('StfalconTinymceBundle', $bundles)) {
+            $this->configureTinymceBundle($container, $config);
         }
     }
 
@@ -76,9 +80,22 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
      */
     protected function configureAsseticBundle(ContainerBuilder $container, array $config)
     {
-        $asseticConfig = new AsseticConfiguration;
+        $asseticConfig = new AsseticConfiguration();
         $container->prependExtensionConfig('assetic', array(
             'assets' => $asseticConfig->build($config),
+            'bundles' => array('EkynaCoreBundle'),
         ));
+    }
+
+    /**
+     * Configures the TinymceBundle.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    protected function configureTinymceBundle(ContainerBuilder $container, array $config)
+    {
+        $asseticConfig = new TinymceConfiguration();
+        $container->prependExtensionConfig('stfalcon_tinymce', $asseticConfig->build($config));
     }
 }

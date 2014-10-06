@@ -1,0 +1,14 @@
+{% javascripts output='js/ie/fix-10.js' filter='yui_js' debug=false
+    '@EkynaCoreBundle/Resources/asset/js/ie/ie10-viewport-bug-workaround.js'
+-%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{%- endjavascripts %}
+{% javascripts output='js/ie/fix-lt-9.js' filter='yui_js' debug=false
+    '@EkynaCoreBundle/Resources/asset/js/ie/html5shiv.min.js'
+    '@EkynaCoreBundle/Resources/asset/js/ie/respond.min.js'
+    '@EkynaCoreBundle/Resources/asset/js/ie/excanvas.min.js'
+-%}
+<!--[if lt IE 9]>
+<script type="text/javascript" src="{{ asset_url }}"></script>
+<![endif]-->
+{%- endjavascripts %}

@@ -6,35 +6,43 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * UiExtension
- *
+ * Class UiExtension
+ * @package Ekyna\Bundle\CoreBundle\Twig
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class UiExtension extends \Twig_Extension
 {
     /**
+     * @var array
+     */
+    private $config;
+
+    /**
      * @var \Twig_Template
      */
-    private $template;
+    private $controlsTemplate;
 
     /**
      * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $buttonOptionsResolver;
 
-    public function __construct($template = 'EkynaCoreBundle:Ui:controls.html.twig')
+    /**
+     * Constructor.
+     *
+     * @param array $config
+     */
+    public function __construct(array $config)
     {
-        $this->template = $template;
+        $this->config = $config;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function initRuntime(\Twig_Environment $environment)
+    public function initRuntime(\Twig_Environment $twig)
     {
-        if (! $this->template instanceof \Twig_Template) {
-            $this->template = $environment->loadTemplate($this->template);
-        }
+        $this->controlsTemplate = $twig->loadTemplate($this->config['controls_template']);
     }
 
     /**
@@ -43,50 +51,47 @@ class UiExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'ui_form_footer' => new \Twig_Function_Method($this, 'renderFormFooter', array('is_safe' => array('html'))),
-            'ui_link'        => new \Twig_Function_Method($this, 'renderLink', array('is_safe' => array('html'))),
-            'ui_button'      => new \Twig_Function_Method($this, 'renderButton', array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_form_footer', array($this, 'renderFormFooter'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_no_image', array($this, 'renderNoImage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_link', array($this, 'renderLink'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_button', array($this, 'renderButton'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_google_font', array($this, 'renderGoogleFontLink'), array('is_safe' => array('html'))),
         );
     }
 
-    /*public function renderLink($href, $label = '', $theme = 'default', $size = 'sm', $icon = null, $right = false, $faIcon = false, $target = null)
-    {
-        $rightIcon = $leftIcon = '';
-        if(0 < strlen($icon)) {
-            $icon = $faIcon ? 'fa fa-'.$icon.'"></span>' : 'glyphicon glyphicon-'.$icon;
-            if($right) {
-                $rightIcon = sprintf('<span class="%s"></span>', $icon);
-            }else{
-                $leftIcon = sprintf('<span class="%s"></span>', $icon);
-            }
-        }
-
-        if(0 < strlen($size)) {
-            $class = sprintf('btn btn-%s btn-%s', str_replace('btn-', '', $theme), str_replace('btn-', '', $size));
-        }else{
-            $class = sprintf('btn btn-%s', str_replace('btn-', '', $theme));
-        }
-
-        $target = null !== $target ? sprintf(' target="%s"', $target) : '';
-
-        return trim($this->template->renderBlock('link', array(
-            'class' => $class,
-            'label' => $label,
-            'left_icon' => $leftIcon,
-            'right_icon' => $rightIcon,
-            'href' => $href,
-            'target' => $target
-        )));
-    }*/
-
+    /**
+     * Renders the form footer.
+     *
+     * @param FormView $form
+     * @return string
+     */
     public function renderFormFooter(FormView $form)
     {
-        if(array_key_exists('footer', $form->vars)) {
-            return $this->template->renderBlock('form_footer', $form->vars['footer']);
+        if (array_key_exists('footer', $form->vars)) {
+            return $this->controlsTemplate->renderBlock('form_footer', $form->vars['footer']);
         }
         return '';
     }
 
+    /**
+     * Renders the "no image" img.
+     *
+     * @return string
+     */
+    public function renderNoImage()
+    {
+        return $this->controlsTemplate->renderBlock('no_image', array('no_image_path' => $this->config['no_image_path']));
+    }
+
+    /**
+     * Renders the link.
+     *
+     * @param $href
+     * @param string $label
+     * @param array $options
+     * @param array $attributes
+     * @return string
+     */
     public function renderLink($href, $label = '', array $options = array(), array $attributes = array())
     {
         $options['type'] = 'link';
@@ -95,6 +100,15 @@ class UiExtension extends \Twig_Extension
         return $this->renderButton($label, $options, $attributes);
     }
 
+    /**
+     * Renders the button.
+     *
+     * @param string $label
+     * @param array $options
+     * @param array $attributes
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     public function renderButton($label = '', array $options = array(), array $attributes = array())
     {
         $options = $this->getButtonOptionsResolver()->resolve($options);
@@ -126,7 +140,7 @@ class UiExtension extends \Twig_Extension
             $icon = $options['fa_icon'] ? 'fa fa-'.$options['icon'] : 'glyphicon glyphicon-'.$options['icon'];
         }
 
-        return trim($this->template->renderBlock('button', array(
+        return trim($this->controlsTemplate->renderBlock('button', array(
             'tag'   => $tag,
             'attr'  => $attributes,
             'label' => $label,
@@ -134,6 +148,24 @@ class UiExtension extends \Twig_Extension
         )));
     }
 
+    /**
+     * Renders the google font css link.
+     *
+     * @return string
+     */
+    public function renderGoogleFontLink()
+    {
+        if (0 < strlen($this->config['google_font_url'])) {
+            return '<link href="' . $this->config['google_font_url'] . '" rel="stylesheet" type="text/css">' . "\n";
+        }
+        return '';
+    }
+
+    /**
+     * Returns the button options resolver.
+     *
+     * @return OptionsResolver
+     */
     private function getButtonOptionsResolver()
     {
         if (null === $this->buttonOptionsResolver) {
@@ -160,10 +192,13 @@ class UiExtension extends \Twig_Extension
             ))
             ;
         }
-    
+
         return $this->buttonOptionsResolver;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
     	return 'ekyna_core_ui';

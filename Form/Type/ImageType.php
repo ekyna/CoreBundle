@@ -12,25 +12,12 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
 /**
- * ImageType
- *
+ * Class ImageType
+ * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ImageType extends AbstractType
 {
-    /**
-     * @var string
-     */
-    protected $newImagePath;
-
-    /**
-     * @param $path
-     */
-    public function setNewImagePath($path)
-    {
-        $this->newImagePath = $path;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -125,7 +112,6 @@ class ImageType extends AbstractType
             }
             $view->vars['image_path'] = $imageUrl;
         }
-        $view->vars['new_image_path'] = $this->newImagePath;
         $view->vars['display_thumb'] = $options['display_thumb'];
     }
 

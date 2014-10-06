@@ -25,8 +25,6 @@
         <parameter key="ekyna_core.form_type_footer_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension</parameter>
         <parameter key="ekyna_core.entity_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension</parameter>
         <parameter key="ekyna_core.datetime_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension</parameter>
-
-        <parameter key="ekyna_core.twig.ui_extension.template">EkynaCoreBundle:Ui:controls.html.twig</parameter>
     </parameters>
 
     <services>
@@ -74,9 +72,6 @@
 
         <!-- Form types -->
         <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
-            <call method="setNewImagePath">
-                <argument>%ekyna_core.new_image_path%</argument>
-            </call>
             <tag name="form.type" alias="ekyna_core_image" />
         </service>
         <service id="ekyna_core.gallery_image.form_type" class="%ekyna_core.gallery_image.form_type.class%">
@@ -113,7 +108,7 @@
             <tag name="twig.extension" />
         </service>
         <service id="ekyna_core.twig.ui_extension" class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
-            <argument>%ekyna_core.twig.ui_extension.template%</argument>
+            <argument>%ekyna_core.ui_config%</argument>
             <tag name="twig.extension" />
         </service>
         <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">

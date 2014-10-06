@@ -31,7 +31,7 @@ class UtilsExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'get_property' => new \Twig_Function_Method($this, 'getProperty'),
+            new \Twig_SimpleFunction('get_property', array($this, 'getProperty')),
         );
     }
 
@@ -41,7 +41,7 @@ class UtilsExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'truncate_html' => new \Twig_Filter_Method($this, 'truncateHtml')
+            new \Twig_SimpleFilter('truncate_html', array($this, 'truncateHtml'))
         );
     }
 
@@ -61,16 +61,16 @@ class UtilsExtension extends \Twig_Extension
     /**
      * Returns a truncated html string.
      *
-     * @param unknown $html
-     * @param unknown $limit
-     * @param string $endchar
+     * @param string $html
+     * @param int $limit
+     * @param string $endChar
      *
      * @return string
      */
-    public function truncateHtml($html, $limit, $endchar = '&hellip;')
+    public function truncateHtml($html, $limit, $endChar = '&hellip;')
     {
         $output = new TruncateHtml($html);
-        return $output->cut($limit, $endchar);
+        return $output->cut($limit, $endChar);
     }
 
     /**

@@ -74,13 +74,7 @@
             <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
         </a>
     {% else %}
-        <span class="thumbnail">
-        {% if new_image_path is defined and new_image_path is not sameas(null) %}
-            <img src="{{ new_image_path }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
-        {% else %}
-            <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}" />
-        {% endif %}
-        </span>
+        <span class="thumbnail">{{ ui_no_image() }}</span>
     {% endif %}
 {% endspaceless %}
 {% endblock ekyna_core_image_thumb %}
