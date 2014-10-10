@@ -95,8 +95,8 @@ ekyna_core:
         company: Entreprise
         identity: Identité
         gender: Civilité
-        firstname: Prénom
-        lastname: Nom
+        first_name: Prénom
+        last_name: Nom
         street: Rue
         supplement: Complément
         postal_code: Code postal
