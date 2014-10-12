@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
+use Doctrine\Common\Inflector\Inflector;
 use Ekyna\Bundle\CoreBundle\Util\TruncateHtml;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -41,12 +42,14 @@ class UtilsExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('truncate_html', array($this, 'truncateHtml'))
+            new \Twig_SimpleFilter('truncate_html', array($this, 'truncateHtml')),
+            new \Twig_SimpleFilter('pluralize', array($this, 'pluralize')),
         );
     }
 
     /**
      * Uses PropertyAccess component to return the object property value.
+     * TODO Remove. Duplicate of attribute() twig function.
      *
      * @param $object
      * @param $propertyPath
@@ -71,6 +74,17 @@ class UtilsExtension extends \Twig_Extension
     {
         $output = new TruncateHtml($html);
         return $output->cut($limit, $endChar);
+    }
+
+    /**
+     * Pluralize the given string.
+     *
+     * @param $string
+     * @return string
+     */
+    public function pluralize($string)
+    {
+        return Inflector::pluralize($string);
     }
 
     /**
