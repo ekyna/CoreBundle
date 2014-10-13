@@ -117,6 +117,12 @@
         <service id="twig.extension.intl" class="Twig_Extensions_Extension_Intl">
             <tag name="twig.extension" />
         </service>
+
+        <!-- KnpMenu matcher voter -->
+        <service id="ekyna_core.menu.voter.uri" class="Ekyna\Bundle\CoreBundle\Menu\Voter\UriVoter">
+            <tag name="knp_menu.voter" request="true" />
+        </service>
+
     </services>
 
 </container>
