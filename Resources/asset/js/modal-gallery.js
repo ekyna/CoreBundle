@@ -36,6 +36,7 @@
 				imageWidth = img.width;
 				$gallery.redraw();
 				$image = $(img).fadeIn();
+                $modalImage.empty();
 				$modalImage.append($image);
 				$modal.find('.modal-title').html(title);
 				if(!modalShown) $modal.modal({show:true});
@@ -54,9 +55,11 @@
 			};
 			
 			$gallery.showIndex = function(index) {
-				$gallery.index = index || $gallery.index;
+                if (index !== undefined) {
+                    $gallery.index = index;
+                }
 				if($image !== null) $image.fadeOut(function() { $(this).remove(); });
-				$modalImage.empty();
+
 				var source = $links.eq($gallery.index).attr('href') || null;
 				var title = $links.eq($gallery.index).attr('title') || 'Image preview';
 				$gallery.loadImage(source, title);
