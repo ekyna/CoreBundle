@@ -82,17 +82,17 @@
 					});
 				});
 				if($links.length > 1) {
-					$modal.find('button.btn-prev').show().click(function(e) {
+					$modal.find('.btn-prev').show().click(function(e) {
 						e.preventDefault();
 						$gallery.prev();
 					});
-					$modal.find('button.btn-next').show().click(function(e) {
+					$modal.find('.btn-next').show().click(function(e) {
 						e.preventDefault();
 						$gallery.next();
 					});
 				}else{
-					$modal.find('button.btn-prev').hide();
-					$modal.find('button.btn-next').hide();
+					$modal.find('.btn-prev').hide();
+					$modal.find('.btn-next').hide();
 				}
 				$modal.on('show.bs.modal', function() { modalShown = true; });
 				$modal.on('hide.bs.modal', function() { modalShown = false; });
