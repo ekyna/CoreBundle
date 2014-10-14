@@ -57,6 +57,7 @@ ekyna_core:
         reference: Référence
         number: Numéro
         content: Contenu
+        summary: Résumé
         logo: Logo
         image: Image
         images: Images
