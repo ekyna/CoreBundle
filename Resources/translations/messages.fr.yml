@@ -64,8 +64,8 @@ ekyna_core:
         photo: Photo
         photos: Photos
         date: Date
-        add_date: Date de création
-        update_date: Date de modification
+        created_at: Date de création
+        updated_at: Date de modification
         enabled: Activé
         validated: Validé
         start_date: Date de début
