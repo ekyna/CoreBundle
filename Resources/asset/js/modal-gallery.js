@@ -2,17 +2,31 @@
 	$.fn.modalGallery = function(options) {
 		
 		var defauts = {
-			modalId: 'modal-gallery'
+			modalSelector: '#modal-gallery',
+			modalDialogSelector: '.modal-dialog',
+			modalImageSelector: '.modal-image',
+			modalTitleSelector: '.modal-title',
+            prevBtnSelector: '.btn-prev',
+            nextBtnSelector: '.btn-next',
+            thumbSelector: '.thumbnail'
         };
-		var parameters = $.extend(defauts, options);
+
 		
 	    return this.each(function() {
-			
+
 			var $gallery = $(this);
-			var $links = $gallery.find('a.thumbnail');
-			var $modal = $('#'+parameters.modalId);
-			var $modalImage = $modal.find('.modal-image');
-			var $image = null;
+            var parameters = $.extend(defauts, options, $gallery.data('config'));
+            var $thumbs = $gallery.find(parameters.thumbSelector);
+
+            var $modal = $(parameters.modalSelector);
+            var $modalDialog = $modal.find(parameters.modalDialogSelector);
+            var $modalImage = $modal.find(parameters.modalImageSelector);
+            var $modalTitle = $modal.find(parameters.modalTitleSelector);
+
+            var $prevBtn = $modal.find(parameters.prevBtnSelector);
+            var $nextBtn = $modal.find(parameters.nextBtnSelector);
+
+            var $image = null;
 			var imageWidth = null;
 			var modalShown = false;
 			
@@ -38,7 +52,7 @@
 				$image = $(img).fadeIn();
                 $modalImage.empty();
 				$modalImage.append($image);
-				$modal.find('.modal-title').html(title);
+                $modalTitle.html(title);
 				if(!modalShown) $modal.modal({show:true});
 			};
 			
@@ -47,9 +61,9 @@
 					windowWidth = $(window).width();
 					if(windowWidth > 767) {
 						var modalWidth = imageWidth < windowWidth-20 ? imageWidth : windowWidth-20;
-						$modal.find('.modal-dialog').css({width: modalWidth});
+                        $modalDialog.css({width: modalWidth});
 					}else{
-						$modal.find('.modal-dialog').removeAttr('style');
+                        $modalDialog.removeAttr('style');
 					}
 				}
 			};
@@ -60,49 +74,49 @@
                 }
 				if($image !== null) $image.fadeOut(function() { $(this).remove(); });
 
-				var source = $links.eq($gallery.index).attr('href') || null;
-				var title = $links.eq($gallery.index).attr('title') || 'Image preview';
+				var source = $thumbs.eq($gallery.index).attr('href') || null;
+				var title = $thumbs.eq($gallery.index).attr('title') || 'Image preview';
 				$gallery.loadImage(source, title);
 			};
 			
 			$gallery.prev = function() {
 				$gallery.index++;
-				if($gallery.index > $links.length-1) $gallery.index = 0;
+				if($gallery.index > $thumbs.length-1) $gallery.index = 0;
 				$gallery.showIndex();
 			};
 			
 			$gallery.next = function() {
 				$gallery.index--;
-				if($gallery.index < 0) $gallery.index = $links.length-1;
+				if($gallery.index < 0) $gallery.index = $thumbs.length-1;
 				$gallery.showIndex();
 			};
 			
 			$gallery.initEvents = function() {
-				$links.each(function(index) {
+				$thumbs.each(function(index) {
 					$(this).click(function(e) {
 						e.preventDefault();
 						$gallery.showIndex(index);
 					});
 				});
-				if($links.length > 1) {
-					$modal.find('.btn-prev').show().click(function(e) {
+				if($thumbs.length > 1) {
+                    $prevBtn.show().click(function(e) {
 						e.preventDefault();
 						$gallery.prev();
 					});
-					$modal.find('.btn-next').show().click(function(e) {
+                    $nextBtn.show().click(function(e) {
 						e.preventDefault();
 						$gallery.next();
 					});
 				}else{
-					$modal.find('.btn-prev').hide();
-					$modal.find('.btn-next').hide();
+                    $prevBtn.hide();
+                    $nextBtn.hide();
 				}
 				$modal.on('show.bs.modal', function() { modalShown = true; });
 				$modal.on('hide.bs.modal', function() { modalShown = false; });
 				$(window).on('resize', function() { $gallery.redraw(); });
 			};
 			
-			if($links.length > 0) $gallery.initEvents();
+			if($thumbs.length > 0) $gallery.initEvents();
 	    });
 	};
 	$('.modal-gallery').modalGallery();
