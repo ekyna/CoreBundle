@@ -8,8 +8,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * EntityTypeExtension
- *
+ * Class EntityTypeExtension
+ * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class EntityTypeExtension extends AbstractTypeExtension

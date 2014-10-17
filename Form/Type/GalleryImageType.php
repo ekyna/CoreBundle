@@ -6,8 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * GalleryImageType
- *
+ * Class GalleryImageType
+ * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class GalleryImageType extends AbstractType

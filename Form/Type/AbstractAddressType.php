@@ -6,8 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * AbstractAddressType.
- *
+ * Class AbstractAddressType
+ * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractAddressType extends AbstractType

@@ -49,6 +49,7 @@ ekyna_core:
         size: Taille
         color: Couleur
         code: Code
+        value: Valeur
         quantity: Quantité
         option: Option
         options: Options
@@ -71,6 +72,7 @@ ekyna_core:
         start_date: Date de début
         end_date: Date de fin
         duration: Durée
+        feed: Flux
         file: Fichier
         rename: Renommer
         choose_file: Choisissez un fichier

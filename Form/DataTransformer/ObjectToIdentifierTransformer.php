@@ -9,8 +9,8 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
- * ObjectToIdentifierTransformer
- *
+ * Class ObjectToIdentifierTransformer
+ * @package Ekyna\Bundle\CoreBundle\Form\DataTransformer
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ObjectToIdentifierTransformer implements DataTransformerInterface
@@ -35,10 +35,34 @@ class ObjectToIdentifierTransformer implements DataTransformerInterface
      * @param ObjectRepository $repository
      * @param string           $identifier
      */
-    public function __construct(ObjectRepository $repository, $identifier = 'id')
+    public function __construct(ObjectRepository $repository = null, $identifier = 'id')
     {
         $this->repository = $repository;
         $this->identifier = $identifier;
+    }
+
+    /**
+     * Sets the repository.
+     *
+     * @param ObjectRepository $repository
+     * @return ObjectToIdentifierTransformer
+     */
+    public function setRepository(ObjectRepository $repository)
+    {
+        $this->repository = $repository;
+        return $this;
+    }
+
+    /**
+     * Sets the identifier.
+     *
+     * @param string $identifier
+     * @return ObjectToIdentifierTransformer
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+        return $this;
     }
 
     /**

@@ -12,8 +12,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * FormTypeRedirectExtension.
- *
+ * Class FormTypeRedirectExtension
+ * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class FormTypeRedirectExtension extends AbstractTypeExtension

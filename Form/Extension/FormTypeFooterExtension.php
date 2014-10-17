@@ -11,8 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
- * FormTypeFooterExtension.
- *
+ * Class FormTypeFooterExtension
+ * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class FormTypeFooterExtension extends AbstractTypeExtension

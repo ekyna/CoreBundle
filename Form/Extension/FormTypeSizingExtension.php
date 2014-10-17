@@ -8,8 +8,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * FormTypeSizingExtension.
- *
+ * Class FormTypeSizingExtension
+ * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class FormTypeSizingExtension extends AbstractTypeExtension

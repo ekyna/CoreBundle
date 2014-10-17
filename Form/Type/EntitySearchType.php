@@ -11,8 +11,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * EntitySearchType.
- *
+ * Class EntitySearchType
+ * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class EntitySearchType extends AbstractType

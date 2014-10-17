@@ -19,6 +19,7 @@
         <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
+        <parameter key="ekyna_core.hidden_entity.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\HiddenEntityType</parameter>
 
         <parameter key="ekyna_core.form_type_sizing_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension</parameter>
         <parameter key="ekyna_core.form_type_redirect_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension</parameter>
@@ -80,6 +81,11 @@
         <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="form.type" alias="ekyna_core_entity_search" />
+        </service>
+        <service id="ekyna_core.hidden_entity.form_type" class="%ekyna_core.hidden_entity.form_type.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="form.type_guesser.doctrine" />
+            <tag name="form.type" alias="ekyna_core_hidden_entity" />
         </service>
         <service id="ekyna_core.color_picker.form_type" class="%ekyna_core.color_picker.form_type.class%">
             <tag name="form.type" alias="ekyna_core_color_picker" />
