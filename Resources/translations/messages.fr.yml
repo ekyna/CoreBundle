@@ -6,6 +6,10 @@ ekyna_core:
     button:
         previous: Précédente
         next: Suivante
+        start: Commencer
+        restart: Recommencer
+        reset: Réinitialiser
+        finish: Terminer
         close: Fermer
         login: Connexion
         logout: Se déconnecter
