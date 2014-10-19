@@ -27,6 +27,8 @@ ekyna_core:
         remove: Supprimer
         cancel: Annuler
         save: Enregistrer
+        execute: Exécuter
+        apply: Appliquer
         download: Télécharger
     field:
         name: Nom
