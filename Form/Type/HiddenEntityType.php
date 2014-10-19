@@ -46,7 +46,7 @@ class HiddenEntityType extends AbstractType
         $transformer = new ObjectToIdentifierTransformer();
         $builder->addViewTransformer($transformer);
 
-        if($options['class'] === null) {
+        if(0 === strlen($options['class'])) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($transformer) {
                 $form = $event->getForm();
                 $class = $form->getParent()->getConfig()->getDataClass();
@@ -54,8 +54,8 @@ class HiddenEntityType extends AbstractType
                 if (null === $guessedType = $this->guesser->guessType($class, $property)) {
                     throw new \RuntimeException(sprintf('Unable to guess the type for "%s" property.', $property));
                 }
-                $options = $guessedType->getOptions();
-                $repository = $this->om->getRepository($options['class']);
+                $typeOptions = $guessedType->getOptions();
+                $repository = $this->om->getRepository($typeOptions['class']);
                 $transformer->setRepository($repository);
             });
         } else {
