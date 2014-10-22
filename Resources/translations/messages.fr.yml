@@ -79,6 +79,7 @@ ekyna_core:
         end_date: Date de fin
         duration: Durée
         feed: Flux
+        format: Format
         file: Fichier
         rename: Renommer
         choose_file: Choisissez un fichier
