@@ -50,13 +50,16 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         if (array_key_exists('AsseticBundle', $bundles)) {
-            $this->configureAsseticBundle($container, $config);
+            $this->configureAsseticBundle($container, $config['assets']);
         }
         if (array_key_exists('TwigBundle', $bundles)) {
             $this->configureTwigBundle($container);
         }
+        if (array_key_exists('BraincraftedBootstrapBundle', $bundles)) {
+            $this->configureBraincraftedBootstrapBundle($container);
+        }
         if (array_key_exists('StfalconTinymceBundle', $bundles)) {
-            $this->configureTinymceBundle($container, $config);
+            $this->configureStfalconTinymceBundle($container, $config);
         }
     }
 
@@ -88,14 +91,29 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Configures the TinymceBundle.
+     * Configures the BraincraftedBootstrapBundle.
+     *
+     * @param ContainerBuilder $container
+     */
+    protected function configureBraincraftedBootstrapBundle(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('braincrafted_bootstrap', array(
+            'auto_configure' => array(
+                'twig' => false,
+                'assetic' => false,
+            ),
+        ));
+    }
+
+    /**
+     * Configures the StfalconTinymceBundle.
      *
      * @param ContainerBuilder $container
      * @param array            $config
      */
-    protected function configureTinymceBundle(ContainerBuilder $container, array $config)
+    protected function configureStfalconTinymceBundle(ContainerBuilder $container, array $config)
     {
-        $asseticConfig = new TinymceConfiguration();
-        $container->prependExtensionConfig('stfalcon_tinymce', $asseticConfig->build($config));
+        $tinymceConfig = new TinymceConfiguration();
+        $container->prependExtensionConfig('stfalcon_tinymce', $tinymceConfig->build($config));
     }
 }

@@ -27,6 +27,10 @@ class TinymceConfiguration
         }
 
         return array(
+            'include_jquery' => false,
+            'tinymce_jquery' => false,
+            'selector' => '.tinymce',
+            'language' => '%locale%',
             'theme' => array(
                 // Simple theme: same as default theme
                 'simple' => array(

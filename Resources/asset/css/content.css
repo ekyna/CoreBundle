@@ -1,0 +1,17 @@
+.container>.row, .container>.cms-editor>.row  {
+    margin-bottom: 15px;
+}
+
+img.img-float-left {
+    max-width: 50%;
+    height: auto;
+    margin: 0 10px 16px 0;
+    float: left;
+}
+
+img.img-float-right {
+    max-width: 50%;
+    height: auto;
+    margin: 0 0 16px 10px;
+    float: right;
+}

@@ -19,12 +19,23 @@ class AsseticConfiguration
     {
         $output = array();
 
-        // Fix path in output dir
+        // Fix output dir trailing slash
         if ('/' !== substr($config['output_dir'], -1) && strlen($config['output_dir']) > 0) {
             $config['output_dir'] .= '/';
         }
 
-        $output['content_css'] = $this->buildContentCss($config);
+        if ($config['bootstrap_css']['enabled']) {
+            $output['bootstrap_css'] = $this->buildBootstrapCss($config);
+        }
+        if ($config['bootstrap_js']['enabled']) {
+            $output['bootstrap_js'] = $this->buildBootstrapJs($config);
+        }
+        if ($config['jquery']['enabled']) {
+            $output['jquery'] = $this->buildJQuery($config);
+        }
+        if ($config['content_css']['enabled']) {
+            $output['content_css'] = $this->buildContentCss($config);
+        }
         $output['core_css'] = $this->buildCoreCss($config);
         $output['core_js'] = $this->buildCoreJs($config);
 
@@ -32,22 +43,103 @@ class AsseticConfiguration
     }
 
     /**
+     * Builds the content_css asset collection configuration.
+     *
      * @param array $config
      * @return array
      */
     protected function buildContentCss(array $config)
     {
-        $inputs = $config['content_css'];
+        $dir = $config['output_dir'];
+        $inputs = $config['content_css']['inputs'];
 
         return array(
             'inputs'  => $inputs,
             'filters' => array('cssrewrite', 'yui_css'),
-            'output'  => $config['output_dir'].'css/content.css',
+            'output'  => $dir . 'css/content.css',
             'debug'   => false,
         );
     }
 
     /**
+     * Builds the bootstrap_css asset collection configuration.
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function buildBootstrapCss(array $config)
+    {
+        $dir = $config['output_dir'];
+        $inputs = $config['bootstrap_css']['inputs'];
+
+        return array(
+            'inputs'  => $inputs,
+            'filters' => array('cssrewrite', 'less', 'yui_css'),
+            'output'  => $dir . 'css/bootstrap.css',
+            'debug'   => false,
+        );
+    }
+
+    /**
+     * Builds the bootstrap_js asset collection configuration.
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function buildBootstrapJs(array $config)
+    {
+        $dir = $config['output_dir'];
+        $plugins = $config['bootstrap_js']['plugins'];
+
+        $inputs = array();
+
+        $bsAssetDir = '%kernel.root_dir%/../vendor/twbs/bootstrap/js/';
+        $pluginsKeys = array(
+            'transition', 'alert', 'button', 'carousel', 'collapse', 'dropdown',
+            'modal', 'tooltip', 'popover', 'scrollspy', 'tab', 'affix',
+        );
+        foreach($pluginsKeys as $pluginsKey) {
+            if (true === $plugins[$pluginsKey]) {
+                $inputs[] = $bsAssetDir . $pluginsKey . '.js';
+            }
+        }
+
+        if (true === $plugins['collection']) {
+            $inputs[] =
+                '%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/'.
+                'BootstrapBundle/Resources/js/bc-bootstrap-collection.js';
+        }
+
+        return array(
+            'inputs'  => $inputs,
+            'filters' => array('yui_js'),
+            'output'  => $dir . 'js/bootstrap.js',
+            'debug'   => false,
+        );
+    }
+
+    /**
+     * Builds the jquery asset collection configuration.
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function buildJQuery(array $config)
+    {
+        $dir = $config['output_dir'];
+        $inputs = $config['jquery']['inputs'];
+
+        return array(
+            'inputs'  => $inputs,
+            'filters' => array('yui_js'),
+            'output'  => $dir . 'js/jquery.js',
+            'debug'   => false,
+        );
+    }
+
+    /**
+     * Builds the core_css asset collection configuration.
+     *
      * @param array $config
      * @return array
      */
@@ -64,12 +156,14 @@ class AsseticConfiguration
         return array(
             'inputs'  => $inputs,
             'filters' => array('yui_css'), // 'cssrewrite'
-            'output'  => $config['output_dir'].'css/core.css',
+            'output'  => $config['output_dir'] . 'css/core.css',
             'debug'   => false,
         );
     }
 
     /**
+     * Builds the core_js asset collection configuration.
+     *
      * @param array $config
      * @return array
      */
@@ -92,7 +186,7 @@ class AsseticConfiguration
         return array(
             'inputs'  => $inputs,
             'filters' => array('yui_js'),
-            'output'  => $config['output_dir'].'js/core.js',
+            'output'  => $config['output_dir'] . 'js/core.js',
             'debug'   => false,
         );
     }

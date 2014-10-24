@@ -228,9 +228,11 @@
 					var path = $(this).data('path');
 					$.ajax({
 						url: path,
-						dataType: 'xml'
+						dataType: 'xml',
+                        cache: false
 					})
 					.done(function(xmldata) {
+                        /* TODO CDATA title */
 						var $title = $(xmldata).find('title');
 						var $form = $(xmldata).find('form');
 						if($title.length == 1) {
@@ -282,9 +284,11 @@
                     var path = $(this).data('path');
                     $.ajax({
                         url: path,
-                        dataType: 'xml'
+                        dataType: 'xml',
+                        cache: false
                     })
                     .done(function(xmldata) {
+                        /* TODO CDATA title */
                         var $title = $(xmldata).find('title');
                         var $list = $(xmldata).find('list');
                         if($title.length == 1) {
