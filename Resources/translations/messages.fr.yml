@@ -25,6 +25,8 @@ ekyna_core:
         create: Nouveau
         edit: Modifier
         remove: Supprimer
+        move_up: Remonter
+        move_descendre: Descendre
         cancel: Annuler
         save: Enregistrer
         execute: Exécuter
