@@ -82,6 +82,7 @@ ekyna_core:
         duration: Durée
         feed: Flux
         format: Format
+        charset: Jeu de caractères
         file: Fichier
         rename: Renommer
         choose_file: Choisissez un fichier
