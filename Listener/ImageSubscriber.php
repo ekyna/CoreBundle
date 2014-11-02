@@ -10,8 +10,8 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
- * ImageSubscriber.
- *
+ * Class ImageSubscriber
+ * @package Ekyna\Bundle\CoreBundle\Listener
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ImageSubscriber implements EventSubscriber
