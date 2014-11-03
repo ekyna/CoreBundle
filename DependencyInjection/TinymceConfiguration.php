@@ -39,6 +39,7 @@ class TinymceConfiguration
                     'resize'        => false,
                     'image_advtab'  => true,
                     'relative_urls' => false,
+                    'entity_encoding' => 'raw',
                     'toolbar_items_size' => 'small',
                     'plugins' => array(
                         "advlist autolink lists link image anchor paste textcolor",
@@ -55,6 +56,7 @@ class TinymceConfiguration
                     'resize'        => false,
                     'image_advtab'  => true,
                     'relative_urls' => false,
+                    'entity_encoding' => 'raw',
                     'plugins' => array(
                         "autoresize advlist autolink lists link image charmap print preview hr anchor pagebreak",
                         "searchreplace wordcount visualblocks visualchars code fullscreen",
