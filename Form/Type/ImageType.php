@@ -28,11 +28,12 @@ class ImageType extends AbstractType
                 'label' => 'ekyna_core.field.rename',
                 'required' => $options['required'],
                 'sizing' => 'sm',
+                'admin_helper' => 'IMAGE_RENAME',
                 'attr' => array(
                     'class' => 'rename-widget',
                     'label_col' => 2,
                     'widget_col' => 10
-                )
+                ),
             ));
         }
 
@@ -41,10 +42,11 @@ class ImageType extends AbstractType
                 'label' => 'ekyna_core.field.alt',
                 'required' => false,
                 'sizing' => 'sm',
+                'admin_helper' => 'IMAGE_ALT',
                 'attr' => array(
                     'label_col' => 2,
                     'widget_col' => 10
-                )
+                ),
             ));
         }
 
@@ -59,6 +61,7 @@ class ImageType extends AbstractType
                         'label' => 'ekyna_core.field.file',
                         'required' => false,
                         'sizing' => 'sm',
+                        'admin_helper' => 'IMAGE_FILE',
                         'attr' => array(
                             'label_col' => 2,
                             'widget_col' => 10
@@ -69,6 +72,7 @@ class ImageType extends AbstractType
                         'label' => 'ekyna_core.field.file',
                         'required' => $options['required'],
                         'sizing' => 'sm',
+                        'admin_helper' => 'IMAGE_FILE',
                         'attr' => array(
                             'label_col' => 2,
                             'widget_col' => 10
