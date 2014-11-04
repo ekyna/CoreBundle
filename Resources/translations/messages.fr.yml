@@ -79,9 +79,12 @@ ekyna_core:
         created_at: Date de création
         updated_at: Date de modification
         published_at: Date de publication
+        expires_at: Date d'expiration
         enabled: Actif
         disabled: Inactif
         validated: Validé
+        locked: Vérouillé
+        expired: Expiré
         start_date: Date de début
         end_date: Date de fin
         duration: Durée
