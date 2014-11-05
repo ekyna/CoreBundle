@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Controller
@@ -84,5 +85,21 @@ class Controller extends BaseController
             throw new \InvalidArgumentException(sprintf('Invalid flash type "%s".', $type));
         }
         $this->getFlashBag()->add($type, $message);
+    }
+
+    /**
+     * Redirect to the referer.
+     *
+     * @param string $defaultPath
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function redirectToReferer($defaultPath)
+    {
+        if (null !== $request = $this->get('request_stack')->getCurrentRequest()) {
+            if (0 < strlen($referer = $request->headers->get('referer'))) {
+                return $this->redirect($referer);
+            }
+        }
+        return $this->redirect($defaultPath);
     }
 }
