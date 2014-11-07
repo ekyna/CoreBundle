@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Controller
@@ -101,5 +102,15 @@ class Controller extends BaseController
             }
         }
         return $this->redirect($defaultPath);
+    }
+
+    /**
+     * Returns whether the user has ROLE_ADMIN or not.
+     *
+     * @return bool
+     */
+    protected function isAdminUser()
+    {
+        return $this->get('security.context')->isGranted('ROLE_ADMIN');
     }
 }
