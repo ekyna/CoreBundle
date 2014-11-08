@@ -11,6 +11,8 @@
 
         <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber</parameter>
 
+        <parameter key="ekyna_core.imagine.cache.resolver.web_path.class">Ekyna\Bundle\CoreBundle\Imagine\Cache\Resolver\WebPathResolver</parameter>
+
         <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
         <parameter key="ekyna_core.image_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber</parameter>
         <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber</parameter>
@@ -69,6 +71,15 @@
         <service id="ekyna_core.image_subscriber" class="%ekyna_core.image_subscriber.class%">
             <argument type="service" id="ekyna_core.image_uploader" />
             <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+
+        <!-- Imagine cache resolver -->
+        <service id="ekyna_core.imagine.cache.resolver.web_path" class="%ekyna_core.imagine.cache.resolver.web_path.class%">
+            <argument type="service" id="filesystem" />
+            <argument>%assets_base_urls%</argument>
+            <argument>%kernel.root_dir%/../web</argument>
+            <argument>media/cache</argument>
+            <tag name="liip_imagine.cache.resolver" resolver="ekyna_web_path" />
         </service>
 
         <!-- Form types -->
