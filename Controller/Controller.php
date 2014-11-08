@@ -103,14 +103,4 @@ class Controller extends BaseController
         }
         return $this->redirect($defaultPath);
     }
-
-    /**
-     * Returns whether the user has ROLE_ADMIN or not.
-     *
-     * @return bool
-     */
-    protected function isAdminUser()
-    {
-        return $this->get('security.context')->isGranted('ROLE_ADMIN');
-    }
 }
