@@ -33,7 +33,7 @@
         "knplabs/knp-menu-bundle" : "v2.0.0",
         "knplabs/gaufrette" : "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
-        "liip/imagine-bundle": "0.*",
+        "liip/imagine-bundle": "dev-master",
         "malsup/form": "3.*",
         "twbs/bootstrap" : "3.2.*",
         "braincrafted/bootstrap-bundle" : "2.1.*",
