@@ -37,8 +37,7 @@
         "malsup/form": "3.*",
         "twbs/bootstrap" : "3.2.*",
         "braincrafted/bootstrap-bundle" : "2.1.*",
-        "stfalcon/tinymce-bundle" : "0.3.*",
-        "antimattr/google-bundle" : "dev-master"
+        "stfalcon/tinymce-bundle" : "0.3.*"
     },
     "autoload" : {
         "psr-0" : {
