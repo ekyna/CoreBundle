@@ -37,7 +37,7 @@
         "malsup/form": "3.*",
         "twbs/bootstrap" : "3.2.*",
         "braincrafted/bootstrap-bundle" : "2.1.*",
-        "stfalcon/tinymce-bundle" : "dev-installer"
+        "stfalcon/tinymce-bundle" : "dev-master"
     },
     "repositories": [
         {
