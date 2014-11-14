@@ -18,8 +18,8 @@ class TinymceConfiguration
     public function build(array $config)
     {
         $contentCss = array(
-            "/css/content.css",
-            "/bundles/ekynacore/css/tinymce-content.css",
+            "asset[css/content.css]",
+            "asset[bundles/ekynacore/css/tinymce-content.css]",
         );
 
         if (0 < strlen($config['ui']['google_font_url'])) {

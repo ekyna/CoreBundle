@@ -37,8 +37,14 @@
         "malsup/form": "3.*",
         "twbs/bootstrap" : "3.2.*",
         "braincrafted/bootstrap-bundle" : "2.1.*",
-        "stfalcon/tinymce-bundle" : "0.3.*"
+        "stfalcon/tinymce-bundle" : "installer"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/ekyna/TinymceBundle.git"
+        }
+    ],
     "autoload" : {
         "psr-0" : {
             "Ekyna\\Bundle\\CoreBundle" : ""
