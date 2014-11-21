@@ -75,6 +75,8 @@ ekyna_core:
         images: Images
         photo: Photo
         photos: Photos
+        video: Vidéo
+        videos: Vidéos
         date: Date
         created_at: Date de création
         updated_at: Date de modification
