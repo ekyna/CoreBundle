@@ -20,6 +20,7 @@ ekyna_core:
         back: Retour
         back_to_show: Retour au détail
         back_to_list: Retour à la liste
+        show_front: Voir sur le site
         list: Liste
         show: Detail
         content_show: Voir le contenu
