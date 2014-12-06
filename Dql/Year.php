@@ -2,15 +2,15 @@
 
 namespace Ekyna\Bundle\CoreBundle\Dql;
 
-use Doctrine\ORM\Query\Lexer;
-use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode,
+    Doctrine\ORM\Query\Lexer,
+    Doctrine\ORM\Query\Parser,
+    Doctrine\ORM\Query\SqlWalker;
 
 /**
- * "YEAR" "(" SimpleArithmeticExpression ")"
- *
- * @package     Ekyna\Bundle\CoreBundle\Dql
- * @author      Rafael Kassner <kassner@gmail.com>
- * @license     MIT License
+ * Class Year
+ * @package Ekyna\Bundle\CoreBundle\Dql
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class Year extends FunctionNode
 {
@@ -22,7 +22,7 @@ class Year extends FunctionNode
     /**
      * {@inheritdoc}
      */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker)
     {
         return "YEAR(" . $sqlWalker->walkArithmeticPrimary($this->date) . ")";
     }
@@ -30,10 +30,8 @@ class Year extends FunctionNode
     /**
      * {@inheritdoc}
      */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
+    public function parse(Parser $parser)
     {
-        $lexer = $parser->getLexer();
-
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 

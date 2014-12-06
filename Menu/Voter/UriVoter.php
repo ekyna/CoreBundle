@@ -45,15 +45,15 @@ class UriVoter implements VoterInterface
         }
 
         $uri = $item->getUri();
-        if (0 === strpos($uri, $this->request->getScriptName())) {
-            $uri = substr($uri, strlen($this->request->getScriptName()));
+        if (0 < strlen($scriptName = $this->request->getScriptName())) {
+            if (0 === strpos($uri, $this->request->getScriptName())) {
+                $uri = substr($uri, strlen($this->request->getScriptName()));
+            }
         }
 
         if (1 >= strlen($uri)) {
             return null;
         }
-
-        //echo $uri . ' - ' . $this->request->getPathInfo() . '<br>';
 
         if (preg_match(sprintf('#^%s#', $uri), $this->request->getPathInfo())) {
             return true;

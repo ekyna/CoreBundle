@@ -2,14 +2,15 @@
 
 namespace Ekyna\Bundle\CoreBundle\Dql;
 
-use Doctrine\ORM\Query\Lexer;
-use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode,
+    Doctrine\ORM\Query\Lexer,
+    Doctrine\ORM\Query\Parser,
+    Doctrine\ORM\Query\SqlWalker;
 
 /**
- * UnixTimestamp
- *
- * @link labs.ultravioletdesign.co.uk
- * @author Rob Squires <rob@ultravioletdesign.co.uk>
+ * Class UnixTimestamp
+ * @package Ekyna\Bundle\CoreBundle\Dql
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class UnixTimestamp extends FunctionNode
 {
@@ -21,7 +22,7 @@ class UnixTimestamp extends FunctionNode
     /**
      * {@inheritdoc}
      */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker)
     {
         return 'UNIX_TIMESTAMP(' . $sqlWalker->walkArithmeticExpression($this->dateExpression) . ')';
     }
@@ -29,7 +30,7 @@ class UnixTimestamp extends FunctionNode
     /**
      * {@inheritdoc}
      */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
+    public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
