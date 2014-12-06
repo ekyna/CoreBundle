@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Doctrine\Common\Inflector\Inflector;
 use Ekyna\Bundle\CoreBundle\Util\TruncateHtml;
+use Symfony\Component\PropertyAccess\Exception\NoSuchIndexException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -49,15 +50,22 @@ class UtilsExtension extends \Twig_Extension
 
     /**
      * Uses PropertyAccess component to return the object property value.
-     * TODO Remove. Duplicate of attribute() twig function.
      *
-     * @param $object
-     * @param $propertyPath
+     * @param mixed  $object
+     * @param string $propertyPath
+     * @param bool   $required
      *
      * @return mixed
      */
-    public function getProperty($object, $propertyPath)
+    public function getProperty($object, $propertyPath, $required = true)
     {
+        if (!$required) {
+            try {
+                return $this->accessor->getValue($object, $propertyPath);
+            } catch(NoSuchIndexException $e) {
+                return null;
+            }
+        }
         return $this->accessor->getValue($object, $propertyPath);
     }
 
