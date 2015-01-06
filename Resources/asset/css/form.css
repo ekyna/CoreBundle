@@ -9,6 +9,11 @@
     margin-bottom: 0;
 }
 
+.form-body.form-body-unstyled {
+    border: none;
+    padding: 0;
+}
+
 .form-body textarea {
     resize: none !important;
     min-height: 34px;

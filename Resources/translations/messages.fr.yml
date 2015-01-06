@@ -13,6 +13,12 @@ ekyna_core:
         restart: Recommencer
         reset: Réinitialiser
         finish: Terminer
+        play: Démarrer
+        pause: Pause
+        resume: Reprendre
+        stop: Stop
+        lock: Verrouiller
+        unlock: Déverrouiller
         close: Fermer
         login: Connexion
         logout: Se déconnecter
@@ -29,6 +35,7 @@ ekyna_core:
         create: Nouveau
         edit: Modifier
         remove: Supprimer
+        unlink: Retirer
         move_up: Remonter
         move_descendre: Descendre
         cancel: Annuler
@@ -36,6 +43,8 @@ ekyna_core:
         execute: Exécuter
         apply: Appliquer
         download: Télécharger
+        import: Importer
+        export: Exporter
     field:
         name: Nom
         title: Titre
@@ -97,6 +106,8 @@ ekyna_core:
         file: Fichier
         rename: Renommer
         choose_file: Choisissez un fichier
+        import: Import
+        export: Export
         path: Chemin
         alt: Alt
         seo: Référencement

@@ -5,7 +5,9 @@
 	 */
 	$.fn.fileWidget = function(params) {
 		
-		params = $.extend({}, params);
+		params = $.extend({
+            onChange: null
+        }, params);
 		
 		this.each(function() {
 
@@ -21,8 +23,11 @@
 				e.preventDefault(); $file.trigger('click');
 			});
 
-			$file.unbind('change').bind('change', function() {
+			$file.unbind('change').bind('change', function(e) {
 				$text.val($file.val().fileName());
+                if (typeof params.onChange === 'function') {
+                    params.onChange(this);
+                }
 			});
 		});
 		return this;
@@ -110,7 +115,22 @@
 		params = $.extend({}, params);
 		
 		this.each(function() {
-			var $file = $(this).find('.file-widget').fileWidget();
+			var $file = $(this).find('.file-widget').fileWidget({
+                onChange: function(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('[data-preview="' + $(input).attr('id') + '"]')
+                                .unbind('click')
+                                .bind('click', function(e) {
+                                    e.preventDefault();
+                                })
+                                .find('img').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            });
 			$(this).find('.rename-widget').renameWidget({file: $file.find('input:file')});
 		});
 		return this;

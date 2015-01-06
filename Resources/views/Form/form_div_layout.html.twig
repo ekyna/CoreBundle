@@ -70,11 +70,11 @@
 {% block ekyna_core_image_thumb %}
 {% spaceless %}
     {% if image_path is not null %}
-        <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail">
-            <img src="{{ image_path|imagine_filter('admin_thumb') }}" />
+        <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail" data-preview="{{ id }}_file">
+            <img src="{{ image_path|imagine_filter('admin_thumb') }}" style="max-width: 145px" />
         </a>
     {% else %}
-        <span class="thumbnail">{{ ui_no_image() }}</span>
+        <span class="thumbnail" data-preview="{{ id }}_file">{{ ui_no_image('max-width: 145px') }}</span>
     {% endif %}
 {% endspaceless %}
 {% endblock ekyna_core_image_thumb %}
