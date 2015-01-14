@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 /**
- * EkynaCoreExtension
- *
+ * Class EkynaCoreExtension
+ * @package Ekyna\Bundle\CoreBundle\DependencyInjection
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class EkynaCoreExtension extends Extension implements PrependExtensionInterface

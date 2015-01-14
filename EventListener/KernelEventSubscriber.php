@@ -5,8 +5,10 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 use Ekyna\Bundle\CoreBundle\Exception\RedirectException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * KernelEventSubscriber.
@@ -16,16 +18,16 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 class KernelEventSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     * @var Session
      */
     private $session;
 
     /**
      * Constructor.
      * 
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     * @param Session $session
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }
@@ -52,7 +54,7 @@ class KernelEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
     	return array(
-    		'kernel.exception' => array('onKernelException', 0),
+            KernelEvents::EXCEPTION => array('onKernelException', 0),
     	);
     }
 }

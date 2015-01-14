@@ -39,6 +39,9 @@
         "braincrafted/bootstrap-bundle" : "2.1.*",
         "stfalcon/tinymce-bundle" : "dev-master"
     },
+    "suggest": {
+        "friendsofsymfony/http-cache-bundle": "Speed up the website"
+    },
     "repositories": [
         {
             "type": "git",

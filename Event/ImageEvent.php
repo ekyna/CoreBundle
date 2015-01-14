@@ -6,9 +6,9 @@ use Symfony\Component\EventDispatcher\Event;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
 
 /**
- * ImageEvent.
- *
- * @author Etienne Dauvergne <contact@ekyna.com>
+ * Class ImageEvent
+ * @package Ekyna\Bundle\CoreBundle\Event
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class ImageEvent extends Event
 {

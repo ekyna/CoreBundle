@@ -3,9 +3,9 @@
 namespace Ekyna\Bundle\CoreBundle\Event;
 
 /**
- * ImageEvents.
- *
- * @author Etienne Dauvergne <contact@ekyna.com>
+ * Class ImageEvents
+ * @package Ekyna\Bundle\CoreBundle\Event
+ * @author Étienne Dauvergne <contact@ekyna.com>
  */
 final class ImageEvents
 {

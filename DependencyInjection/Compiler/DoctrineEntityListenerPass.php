@@ -7,8 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * DoctrineEntityListenerPass
- *
+ * Class DoctrineEntityListenerPass
+ * @package Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class DoctrineEntityListenerPass implements CompilerPassInterface

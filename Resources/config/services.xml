@@ -6,83 +6,15 @@
                         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="ekyna_core.doctrine.entity_listener_resolver.class">Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver</parameter>
-
-        <parameter key="ekyna_core.chain_router.class">Symfony\Cmf\Component\Routing\ChainRouter</parameter>
-
-        <parameter key="ekyna_core.kernel_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber</parameter>
-
-        <parameter key="ekyna_core.imagine.cache.resolver.web_path.class">Ekyna\Bundle\CoreBundle\Imagine\Cache\Resolver\WebPathResolver</parameter>
-
-        <parameter key="ekyna_core.image_uploader.class">Ekyna\Bundle\CoreBundle\Uploader\ImageUploader</parameter>
-        <parameter key="ekyna_core.image_subscriber.class">Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber</parameter>
-        <parameter key="ekyna_core.image_event_subscriber.class">Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
         <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
         <parameter key="ekyna_core.hidden_entity.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\HiddenEntityType</parameter>
-
-        <parameter key="ekyna_core.form_type_sizing_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension</parameter>
-        <parameter key="ekyna_core.form_type_redirect_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension</parameter>
-        <parameter key="ekyna_core.form_type_footer_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension</parameter>
-        <parameter key="ekyna_core.entity_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension</parameter>
-        <parameter key="ekyna_core.datetime_type_extension.class">Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension</parameter>
     </parameters>
 
     <services>
-        <!-- Doctrine entity listener resolver -->
-        <service id="ekyna_core.doctrine.entity_listener_resolver" class="%ekyna_core.doctrine.entity_listener_resolver.class%">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
-
-        <!-- Chain router -->
-        <service id="ekyna_core.router" class="%ekyna_core.chain_router.class%">
-            <argument type="service" id="logger" on-invalid="ignore" />
-            <call method="setContext">
-                <argument type="service" id="router.request_context" />
-            </call>
-        </service>
-
-        <!-- Redirect Exception listener -->
-        <service id="ekyna_core.kernel_event_subscriber" class="%ekyna_core.kernel_event_subscriber.class%">
-            <argument type="service" id="session" />
-            <tag name="kernel.event_subscriber" />
-        </service>
-
-        <!-- Image uploader -->
-        <service id="ekyna_core.image_uploader" class="%ekyna_core.image_uploader.class%">
-            <argument type="service">
-                <service 
-                    class="Gaufrette\Filesystem"
-                    factory-service="knp_gaufrette.filesystem_map"
-                    factory-method="get"
-                >
-                    <argument>ekyna_image</argument>
-                </service>
-            </argument>
-        </service>
-        <service id="ekyna_core.image_event_subscriber" class="%ekyna_core.image_event_subscriber.class%">
-            <argument type="service" id="ekyna_core.image_uploader" />
-        	<tag name="kernel.event_subscriber" />
-        </service>
-        <service id="ekyna_core.image_subscriber" class="%ekyna_core.image_subscriber.class%">
-            <argument type="service" id="ekyna_core.image_uploader" />
-            <tag name="doctrine.event_subscriber" connection="default" />
-        </service>
-
-        <!-- Imagine cache resolver -->
-        <service id="ekyna_core.imagine.cache.resolver.web_path" class="%ekyna_core.imagine.cache.resolver.web_path.class%">
-            <argument type="service" id="filesystem" />
-            <argument>%assets_base_urls%</argument>
-            <argument>%kernel.root_dir%/../web</argument>
-            <argument>media/cache</argument>
-            <tag name="liip_imagine.cache.resolver" resolver="ekyna_web_path" />
-        </service>
-
         <!-- Form types -->
         <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
             <tag name="form.type" alias="ekyna_core_image" />
@@ -104,21 +36,77 @@
         </service>
 
         <!-- Form Extensions -->
-        <service id="ekyna_core.form_type_sizing_extension" class="%ekyna_core.form_type_sizing_extension.class%">
+        <service id="ekyna_core.form_type_sizing_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension">
             <tag name="form.type_extension" alias="form" />
         </service>
-        <service id="ekyna_core.form_type_redirect_extension" class="%ekyna_core.form_type_redirect_extension.class%">
+        <service id="ekyna_core.form_type_redirect_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension">
             <argument type="service" id="request_stack" />
             <tag name="form.type_extension" alias="form" />
         </service>
-        <service id="ekyna_core.form_type_footer_extension" class="%ekyna_core.form_type_footer_extension.class%">
+        <service id="ekyna_core.form_type_footer_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension">
             <tag name="form.type_extension" alias="form" />
         </service>
-        <service id="ekyna_core.entity_type_extension" class="%ekyna_core.entity_type_extension.class%">
+        <service id="ekyna_core.entity_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension">
             <tag name="form.type_extension" alias="entity" />
         </service>
-        <service id="ekyna_core.datetime_type_extension" class="%ekyna_core.datetime_type_extension.class%">
+        <service id="ekyna_core.datetime_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
             <tag name="form.type_extension" alias="datetime" />
+        </service>
+
+        <!-- Doctrine entity listener resolver -->
+        <service id="ekyna_core.doctrine.entity_listener_resolver" class="Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <!-- Chain router -->
+        <service id="ekyna_core.router" class="Symfony\Cmf\Component\Routing\ChainRouter">
+            <argument type="service" id="logger" on-invalid="ignore" />
+            <call method="setContext">
+                <argument type="service" id="router.request_context" />
+            </call>
+        </service>
+
+        <!-- Image uploader -->
+        <service id="ekyna_core.image_uploader" class="Ekyna\Bundle\CoreBundle\Uploader\ImageUploader">
+            <argument type="service">
+                <service 
+                    class="Gaufrette\Filesystem"
+                    factory-service="knp_gaufrette.filesystem_map"
+                    factory-method="get"
+                >
+                    <argument>ekyna_image</argument>
+                </service>
+            </argument>
+        </service>
+
+        <!-- Imagine cache resolver -->
+        <service id="ekyna_core.imagine.cache.resolver.web_path" class="Ekyna\Bundle\CoreBundle\Imagine\Cache\Resolver\WebPathResolver">
+            <argument type="service" id="filesystem" />
+            <argument>%assets_base_urls%</argument>
+            <argument>%kernel.root_dir%/../web</argument>
+            <argument>media/cache</argument>
+            <tag name="liip_imagine.cache.resolver" resolver="ekyna_web_path" />
+        </service>
+
+        <!-- Event subscribers -->
+        <service id="ekyna_core.kernel_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
+            <argument type="service" id="session" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ekyna_core.http_cache_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="httpcache" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ekyna_core.image_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber">
+            <argument type="service" id="ekyna_core.image_uploader" />
+        	<tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ekyna_core.image_subscriber" class="Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber">
+            <argument type="service" id="ekyna_core.image_uploader" />
+            <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 
         <!-- Twig extensions -->
