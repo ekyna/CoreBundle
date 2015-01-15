@@ -1,0 +1,55 @@
+{% extends 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' %}
+
+{% block list %}
+    {% import 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' as macros %}
+    {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
+        {% set listAttributes = listAttributes|merge({'class': listAttributes.class|default('')|trim}) %}
+
+        {% set listClass = '' %}
+        {% if options.style is defined and options.style == 'unstyled' %}
+            {% set listClass = 'list-unstyled' %}
+        {% elseif options.style is defined and options.style == 'tabs' %}
+            {% set listClass = 'nav-tabs' %}
+        {% elseif options.style is defined and options.style == 'stacked-tabs' %}
+            {% set listClass = 'nav-tabs nav-stacked' %}
+        {% elseif options.style is defined and options.style == 'justified-tabs' %}
+            {% set listClass = 'nav-tabs nav-justified' %}
+        {% elseif options.style is defined and options.style == 'pills' %}
+            {% set listClass = 'nav-pills' %}
+        {% elseif options.style is defined and options.style == 'justified-pills' %}
+            {% set listClass = 'nav-pills nav-justified' %}
+        {% elseif options.style is defined and options.style == 'stacked-pills' %}
+            {% set listClass = 'nav-pills nav-stacked' %}
+        {% elseif options.style is defined and options.style == 'list' %}
+            {% set listClass = 'nav-list' %}
+        {% elseif options.style is defined and options.style == 'navbar' %}
+            {% set listClass = 'navbar-nav' %}
+        {% elseif options.style is defined and options.style == 'navbar-right' %}
+            {% set listClass = 'navbar-nav navbar-right' %}
+        {% endif %}
+
+        {% if options.pull is defined and options.pull == 'right' %}
+            {% set listClass = (listClass|default('') ~ ' pull-right')|trim %}
+        {% elseif options.pull is defined and options.pull == 'left' %}
+            {% set listClass = (listClass|default('') ~ 'pull-left')|trim %}
+        {% endif %}
+
+        {% set listClass = (options.currentDepth == 0 and listClass != 'list-unstyled') ? listClass ~ ' nav' : listClass %}
+
+        {% set listAttributes = listAttributes|merge({'class': (listAttributes.class|default('') ~ ' ' ~ listClass)|trim}) %}
+
+        <ul{{ macros.attributes(listAttributes) }}>
+            {{ block('children') }}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block dropdownElement %}
+    {% import 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' as macros %}
+    {% spaceless %}
+        {% set labelAttributes = item.labelAttributes %}
+        {% set labelAttributes = labelAttributes|merge({'class': (labelAttributes.class|default('') ~ ' dropdown-toggle')|trim}) %}
+        {#{% set labelAttributes = labelAttributes|merge({'data-toggle': 'dropdown'}) %}#}
+        <a href="{{ item.uri }}"{{ macros.attributes(labelAttributes) }}>{{ block('label') }} <b class="caret"></b></a>
+    {% endspaceless %}
+{% endblock dropdownElement %}

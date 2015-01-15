@@ -148,6 +148,7 @@ class AsseticConfiguration
         $inputs = array(
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.datetimepicker.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
+            '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.dropdown-hover-click.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
             '@EkynaCoreBundle/Resources/asset/css/form.css',
             '@EkynaCoreBundle/Resources/asset/css/modal-gallery.css',

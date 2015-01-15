@@ -1,0 +1,17 @@
+ul.nav li.dropdown b.caret {
+    display: none;
+}
+
+@media only screen and (min-width:768px) {
+    ul.nav li.dropdown b.caret {
+        display: inline-block;
+    }
+
+    ul.nav li.dropdown:hover > ul.dropdown-menu {
+        display: block;
+    }
+
+    .navbar .dropdown-menu {
+        margin-top: 0;
+    }
+}

@@ -58,6 +58,9 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         if (array_key_exists('BraincraftedBootstrapBundle', $bundles)) {
             $this->configureBraincraftedBootstrapBundle($container);
         }
+        if (array_key_exists('KnpMenuBundle', $bundles)) {
+            $this->configureKnpMenuBundle($container);
+        }
         if (array_key_exists('StfalconTinymceBundle', $bundles)) {
             $this->configureStfalconTinymceBundle($container, $config);
         }
@@ -101,6 +104,21 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
             'auto_configure' => array(
                 'twig' => false,
                 'assetic' => false,
+                'knp_menu' => false,
+            ),
+        ));
+    }
+
+    /**
+     * Configures the KnpMenuBundle.
+     *
+     * @param ContainerBuilder $container
+     */
+    protected function configureKnpMenuBundle(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('knp_menu', array(
+            'twig' => array(
+                'template' => 'EkynaCoreBundle:Ui:menu.html.twig',
             ),
         ));
     }
