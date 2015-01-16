@@ -53,14 +53,14 @@ class KernelEventSubscriber implements EventSubscriberInterface
      *
      * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    /*public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
         if (!$response->headers->has('Access-Control-Allow-Origin')) {
             $request = $event->getRequest();
             $response->headers->set('Access-Control-Allow-Origin', '*.' . $request->getHost());
         }
-    }
+    }*/
 
     /**
      * {@inheritdoc}
@@ -69,7 +69,7 @@ class KernelEventSubscriber implements EventSubscriberInterface
     {
     	return array(
             KernelEvents::EXCEPTION => array('onKernelException', 0),
-            KernelEvents::RESPONSE => array('onKernelResponse', 0), // TODO Chrome / Cross-Origin Resource Sharing
+            //KernelEvents::RESPONSE => array('onKernelResponse', 0), // TODO Chrome / Cross-Origin Resource Sharing
     	);
     }
 }

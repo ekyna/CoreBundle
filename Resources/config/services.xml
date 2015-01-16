@@ -96,8 +96,7 @@
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.http_cache_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
-            <argument type="service" id="logger" />
-            <tag name="monolog.logger" channel="httpcache" />
+            <argument>%ekyna_core.cache_config%</argument>
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.image_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber">

@@ -25,17 +25,39 @@ class Configuration implements ConfigurationInterface
                 ->append($this->getAssetsNode())
                 ->append($this->getUiNode())
                 ->append($this->getRouterNode())
+                ->append($this->getCacheNode())
             ->end()
         ;
 
         return $treeBuilder;
     }
 
+    private function getCacheNode()
+    {
+		$builder = new TreeBuilder();
+		$node = $builder->root('cache');
+		
+		$node
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('tag')
+					->addDefaultsIfNotSet()
+					->children()
+						->scalarNode('secret')->defaultValue('%secret%')->end()
+						->booleanNode('encode')->defaultTrue()->end()
+					->end()
+				->end()
+			->end()
+		;
+		
+		return $node;
+	}
+
     private function getRouterNode()
     {
 		$builder = new TreeBuilder();
 		$node = $builder->root('chain_router');
-		
+
 		$node
 			->addDefaultsIfNotSet()
 			->children()
@@ -47,7 +69,7 @@ class Configuration implements ConfigurationInterface
 				->end()
 			->end()
 		;
-		
+
 		return $node;
 	}
 

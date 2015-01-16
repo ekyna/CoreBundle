@@ -38,6 +38,7 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         }
 
         $container->setParameter('ekyna_core.ui_config', $config['ui']);
+        $container->setParameter('ekyna_core.cache_config', $config['cache']);
     }
 
     /**

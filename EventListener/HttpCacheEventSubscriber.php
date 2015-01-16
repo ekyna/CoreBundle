@@ -17,6 +17,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HttpCacheEventSubscriber implements EventSubscriberInterface
 {
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * @var CacheManager
      */
     protected $cacheManager;
@@ -28,9 +33,12 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor.
+     *
+     * @param array $config
      */
-    public function __construct()
+    public function __construct(array $config)
     {
+        $this->config = $config;
         $this->reset();
     }
 
@@ -81,6 +89,8 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             $tags = array($tags);
         }
 
+        $tags = $this->encodeTags($tags);
+
         $this->cacheManager
             ->invalidateTags($tags)
             ->flush()
@@ -96,9 +106,31 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     {
         if (null !== $this->cacheManager && !empty($this->responseTags)) {
             $response = $event->getResponse();
-            $this->cacheManager->tagResponse($response, $this->responseTags);
+            $tags = $this->encodeTags($this->responseTags);
+            $this->cacheManager->tagResponse($response, $tags);
             $this->reset();
         }
+    }
+
+    /**
+     * Encodes the tags.
+     *
+     * @param array $tags
+     * @return array
+     */
+    private function encodeTags(array $tags)
+    {
+        if ($this->config['tag']['encode']) {
+            $tmp = [];
+
+            foreach ($tags as $tag) {
+                $tmp[] = hash('crc32', $this->config['tag']['secret'].$tag, false);
+            }
+
+            return $tmp;
+        }
+
+        return $tags;
     }
 
     /**
