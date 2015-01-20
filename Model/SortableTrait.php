@@ -15,7 +15,10 @@ trait SortableTrait
     protected $position;
 
     /**
-     * {@inheritdoc}
+     * Sets the position.
+     *
+     * @param integer $position
+     * @return SortableInterface|$this
      */
     public function setPosition($position)
     {
@@ -25,7 +28,9 @@ trait SortableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the position.
+     *
+     * @return integer
      */
     public function getPosition()
     {

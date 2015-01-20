@@ -90,6 +90,7 @@ class ImageType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
+                'label' => 'ekyna_core.field.image',
                 'data_class' => null,
                 'display_thumb' => true,
                 'image_path' => 'path',

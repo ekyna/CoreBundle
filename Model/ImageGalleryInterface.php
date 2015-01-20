@@ -7,20 +7,6 @@ namespace Ekyna\Bundle\CoreBundle\Model;
  * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-interface ImageGalleryInterface extends ImageInterface
+interface ImageGalleryInterface extends ImageInterface, SortableInterface
 {
-    /**
-     * Returns the image position in the gallery
-     *
-     * @return integer
-     */
-    public function getPosition();
-
-    /**
-     * Set the image position in the gallery
-     *
-     * @param integer $position
-     * @return ImageGalleryInterface|$this
-     */
-    public function setPosition($position);
 }
