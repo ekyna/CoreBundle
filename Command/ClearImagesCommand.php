@@ -33,7 +33,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $filesystem = $this->getContainer()->get('knp_gaufrette.filesystem_map')->get('ekyna_image');
+        $filesystem = $this->getContainer()->get('knp_gaufrette.filesystem_map')->get('local_image');
 
         if (!$input->getOption('no-interaction')) {
             /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */

@@ -76,7 +76,7 @@
                     factory-service="knp_gaufrette.filesystem_map"
                     factory-method="get"
                 >
-                    <argument>ekyna_image</argument>
+                    <argument>local_image</argument>
                 </service>
             </argument>
         </service>
