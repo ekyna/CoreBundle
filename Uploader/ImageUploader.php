@@ -62,11 +62,11 @@ class ImageUploader implements ImageUploaderInterface
     public function remove(ImageInterface $image)
     {
         if ($image->hasOldPath()) {
-            if ($this->filesystem->has($image->getOldPath())) {
-                $this->filesystem->delete($image->getOldPath());
+            $oldPath = $image->getOldPath();
+            if ($this->filesystem->has($oldPath)) {
+                $this->filesystem->delete($oldPath);
             }
             $image->setOldPath(null);
-            // TODO remove empty directory
         }
     }
 

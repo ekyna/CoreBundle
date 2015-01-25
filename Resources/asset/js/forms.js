@@ -320,6 +320,7 @@
                                 .off('shown.bs.modal')
                                 .on('shown.bs.modal', function() {
                                     $list.ekynaTable({
+										ajax: true,
                                         onSelection: function(elements) {
                                             if ($select.prop('multiple')) {
                                                 $select.find('option').prop('selected', false);
