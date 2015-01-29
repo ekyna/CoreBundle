@@ -9,16 +9,21 @@ ekyna_core:
     button:
         previous: Précédente
         next: Suivante
+        previous_step: Précédent
+        next_step: Suivant
         start: Commencer
         restart: Recommencer
         reset: Réinitialiser
         finish: Terminer
+        validate: Valider
         play: Démarrer
         pause: Pause
         resume: Reprendre
         stop: Stop
         lock: Verrouiller
         unlock: Déverrouiller
+        enable: Activer
+        disable: Désactiver
         close: Fermer
         login: Connexion
         logout: Se déconnecter
@@ -43,6 +48,7 @@ ekyna_core:
         save: Enregistrer
         execute: Exécuter
         apply: Appliquer
+        send: Envoyer
         download: Télécharger
         import: Importer
         export: Exporter
