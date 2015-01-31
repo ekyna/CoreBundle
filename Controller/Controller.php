@@ -103,4 +103,17 @@ class Controller extends BaseController
         }
         return $this->redirect($defaultPath);
     }
+
+    /**
+     * Adds http cache tags to the response.
+     *
+     * @param Response $response
+     * @param mixed $tags
+     */
+    protected function tagResponse(Response $response, $tags)
+    {
+        if ($this->container->has('fos_http_cache.cache_manager')) {
+            $this->get('fos_http_cache.cache_manager')->tagResponse($response, $tags);
+        }
+    }
 }
