@@ -36,10 +36,11 @@ class Configuration implements ConfigurationInterface
     {
 		$builder = new TreeBuilder();
 		$node = $builder->root('cache');
-		
+
 		$node
 			->addDefaultsIfNotSet()
 			->children()
+				->integerNode('default_smaxage')->defaultValue(3600)->end()
 				->arrayNode('tag')
 					->addDefaultsIfNotSet()
 					->children()
