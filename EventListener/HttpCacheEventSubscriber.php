@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
+use Ekyna\Bundle\CoreBundle\HttpCache\TagManager;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -17,14 +18,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HttpCacheEventSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var array
+     * @var TagManager
      */
-    protected $config;
-
-    /**
-     * @var CacheManager
-     */
-    protected $cacheManager;
+    protected $tagManager;
 
     /**
      * @var array
@@ -34,22 +30,12 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param array $config
+     * @param TagManager $tagManager
      */
-    public function __construct(array $config)
+    public function __construct(TagManager $tagManager)
     {
-        $this->config = $config;
+        $this->tagManager = $tagManager;
         $this->reset();
-    }
-
-    /**
-     * Sets the cache manager.
-     *
-     * @param CacheManager $cacheManager
-     */
-    public function setCacheManager(CacheManager $cacheManager)
-    {
-        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -61,7 +47,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     {
         $tags = $event->getData();
 
-        if (empty($tags) || null === $this->cacheManager) {
+        if (empty($tags)) {
             return;
         }
 
@@ -79,22 +65,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      */
     public function onInvalidateTag(HttpCacheEvent $event)
     {
-        $tags = $event->getData();
-
-        if (empty($tags) || null === $this->cacheManager) {
-            return;
-        }
-
-        if (!is_array($tags)) {
-            $tags = array($tags);
-        }
-
-        $tags = $this->encodeTags($tags);
-
-        $this->cacheManager
-            ->invalidateTags($tags)
-            ->flush()
-        ;
+        $this->tagManager->invalidateTags($event->getData());
     }
 
     /**
@@ -104,37 +75,11 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (null !== $this->cacheManager && !empty($this->responseTags)) {
-            $response = $event->getResponse();
-            $tags = $this->encodeTags($this->responseTags);
-            $this->cacheManager->tagResponse($response, $tags);
-            $this->reset();
-        }
+        $this->tagManager->tagResponse($event->getResponse(), $this->responseTags);
     }
 
     /**
-     * Encodes the tags.
-     *
-     * @param array $tags
-     * @return array
-     */
-    private function encodeTags(array $tags)
-    {
-        if ($this->config['tag']['encode']) {
-            $tmp = [];
-
-            foreach ($tags as $tag) {
-                $tmp[] = hash('crc32', $this->config['tag']['secret'].$tag, false);
-            }
-
-            return $tmp;
-        }
-
-        return $tags;
-    }
-
-    /**
-     * Resets.
+     * Resets the response tags.
      */
     private function reset()
     {

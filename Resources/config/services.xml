@@ -90,20 +90,25 @@
             <tag name="liip_imagine.cache.resolver" resolver="ekyna_web_path" />
         </service>
 
+        <!-- Http cache -->
+        <service id="ekyna_core.http_cache.tag_manager" class="Ekyna\Bundle\CoreBundle\HttpCache\TagManager">
+            <argument>%ekyna_core.cache_config%</argument>
+        </service>
+
         <!-- Event subscribers -->
-        <service id="ekyna_core.kernel_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
+        <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <argument type="service" id="session" />
             <tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.http_cache_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
-            <argument>%ekyna_core.cache_config%</argument>
+        <service id="ekyna_core.http_cache.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
+            <argument type="service" id="ekyna_core.http_cache.tag_manager" />
             <tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.image_event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber">
+        <service id="ekyna_core.image.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber">
             <argument type="service" id="ekyna_core.image_uploader" />
         	<tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.image_subscriber" class="Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber">
+        <service id="ekyna_core.image_listener" class="Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber">
             <argument type="service" id="ekyna_core.image_uploader" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>

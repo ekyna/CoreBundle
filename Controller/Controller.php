@@ -113,8 +113,8 @@ class Controller extends BaseController
      */
     protected function configureSharedCache(Response $response, array $tags = array(), $smaxage = null)
     {
-        if (!empty($tags) && $this->container->has('fos_http_cache.cache_manager')) {
-            $this->get('fos_http_cache.cache_manager')->tagResponse($response, $tags);
+        if (!empty($tags)) {
+            $this->get('ekyna_core.http_cache.tag_manager')->tagResponse($response, $tags);
         }
         $smaxage = intval($smaxage);
         if (0 >= $smaxage) {
