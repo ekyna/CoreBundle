@@ -11,8 +11,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * KernelEventSubscriber.
- *
+ * Class KernelEventSubscriber
+ * @package Ekyna\Bundle\CoreBundle\EventListener
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class KernelEventSubscriber implements EventSubscriberInterface
@@ -42,25 +42,11 @@ class KernelEventSubscriber implements EventSubscriberInterface
         $exception = $event->getException();
         if ($exception instanceof RedirectException && null !== $uri = $exception->getUri()) {
             $event->setResponse(new RedirectResponse($uri));
-            if(0 < strlen($message = $exception->getMessage())) {
+            if (0 < strlen($message = $exception->getMessage())) {
                 $this->session->getFlashBag()->add($exception->getMessageType(), $exception->getMessage());
             }
         }
     }
-
-    /**
-     * Kernel response event handler.
-     *
-     * @param FilterResponseEvent $event
-     */
-    /*public function onKernelResponse(FilterResponseEvent $event)
-    {
-        $response = $event->getResponse();
-        if (!$response->headers->has('Access-Control-Allow-Origin')) {
-            $request = $event->getRequest();
-            $response->headers->set('Access-Control-Allow-Origin', '*.' . $request->getHost());
-        }
-    }*/
 
     /**
      * {@inheritdoc}
@@ -69,7 +55,6 @@ class KernelEventSubscriber implements EventSubscriberInterface
     {
     	return array(
             KernelEvents::EXCEPTION => array('onKernelException', 0),
-            //KernelEvents::RESPONSE => array('onKernelResponse', 0), // TODO Chrome / Cross-Origin Resource Sharing
     	);
     }
 }

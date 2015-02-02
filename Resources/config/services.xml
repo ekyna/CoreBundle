@@ -108,8 +108,12 @@
             <argument type="service" id="ekyna_core.image_uploader" />
         	<tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.image_listener" class="Ekyna\Bundle\CoreBundle\Listener\ImageSubscriber">
+        <service id="ekyna_core.image_listener" class="Ekyna\Bundle\CoreBundle\Listener\ImageListener" public="false">
             <argument type="service" id="ekyna_core.image_uploader" />
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+        <service id="ekyna_core.tagged_entity_listener" class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityListener" public="false">
+            <argument type="service" id="event_dispatcher" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 

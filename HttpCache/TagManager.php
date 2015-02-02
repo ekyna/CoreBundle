@@ -68,6 +68,7 @@ class TagManager
      * Adds tags to the response.
      *
      * @param Response $response
+     * @param mixed $tags
      */
     public function tagResponse(Response $response, array $tags)
     {
