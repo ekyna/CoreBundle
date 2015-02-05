@@ -65,6 +65,9 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
         if (array_key_exists('StfalconTinymceBundle', $bundles)) {
             $this->configureStfalconTinymceBundle($container, $config);
         }
+        if ($config['cache']['enable'] && array_key_exists('FOSHttpCacheBundle', $bundles)) {
+            $this->configureFOSHttpCacheBundle($container, $config);
+        }
     }
 
     /**
@@ -134,5 +137,24 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
     {
         $tinymceConfig = new TinymceConfiguration();
         $container->prependExtensionConfig('stfalcon_tinymce', $tinymceConfig->build($config));
+    }
+
+    /**
+     * Configures the FOSHttpCacheBundle.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    protected function configureFOSHttpCacheBundle(ContainerBuilder $container, array $config)
+    {
+        $container->prependExtensionConfig('fos_http_cache', array(
+            'proxy_client' => array(
+                'default' =>  'varnish',
+                'varnish' => array(
+                    'servers' =>  "%reverse_proxy.host%:%reverse_proxy.port%",
+                    'base_url' => "%hostname%:%reverse_proxy.port%",
+                ),
+            ),
+        ));
     }
 }

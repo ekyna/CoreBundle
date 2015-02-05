@@ -33,6 +33,16 @@ class TagManager
     }
 
     /**
+     * Returns whether the tag management is active or not.
+     *
+     * @return bool
+     */
+    private function isEnabled()
+    {
+        return $this->config['enable'] && null !== $this->cacheManager;
+    }
+
+    /**
      * Sets the cache manager.
      *
      * @param CacheManager $cacheManager
@@ -51,7 +61,7 @@ class TagManager
      */
     public function invalidateTags($tags)
     {
-        if (empty($tags) || null === $this->cacheManager) {
+        if (empty($tags) || !$this->isEnabled()) {
             return;
         }
 
@@ -72,7 +82,7 @@ class TagManager
      */
     public function tagResponse(Response $response, array $tags)
     {
-        if (empty($tags) || null === $this->cacheManager) {
+        if (empty($tags) || !$this->isEnabled()) {
             return;
         }
 

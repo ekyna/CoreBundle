@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
 		$node
 			->addDefaultsIfNotSet()
 			->children()
+				->booleanNode('enable')->defaultValue('%reverse_proxy.enable%')->end()
 				->integerNode('default_smaxage')->defaultValue(3600)->end()
 				->arrayNode('tag')
 					->addDefaultsIfNotSet()
