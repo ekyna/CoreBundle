@@ -2,6 +2,7 @@ ekyna_core:
     value:
         yes: Oui
         no: Non
+        none: Aucun
         undefined: Indéfini
         choose: Choisissez
         enabled: Activé
