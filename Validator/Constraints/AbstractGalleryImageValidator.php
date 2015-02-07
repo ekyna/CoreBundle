@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 
-use Ekyna\Bundle\CoreBundle\Model\ImageGalleryInterface;
+use Ekyna\Bundle\CoreBundle\Model\GalleryImageInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -13,14 +13,20 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class AbstractGalleryImageValidator extends ConstraintValidator
 {
-    public function validate($image, Constraint $constraint)
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($galleryImage, Constraint $constraint)
     {
-        if (! $image instanceof ImageGalleryInterface) {
+        if (! $galleryImage instanceof GalleryImageInterface) {
             throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\ImageGalleryInterface');
         }
 
-        /** @var ImageGalleryInterface $image */
-        if (!$image->hasFile() && !$image->hasPath()) {
+        /**
+         * @var AbstractGalleryImage $constraint
+         * @var GalleryImageInterface $galleryImage
+         */
+        if (!$galleryImage->hasFile() && !$galleryImage->hasPath()) {
             $this->context->addViolationAt(
                 'file',
                 $constraint->fileIsMandatory

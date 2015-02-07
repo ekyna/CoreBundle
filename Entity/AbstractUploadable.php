@@ -2,17 +2,16 @@
 
 namespace Ekyna\Bundle\CoreBundle\Entity;
 
-use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
-use Ekyna\Bundle\CoreBundle\Model\ImageTrait;
+use Ekyna\Bundle\CoreBundle\Model\UploadableTrait;
 
 /**
- * Class AbstractImage
+ * Class AbstractUploadable
  * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-abstract class AbstractImage implements ImageInterface
+abstract class AbstractUploadable
 {
-    use ImageTrait;
+    use UploadableTrait;
 
     /**
      * Id

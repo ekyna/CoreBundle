@@ -3,10 +3,10 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 /**
- * Interface ImageGalleryInterface
+ * Interface GalleryImageInterface
  * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-interface ImageGalleryInterface extends ImageInterface, SortableInterface
+interface GalleryImageInterface extends ImageInterface, SortableInterface
 {
 }

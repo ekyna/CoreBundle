@@ -13,8 +13,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class ColorValidator extends ConstraintValidator
 {
     /**
-     * @param string $code
-     * @param Constraint $constraint
+     * {@inheritdoc}
      */
     public function validate($code, Constraint $constraint)
     {

@@ -11,8 +11,11 @@ use Symfony\Component\Validator\Constraint;
  */
 class AbstractGalleryImage extends Constraint
 {
-    public $fileIsMandatory = 'ekyna_core.image.file_is_mandatory';
+    public $fileIsMandatory = 'ekyna_core.uploadable.file_is_mandatory';
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

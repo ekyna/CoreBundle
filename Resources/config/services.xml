@@ -69,7 +69,7 @@
         </service>
 
         <!-- Image uploader -->
-        <service id="ekyna_core.image_uploader" class="Ekyna\Bundle\CoreBundle\Uploader\ImageUploader">
+        <service id="ekyna_core.image_uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
             <argument type="service">
                 <service 
                     class="Gaufrette\Filesystem"

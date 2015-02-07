@@ -13,27 +13,20 @@ use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
  */
 class AbstractImageValidator extends ConstraintValidator
 {
+	/**
+	 * {@inheritdoc}
+	 */
     public function validate($image, Constraint $constraint)
     {
     	if (! $image instanceof ImageInterface) {
     	    throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\ImageInterface');
     	}
 
-        /** @var ImageInterface $image */
-    	if ($image->hasFile()) {
-    	    if (! $image->hasRename()) {
-    	        $this->context->addViolationAt(
-    	            'name',
-    	            $constraint->nameIsMandatory
-    	        );
-    	    }
-    	} elseif (! $image->hasPath()) {
-    	    if ($image->hasRename()) {
-    	        $this->context->addViolationAt(
-    	            'name',
-    	            $constraint->leaveBlank
-    	        );
-    	    }
+		/**
+		 * @var AbstractUploadable $constraint
+		 * @var ImageInterface $image
+		 */
+    	if (!$image->hasFile() && !$image->hasPath()) {
     	    if (0 < strlen($image->getAlt())) {
     	        $this->context->addViolationAt(
     	            'alt',

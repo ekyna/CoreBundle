@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
-use Ekyna\Bundle\CoreBundle\Uploader\ImageUploaderInterface;
+use Ekyna\Bundle\CoreBundle\Uploader\UploaderInterface;
 
 /**
  * Class ImageListener
@@ -17,54 +17,80 @@ use Ekyna\Bundle\CoreBundle\Uploader\ImageUploaderInterface;
 class ImageListener implements EventSubscriber
 {
     /**
-     * @var \Ekyna\Bundle\CoreBundle\Uploader\ImageUploader
+     * @var UploaderInterface
      */
     private $uploader;
 
+
     /**
-     * @param ImageUploaderInterface $uploader
+     * @param UploaderInterface $uploader
      */
-    public function __construct(ImageUploaderInterface $uploader)
+    public function __construct(UploaderInterface $uploader)
     {
         $this->uploader = $uploader;
     }
 
+    /**
+     * Pre persist event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ImageInterface) {
-            $this->prepareImage($entity);
+            $this->uploader->prepare($entity);
         }
     }
 
+    /**
+     * Post persist event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ImageInterface) {
-            $this->uploadImage($entity);
+            $this->uploader->upload($entity);
         }
     }
 
+    /**
+     * Pre update event handler.
+     *
+     * @param PreUpdateEventArgs $eventArgs
+     */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ImageInterface) {
-            $this->prepareImage($entity);
+            $this->uploader->prepare($entity);
         }
     }
 
+    /**
+     * Post update event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ImageInterface) {
-            $this->uploadImage($entity);
+            $this->uploader->upload($entity);
         }
     }
 
+    /**
+     * Pre remove event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
@@ -74,36 +100,23 @@ class ImageListener implements EventSubscriber
         }
     }
 
+    /**
+     * Post remove event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postRemove(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ImageInterface) {
-            $this->removeImage($entity);
+            $this->uploader->remove($entity);
         }
     }
 
-    private function prepareImage(ImageInterface $image)
-    {
-        if (!$this->uploader->prepare($image)) {
-            //$event->stop('Failed to upload '.$image->getFile()->getFilename().'. Maybe the file allready exists.');
-        }
-    }
-
-    private function uploadImage(ImageInterface $image)
-    {
-        if (!$this->uploader->upload($image)) {
-            //$event->stop('Failed to upload '.$image->getFile()->getFilename().'. Maybe the file allready exists.');
-        }
-    }
-
-    private function removeImage(ImageInterface $image)
-    {
-        if (!$this->uploader->remove($image)) {
-            //$event->stop('Failed to remove '.$image->getFile()->getFilename().'. Maybe the file is missing.');
-        }
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getSubscribedEvents()
     {
         return array(

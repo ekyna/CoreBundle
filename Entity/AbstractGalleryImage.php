@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Entity;
 
-use Ekyna\Bundle\CoreBundle\Model\ImageGalleryInterface;
+use Ekyna\Bundle\CoreBundle\Model\GalleryImageInterface;
 use Ekyna\Bundle\CoreBundle\Model\SortableTrait;
 
 /**
@@ -10,7 +10,7 @@ use Ekyna\Bundle\CoreBundle\Model\SortableTrait;
  * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-abstract class AbstractGalleryImage extends AbstractImage implements ImageGalleryInterface
+abstract class AbstractGalleryImage extends AbstractImage implements GalleryImageInterface
 {
     use SortableTrait;
 }
