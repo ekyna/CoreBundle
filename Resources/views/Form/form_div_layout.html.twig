@@ -36,7 +36,7 @@
 
 {% block file_widget %}
 {% spaceless %}
-    <div class="file-widget">
+    <div class="file-picker">
         <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
@@ -50,6 +50,17 @@
     </div>
 {% endspaceless %}
 {% endblock file_widget %}
+
+{% block ekyna_core_file_widget %}
+{% spaceless %}
+<div class="file-widget">
+    {{ form_row(form.file, {'style': 'horizontal'}) }}
+    {% if form.rename is defined %}
+        {{ form_row(form.rename, {'style': 'horizontal'}) }}
+    {% endif %}
+</div>
+{% endspaceless %}
+{% endblock ekyna_core_file_widget %}
 
 {% block ekyna_core_image_widget %}
 {% spaceless %}

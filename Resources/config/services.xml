@@ -6,6 +6,7 @@
                         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="ekyna_core.file.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\FileType</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
         <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
@@ -16,6 +17,9 @@
 
     <services>
         <!-- Form types -->
+        <service id="ekyna_core.file.form_type" class="%ekyna_core.file.form_type.class%">
+            <tag name="form.type" alias="ekyna_core_file" />
+        </service>
         <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
             <tag name="form.type" alias="ekyna_core_image" />
         </service>
@@ -68,15 +72,22 @@
             </call>
         </service>
 
-        <!-- Image uploader -->
-        <service id="ekyna_core.image_uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
+        <!-- Upload -->
+        <service id="ekyna_core.image.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
             <argument type="service">
-                <service 
-                    class="Gaufrette\Filesystem"
-                    factory-service="knp_gaufrette.filesystem_map"
-                    factory-method="get"
-                >
+                <service class="Gaufrette\Filesystem"
+                         factory-service="knp_gaufrette.filesystem_map"
+                         factory-method="get">
                     <argument>local_image</argument>
+                </service>
+            </argument>
+        </service>
+        <service id="ekyna_core.file.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
+            <argument type="service">
+                <service class="Gaufrette\Filesystem"
+                         factory-service="knp_gaufrette.filesystem_map"
+                         factory-method="get">
+                    <argument>local_file</argument>
                 </service>
             </argument>
         </service>
@@ -86,7 +97,7 @@
             <argument type="service" id="filesystem" />
             <argument>%assets_base_urls%</argument>
             <argument>%kernel.root_dir%/../web</argument>
-            <argument>media/cache</argument>
+            <argument>media/images</argument>
             <tag name="liip_imagine.cache.resolver" resolver="ekyna_web_path" />
         </service>
 
@@ -105,15 +116,25 @@
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.image.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\ImageEventSubscriber">
-            <argument type="service" id="ekyna_core.image_uploader" />
-        	<tag name="kernel.event_subscriber" />
+            <argument type="service" id="ekyna_core.image.uploader" />
+            <tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.image_listener" class="Ekyna\Bundle\CoreBundle\Listener\ImageListener" public="false">
-            <argument type="service" id="ekyna_core.image_uploader" />
+        <service id="ekyna_core.file.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\FileEventSubscriber">
+            <argument type="service" id="ekyna_core.file.uploader" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <!-- Doctrine event subscribers -->
+        <service id="ekyna_core.tagged_entity.listener" class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityListener" public="false">
+            <argument type="service" id="event_dispatcher" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
-        <service id="ekyna_core.tagged_entity_listener" class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityListener" public="false">
-            <argument type="service" id="event_dispatcher" />
+        <service id="ekyna_core.image.listener" class="Ekyna\Bundle\CoreBundle\Listener\ImageListener" public="false">
+            <argument type="service" id="ekyna_core.image.uploader" />
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+        <service id="ekyna_core.file.listener" class="Ekyna\Bundle\CoreBundle\Listener\FileListener" public="false">
+            <argument type="service" id="ekyna_core.file.uploader" />
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 

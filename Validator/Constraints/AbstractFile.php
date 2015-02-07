@@ -5,14 +5,14 @@ namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class AbstractUploadable
+ * Class AbstractFile
  * @package Ekyna\Bundle\CoreBundle\Validator\Constraints
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class AbstractUploadable extends Constraint
+class AbstractFile extends Constraint
 {
-    public $nameIsMandatory = 'ekyna_core.uploadable.name_is_mandatory';
-    public $leaveBlank = 'ekyna_core.uploadable.leave_blank';
+    public $nameIsMandatory = 'ekyna_core.file.name_is_mandatory';
+    public $leaveBlank      = 'ekyna_core.file.leave_blank';
 
     /**
      * {@inheritdoc}

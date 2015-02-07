@@ -5,13 +5,13 @@ namespace Ekyna\Bundle\CoreBundle\Entity;
 use Ekyna\Bundle\CoreBundle\Model;
 
 /**
- * Class AbstractImage
+ * Class AbstractFile
  * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-abstract class AbstractImage implements Model\ImageInterface
+abstract class AbstractFile implements Model\FileInterface
 {
-    use Model\ImageTrait;
+    use Model\UploadableTrait;
 
     /**
      * Id

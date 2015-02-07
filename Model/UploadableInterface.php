@@ -29,7 +29,7 @@ interface UploadableInterface
      * Set file
      *
      * @param File $file
-     * @return ImageInterface|$this
+     * @return UploadableInterface|$this
      */
     public function setFile(File $file = null);
 
@@ -51,7 +51,7 @@ interface UploadableInterface
      * Set path.
      *
      * @param string $path
-     * @return ImageInterface|$this
+     * @return UploadableInterface|$this
      */
     public function setPath($path);
 
@@ -73,7 +73,7 @@ interface UploadableInterface
      * Set old path.
      *
      * @param string $oldPath
-     * @return ImageInterface|$this
+     * @return UploadableInterface|$this
      */
     public function setOldPath($oldPath);
 
@@ -116,7 +116,7 @@ interface UploadableInterface
      * Set rename.
      *
      * @param string $rename
-     * @return ImageInterface|$this
+     * @return UploadableInterface|$this
      */
     public function setRename($rename);
 }

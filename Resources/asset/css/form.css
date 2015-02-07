@@ -279,14 +279,14 @@
 
 
 /**
- *  File Widget
+ *  File Picker
  */
-.file-widget {
+.file-picker {
     position: relative;
     overflow: hidden;
 }
 
-.file-widget input[type="file"] {
+.file-picker input[type="file"] {
     opacity: 0;
     filter: alpha(opacity = 0);
     -moz-opacity: 0;

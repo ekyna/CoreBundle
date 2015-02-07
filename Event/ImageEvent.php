@@ -2,8 +2,8 @@
 
 namespace Ekyna\Bundle\CoreBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class ImageEvent

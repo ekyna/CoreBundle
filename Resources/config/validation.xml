@@ -5,12 +5,15 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
                         http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractUploadable">
-        <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractUploadable" />
+    <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractFile">
+        <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractFile" />
+        <property name="file">
+            <constraint name="File" />
+        </property>
     </class>
 
     <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractImage">
-        <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractUploadable" />
+        <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractFile" />
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractImage" />
         <property name="file">
             <constraint name="Image" />

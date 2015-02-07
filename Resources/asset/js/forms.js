@@ -3,7 +3,7 @@
 	/**
 	 * File widget
 	 */
-	$.fn.fileWidget = function(params) {
+	$.fn.filePicker = function(params) {
 		
 		params = $.extend({
             onChange: null
@@ -108,14 +108,28 @@
 	};
 
 	/**
-	 * Image widget
+	 * File widget
 	 */
-	$.fn.imageWidget = function(params) {
+	$.fn.fileWidget = function(params) {
 		
 		params = $.extend({}, params);
 		
 		this.each(function() {
-			var $file = $(this).find('.file-widget').fileWidget({
+			var $file = $(this).find('.file-picker').filePicker();
+			$(this).find('.file-rename').renameWidget({file: $file.find('input:file')});
+		});
+		return this;
+	};
+
+	/**
+	 * Image widget
+	 */
+	$.fn.imageWidget = function(params) {
+
+		params = $.extend({}, params);
+
+		this.each(function() {
+			var $file = $(this).find('.file-picker').filePicker({
                 onChange: function(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
@@ -131,7 +145,7 @@
                     }
                 }
             });
-			$(this).find('.rename-widget').renameWidget({file: $file.find('input:file')});
+			$(this).find('.file-rename').renameWidget({file: $file.find('input:file')});
 		});
 		return this;
 	};
@@ -440,6 +454,9 @@
 
 			/* Textarea autosize */
 			$(this).find('textarea').not('.tinymce').autosize({append: "\n"});
+
+			/* File widget */
+			$(this).find('.file-widget').fileWidget();
 
 			/* Image widget */
 			$(this).find('.image-widget').imageWidget();

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class AbstractImage extends Constraint
 {
-    public $leaveBlank = 'ekyna_core.uploadable.leave_blank';
+    public $leaveBlank = 'ekyna_core.file.leave_blank';
 
     /**
      * {@inheritdoc}
