@@ -172,6 +172,7 @@ class AsseticConfiguration
     {
         $inputs = array(
     	    'bundles/fosjsrouting/js/router.js',
+            'js/fos_js_routes.js',
             '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/tinycolor.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.datetimepicker.js',

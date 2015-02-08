@@ -1,4 +1,4 @@
-;(function ($) {
+;(function(doc, $, router) {
 	
 	/**
 	 * File widget
@@ -255,7 +255,7 @@
                     $modal.find('.modal-body').empty();
                 });
 
-            if($addButton.length == 1) {
+            if ($addButton.length == 1) {
                 $addButton.bind('click', function(e) {
 					e.preventDefault();
 
@@ -427,7 +427,64 @@
 		});
 		return this;
 	};
-	
+
+	/**
+	 * Choice parent widget
+	 */
+	$.fn.choiceParentWidget = function(params) {
+
+		params = $.extend({
+			route: null,
+			field: null
+		}, params);
+
+		this.each(function() {
+
+			var $this = $(this);
+
+			$this.config = $.extend(params, $this.data('parent-choice'));
+			if (!$this.config.field || !$this.config.route) {
+				return;
+			}
+
+			$this.updateChoices = function(parentId) {
+				var $defaultOption = $this.find('option').eq(0);
+				$this.empty().append($defaultOption).prop('disabled', true);
+
+				parentId = parseInt(parentId);
+				if (!parentId) {
+					return;
+				}
+
+				var xhr = $.get(router.generate($this.config.route, {'id': parentId}));
+				xhr.done(function(results) {
+					if ($(results).length == 0) {
+						return;
+					}
+
+					$(results).each(function(index, result) {
+						var $option = $('<option />');
+						$option.attr('value', result.value).text(result.text);
+						$this.append($option);
+					});
+
+					$this.prop('disabled', false);
+				});
+			};
+
+			var $parentSelect = $('select#' + $this.config.field).bind('change', function() {
+				$this.updateChoices($(this).val());
+			});
+
+			$this.updateChoices($parentSelect.val());
+
+		});
+		return this;
+	};
+
+	/**
+	 *  Form widget
+	 */
 	$.fn.formWidget = function(params) {
 
 		params = $.extend({}, params);
@@ -468,11 +525,13 @@
 			$(this).find('.entity-widget').entityWidget();
 			$(this).find('.entity-search').entitySearchWidget();
 
+			/* Parent choice */
+			$(this).find('select[data-parent-choice]').choiceParentWidget();
 		});
 		return this;
 	};
 
-	$(document).ready(function() {
+	$(doc).ready(function() {
 
 		$('.form-body').formWidget();
 
@@ -498,11 +557,11 @@
 		 * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
 		 * @see http://jsfiddle.net/e99xf/13/
 		 */
-		$(document).on('focusin', function(e) {
+		$(doc).on('focusin', function(e) {
 		    if ($(e.target).closest(".mce-window").length) {
 		        e.stopImmediatePropagation();
 		    }
 		});
 	});
 
-})(window.jQuery);
+})(document, jQuery, Routing);

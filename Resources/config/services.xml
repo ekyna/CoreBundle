@@ -53,6 +53,9 @@
         <service id="ekyna_core.entity_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension">
             <tag name="form.type_extension" alias="entity" />
         </service>
+        <service id="ekyna_core.choice_type_parent_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\ChoiceTypeParentExtension">
+            <tag name="form.type_extension" alias="choice" />
+        </service>
         <service id="ekyna_core.datetime_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
             <tag name="form.type_extension" alias="datetime" />
         </service>
