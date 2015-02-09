@@ -448,7 +448,11 @@
 			if (this.$parent.length > 0) {
 				this.$parent.bind('change', function() {
 					t.updateChoices()
-				}).trigger('change');
+				});
+				var value = parseInt(this.$elem.val());
+				if (!value) {
+					this.$parent.trigger('change');
+				}
 			}
 			return this;
 		},
