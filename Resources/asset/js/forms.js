@@ -429,58 +429,65 @@
 	};
 
 	/**
-	 * Choice parent widget
+	 * Choice parent selector
 	 */
-	$.fn.choiceParentWidget = function(params) {
+	var FormChoiceParentSelector = function(elem, options){
+		this.elem = elem;
+		this.$elem = $(elem);
+		this.$parent = null;
+		this.options = options;
+		this.metadata = this.$elem.data('parent-choice');
+	};
 
-		params = $.extend({
-			route: null,
-			field: null
-		}, params);
-
-		this.each(function() {
-
-			var $this = $(this);
-
-			$this.config = $.extend(params, $this.data('parent-choice'));
-			if (!$this.config.field || !$this.config.route) {
+	FormChoiceParentSelector.prototype = {
+		defaults: {},
+		init: function() {
+			this.config = $.extend({}, this.defaults, this.options, this.metadata);
+			this.$parent = $('select#' + this.config.field);
+			var t = this;
+			if (this.$parent.length > 0) {
+				this.$parent.bind('change', function() {
+					t.updateChoices()
+				}).trigger('change');
+			}
+			return this;
+		},
+		updateChoices: function() {
+			var $select = this.$elem;
+			if (this.$parent.prop('disabled')) {
 				return;
 			}
-
-			$this.updateChoices = function(parentId) {
-				var $defaultOption = $this.find('option').eq(0);
-				$this.empty().append($defaultOption).prop('disabled', true);
-
-				parentId = parseInt(parentId);
-				if (!parentId) {
+			var parentId = parseInt(this.$parent.val());
+			if (!parentId) {
+				return;
+			}
+			var $defaultOption = $select.find('option').eq(0);
+			$select.empty().append($defaultOption).prop('disabled', true);
+			var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
+			xhr.done(function(results) {
+				if ($(results).length == 0) {
 					return;
 				}
-
-				var xhr = $.get(router.generate($this.config.route, {'id': parentId}));
-				xhr.done(function(results) {
-					if ($(results).length == 0) {
-						return;
-					}
-
-					$(results).each(function(index, result) {
-						var $option = $('<option />');
-						$option.attr('value', result.value).text(result.text);
-						$this.append($option);
-					});
-
-					$this.prop('disabled', false);
+				$(results).each(function(index, result) {
+					var $option = $('<option />');
+					$option.attr('value', result.value).text(result.text);
+					$select.append($option);
 				});
-			};
-
-			var $parentSelect = $('select#' + $this.config.field).bind('change', function() {
-				$this.updateChoices($(this).val());
+				$select.prop('disabled', false);
 			});
-
-			$this.updateChoices($parentSelect.val());
-
-		});
-		return this;
+		}
 	};
+
+	FormChoiceParentSelector.defaults = FormChoiceParentSelector.prototype.defaults;
+
+	$.fn.formChoiceParentSelectorWidget = function(options) {
+		return this.each(function() {
+			new FormChoiceParentSelector(this, options).init();
+		});
+	};
+
+	window.FormChoiceParentSelector = FormChoiceParentSelector;
+
 
 	/**
 	 *  Form widget
@@ -526,7 +533,7 @@
 			$(this).find('.entity-search').entitySearchWidget();
 
 			/* Parent choice */
-			$(this).find('select[data-parent-choice]').choiceParentWidget();
+			$(this).find('select[data-parent-choice]').formChoiceParentSelectorWidget();
 		});
 		return this;
 	};

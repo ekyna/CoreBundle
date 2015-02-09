@@ -66,7 +66,7 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
             $this->configureStfalconTinymceBundle($container, $config);
         }
         if ($config['cache']['enable'] && array_key_exists('FOSHttpCacheBundle', $bundles)) {
-            $this->configureFOSHttpCacheBundle($container, $config);
+            $this->configureFOSHttpCacheBundle($container);
         }
     }
 
@@ -143,9 +143,8 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
      * Configures the FOSHttpCacheBundle.
      *
      * @param ContainerBuilder $container
-     * @param array            $config
      */
-    protected function configureFOSHttpCacheBundle(ContainerBuilder $container, array $config)
+    protected function configureFOSHttpCacheBundle(ContainerBuilder $container)
     {
         $container->prependExtensionConfig('fos_http_cache', array(
             'proxy_client' => array(
