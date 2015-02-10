@@ -2,58 +2,80 @@
 
 namespace Ekyna\Bundle\CoreBundle\Exception;
 
+/**
+ * Class RedirectException
+ * @package Ekyna\Bundle\CoreBundle\Exception
+ * @author Étienne Dauvergne <contact@ekyna.com>
+ */
 class RedirectException extends \Exception
 {
     /**
-     * The uri to redirect to.
-     * 
      * @var string
      */
-    private $uri;
+    private $path;
 
     /**
-     * The (flash) message type.
-     * 
      * @var string
      */
-    private $messageType = 'info';
+    private $messageType;
 
 
     /**
-     * Sets the redirect Uri.
-     * 
-     * @param unknown $uri
+     * Constructor.
+     *
+     * @param string $path        The path to redirect to (an absolute path (/foo), an absolute URL (http://...), or a route name (foo)).
+     * @param int    $message     The (flash) message.
+     * @param string $messageType The (flash) message type.
      */
-    public function setUri($uri)
+    public function __construct($path, $message = null, $messageType = 'info')
     {
-        $this->uri = $uri;
+        parent::__construct($message);
+
+        $this->path = $path;
+        $this->messageType = $messageType;
     }
 
     /**
-     * Returns the redirection Uri.
-     * 
+     * Sets the path.
+     *
+     * @param string $path
+     * @return RedirectException
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * Returns the path.
+     *
      * @return string
      */
-    public function getUri()
+    public function getPath()
     {
-        return $this->uri;
+        return $this->path;
     }
 
     /**
      * Sets the (flash) message type.
      * 
      * @param string $type
+     * @return RedirectException
      */
     public function setMessageType($type)
     {
-        $this->type = $type;
+        $this->messageType = $type;
+        return $this;
     }
 
     /**
      * Returns the (flash) message type.
+     *
+     * @return string
      */
     public function getMessageType()
     {
-        return $this->type;
+        return $this->messageType;
     }
 }

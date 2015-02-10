@@ -112,6 +112,7 @@
         <!-- Event subscribers -->
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <argument type="service" id="session" />
+            <argument type="service" id="security.http_utils" />
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.http_cache.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">

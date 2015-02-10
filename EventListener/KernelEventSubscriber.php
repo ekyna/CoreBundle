@@ -4,11 +4,10 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Exception\RedirectException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Http\HttpUtils;
 
 /**
  * Class KernelEventSubscriber
@@ -23,13 +22,20 @@ class KernelEventSubscriber implements EventSubscriberInterface
     private $session;
 
     /**
+     * @var HttpUtils
+     */
+    private $httpUtils;
+
+    /**
      * Constructor.
      * 
      * @param Session $session
+     * @param HttpUtils $httpUtils
      */
-    public function __construct(Session $session)
+    public function __construct(Session $session, HttpUtils $httpUtils)
     {
         $this->session = $session;
+        $this->httpUtils = $httpUtils;
     }
 
     /**
@@ -40,10 +46,21 @@ class KernelEventSubscriber implements EventSubscriberInterface
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        if ($exception instanceof RedirectException && null !== $uri = $exception->getUri()) {
-            $event->setResponse(new RedirectResponse($uri));
+        if ($exception instanceof RedirectException) {
+            // Check path
+            $path = $exception->getPath();
+            if (0 === strlen($path)) {
+                return;
+            }
+
+            // Build the response
+            $request = $event->getRequest();
+            $response = $this->httpUtils->createRedirectResponse($request, $path);
+            $event->setResponse($response);
+
+            // Add flash
             if (0 < strlen($message = $exception->getMessage())) {
-                $this->session->getFlashBag()->add($exception->getMessageType(), $exception->getMessage());
+                $this->session->getFlashBag()->add($exception->getMessageType(), $message);
             }
         }
     }
