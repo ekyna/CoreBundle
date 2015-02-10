@@ -79,7 +79,7 @@ class UiExtension extends \Twig_Extension
      * @param string $style
      * @return string
      */
-    public function renderNoImage($style)
+    public function renderNoImage($style = null)
     {
         return $this->controlsTemplate->renderBlock('no_image', array(
             'no_image_path' => $this->config['no_image_path'],
