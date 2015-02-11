@@ -18,7 +18,11 @@ class GalleryImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('position', 'hidden', array('attr' => array('data-role' => 'position')))
+            ->add('position', 'hidden', array(
+                'attr' => array(
+                    'data-role' => 'position'
+                )
+            ))
         ;
     }
 

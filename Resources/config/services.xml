@@ -59,6 +59,9 @@
         <service id="ekyna_core.datetime_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
             <tag name="form.type_extension" alias="datetime" />
         </service>
+        <service id="ekyna_core.collection_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\CollectionTypeExtension">
+            <tag name="form.type_extension" alias="collection" />
+        </service>
 
         <!-- Doctrine entity listener resolver -->
         <service id="ekyna_core.doctrine.entity_listener_resolver" class="Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver">

@@ -65,14 +65,12 @@
 {% block ekyna_core_image_widget %}
 {% spaceless %}
     <div class="row image-widget modal-gallery">
-        {% if display_thumb %}
-        <div class="col-md-3">
+        {% if 0 < thumb_col %}
+        <div class="col-md-{{ thumb_col }}">
             {{ block('ekyna_core_image_thumb') }}
         </div>
-            {% set attr = attr|merge({'class': 'col-md-9' }) %}
-        {% else %}
-            {% set attr = attr|merge({'class': 'col-md-12' }) %}
         {% endif %}
+        {% set attr = attr|merge({'class': 'col-md-' ~ (12 - thumb_col) }) %}
         {{ block('ekyna_core_image_compound') }}
     </div>
 {% endspaceless %}
@@ -82,10 +80,10 @@
 {% spaceless %}
     {% if image_path is not null %}
         <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail" data-preview="{{ id }}_file">
-            <img src="{{ image_path|imagine_filter('admin_thumb') }}" style="max-width: 145px" />
+            <img src="{{ image_path|imagine_filter('admin_thumb') }}" class="img-responsive" />
         </a>
     {% else %}
-        <span class="thumbnail" data-preview="{{ id }}_file">{{ ui_no_image('max-width: 145px') }}</span>
+        <span class="thumbnail" data-preview="{{ id }}_file">{{ ui_no_image({'class': 'img-responsive'}) }}</span>
     {% endif %}
 {% endspaceless %}
 {% endblock ekyna_core_image_thumb %}
@@ -116,25 +114,29 @@
 {% block ekyna_core_gallery_image_widget %}
 {% spaceless %}
     <div class="row image-widget modal-gallery">
-        {% if display_thumb %}
-            <div class="col-md-3">
+        {% if 0 < thumb_col %}
+            <div class="col-md-{{ thumb_col }}">
                 {{ block('ekyna_core_image_thumb') }}
             </div>
-            {% set attr = attr|merge({'class': 'col-md-8' }) %}
-        {% else %}
-            {% set attr = attr|merge({'class': 'col-md-11' }) %}
         {% endif %}
+        {% set attr = attr|merge({'class': 'col-md-' ~ (12 - thumb_col) }) %}
         {{ block('ekyna_core_image_compound') }}
         <div class="col-md-1 child-controls">
+            {% if form.parent.vars.allow_sort %}
             <button class="btn btn-default btn-sm" data-role="move-up" type="button">
                 <span class="glyphicon glyphicon-chevron-up"></span>
             </button>
+            {% endif %}
+            {% if form.parent.vars.allow_delete %}
             <button class="btn btn-default btn-danger btn-sm" data-role="remove" type="button">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
+            {% endif %}
+            {% if form.parent.vars.allow_sort %}
             <button class="btn btn-default btn-sm" data-role="move-down" type="button">
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
+            {% endif %}
         </div>
     </div>
 {% endspaceless %}

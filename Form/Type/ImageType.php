@@ -25,12 +25,12 @@ class ImageType extends AbstractType
     {
         if ($options['alt_field']) {
             $builder->add('alt', 'text', array(
-                'label' => 'ekyna_core.field.alt',
-                'required' => false,
-                'sizing' => 'sm',
+                'label'        => 'ekyna_core.field.alt',
+                'required'     => false,
+                'sizing'       => 'sm',
                 'admin_helper' => 'IMAGE_ALT',
-                'attr' => array(
-                    'label_col' => 2,
+                'attr'         => array(
+                    'label_col'  => 2,
                     'widget_col' => 10
                 ),
             ));
@@ -44,13 +44,29 @@ class ImageType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'label' => 'ekyna_core.field.image',
-                'display_thumb' => true,
+                'label'      => 'ekyna_core.field.image',
                 'image_path' => 'path',
+                'thumb_col'  => 3,
                 'alt_field'  => true,
             ))
             ->setRequired(array('data_class'))
             ->setOptional(array('image_path'))
+            ->setAllowedTypes(array(
+                'image_path' => array('null', 'string'),
+                'thumb_col'  => 'int',
+                'alt_field'  => 'bool',
+            ))
+            ->setNormalizers(array(
+                'thumb_col' => function($options, $value) {
+                    if (0 == strlen($options['image_path'])) {
+                        return 0;
+                    }
+                    if ($value > 4) {
+                        return 4;
+                    }
+                    return $value;
+                },
+            ))
         ;
     }
 
@@ -59,17 +75,17 @@ class ImageType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        if (array_key_exists('image_path', $options)) {
+        if (array_key_exists('image_path', $options) && 0 < strlen($imagePath = $options['image_path'])) {
             $data = $form->getData();
             if (null !== $data) {
                $accessor = PropertyAccess::createPropertyAccessor();
-               $imageUrl = $accessor->getValue($data, $options['image_path']);
+               $imageUrl = $accessor->getValue($data, $imagePath);
             } else {
                 $imageUrl = null;
             }
             $view->vars['image_path'] = $imageUrl;
         }
-        $view->vars['display_thumb'] = $options['display_thumb'];
+        $view->vars['thumb_col'] = $options['thumb_col'];
     }
 
     /**

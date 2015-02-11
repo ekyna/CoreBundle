@@ -160,9 +160,7 @@
 		params = $.extend({}, params);
 		
 		this.each(function() {
-			
-			//console.log('collectionWidget');
-			
+
 			var $collection = $(this);
 			var $container = $collection.find('> .children');
 			var prototype = $collection.attr('data-prototype');
@@ -171,21 +169,21 @@
 				var maxIndex = $container.children().length-1;
 				$container.find('> div').each(function(index, child) {
 					var $controls = $(child).find('.child-controls');
-					if($controls.length == 1) {
+					if ($controls.length == 1) {
 						$controls.find('button[data-role="move-up"]').prop('disabled', (index == 0));
 						$controls.find('button[data-role="move-down"]').prop('disabled', (index == maxIndex));
-						$(child).find('input[data-role="position"]').val(index);
 					}
+					$(child).find('input[data-role="position"]').val(index);
 				});
 			};
 
 			$collection.initChild = function($child) {
 				var $imageWidget = $child.find('.image-widget');
-				if($imageWidget.length == 1) {
+				if ($imageWidget.length == 1) {
 					$imageWidget.imageWidget();
 				}
 				var $controls = $child.find('.child-controls');
-				if($controls.length == 1) {
+				if ($controls.length == 1) {
 					$controls.find('button[data-role="remove"]').bind('click', function(e) {
 						e.preventDefault();
 						if(confirm('Êtes-vous sûr de vouloir supprimer cette élément ?')) {
@@ -342,10 +340,8 @@
                                             $(elements).each(function(index, element) {
                                                 var $option = $select.find('option[value=' + element.id + ']');
                                                 if ($option.length == 1) {
-                                                    console.log('Selecting option #' + element.id);
                                                     $option.prop('selected', true);
                                                 } else {
-                                                    console.log('Adding option #' + element.id);
                                                     $option = $('<option />');
                                                     $option.prop('value', element.id);
                                                     $option.prop('selected', true);

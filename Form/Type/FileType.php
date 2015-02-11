@@ -75,18 +75,21 @@ class FileType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'label' => 'ekyna_core.field.file',
-                'data_class' => null,
-                'rename_field'  => true,
+                'label'        => 'ekyna_core.field.file',
+                'data_class'   => null,
+                'rename_field' => true,
             ))
             ->setRequired(array('data_class'))
             ->setAllowedTypes(array(
-                'data_class' => 'string',
+                'data_class'   => 'string',
+                'rename_field' => 'bool',
             ))
         ;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'ekyna_core_file';
