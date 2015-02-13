@@ -2,9 +2,10 @@
 
 namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 
-use Ekyna\Bundle\CoreBundle\Model\FileInterface;
+use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
  * Class AbstractFileValidator
@@ -18,13 +19,16 @@ class AbstractFileValidator extends ConstraintValidator
 	 */
     public function validate($file, Constraint $constraint)
     {
-    	if (! $file instanceof FileInterface) {
-    	    throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\FileInterface');
+    	if (! $file instanceof UploadableInterface) {
+    	    throw new UnexpectedTypeException($file, 'Ekyna\Bundle\CoreBundle\Model\UploadableInterface');
+    	}
+    	if (! $constraint instanceof AbstractFile) {
+    	    throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\AbstractFile');
     	}
 
 		/**
 		 * @var AbstractFile  $constraint
-		 * @var FileInterface $file
+		 * @var UploadableInterface $file
 		 */
     	if ($file->hasFile()) {
     	    if (! $file->hasRename()) {

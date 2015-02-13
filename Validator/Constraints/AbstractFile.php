@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class AbstractFile extends Constraint
 {
-    public $nameIsMandatory = 'ekyna_core.file.name_is_mandatory';
-    public $leaveBlank      = 'ekyna_core.file.leave_blank';
+    public $nameIsMandatory = 'ekyna_core.uploadable.file_is_mandatory';
+    public $leaveBlank      = 'ekyna_core.uploadable.leave_blank';
 
     /**
      * {@inheritdoc}

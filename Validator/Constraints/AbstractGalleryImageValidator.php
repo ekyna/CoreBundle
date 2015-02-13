@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 use Ekyna\Bundle\CoreBundle\Model\GalleryImageInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
  * Class AbstractGalleryImageValidator
@@ -19,7 +20,10 @@ class AbstractGalleryImageValidator extends ConstraintValidator
     public function validate($galleryImage, Constraint $constraint)
     {
         if (! $galleryImage instanceof GalleryImageInterface) {
-            throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\ImageGalleryInterface');
+            throw new UnexpectedTypeException($galleryImage, 'Ekyna\Bundle\CoreBundle\Model\GalleryImageInterface');
+        }
+        if (! $constraint instanceof AbstractGalleryImage) {
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\AbstractGalleryImage');
         }
 
         /**

@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Ekyna\Bundle\CoreBundle\Model\ImageInterface;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
  * Class AbstractImageValidator
@@ -19,11 +20,14 @@ class AbstractImageValidator extends ConstraintValidator
     public function validate($image, Constraint $constraint)
     {
     	if (! $image instanceof ImageInterface) {
-    	    throw new \InvalidArgumentException('Expected instance of Ekyna\Bundle\CoreBundle\Model\ImageInterface');
+    	    throw new UnexpectedTypeException($image, 'Ekyna\Bundle\CoreBundle\Model\ImageInterface');
+    	}
+    	if (! $constraint instanceof AbstractImage) {
+    	    throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\AbstractImage');
     	}
 
 		/**
-		 * @var AbstractUploadable $constraint
+		 * @var AbstractImage $constraint
 		 * @var ImageInterface $image
 		 */
     	if (!$image->hasFile() && !$image->hasPath()) {

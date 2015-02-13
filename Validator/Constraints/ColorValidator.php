@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
  * Class ColorValidator
@@ -17,6 +18,10 @@ class ColorValidator extends ConstraintValidator
      */
     public function validate($code, Constraint $constraint)
     {
+        if (! $constraint instanceof Color) {
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Color');
+        }
+
         /** @var Color $constraint */
 
         $types = array(
