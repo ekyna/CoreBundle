@@ -62,6 +62,7 @@ ekyna_core:
         category: Catégorie
         brand: Marque
         type: Type
+        status: État
         url: Url
         ip_address: Adresse IP
         website: Site internet
