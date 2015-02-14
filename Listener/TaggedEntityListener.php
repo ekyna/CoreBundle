@@ -54,11 +54,11 @@ class TaggedEntityListener implements EventSubscriber
     }
 
     /**
-     * Post remove event handler.
+     * Pre remove event handler.
      *
      * @param LifecycleEventArgs $eventArgs
      */
-    public function postRemove(LifecycleEventArgs $eventArgs)
+    public function preRemove(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
 
@@ -70,9 +70,9 @@ class TaggedEntityListener implements EventSubscriber
     /**
      * Post flush event handler.
      *
-     * @param PostFlushEventArgs $args
+     * @param PostFlushEventArgs $eventArgs
      */
-    public function postFlush(PostFlushEventArgs $args)
+    public function postFlush(PostFlushEventArgs $eventArgs)
     {
         $this->eventDispatcher->dispatch(
             HttpCacheEvents::INVALIDATE_TAG,
@@ -108,7 +108,7 @@ class TaggedEntityListener implements EventSubscriber
     {
         return array(
             Events::postUpdate,
-            Events::postRemove,
+            Events::preRemove,
             Events::postFlush,
         );
     }
