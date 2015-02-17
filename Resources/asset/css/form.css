@@ -1,7 +1,14 @@
 /**
  *   Form Layout
  */
+form label {
+    position: relative;
+}
+
 form label.required:after {
+    width: 9px;
+    position: absolute;
+    right: 5px;
     content: "*";
     color: #d9534f;
 }
