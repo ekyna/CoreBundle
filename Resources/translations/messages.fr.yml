@@ -17,6 +17,7 @@ ekyna_core:
         reset: Réinitialiser
         finish: Terminer
         validate: Valider
+        complete: Compléter
         play: Démarrer
         pause: Pause
         resume: Reprendre

@@ -163,7 +163,8 @@
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
-    <div class="input-group date form-datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
+    {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
+    <div class="input-group{{ size_class }} date form-datetime" data-options='{{ pickerOptions|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
         <span class="input-group-btn">
             <button class="btn btn-default" type="button">

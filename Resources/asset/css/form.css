@@ -1,6 +1,11 @@
 /**
  *   Form Layout
  */
+form label.required:after {
+    content: "*";
+    color: #d9534f;
+}
+
 .form-body {
     border: 1px solid #ddd;
     border-bottom: none;
