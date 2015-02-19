@@ -18,6 +18,7 @@ ekyna_core:
         finish: Terminer
         validate: Valider
         complete: Compléter
+        confirm: Confirmer
         play: Démarrer
         pause: Pause
         resume: Reprendre
@@ -27,6 +28,7 @@ ekyna_core:
         enable: Activer
         disable: Désactiver
         close: Fermer
+        open: Ouvrir
         login: Connexion
         logout: Se déconnecter
         manage: Gérer
