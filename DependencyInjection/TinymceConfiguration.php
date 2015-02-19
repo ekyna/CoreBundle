@@ -80,6 +80,7 @@ class TinymceConfiguration
             'tinymce_jquery' => false,
             'selector' => '.tinymce',
             'language' => '%locale%',
+            //'language_url' => '/bundles/stfalcontinymce/vendor/tinymce-langs/%locale%.js',
             'theme' => array(
                 'simple' => $simpleTheme,
                 'advanced' => $advancedTheme,

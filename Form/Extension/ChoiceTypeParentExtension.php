@@ -49,7 +49,7 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
 
         if ($fieldDefined && $routeDefined) {
             $view->vars['attr']['data-parent-choice'] = json_encode(array(
-                'field' => $view->parent->vars['full_name'].'_'.$options['parent_choice_field'],
+                'field' => $view->parent->vars['id'].'_'.$options['parent_choice_field'],
                 'route' => $options['parent_choice_route'],
             ));
         }
