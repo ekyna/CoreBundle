@@ -1,11 +1,13 @@
 /**
  *   Form Layout
  */
-.form-body label {
+.form-body label.control-label,
+.form-body div.checkbox > label {
     position: relative;
 }
 
-.form-body label.required:after {
+.form-body label.control-label.required:after,
+.form-body div.checkbox > label.required:after {
     width: 9px;
     position: absolute;
     right: 5px;
@@ -13,7 +15,7 @@
     color: #d9534f;
 }
 
-.form-body div.checkbox label.required:after {
+.form-body div.checkbox > label.required:after {
     position: relative;
     right: 0;
     margin-left: 2px;

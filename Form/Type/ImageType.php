@@ -40,6 +40,24 @@ class ImageType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        if (array_key_exists('image_path', $options) && 0 < strlen($imagePath = $options['image_path'])) {
+            $data = $form->getData();
+            if (null !== $data) {
+               $accessor = PropertyAccess::createPropertyAccessor();
+               $imageUrl = $accessor->getValue($data, $imagePath);
+            } else {
+                $imageUrl = null;
+            }
+            $view->vars['image_path'] = $imageUrl;
+        }
+        $view->vars['thumb_col'] = $options['thumb_col'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
@@ -68,24 +86,6 @@ class ImageType extends AbstractType
                 },
             ))
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        if (array_key_exists('image_path', $options) && 0 < strlen($imagePath = $options['image_path'])) {
-            $data = $form->getData();
-            if (null !== $data) {
-               $accessor = PropertyAccess::createPropertyAccessor();
-               $imageUrl = $accessor->getValue($data, $imagePath);
-            } else {
-                $imageUrl = null;
-            }
-            $view->vars['image_path'] = $imageUrl;
-        }
-        $view->vars['thumb_col'] = $options['thumb_col'];
     }
 
     /**
