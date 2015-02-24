@@ -464,7 +464,7 @@
 			var $defaultOption = $select.find('option').eq(0);
 			$select.empty().append($defaultOption).prop('disabled', true);
 			var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
-			xhr.done(function(results) {
+            xhr.done(function(results) {
 				if ($(results).length == 0) {
 					return;
 				}
@@ -474,8 +474,9 @@
 					$select.append($option);
 				});
 				$select.prop('disabled', false);
+                $select.trigger('form_choices_loaded', {choices: results});
 			});
-		}
+        }
 	};
 
 	FormChoiceParentSelector.defaults = FormChoiceParentSelector.prototype.defaults;
