@@ -465,15 +465,14 @@
 			$select.empty().append($defaultOption).prop('disabled', true);
 			var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
             xhr.done(function(results) {
-				if ($(results).length == 0) {
-					return;
-				}
-				$(results).each(function(index, result) {
-					var $option = $('<option />');
-					$option.attr('value', result.value).text(result.text);
-					$select.append($option);
-				});
-				$select.prop('disabled', false);
+				if ($(results).length > 0) {
+                    $(results).each(function (index, result) {
+                        var $option = $('<option />');
+                        $option.attr('value', result.value).text(result.text);
+                        $select.append($option);
+                    });
+                    $select.prop('disabled', false);
+                }
                 $select.trigger('form_choices_loaded', {choices: results});
 			});
         }
