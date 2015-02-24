@@ -464,16 +464,18 @@
 			var $defaultOption = $select.find('option').eq(0);
 			$select.empty().append($defaultOption).prop('disabled', true);
 			var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
-            xhr.done(function(results) {
-				if ($(results).length > 0) {
-                    $(results).each(function (index, result) {
-                        var $option = $('<option />');
-                        $option.attr('value', result.value).text(result.text);
-                        $select.append($option);
-                    });
-                    $select.prop('disabled', false);
+            xhr.done(function(data) {
+                if (typeof data.choices !== 'undefined') {
+                    if ($(data.choices).length > 0) {
+                        $(data.choices).each(function (index, choice) {
+                            var $option = $('<option />');
+                            $option.attr('value', choice.value).text(choice.text);
+                            $select.append($option);
+                        });
+                        $select.prop('disabled', false);
+                    }
                 }
-                $select.trigger('form_choices_loaded', {choices: results});
+                $select.trigger('form_choices_loaded', data);
 			});
         }
 	};
