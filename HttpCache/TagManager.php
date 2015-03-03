@@ -102,7 +102,7 @@ class TagManager
         if ($this->config['tag']['encode']) {
             $tmp = [];
             foreach ($tags as $tag) {
-                $tmp[] = hash('crc32', $this->config['tag']['secret'].$tag, false);
+                $tmp[] = hash('crc32b', $this->config['tag']['secret'].$tag, false);
             }
             return $tmp;
         }

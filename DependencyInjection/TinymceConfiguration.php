@@ -35,6 +35,7 @@ class TinymceConfiguration
             'table_adv_tab'      => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
+            'remove_script_host' => false,
             'entity_encoding'    => 'raw',
             'toolbar_items_size' => 'small',
             'plugins' => [
@@ -47,13 +48,14 @@ class TinymceConfiguration
 
         // Advanced theme with almost all enabled plugins
         $advancedTheme = [
-            'menubar'          => false,
-            'statusbar'        => true,
-            'resize'           => false,
-            'image_advtab'     => true,
-            'table_adv_tab'    => true,
-            'paste_as_text'    => true,
-            'relative_urls'    => false,
+            'menubar'            => false,
+            'statusbar'          => true,
+            'resize'             => false,
+            'image_advtab'       => true,
+            'table_adv_tab'      => true,
+            'paste_as_text'      => true,
+            'relative_urls'      => false,
+            'remove_script_host' => false,
             'entity_encoding'  => 'raw',
             'image_class_list' => [
                 ['title' => 'Responsive', 'value' => 'img-responsive'],

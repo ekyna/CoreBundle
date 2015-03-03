@@ -521,6 +521,9 @@
 			/* Textarea autosize */
 			$(this).find('textarea').not('.tinymce').autosize({append: "\n"});
 
+            /* File pickers */
+            $(this).find('.file-picker').filePicker();
+
 			/* File widget */
 			$(this).find('.file-widget').fileWidget();
 

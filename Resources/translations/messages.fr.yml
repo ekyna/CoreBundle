@@ -42,7 +42,8 @@ ekyna_core:
         content_edit: Modifier le contenu
         content: Contenu
         add: Ajouter
-        create: Nouveau
+        new: Nouveau
+        create: Créer
         edit: Modifier
         remove: Supprimer
         unlink: Retirer
@@ -100,17 +101,19 @@ ekyna_core:
         video: Vidéo
         videos: Vidéos
         date: Date
+        start_date: Date de début
+        end_date: Date de fin
         created_at: Date de création
         updated_at: Date de modification
         published_at: Date de publication
         expires_at: Date d'expiration
+        started_at: Démarré le
+        completed_at: Terminé le
         enabled: Actif
         disabled: Inactif
         validated: Validé
         locked: Vérouillé
         expired: Expiré
-        start_date: Date de début
-        end_date: Date de fin
         duration: Durée
         feed: Flux
         format: Format
