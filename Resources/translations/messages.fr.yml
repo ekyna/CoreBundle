@@ -101,6 +101,8 @@ ekyna_core:
         video: Vidéo
         videos: Vidéos
         date: Date
+        from_date: Du
+        to_date: Au
         start_date: Date de début
         end_date: Date de fin
         created_at: Date de création
