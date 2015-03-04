@@ -35,7 +35,7 @@ class TinymceConfiguration
             'table_adv_tab'      => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
-            'remove_script_host' => false,
+            'remove_script_host' => true,
             'entity_encoding'    => 'raw',
             'toolbar_items_size' => 'small',
             'plugins' => [
@@ -55,7 +55,7 @@ class TinymceConfiguration
             'table_adv_tab'      => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
-            'remove_script_host' => false,
+            'remove_script_host' => true,
             'entity_encoding'  => 'raw',
             'image_class_list' => [
                 ['title' => 'Responsive', 'value' => 'img-responsive'],
