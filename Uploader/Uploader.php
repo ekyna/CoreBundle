@@ -28,56 +28,56 @@ class Uploader implements UploaderInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare(UploadableInterface $image)
+    public function prepare(UploadableInterface $uploadable)
     {
-        if ($image->hasFile() || $image->shouldBeRenamed()) {
-            $image->setOldPath($image->getPath());
-            $this->generatePath($image);
+        if ($uploadable->hasFile() || $uploadable->shouldBeRenamed()) {
+            $uploadable->setOldPath($uploadable->getPath());
+            $this->generatePath($uploadable);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function upload(UploadableInterface $image)
+    public function upload(UploadableInterface $uploadable)
     {
-        if ($image->hasPath()) {
-            if ($image->hasFile()) {
+        if ($uploadable->hasPath()) {
+            if ($uploadable->hasFile()) {
                 $this->filesystem->write(
-                    $image->getPath(),
-                    file_get_contents($image->getFile()->getPathname())
+                    $uploadable->getPath(),
+                    file_get_contents($uploadable->getFile()->getPathname())
                 );
-                $image->setFile(null);
-            } elseif ($image->hasOldPath()) {
-                $this->filesystem->rename($image->getOldPath(), $image->getPath());
+                $uploadable->setFile(null);
+            } elseif ($uploadable->hasOldPath()) {
+                $this->filesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
             }
         }
 
-        $this->remove($image);
+        $this->remove($uploadable);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(UploadableInterface $image)
+    public function remove(UploadableInterface $uploadable)
     {
-        if ($image->hasOldPath()) {
-            $oldPath = $image->getOldPath();
+        if ($uploadable->hasOldPath()) {
+            $oldPath = $uploadable->getOldPath();
             if ($this->filesystem->has($oldPath)) {
                 $this->filesystem->delete($oldPath);
             }
-            $image->setOldPath(null);
+            $uploadable->setOldPath(null);
         }
     }
 
     /**
-     * Generates a unique image path
+     * Generates a unique path.
      * 
-     * @param UploadableInterface $image
+     * @param UploadableInterface $uploadable
      */
-    private function generatePath(UploadableInterface $image)
+    private function generatePath(UploadableInterface $uploadable)
     {
-        $filename = $image->guessFilename();
+        $filename = $uploadable->guessFilename();
 
         do {
             $hash = md5(uniqid(mt_rand()));
@@ -89,6 +89,6 @@ class Uploader implements UploaderInterface
             );
         } while ($this->filesystem->has($path));
 
-        $image->setPath($path);
+        $uploadable->setPath($path);
     }
 }

@@ -28,7 +28,7 @@ trait UploadableTrait
     protected $path;
 
     /**
-     * Old path (to be removed)
+     * Old path (for removal)
      *
      * @var string
      */
@@ -50,7 +50,7 @@ trait UploadableTrait
 
 
     /**
-     * Image has file.
+     * Has file.
      *
      * @return boolean
      */
@@ -78,8 +78,11 @@ trait UploadableTrait
     public function setFile(File $file = null)
     {
         $this->file = $file;
-        if (0 == strlen($this->rename)) {
-            if ($file instanceof UploadedFile) {
+
+        if (!$this->hasRename()) {
+            if ($this->hasPath()) {
+                $this->rename = pathinfo($this->path, PATHINFO_BASENAME);
+            } elseif ($file instanceof UploadedFile) {
                 $this->rename = $file->getClientOriginalName();
             } elseif ($file instanceof File) {
                 $this->rename = $file->getBasename();
@@ -92,7 +95,7 @@ trait UploadableTrait
     }
 
     /**
-     * Image has path.
+     * Has path.
      *
      * @return boolean
      */
@@ -125,7 +128,7 @@ trait UploadableTrait
     }
 
     /**
-     * Image has old path.
+     * Has old path.
      *
      * @return boolean
      */
@@ -158,13 +161,13 @@ trait UploadableTrait
     }
 
     /**
-     * Returns whether the image should be renamed or not.
+     * Returns whether the uploadable should be renamed or not.
      *
      * @return boolean
      */
     public function shouldBeRenamed()
     {
-        return (bool) ($this->hasPath() && $this->guessFilename() != pathinfo($this->getPath(), PATHINFO_BASENAME));
+        return (bool)($this->hasPath() && $this->guessFilename() != pathinfo($this->getPath(), PATHINFO_BASENAME));
     }
 
     /**
@@ -174,9 +177,9 @@ trait UploadableTrait
      */
     public function guessExtension()
     {
-        if($this->hasFile()) {
+        if ($this->hasFile()) {
             return $this->file->guessExtension();
-        }elseif($this->hasPath()) {
+        } elseif ($this->hasPath()) {
             return pathinfo($this->getPath(), PATHINFO_EXTENSION);
         }
         return null;
@@ -194,34 +197,33 @@ trait UploadableTrait
 
         // Filename
         $filename = null;
-        if($this->hasRename()) {
+        if ($this->hasRename()) {
             $filename = Urlizer::transliterate(pathinfo($this->rename, PATHINFO_FILENAME));
-        }elseif($this->hasFile()) {
+        } elseif ($this->hasFile()) {
             $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
-        }elseif($this->hasPath()) {
+        } elseif ($this->hasPath()) {
             $filename = pathinfo($this->path, PATHINFO_FILENAME);
         }
 
-        if($filename !== null && $extension !== null) {
-            return $filename.'.'.$extension;
+        if ($filename !== null && $extension !== null) {
+            return $filename . '.' . $extension;
         }
 
         return null;
     }
 
     /**
-     * Returns whether the image has a rename or not.
+     * Returns whether the uploadable has a rename or not.
      *
      * @return boolean
      */
     public function hasRename()
     {
         return 0 < strlen($this->rename);
-        //return (bool) (1 === preg_match('/^[a-z0-9-]+\.(jpg|jpeg|gif|png)$/', $this->rename));
     }
 
     /**
-     * Get image rename.
+     * Get rename.
      *
      * @return string
      */
@@ -238,7 +240,7 @@ trait UploadableTrait
      */
     public function setRename($rename)
     {
-        if($rename !== $this->rename) {
+        if ($rename !== $this->rename) {
             $this->updatedAt = new \DateTime();
         }
         $this->rename = $rename;

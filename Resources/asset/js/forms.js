@@ -6,25 +6,46 @@
 	$.fn.filePicker = function(params) {
 		
 		params = $.extend({
-            onChange: null
+            onChange: null,
+            onClear: null
         }, params);
 		
 		this.each(function() {
 
 			var $file = $(this).find('input:file');
 			var $text = $(this).find('input:text');
-			var $button = $(this).find('button');
+            var current = $text.data('current') || null;
+			var $pickButton = $(this).find('button[data-role="pick"]');
+			var $clearButton = $(this).find('button[data-role="clear"]');
 
-			$button.unbind('click').bind('click', function(e) {
-				e.preventDefault(); $file.trigger('click');
+            $pickButton.unbind('click').bind('click', function(e) {
+				e.preventDefault();
+                $file.trigger('click');
 			});
 
+            $clearButton.unbind('click').bind('click', function(e) {
+				e.preventDefault();
+                if ($file.files) {
+                    $file.files = [];
+                }
+                $file.val(null).trigger('change');
+                /*if (typeof params.onClear === 'function') {
+                    params.onClear($file);
+                }*/
+            }).trigger('click');
+
 			$text.unbind('click').bind('click', function(e) {
-				e.preventDefault(); $file.trigger('click');
+				e.preventDefault();
+                $file.trigger('click');
 			});
 
 			$file.unbind('change').bind('change', function(e) {
-				$text.val($file.val().fileName());
+                var val = $file.val();
+                if (0 < val.length) {
+                    $text.val(val.fileName());
+                } else {
+                    $text.val(current);
+                }
                 if (typeof params.onChange === 'function') {
                     params.onChange(this);
                 }
@@ -77,25 +98,30 @@
 				}
 				$rename.normalize();
 			};
+            $rename.getExtension();
 
-			if($file !== null && $file.length == 1) {
+			if ($file !== null && $file.length == 1) {
 				$rename.updateFromFile = function() {
-					if($rename.val().length == 0) {
-						$rename.val($file.val().fileName());
-					}
-					var ext = $file.val().fileName().fileExtension();
-					if(ext.length > 0) {
-						$rename.stripExtension();
-						extension = '.'+ext;
-						$rename.normalize();
-					}else{
-						$rename.getExtension();
-					}
+                    var fileVal = $file.val();
+                    if (0 < fileVal.length) {
+                        if ($rename.val().length == 0) {
+                            $rename.val(fileVal.fileName());
+                        }
+                        var ext = fileVal.fileName().fileExtension();
+                        if (ext.length > 0) {
+                            $rename.stripExtension();
+                            extension = '.'+ext;
+                            $rename.normalize();
+                        } else {
+                            $rename.getExtension();
+                        }
+                    } else {
+                        $rename.val(defaultValue);
+                        $rename.getExtension();
+                    }
 				};
 				$file.bind('change', $rename.updateFromFile);
 				$rename.updateFromFile();
-			}else{
-				$rename.getExtension();
 			}
 
 			$rename.bind('focus', function() {
@@ -129,12 +155,16 @@
 		params = $.extend({}, params);
 
 		this.each(function() {
-			var $file = $(this).find('.file-picker').filePicker({
+            var $picker = $(this).find('.file-picker');
+            var $file = $picker.find('input:file');
+            var $preview = $('[data-preview="' + $file.attr('id') + '"]');
+            var current = $preview.find('img').attr('src');
+            $picker.filePicker({
                 onChange: function(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            $('[data-preview="' + $(input).attr('id') + '"]')
+                            $preview
                                 .unbind('click')
                                 .bind('click', function(e) {
                                     e.preventDefault();
@@ -142,6 +172,8 @@
                                 .find('img').attr('src', e.target.result);
                         };
                         reader.readAsDataURL(input.files[0]);
+                    } else {
+                        $preview.find('img').attr('src', current);
                     }
                 }
             });

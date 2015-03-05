@@ -40,9 +40,14 @@
         <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
-            <input type="text" class="form-control" value="{{ value }}" readonly="true" placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
+            <input type="text" class="form-control" value="{{ value }}" readonly="true"
+                   {% if form.parent.vars.current_file_name is defined %} data-current="{{ form.parent.vars.current_file_name }}"{% endif %}
+                   placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
             <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="button" data-role="clear">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button class="btn btn-primary" type="button" data-role="pick">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </span>
@@ -78,9 +83,9 @@
 
 {% block ekyna_core_image_thumb %}
 {% spaceless %}
-    {% if image_path is not null %}
-        <a href="{{ image_path|imagine_filter('admin_modal') }}" class="thumbnail" data-preview="{{ id }}_file">
-            <img src="{{ image_path|imagine_filter('admin_thumb') }}" class="img-responsive" />
+    {% if current_file_path is not null %}
+        <a href="{{ current_file_path|imagine_filter('admin_modal') }}" class="thumbnail" data-preview="{{ id }}_file">
+            <img src="{{ current_file_path|imagine_filter('admin_thumb') }}" class="img-responsive" />
         </a>
     {% else %}
         <span class="thumbnail" data-preview="{{ id }}_file">{{ ui_no_image({'class': 'img-responsive'}) }}</span>

@@ -1,5 +1,5 @@
 /* Bootstrap Modal Gallery */
-.modal-gallery .thumbnail { display:inline-block; }
+.modal-gallery .thumbnail { display:inline-block; max-width: 100%; }
 #modal-gallery .modal-body img { width:100%; height:auto; }
 #modal-gallery .modal-footer { margin-top:0; }
 #modal-gallery .modal-body { padding:0; }

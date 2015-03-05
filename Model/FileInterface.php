@@ -9,5 +9,4 @@ namespace Ekyna\Bundle\CoreBundle\Model;
  */
 interface FileInterface  extends UploadableInterface
 {
-
 }
