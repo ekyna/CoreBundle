@@ -141,8 +141,8 @@
 		params = $.extend({}, params);
 		
 		this.each(function() {
-			var $file = $(this).find('.file-picker').filePicker();
-			$(this).find('.file-rename').renameWidget({file: $file.find('input:file')});
+			var $file = $(this).find('.file-picker').find('input:file');
+			$(this).find('.file-rename').renameWidget({file: $file});
 		});
 		return this;
 	};
@@ -177,7 +177,7 @@
                     }
                 }
             });
-			$(this).find('.file-rename').renameWidget({file: $file.find('input:file')});
+			$(this).find('.file-rename').renameWidget({file: $file});
 		});
 		return this;
 	};
