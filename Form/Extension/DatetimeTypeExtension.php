@@ -2,19 +2,16 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 
+use Ekyna\Bundle\CoreBundle\Form\Util\MomentFormatConverter;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Ekyna\Bundle\CoreBundle\Form\Util\Datetime;
 
 /**
  * Class DatetimeTypeExtension
  * @package Ekyna\Bundle\CoreBundle\Form\Extension
- * @author Stephane Collot
  * @author Étienne Dauvergne <contact@ekyna.com>
- * @see https://github.com/stephanecollot/DatetimepickerBundle/blob/master/Form/Type/DatetimeType.php
  */
 class DatetimeTypeExtension extends AbstractTypeExtension
 {
@@ -23,23 +20,21 @@ class DatetimeTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $pickerOptions = $options['pickerOptions'];
+        $pickerOptions = $options['picker_options'];
 
         // Set automatically the language
-        if (!isset($options['pickerOptions']['language'])) {
-            $pickerOptions['language'] = \Locale::getDefault();
+        if (!isset($options['picker_options']['locale'])) {
+            $pickerOptions['locale'] = \Locale::getDefault();
         }
-        if ($pickerOptions['language'] == 'en') {
-            unset($pickerOptions['language']);
+        if ($pickerOptions['locale'] == 'en') {
+            unset($pickerOptions['locale']);
         }
 
-        // Set the defaut format of malot.fr/bootstrap-datetimepicker
-        if (!isset($options['pickerOptions']['format'])) {
-            $pickerOptions['format'] = 'dd/mm/yyyy hh:ii';
-        }
+        // Convert format for moment.js
+        $pickerOptions['format'] = MomentFormatConverter::convert($options['format']);
 
         $view->vars = array_replace($view->vars, array(
-            'pickerOptions' => $pickerOptions,
+            'picker_options' => $pickerOptions,
         ));
     }
 
@@ -48,21 +43,18 @@ class DatetimeTypeExtension extends AbstractTypeExtension
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'widget' => 'single_text',
-            'read_only' => true,
-            'format' => function (Options $options, $value) {
-                if (isset($options['pickerOptions']['format'])) {
-                    return Datetime::convertMalotToIntlFormater( $options['pickerOptions']['format'] );
-                } else {
-                    return Datetime::convertMalotToIntlFormater( 'dd/mm/yyyy hh:ii' );
-                }
-            },
-            'pickerOptions' => array(
-            	'pickerPosition' => 'bottom-left',
-                'autoclose' => true,
-            ),
-        ));
+        $resolver
+            ->setDefaults(array(
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy HH:mm', // TODO localised configurable format
+                'picker_options' => array(
+                    'widgetPositioning' => array('horizontal' => 'right'),
+                    'showTodayButton' => true,
+                    'showClear'       => true,
+                    'showClose'       => true,
+                ),
+            )
+        );
     }
 
     /**

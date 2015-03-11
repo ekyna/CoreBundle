@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormInterface;
  * Class CollectionTypeExtension
  * @package Ekyna\Bundle\CoreBundle\Form\Extension
  * @author Étienne Dauvergne <contact@ekyna.com>
+ * @deprecated use EkynaCoreBundle Collection type
  */
 class CollectionTypeExtension extends AbstractTypeExtension
 {

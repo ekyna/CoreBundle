@@ -249,58 +249,7 @@
 }
 
 
-/**
- *  Collections
- */
-.form-body .bc-collection li {
-    border-bottom: 1px dotted #CCC;
-    margin-bottom: 15px;
-}
-
-.form-body .bc-collection li:last-child {
-    border-bottom: 0;
-    margin-bottom: 0;
-}
-
-.form-body .collection-container>.children>.row {
-    border-bottom: 1px dotted #dddddd;
-    margin-bottom: 15px;
-    padding-bottom: 16px;
-}
-
-.form-body .collection-container .image-widget .children .form-group {
-    margin-bottom: 8px;
-}
-
-.form-body .collection-container .image-widget .children .form-group .control-label {
-    min-height: 30px;
-}
-
-.form-body .collection-container .image-widget .children .form-group:last-child {
-    margin-bottom: 0;
-}
-
-.form-body .collection-container .collection-add {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.form-body .child-controls {
-    /*text-align: right;*/
-}
-
-.form-body .child-controls button {
-    margin-bottom: 8px;
-}
-
-.form-body .child-controls button:last-child {
-    margin-bottom: 0;
-}
-
-
-/**
- *  File Picker
- */
+/* File Picker */
 .file-picker {
     position: relative;
     overflow: hidden;
@@ -321,6 +270,51 @@
     height: 100%;
 }
 
+/* Image widget */
+.image-widget .children .form-group {
+    margin-bottom: 8px;
+}
+
+.image-widget .children .form-group .control-label {
+    min-height: 30px;
+}
+
+.image-widget .children .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/**
+ *  Collections
+ */
+
+/* ekyna collection */
+.form-body .ekyna-collection li {
+    border-bottom: 1px dotted #CCC;
+    margin-bottom: 15px;
+}
+
+.form-body .ekyna-collection li:last-child{
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
+.form-body .ekyna-collection-controls button {
+    margin-bottom: 8px;
+}
+
+.form-body .ekyna-collection-controls button:last-child {
+    margin-bottom: 0;
+}
+
+.form-body .ekyna-collection-controls.controls-inline button {
+    margin-bottom: 0;
+    margin-right: 6px;
+}
+
+.form-body .ekyna-collection-controls.controls-inline button:last-child {
+    margin-right: 0;
+}
+
 /**
  *  Bootstrap "extension"
  */
@@ -330,8 +324,9 @@
 }
 
 .form-body label.label-lg {
-    /* TODO */
-    
+    /*
+    TODO
+    */
 }
 
 /* Responsive */

@@ -104,11 +104,11 @@ class AsseticConfiguration
             }
         }
 
-        if (true === $plugins['collection']) {
+        /*if (true === $plugins['collection']) {
             $inputs[] =
                 '%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/'.
                 'BootstrapBundle/Resources/js/bc-bootstrap-collection.js';
-        }
+        }*/
 
         return array(
             'inputs'  => $inputs,
@@ -146,7 +146,7 @@ class AsseticConfiguration
     protected function buildCoreCss(array $config)
     {
         $inputs = array(
-            '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.datetimepicker.css',
+            '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.dropdown-hover-click.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
@@ -175,7 +175,8 @@ class AsseticConfiguration
             'js/fos_js_routes.js',
             '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/tinycolor.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.datetimepicker.js',
+            '%kernel.root_dir%/../vendor/moment/moment/min/moment-with-locales.min.js',
+            '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.colorpickersliders.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/jquery.autosize.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/select2.js',

@@ -187,7 +187,7 @@
 	 * @see http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
 	 * @see http://symfony.com/fr/doc/current/cookbook/form/create_form_type_extension.html 
 	 */
-	$.fn.collectionWidget = function(params) {
+	/*$.fn.collectionWidget = function(params) {
 		
 		params = $.extend({}, params);
 		
@@ -264,7 +264,7 @@
 			$collection.init();
 		});
 		return this;
-	};
+	};*/
 
 	$.fn.entityWidget = function(params) {
 
@@ -546,7 +546,7 @@
 			});
 
 			/* Datetime picker */
-			$(this).find('.form-datetime').each(function() {
+			$(this).find('.form-datetime-picker').each(function() {
 				$(this).datetimepicker($(this).data('options'));
 			});
 
@@ -563,7 +563,7 @@
 			$(this).find('.image-widget').imageWidget();
 
 			/* Collections */
-			$(this).find('.collection-container').collectionWidget();
+			//$(this).find('.collection-container').collectionWidget();
 
 			/* Entities */
 			$(this).find('.entity-widget').entityWidget();
@@ -609,3 +609,239 @@
 	});
 
 })(document, jQuery, Routing);
+
+/* ==========================================================
+ * bc-bootstrap-collection.js
+ * http://bootstrap.braincrafted.com
+ * ==========================================================
+ * Copyright 2013 Florian Eckerstorfer
+ *
+ * ========================================================== */
+
+
+(function ($) {
+
+    "use strict"; // jshint ;_;
+
+    /* COLLECTION CLASS DEFINITION
+     * ====================== */
+
+    var addField = '[data-collection-role="add"]',
+        removeField = '[data-collection-role="remove"]',
+        moveUpField = '[data-collection-role="move-up"]',
+        moveDownField = '[data-collection-role="move-down"]',
+        CollectionAdd = function (el) {
+            $(el).on('click', addField, this.addField);
+        },
+        CollectionRemove = function (el) {
+            $(el).on('click', removeField, this.removeField);
+        },
+        CollectionMoveUp = function (el) {
+            $(el).on('click', moveUpField, this.moveUpField);
+        },
+        CollectionMoveDown = function (el) {
+            $(el).on('click', moveDownField, this.moveDownField);
+        };
+
+    function collectionUpdatePositions($collection) {
+        var selector = '[data-collection="' + $collection.attr('id') + '"]',
+            $list = $collection.find('> ul > li'),
+            max = $list.size() - 1;
+
+        $list.each(function(index, li) {
+            var $li = $(li);
+            $li.find('[data-collection-role="position"]').first().val(index);
+            if (index == 0) {
+                $li.find(selector+moveUpField).prop('disabled', true);
+            } else {
+                $li.find(selector+moveUpField).prop('disabled', false);
+            }
+            if (index == max) {
+                $li.find(selector+moveDownField).prop('disabled', true);
+            } else {
+                $li.find(selector+moveDownField).prop('disabled', false);
+            }
+        });
+    }
+
+    CollectionAdd.prototype.addField = function (e) {
+        var $this = $(this),
+            selector = $this.attr('data-collection'),
+            prototypeName = $this.attr('data-prototype-name');
+
+        e && e.preventDefault();
+
+        var collection = $('#'+selector),
+            list = collection.find('> ul'),
+            count = list.find('> li').size();
+
+        var newWidget = collection.attr('data-prototype');
+
+        // Check if an element with this ID already exists.
+        // If it does, increase the count by one and try again
+        var newName = newWidget.match(/id="(.*?)"/);
+        var re = new RegExp(prototypeName, "g");
+        while ($('#' + newName[1].replace(re, count)).size() > 0) {
+            count++;
+        }
+        newWidget = newWidget.replace(re, count);
+        newWidget = newWidget.replace(/__id__/g, newName[1].replace(re, count));
+        var newLi = $('<li></li>').html(newWidget);
+        newLi.appendTo(list).formWidget();
+        collectionUpdatePositions(collection);
+        $this.trigger('ekyna-collection-field-added');
+    };
+
+    CollectionRemove.prototype.removeField = function (e) {
+        var $this = $(this),
+            selector = $this.attr('data-collection');
+
+        e && e.preventDefault();
+
+        $this.trigger('ekyna-collection-field-removed');
+        var listElement = $this.closest('li').remove();
+
+        var $collection = $('#'+selector);
+        collectionUpdatePositions($collection);
+    };
+
+    CollectionMoveUp.prototype.moveUpField = function (e) {
+        var $this = $(this),
+            selector = $this.attr('data-collection');
+
+        e && e.preventDefault();
+
+        $this.trigger('ekyna-collection-field-moved-up');
+        var listElement = $this.closest('li');
+        if (!listElement.is(':first-child')) {
+            listElement.prev().before(listElement.detach());
+        }
+
+        var $collection = $('#'+selector);
+        collectionUpdatePositions($collection);
+    };
+
+    CollectionMoveDown.prototype.moveDownField = function (e) {
+        var $this = $(this),
+            selector = $this.attr('data-collection');
+
+        e && e.preventDefault();
+
+        $this.trigger('ekyna-collection-field-moved-down');
+        var listElement = $this.closest('li');
+        if (!listElement.is(':last-child')) {
+            listElement.next().after(listElement.detach());
+        }
+
+        var $collection = $('#'+selector);
+        collectionUpdatePositions($collection);
+    };
+
+
+    /* COLLECTION PLUGIN DEFINITION
+     * ======================= */
+
+    var oldAdd = $.fn.addField;
+    var oldRemove = $.fn.removeField;
+    var oldMoveUp = $.fn.moveUpField;
+    var oldMoveDown = $.fn.moveDownField;
+
+    $.fn.addField = function (option) {
+        return this.each(function () {
+            var $this = $(this),
+                data = $this.data('addfield')
+                ;
+            if (!data) {
+                $this.data('addfield', (data = new CollectionAdd(this)));
+            }
+            if (typeof option == 'string') {
+                data[option].call($this);
+            }
+        });
+    };
+
+    $.fn.removeField = function (option) {
+        return this.each(function() {
+            var $this = $(this),
+                data = $this.data('removefield')
+                ;
+            if (!data) {
+                $this.data('removefield', (data = new CollectionRemove(this)));
+            }
+            if (typeof option == 'string') {
+                data[option].call($this);
+            }
+        });
+    };
+
+    $.fn.moveUpField = function (option) {
+        return this.each(function() {
+            var $this = $(this),
+                data = $this.data('moveupfield')
+                ;
+            if (!data) {
+                $this.data('moveupfield', (data = new CollectionMoveUp(this)));
+            }
+            if (typeof option == 'string') {
+                data[option].call($this);
+            }
+        });
+    };
+
+    $.fn.moveDownField = function (option) {
+        return this.each(function() {
+            var $this = $(this),
+                data = $this.data('movedownfield')
+                ;
+            if (!data) {
+                $this.data('movedownfield', (data = new CollectionMoveDown(this)));
+            }
+            if (typeof option == 'string') {
+                data[option].call($this);
+            }
+        });
+    };
+
+    $.fn.addField.Constructor = CollectionAdd;
+    $.fn.removeField.Constructor = CollectionRemove;
+    $.fn.moveUpField.Constructor = CollectionMoveUp;
+    $.fn.moveDownField.Constructor = CollectionMoveDown;
+
+
+    /* COLLECTION NO CONFLICT
+     * ================= */
+
+    $.fn.addField.noConflict = function () {
+        $.fn.addField = oldAdd;
+        return this;
+    };
+    $.fn.removeField.noConflict = function () {
+        $.fn.removeField = oldRemove;
+        return this;
+    };
+    $.fn.moveUpField.noConflict = function () {
+        $.fn.moveUpField = oldMoveUp;
+        return this;
+    };
+    $.fn.moveDownField.noConflict = function () {
+        $.fn.moveDownField = oldMoveDown;
+        return this;
+    };
+
+
+    /* COLLECTION DATA-API
+     * ============== */
+
+    $(document).on('click.addfield.data-api', addField, CollectionAdd.prototype.addField);
+    $(document).on('click.removefield.data-api', removeField, CollectionRemove.prototype.removeField);
+    $(document).on('click.moveupfield.data-api', moveUpField, CollectionMoveUp.prototype.moveUpField);
+    $(document).on('click.movedownfield.data-api', moveDownField, CollectionMoveDown.prototype.moveDownField);
+
+    $(document).ready(function() {
+        $('.ekyna-collection').each(function(index, collection) {
+            collectionUpdatePositions($(collection));
+        });
+    });
+
+})(window.jQuery);
+

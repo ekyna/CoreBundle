@@ -20,7 +20,7 @@ class GalleryImageType extends AbstractType
         $builder
             ->add('position', 'hidden', array(
                 'attr' => array(
-                    'data-role' => 'position'
+                    'data-role' => 'data-collection-position'
                 )
             ))
         ;
