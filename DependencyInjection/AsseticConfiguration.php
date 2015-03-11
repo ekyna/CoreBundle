@@ -183,6 +183,7 @@ class AsseticConfiguration
             '@EkynaCoreBundle/Resources/asset/js/lib/load-image.js',
             '@EkynaCoreBundle/Resources/asset/js/modal-gallery.js',
             '@EkynaCoreBundle/Resources/asset/js/string.prototypes.js',
+            '@EkynaCoreBundle/Resources/asset/js/form.collection.js',
             '@EkynaCoreBundle/Resources/asset/js/forms.js',
         );
 

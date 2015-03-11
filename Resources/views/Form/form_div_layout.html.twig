@@ -25,6 +25,10 @@
         %}
         {% set controls = '' %}
         {% set controls_class = 'ekyna-collection-controls' %}
+        {% set remove_confirm = '' %}
+        {% if form.vars.remove_confirm is not sameas(null) %}
+            {% set remove_confirm = ' data-confirm="' ~ (form.vars.remove_confirm|trans) ~ '"' %}
+        {% endif %}
         {% if form.vars.button_col >= 3 %}
             {% set controls_class = controls_class ~ ' controls-inline' %}
         {% endif %}
@@ -39,7 +43,7 @@
             {# Remove button #}
             {% if form.vars.allow_delete %}{% set controls = controls ~
                 '<button class="btn btn-danger btn-sm" data-collection-role="remove" ' ~
-                        'data-collection="' ~ form.vars.id ~ '" data-field="__id__">' ~
+                        'data-collection="' ~ form.vars.id ~ '" data-field="__id__"' ~ remove_confirm ~ '>' ~
                     '<span class="glyphicon glyphicon-remove"></span>' ~
                 '</button>'
             %}{% endif %}
@@ -78,7 +82,8 @@
                             {% endif %}
                             {% if form.vars.allow_delete %}
                             <button class="btn btn-danger btn-sm" data-collection-role="remove"
-                                    data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
+                                    data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}"
+                                    {{ remove_confirm }}>
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                             {% endif %}

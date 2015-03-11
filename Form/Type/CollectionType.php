@@ -22,9 +22,11 @@ class CollectionType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'allow_sort' => false,
+                'remove_confirm' => 'ekyna_core.message.remove_confirm',
             ))
             ->setAllowedTypes(array(
                 'allow_sort' => 'bool',
+                'remove_confirm' => array('null', 'string'),
             ))
         ;
     }
@@ -35,6 +37,7 @@ class CollectionType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['allow_sort'] = $options['allow_sort'];
+        $view->vars['remove_confirm'] = $options['remove_confirm'];
 
         if (false === $view->vars['allow_delete'] && false === $view->vars['allow_sort']) {
             $view->vars['sub_widget_col'] += $view->vars['button_col'];
