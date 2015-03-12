@@ -271,6 +271,9 @@
 }
 
 /* Image widget */
+.image-widget .thumbnail {
+    margin-bottom: 0;
+}
 .image-widget .children .form-group {
     margin-bottom: 8px;
 }
