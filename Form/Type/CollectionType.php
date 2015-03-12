@@ -21,6 +21,8 @@ class CollectionType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
+                'error_bubbling'=> false,
+                'by_reference' => false,
                 'allow_sort' => false,
                 'remove_confirm' => 'ekyna_core.message.remove_confirm',
             ))

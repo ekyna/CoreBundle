@@ -562,9 +562,6 @@
 			/* Image widget */
 			$(this).find('.image-widget').imageWidget();
 
-			/* Collections */
-			//$(this).find('.collection-container').collectionWidget();
-
 			/* Entities */
 			$(this).find('.entity-widget').entityWidget();
 			$(this).find('.entity-search').entitySearchWidget();
