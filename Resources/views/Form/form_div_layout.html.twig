@@ -234,6 +234,17 @@
     </div>
 {% endblock ekyna_core_color_picker_widget %}
 
+{% block ekyna_key_value_widget %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.key, {'label_col': 4, 'widget_col': 8}) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.value, {'label_col': 4, 'widget_col': 8}) }}
+        </div>
+    </div>
+{% endblock ekyna_key_value_widget %}
+
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}

@@ -36,6 +36,7 @@
 
         {% set listClass = (options.currentDepth == 0 and listClass != 'list-unstyled') ? listClass ~ ' nav' : listClass %}
 
+        {% set listAttributes = listAttributes|merge(item.attributes) %}
         {% set listAttributes = listAttributes|merge({'class': (listAttributes.class|default('') ~ ' ' ~ listClass)|trim}) %}
 
         <ul{{ macros.attributes(listAttributes) }}>

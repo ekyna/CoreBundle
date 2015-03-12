@@ -21,10 +21,14 @@ class CollectionType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'error_bubbling'=> false,
-                'by_reference' => false,
-                'allow_sort' => false,
-                'remove_confirm' => 'ekyna_core.message.remove_confirm',
+                'error_bubbling'     => false,
+                'by_reference'       => false,
+                'add_button_text'    => 'ekyna_core.button.add',
+                'delete_button_text' => 'ekyna_core.button.remove',
+                'allow_add'          => true,
+                'allow_delete'       => true,
+                'allow_sort'         => false,
+                'remove_confirm'     => 'ekyna_core.message.remove_confirm',
             ))
             ->setAllowedTypes(array(
                 'allow_sort' => 'bool',

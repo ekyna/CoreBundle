@@ -7,13 +7,17 @@
 
     <parameters>
         <parameter key="ekyna_core.collection.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\CollectionType</parameter>
+
         <parameter key="ekyna_core.file.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\FileType</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
-        <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
+        <parameter key="ekyna_core.color_picker.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType</parameter>
         <parameter key="ekyna_core.hidden_entity.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\HiddenEntityType</parameter>
+
+        <parameter key="ekyna_core.key_value_collection.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\KeyValueCollectionType</parameter>
+        <parameter key="ekyna_core.key_value.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\KeyValueType</parameter>
     </parameters>
 
     <services>
@@ -21,6 +25,7 @@
         <service id="ekyna_core.collection.form_type" class="%ekyna_core.collection.form_type.class%">
             <tag name="form.type" alias="ekyna_core_collection" />
         </service>
+
         <service id="ekyna_core.file.form_type" class="%ekyna_core.file.form_type.class%">
             <tag name="form.type" alias="ekyna_core_file" />
         </service>
@@ -30,17 +35,26 @@
         <service id="ekyna_core.gallery_image.form_type" class="%ekyna_core.gallery_image.form_type.class%">
             <tag name="form.type" alias="ekyna_core_gallery_image" />
         </service>
+
         <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="form.type" alias="ekyna_core_entity_search" />
+        </service>
+        <service id="ekyna_core.color_picker.form_type" class="%ekyna_core.color_picker.form_type.class%">
+            <tag name="form.type" alias="ekyna_core_color_picker" />
         </service>
         <service id="ekyna_core.hidden_entity.form_type" class="%ekyna_core.hidden_entity.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="form.type_guesser.doctrine" />
             <tag name="form.type" alias="ekyna_core_hidden_entity" />
         </service>
-        <service id="ekyna_core.color_picker.form_type" class="%ekyna_core.color_picker.form_type.class%">
-            <tag name="form.type" alias="ekyna_core_color_picker" />
+
+        <service id="ekyna_core.key_value_collection.form_type" class="%ekyna_core.key_value_collection.form_type.class%">
+            <tag name="form.type" alias="ekyna_key_value_collection" />
+        </service>
+
+        <service id="ekyna_core.key_value.form_type" class="%ekyna_core.key_value.form_type.class%">
+            <tag name="form.type" alias="ekyna_key_value" />
         </service>
 
         <!-- Form Extensions -->
