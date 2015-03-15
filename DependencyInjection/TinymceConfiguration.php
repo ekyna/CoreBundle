@@ -41,7 +41,7 @@ class TinymceConfiguration
             'plugins' => [
                 "advlist lists paste textcolor autoresize nonbreaking",
             ],
-            'toolbar1' => "undo redo | styleselect | bold italic | forecolor backcolor | ".
+            'toolbar1' => "undo redo removeformat | styleselect | bold italic | forecolor backcolor | ".
                           "alignleft aligncenter alignright alignjustify | bullist numlist",
             'content_css' => $contentCss,
         ];
@@ -68,7 +68,7 @@ class TinymceConfiguration
                 "insertdatetime media nonbreaking save table contextmenu directionality",
                 "emoticons paste textcolor template",
             ],
-            'toolbar1' => "undo redo removeformat | styleselect | table link image media | code",
+            'toolbar1' => "undo redo removeformat code | styleselect | table link image media ",
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
                           "alignright alignjustify | bullist numlist outdent indent",
             'external_plugins' => [

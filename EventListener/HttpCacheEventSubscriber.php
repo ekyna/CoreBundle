@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
 use Ekyna\Bundle\CoreBundle\HttpCache\TagManager;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -136,7 +137,9 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             HttpCacheEvents::INVALIDATE_TAG => array('onInvalidateTag', 0),
 
             KernelEvents::RESPONSE          => array('onKernelResponse', 0),
+            
             KernelEvents::TERMINATE         => array('onKernelTerminate', 0),
+            ConsoleEvents::TERMINATE        => array('onKernelTerminate', 0),
         );
     }
 }
