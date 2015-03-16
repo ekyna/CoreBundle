@@ -137,7 +137,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             HttpCacheEvents::INVALIDATE_TAG => array('onInvalidateTag', 0),
 
             KernelEvents::RESPONSE          => array('onKernelResponse', 0),
-            
+
             KernelEvents::TERMINATE         => array('onKernelTerminate', 0),
             ConsoleEvents::TERMINATE        => array('onKernelTerminate', 0),
         );

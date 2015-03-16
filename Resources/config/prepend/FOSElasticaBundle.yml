@@ -1,0 +1,38 @@
+fos_elastica:
+    serializer: ~
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        search:
+            index_name: "%hostname%_%kernel.environment%"
+            settings:
+                index:
+                    analysis:
+                        tokenizer:
+                            nGram:
+                                type: nGram
+                                min_gram: 2
+                                max_gram: 20
+                        filter:
+                            fr_stop:
+                                type: stop
+                                stopwords: [_french_]
+                                ignore_case: true
+                            fr_elision:
+                                type: elision
+                                articles: [l, m, t, qu, n, s, j, d, c, jusqu, quoiqu, lorsqu, puisqu]
+                            fr_delimiter:
+                                type: word_delimiter
+                            fr_stemmer:
+                                type: stemmer
+                                language: light_french
+                        analyzer:
+                            fr_index:
+                                type: custom
+                                tokenizer: nGram
+                                filter: [fr_stop, asciifolding, lowercase, fr_elision, fr_delimiter, fr_stemmer]
+                                char_filter: [html_strip]
+                            fr_search:
+                                type: custom
+                                tokenizer: standard
+                                filter: [fr_stop, asciifolding, lowercase, fr_elision, fr_delimiter, fr_stemmer]

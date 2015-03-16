@@ -4,17 +4,15 @@ namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 /**
  * Class EkynaCoreExtension
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class EkynaCoreExtension extends Extension implements PrependExtensionInterface
+class EkynaCoreExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -46,6 +44,8 @@ class EkynaCoreExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
+        parent::prepend($container);
+
         $bundles = $container->getParameter('kernel.bundles');
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
