@@ -1,7 +1,7 @@
 fos_elastica:
     serializer: ~
     clients:
-        default: { host: localhost, port: 9200 }
+        default: { host: localhost, port: 9200, logger: false }
     indexes:
         search:
             index_name: "%hostname%_%kernel.environment%"
