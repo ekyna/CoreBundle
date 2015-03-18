@@ -114,6 +114,7 @@ ekyna_core:
         expires_at: Date d'expiration
         started_at: Démarré le
         completed_at: Terminé le
+        private: Privé
         enabled: Actif
         disabled: Inactif
         validated: Validé
