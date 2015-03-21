@@ -10,26 +10,17 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 abstract class AbstractConstants implements ConstantsInterface
 {
     /**
-     * @var array
-     */
-    protected static $choices;
-
-
-    /**
      * Returns the constant choices.
      *
      * @return array
      */
     public static function getChoices()
     {
-        if (null === static::$choices) {
-            static::$choices = [];
-            foreach (static::getConfig() as $constant => $config) {
-                static::$choices[$constant] = $config[0];
-            }
+        $choices = [];
+        foreach (static::getConfig() as $constant => $config) {
+            $choices[$constant] = $config[0];
         }
-
-        return static::$choices;
+        return $choices;
     }
 
     /**
