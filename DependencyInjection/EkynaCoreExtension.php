@@ -37,6 +37,10 @@ class EkynaCoreExtension extends Extension
 
         $container->setParameter('ekyna_core.ui_config', $config['ui']);
         $container->setParameter('ekyna_core.cache_config', $config['cache']);
+
+        if (!$container->hasParameter('ekyna_core.entities')) {
+            $container->setParameter('ekyna_core.entities', []);
+        }
     }
 
     /**

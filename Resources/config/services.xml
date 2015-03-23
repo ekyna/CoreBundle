@@ -131,6 +131,10 @@
         </service>
 
         <!-- Event subscribers -->
+        <service id="ekyna_code.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
+            <argument>%ekyna_core.entities%</argument>
+            <tag name="doctrine.event_subscriber" />
+        </service>
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <argument type="service" id="session" />
             <argument type="service" id="security.http_utils" />
