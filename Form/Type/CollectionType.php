@@ -48,6 +48,9 @@ class CollectionType extends AbstractType
         if (false === $view->vars['allow_delete'] && false === $view->vars['allow_sort']) {
             $view->vars['sub_widget_col'] += $view->vars['button_col'];
             $view->vars['button_col'] = 0;
+            if ($view->vars['sub_widget_col'] > 12) {
+                $view->vars['sub_widget_col'] = 12;
+            }
         } else {
             $view->vars['sub_widget_col'] = $options['sub_widget_col'];
             $view->vars['button_col'] = $options['button_col'];
