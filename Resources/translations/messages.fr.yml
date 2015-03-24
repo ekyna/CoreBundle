@@ -170,6 +170,7 @@ ekyna_core:
         phone: Téléphone
         mobile: Mobile
         general: Général
+        informations: Informations
         config: Configuration
     gender:
         mr:
