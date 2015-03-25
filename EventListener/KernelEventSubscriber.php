@@ -3,9 +3,12 @@
 namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Exception\RedirectException;
+use Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\HttpUtils;
 
@@ -27,15 +30,23 @@ class KernelEventSubscriber implements EventSubscriberInterface
     private $httpUtils;
 
     /**
+     * @var ProviderRegistryInterface
+     */
+    private $registry;
+
+
+    /**
      * Constructor.
      * 
-     * @param Session $session
-     * @param HttpUtils $httpUtils
+     * @param Session                   $session
+     * @param HttpUtils                 $httpUtils
+     * @param ProviderRegistryInterface $registry
      */
-    public function __construct(Session $session, HttpUtils $httpUtils)
+    public function __construct(Session $session, HttpUtils $httpUtils, ProviderRegistryInterface $registry)
     {
         $this->session = $session;
         $this->httpUtils = $httpUtils;
+        $this->registry = $registry;
     }
 
     /**
@@ -46,7 +57,29 @@ class KernelEventSubscriber implements EventSubscriberInterface
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        if ($exception instanceof RedirectException) {
+
+        if ($exception instanceof NotFoundHttpException) {
+
+            $request = $event->getRequest();
+            $fromPath = $request->getPathInfo();
+
+//            var_dump($fromPath);
+//            exit();
+
+            foreach ($this->registry->getProviders() as $provider) {
+                if ($provider->supports($request) && false !== $response = $provider->redirect($request)) {
+                    if ($response instanceof RedirectResponse) {
+                        $event->setResponse($response);
+                    } elseif (is_string($response) && 0 < strlen($response)) {
+                        $response = $this->httpUtils->createRedirectResponse($request, $response);
+                        $event->setResponse($response);
+                    }
+                    return;
+                }
+            }
+
+        } elseif ($exception instanceof RedirectException) {
+
             // Check path
             $path = $exception->getPath();
             if (0 === strlen($path)) {

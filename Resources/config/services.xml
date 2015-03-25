@@ -130,6 +130,9 @@
             <argument>%ekyna_core.cache_config%</argument>
         </service>
 
+        <!-- Redirection -->
+        <service id="ekyna_core.redirection.provider_registry" class="Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistry" />
+
         <!-- Event subscribers -->
         <service id="ekyna_code.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
             <argument>%ekyna_core.entities%</argument>
@@ -138,6 +141,7 @@
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <argument type="service" id="session" />
             <argument type="service" id="security.http_utils" />
+            <argument type="service" id="ekyna_core.redirection.provider_registry" />
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.http_cache.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
