@@ -61,11 +61,6 @@ class KernelEventSubscriber implements EventSubscriberInterface
         if ($exception instanceof NotFoundHttpException) {
 
             $request = $event->getRequest();
-            $fromPath = $request->getPathInfo();
-
-//            var_dump($fromPath);
-//            exit();
-
             foreach ($this->registry->getProviders() as $provider) {
                 if ($provider->supports($request) && false !== $response = $provider->redirect($request)) {
                     if ($response instanceof RedirectResponse) {
