@@ -4,7 +4,7 @@ fos_elastica:
         default: { host: localhost, port: 9200, logger: false }
     indexes:
         search:
-            index_name: "%hostname%_%kernel.environment%"
+            index_name: %hostname%
             settings:
                 index:
                     analysis:
