@@ -414,3 +414,10 @@
     {% endif %}
 {% endspaceless %}
 {% endblock choice_widget_collapsed %}
+
+{% block captcha_widget %}
+{% spaceless %}
+    <img src="{{ captcha_code }}" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}" style="display:inline-block;margin-right:20px;" />
+    {{ form_widget(form, {'attr': {'style': 'max-width:' ~ captcha_width ~ 'px;display:inline-block;'}}) }}
+{% endspaceless %}
+{% endblock captcha_widget %}

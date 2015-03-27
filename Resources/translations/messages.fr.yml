@@ -183,6 +183,7 @@ ekyna_core:
             short: Melle
             long: Mademoiselle
     message:
+        captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?
     changefreq:
         hourly: Toutes les heures 
