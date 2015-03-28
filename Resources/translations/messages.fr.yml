@@ -172,16 +172,6 @@ ekyna_core:
         general: Général
         informations: Informations
         config: Configuration
-    gender:
-        mr:
-            short: Mr
-            long: Monsieur
-        mrs:
-            short: Mme
-            long: Madame
-        miss:
-            short: Melle
-            long: Mademoiselle
     message:
         captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?

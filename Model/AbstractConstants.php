@@ -10,6 +10,16 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 abstract class AbstractConstants implements ConstantsInterface
 {
     /**
+     * Returns the constants.
+     *
+     * @return array
+     */
+    public static function getConstants()
+    {
+        return array_keys(static::getConfig());
+    }
+
+    /**
      * Returns the constant choices.
      *
      * @return array
@@ -33,7 +43,7 @@ abstract class AbstractConstants implements ConstantsInterface
     {
         static::isValid($constant, true);
 
-        return static::getChoices()[$constant];
+        return static::getConfig()[$constant][0];
     }
 
     /**

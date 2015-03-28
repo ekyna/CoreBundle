@@ -533,7 +533,7 @@
 		this.each(function() {
 
 			/* Selects to select2 */
-			$(this).find('select').each(function () {
+			$(this).find('select').not('.no-select2').each(function () {
 				var allowclear = $(this).data('allow-clear') == 1;
 				$(this).select2({
 					allowClear: allowclear
