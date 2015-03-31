@@ -7,7 +7,7 @@ namespace Ekyna\Bundle\CoreBundle\Model;
  * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-abstract class AbstractAddress
+abstract class AbstractAddress implements AddressInterface
 {
     /**
      * @var string
@@ -29,11 +29,9 @@ abstract class AbstractAddress
      */
     protected $city;
 
+
     /**
-     * Set street
-     *
-     * @param string $street
-     * @return AbstractAddress|$this
+     * {@inheritdoc}
      */
     public function setStreet($street)
     {
@@ -43,9 +41,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Get street
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getStreet()
     {
@@ -53,10 +49,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Set supplement
-     *
-     * @param string $supplement
-     * @return AbstractAddress|$this
+     * {@inheritdoc}
      */
     public function setSupplement($supplement)
     {
@@ -66,9 +59,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Get supplement
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSupplement()
     {
@@ -76,10 +67,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Set postalCode
-     *
-     * @param string $postalCode
-     * @return AbstractAddress|$this
+     * {@inheritdoc}
      */
     public function setPostalCode($postalCode)
     {
@@ -89,9 +77,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Get postalCode
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getPostalCode()
     {
@@ -99,10 +85,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Set city
-     *
-     * @param string $city
-     * @return AbstractAddress|$this
+     * {@inheritdoc}
      */
     public function setCity($city)
     {
@@ -112,9 +95,7 @@ abstract class AbstractAddress
     }
 
     /**
-     * Get city
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCity()
     {

@@ -147,6 +147,12 @@
             <argument type="service" id="session" />
             <argument type="service" id="security.http_utils" />
             <argument type="service" id="ekyna_core.redirection.provider_registry" />
+            <argument type="service" id="twig" />
+            <argument type="service" id="mailer" />
+            <argument type="collection">
+                <argument key="email">%error_report_mail%</argument>
+                <argument key="debug">%kernel.debug%</argument>
+            </argument>
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.http_cache.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">

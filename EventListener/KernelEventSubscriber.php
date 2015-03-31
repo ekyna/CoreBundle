@@ -4,8 +4,11 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Ekyna\Bundle\CoreBundle\Exception\RedirectException;
 use Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
+use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,6 +37,21 @@ class KernelEventSubscriber implements EventSubscriberInterface
      */
     private $registry;
 
+    /**
+     * @var \Twig_Environment
+     */
+    private $twig;
+
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+
+    /**
+     * @var array
+     */
+    private $config;
+
 
     /**
      * Constructor.
@@ -41,12 +59,27 @@ class KernelEventSubscriber implements EventSubscriberInterface
      * @param Session                   $session
      * @param HttpUtils                 $httpUtils
      * @param ProviderRegistryInterface $registry
+     * @param \Twig_Environment         $twig
+     * @param \Swift_Mailer             $mailer
+     * @param array                     $config
      */
-    public function __construct(Session $session, HttpUtils $httpUtils, ProviderRegistryInterface $registry)
-    {
-        $this->session = $session;
+    public function __construct(
+        Session $session,
+        HttpUtils $httpUtils,
+        ProviderRegistryInterface $registry,
+        \Twig_Environment $twig,
+        \Swift_Mailer $mailer,
+        array $config = array()
+    ) {
+        $this->session   = $session;
         $this->httpUtils = $httpUtils;
-        $this->registry = $registry;
+        $this->registry  = $registry;
+        $this->twig      = $twig;
+        $this->mailer    = $mailer;
+        $this->config    = array_merge(array(
+            'debug' => false,
+            'email' => null,
+        ), $config);
     }
 
     /**
@@ -90,6 +123,26 @@ class KernelEventSubscriber implements EventSubscriberInterface
             if (0 < strlen($message = $exception->getMessage())) {
                 $this->session->getFlashBag()->add($exception->getMessageType(), $message);
             }
+
+        } elseif(!$this->config['debug'] && 0 < strlen($email = $this->config['email'])) {
+
+            $template = new TemplateReference('TwigBundle', 'Exception', 'exception', 'txt', 'twig');
+            $code = $exception->getCode();
+
+            $content = $this->twig->render(
+                (string) $template,
+                array(
+                    'status_code' => $code,
+                    'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                    'exception' => FlattenException::create($exception),
+                    'logger' => null,
+                    'currentContent' => null,
+                )
+            );
+
+            $report = \Swift_Message::newInstance('Error report', $content, 'text/plain');
+            $report->setFrom($email)->setTo($email);
+            $this->mailer->send($report);
         }
     }
 

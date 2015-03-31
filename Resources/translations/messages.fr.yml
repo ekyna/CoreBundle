@@ -151,6 +151,7 @@ ekyna_core:
         verify: Vérification
         remember_me: Se souvenir de moi
         username: Nom d'utilisateur
+        author: Auteur
         user: Utilisateur
         group: Groupe
         roles: Roles
@@ -159,6 +160,7 @@ ekyna_core:
         gender: Civilité
         first_name: Prénom
         last_name: Nom
+        address: Adresse
         street: Rue
         supplement: Complément
         postal_code: Code postal
