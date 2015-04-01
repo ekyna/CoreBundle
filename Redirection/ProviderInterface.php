@@ -13,6 +13,7 @@ interface ProviderInterface
 {
     /**
      * Returns the RedirectResponse or the path to redirect to, or false.
+     * Consider specifying the http status code (301/302).
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|string|false

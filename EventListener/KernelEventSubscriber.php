@@ -99,7 +99,7 @@ class KernelEventSubscriber implements EventSubscriberInterface
                     if ($response instanceof RedirectResponse) {
                         $event->setResponse($response);
                     } elseif (is_string($response) && 0 < strlen($response)) {
-                        $response = $this->httpUtils->createRedirectResponse($request, $response);
+                        $response = $this->httpUtils->createRedirectResponse($request, $response, 301);
                         $event->setResponse($response);
                     }
                     return;
