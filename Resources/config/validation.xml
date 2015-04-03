@@ -16,7 +16,15 @@
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractFile" />
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\AbstractImage" />
         <property name="file">
-            <constraint name="Image" />
+            <constraint name="Image">
+                <option name="maxSize">2M</option>
+                <option name="mimeTypes">
+                    <value>image/gif</value>
+                    <value>image/jpeg</value>
+                    <value>image/png</value>
+                </option>
+                <option name="mimeTypesMessage">ekyna_core.image.invalid_mime_type</option>
+            </constraint>
         </property>
     </class>
 
