@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\HttpUtils;
@@ -123,6 +124,11 @@ class KernelEventSubscriber implements EventSubscriberInterface
             if (0 < strlen($message = $exception->getMessage())) {
                 $this->session->getFlashBag()->add($exception->getMessageType(), $message);
             }
+
+        } elseif ($exception instanceof HttpException) {
+
+            // Don't send log about http exception.
+            return;
 
         } elseif(!$this->config['debug'] && 0 < strlen($email = $this->config['email'])) {
 
