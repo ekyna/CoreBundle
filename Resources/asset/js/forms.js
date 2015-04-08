@@ -17,6 +17,7 @@
             var current = $text.data('current') || null;
 			var $pickButton = $(this).find('button[data-role="pick"]');
 			var $clearButton = $(this).find('button[data-role="clear"]');
+            var $key = $('input[data-target="' + $file.attr('id') + '"]');
 
             $pickButton.unbind('click').bind('click', function(e) {
 				e.preventDefault();
@@ -28,10 +29,11 @@
                 if ($file.files) {
                     $file.files = [];
                 }
+                $key.val(null);
                 $file.val(null).trigger('change');
-                /*if (typeof params.onClear === 'function') {
+                if (typeof params.onClear === 'function') {
                     params.onClear($file);
-                }*/
+                }
             }).trigger('click');
 
 			$text.unbind('click').bind('click', function(e) {
@@ -50,6 +52,23 @@
                     params.onChange(this);
                 }
 			});
+
+            $file.fileupload({})
+                .bind('fileuploaddone', function(e, data) {
+                    var result = JSON.parse(data.result);
+                    if (result.hasOwnProperty('upload_key')) {
+                        $key.val(result.upload_key);
+                    }
+                })
+                .bind('fileuploadprogress', function(e, data) {
+                    if (data._progress) {
+                        var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
+                        $('div#' + $file.attr('id') + '_progress')
+                            .show().find('.progress-bar')
+                            .css({width: progress + '%'})
+                            .attr('aria-valuenow', progress);
+                    }
+                });
 		});
 		return this;
 	};

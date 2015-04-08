@@ -135,7 +135,7 @@
 {% block file_widget %}
 {% spaceless %}
     <div class="file-picker">
-        <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+        <input type="file" data-url="{{ oneup_uploader_endpoint('local_upload') }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
             <input type="text" class="form-control" value="{{ value }}" readonly="true"
@@ -152,6 +152,11 @@
                 </button>
             </span>
         </div>
+        <div class="progress" id="{{ form.vars.id ~ '_progress' }}" style="display:none;height:8px;margin:4px 0 0 0;">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                <span class="sr-only">0%</span>
+            </div>
+        </div>
     </div>
 {% endspaceless %}
 {% endblock file_widget %}
@@ -160,6 +165,7 @@
 {% spaceless %}
 <div class="file-widget">
     {{ form_row(form.file, {'style': 'horizontal'}) }}
+    {{ form_row(form.key) }}
     {% if form.rename is defined %}
         {{ form_row(form.rename, {'style': 'horizontal'}) }}
     {% endif %}
@@ -201,6 +207,7 @@
         {% endif %}
         <div class="children">
         {{ form_row(form.file, {'style': 'horizontal'}) }}
+        {{ form_row(form.key) }}
         {% if form.rename is defined %}
             {{ form_row(form.rename, {'style': 'horizontal'}) }}
         {% endif %}

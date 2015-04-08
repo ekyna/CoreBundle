@@ -42,6 +42,7 @@
         "braincrafted/bootstrap-bundle" : "2.1.*",
         "eonasdan/bootstrap-datetimepicker" : "4.7.*",
         "gregwar/captcha-bundle": "~1.0",
+        "oneup/uploader-bundle": "~1.3",
         "stfalcon/tinymce-bundle" : "dev-master"
     },
     "repositories" : [

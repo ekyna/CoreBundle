@@ -101,24 +101,37 @@
             </call>
         </service>
 
-        <!-- Upload -->
-        <service id="ekyna_core.image.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
+        <!-- Uploaders -->
+        <service id="ekyna_core.uploader" abstract="true">
             <argument type="service">
                 <service class="Gaufrette\Filesystem"
                          factory-service="knp_gaufrette.filesystem_map"
                          factory-method="get">
-                    <argument>local_image</argument>
+                    <argument>local_upload</argument>
                 </service>
             </argument>
         </service>
-        <service id="ekyna_core.file.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
-            <argument type="service">
-                <service class="Gaufrette\Filesystem"
-                         factory-service="knp_gaufrette.filesystem_map"
-                         factory-method="get">
-                    <argument>local_file</argument>
-                </service>
-            </argument>
+        <service id="ekyna_core.image.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader" parent="ekyna_core.uploader">
+            <call method="setTargetFilesystem">
+                <argument type="service">
+                    <service class="Gaufrette\Filesystem"
+                             factory-service="knp_gaufrette.filesystem_map"
+                             factory-method="get">
+                        <argument>local_image</argument>
+                    </service>
+                </argument>
+            </call>
+        </service>
+        <service id="ekyna_core.file.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader" parent="ekyna_core.uploader">
+            <call method="setTargetFilesystem">
+                <argument type="service">
+                    <service class="Gaufrette\Filesystem"
+                             factory-service="knp_gaufrette.filesystem_map"
+                             factory-method="get">
+                        <argument>local_file</argument>
+                    </service>
+                </argument>
+            </call>
         </service>
 
         <!-- Imagine cache resolver -->
@@ -165,6 +178,9 @@
         </service>
         <service id="ekyna_core.file.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\FileEventSubscriber">
             <argument type="service" id="ekyna_core.file.uploader" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ekyna_core.upload.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\UploadListener">
             <tag name="kernel.event_subscriber" />
         </service>
 

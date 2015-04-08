@@ -1,8 +1,12 @@
-gregwar_captcha_routing:
+_gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
 
-fos_js_routing:
+_fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+_oneup_uploader:
+    resource: .
+    type: uploader

@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
+use Gaufrette\File;
 use Gaufrette\Filesystem;
 
 /**
@@ -15,14 +16,32 @@ class Uploader implements UploaderInterface
     /**
      * @var \Gaufrette\Filesystem
      */
-    private $filesystem;
+    private $sourceFilesystem;
 
     /**
-     * @param Filesystem $filesystem
+     * @var \Gaufrette\Filesystem
+     */
+    private $targetFilesystem;
+
+
+    /**
+     * @param Filesystem $filesystem : The source (upload) filesystem
      */
     public function __construct(Filesystem $filesystem)
     {
-        $this->filesystem = $filesystem;
+        $this->sourceFilesystem = $filesystem;
+    }
+
+    /**
+     * Sets the target filesystem.
+     *
+     * @param Filesystem $filesystem
+     * @return Uploader
+     */
+    public function setTargetFilesystem(Filesystem $filesystem)
+    {
+        $this->targetFilesystem = $filesystem;
+        return $this;
     }
 
     /**
@@ -30,6 +49,12 @@ class Uploader implements UploaderInterface
      */
     public function prepare(UploadableInterface $uploadable)
     {
+        if (null !== $this->sourceFilesystem && $uploadable->hasKey()) {
+            if ($this->sourceFilesystem->has($uploadable->getKey())) {
+                $uploadable->setFile($this->sourceFilesystem->get($uploadable->getKey()));
+            }
+        }
+
         if ($uploadable->hasFile() || $uploadable->shouldBeRenamed()) {
             $uploadable->setOldPath($uploadable->getPath());
             $this->generatePath($uploadable);
@@ -43,13 +68,12 @@ class Uploader implements UploaderInterface
     {
         if ($uploadable->hasPath()) {
             if ($uploadable->hasFile()) {
-                $this->filesystem->write(
-                    $uploadable->getPath(),
-                    file_get_contents($uploadable->getFile()->getPathname())
-                );
+                $file = $uploadable->getFile();
+                $content = $file instanceof File ? $file->getContent() : file_get_contents($file->getPathname());
+                $this->targetFilesystem->write($uploadable->getPath(), $content);
                 $uploadable->setFile(null);
             } elseif ($uploadable->hasOldPath()) {
-                $this->filesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
+                $this->targetFilesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
             }
         }
 
@@ -63,10 +87,16 @@ class Uploader implements UploaderInterface
     {
         if ($uploadable->hasOldPath()) {
             $oldPath = $uploadable->getOldPath();
-            if ($this->filesystem->has($oldPath)) {
-                $this->filesystem->delete($oldPath);
+            if ($this->targetFilesystem->has($oldPath)) {
+                $this->targetFilesystem->delete($oldPath);
             }
             $uploadable->setOldPath(null);
+        }
+        if (null !== $this->sourceFilesystem && $uploadable->hasKey()) {
+            if ($this->sourceFilesystem->has($uploadable->getKey())) {
+                $this->sourceFilesystem->delete($uploadable->getKey());
+            }
+            $uploadable->setKey(null);
         }
     }
 
@@ -87,7 +117,7 @@ class Uploader implements UploaderInterface
                 substr($hash, 3, 3),
                 $filename
             );
-        } while ($this->filesystem->has($path));
+        } while ($this->targetFilesystem->has($path));
 
         $uploadable->setPath($path);
     }

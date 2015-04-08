@@ -23,6 +23,8 @@ class FileType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('key', 'hidden');
+
         if ($options['rename_field']) {
             $builder->add('rename', 'text', array(
                 'label' => 'ekyna_core.field.rename',
@@ -58,7 +60,7 @@ class FileType extends AbstractType
                 } else {
                     $form->add('file', 'file', array(
                         'label' => 'ekyna_core.field.file',
-                        'required' => $options['required'],
+                        'required' => false,
                         'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
                         'attr' => array(
@@ -88,6 +90,14 @@ class FileType extends AbstractType
             $view->vars['current_file_path'] = $currentPath;
             $view->vars['current_file_name'] = $currentName;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->children['key']->vars['attr']['data-target'] = $view->children['file']->vars['id'];
     }
 
     /**

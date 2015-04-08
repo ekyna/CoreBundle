@@ -1,0 +1,8 @@
+oneup_uploader:
+    mappings:
+        local_upload:
+            frontend: blueimp
+            storage:
+                type: gaufrette
+                filesystem: gaufrette.local_upload_filesystem
+#            enable_progress: true
