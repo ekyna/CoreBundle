@@ -211,7 +211,9 @@
         {% endif %}
         <div class="children">
         {{ form_row(form.file, {'style': 'horizontal'}) }}
-        {{ form_row(form.key) }}
+        {% if form.key is defined %}
+            {{ form_row(form.key) }}
+        {% endif %}
         {% if form.rename is defined %}
             {{ form_row(form.rename, {'style': 'horizontal'}) }}
         {% endif %}
