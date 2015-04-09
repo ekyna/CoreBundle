@@ -23,6 +23,10 @@ class FileType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ($options['js_upload']) {
+            $builder->add('key', 'hidden');
+        }
+
         if ($options['rename_field']) {
             $builder->add('rename', 'text', array(
                 'label' => 'ekyna_core.field.rename',
@@ -58,7 +62,7 @@ class FileType extends AbstractType
                 } else {
                     $form->add('file', 'file', array(
                         'label' => 'ekyna_core.field.file',
-                        'required' => $options['required'],
+                        'required' => false,
                         'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
                         'attr' => array(
@@ -93,6 +97,16 @@ class FileType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        if ($options['js_upload']) {
+            $view->children['key']->vars['attr']['data-target'] = $view->children['file']->vars['id'];
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
@@ -101,12 +115,14 @@ class FileType extends AbstractType
                 'data_class'   => null,
                 'file_path'    => 'path',
                 'rename_field' => true,
+                'js_upload'    => false,
             ))
             ->setRequired(array('data_class'))
             ->setAllowedTypes(array(
                 'data_class'   => 'string',
                 'file_path'    => array('null', 'string'),
                 'rename_field' => 'bool',
+                'js_upload'    => 'bool',
             ))
         ;
     }

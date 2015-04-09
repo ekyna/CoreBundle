@@ -2,7 +2,8 @@
 
 namespace Ekyna\Bundle\CoreBundle\Model;
 
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\File as SFile;
+use Gaufrette\File as GFile;
 
 /**
  * Interface UploadableInterface
@@ -11,6 +12,28 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 interface UploadableInterface
 {
+    /**
+     * Returns whether the uploadable has an upload key.
+     *
+     * @return bool
+     */
+    public function hasKey();
+
+    /**
+     * Returns the key.
+     *
+     * @return string
+     */
+    public function getKey();
+
+    /**
+     * Sets the key.
+     *
+     * @param string $key
+     * @return UploadableTrait
+     */
+    public function setKey($key);
+
     /**
      * Image has file.
      *
@@ -21,17 +44,17 @@ interface UploadableInterface
     /**
      * Get file.
      *
-     * @return File
+     * @return SFile|GFile
      */
     public function getFile();
 
     /**
      * Set file
      *
-     * @param File $file
+     * @param SFile|GFile $file
      * @return UploadableInterface|$this
      */
-    public function setFile(File $file = null);
+    public function setFile($file = null);
 
     /**
      * Image has path.

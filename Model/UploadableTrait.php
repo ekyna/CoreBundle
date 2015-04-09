@@ -3,7 +3,9 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 use Gedmo\Sluggable\Util\Urlizer;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
+use Symfony\Component\HttpFoundation\File\File as SFile;
+use Gaufrette\File as GFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -14,9 +16,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 trait UploadableTrait
 {
     /**
+     * The key for the upload filesystem
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
      * File uploaded
      *
-     * @var \Symfony\Component\HttpFoundation\File\File
+     * @var SFile | GFile
      */
     protected $file;
 
@@ -50,6 +59,38 @@ trait UploadableTrait
 
 
     /**
+     * Returns whether the uploadable has an upload key.
+     *
+     * @return bool
+     */
+    public function hasKey()
+    {
+        return 0 < strlen($this->key);
+    }
+
+    /**
+     * Returns the key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Sets the key.
+     *
+     * @param string $key
+     * @return UploadableTrait
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
      * Has file.
      *
      * @return boolean
@@ -62,7 +103,7 @@ trait UploadableTrait
     /**
      * Get file.
      *
-     * @return File
+     * @return SFile|GFile
      */
     public function getFile()
     {
@@ -72,11 +113,15 @@ trait UploadableTrait
     /**
      * Set file
      *
-     * @param File $file
+     * @param SFile|GFile $file
      * @return UploadableTrait|$this
      */
-    public function setFile(File $file = null)
+    public function setFile($file = null)
     {
+        if (!(null === $file || $file instanceof GFile || $file instanceof SFile)) {
+            throw new UnexpectedTypeException($file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
+        }
+
         $this->file = $file;
 
         if (!$this->hasRename()) {
@@ -84,8 +129,10 @@ trait UploadableTrait
                 $this->rename = pathinfo($this->path, PATHINFO_BASENAME);
             } elseif ($file instanceof UploadedFile) {
                 $this->rename = $file->getClientOriginalName();
-            } elseif ($file instanceof File) {
+            } elseif ($file instanceof SFile) {
                 $this->rename = $file->getBasename();
+            } elseif ($file instanceof GFile) {
+                $this->rename = $file->getName();
             }
         }
 
@@ -178,7 +225,15 @@ trait UploadableTrait
     public function guessExtension()
     {
         if ($this->hasFile()) {
-            return $this->file->guessExtension();
+            if ($this->file instanceof SFile) {
+                return $this->file->guessExtension();
+            } elseif ($this->file instanceof GFile) {
+                return pathinfo($this->file->getName(), PATHINFO_EXTENSION);
+            } else {
+                throw new UnexpectedTypeException($this->file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
+            }
+        } elseif($this->hasKey()) {
+            return pathinfo($this->getKey(), PATHINFO_EXTENSION);
         } elseif ($this->hasPath()) {
             return pathinfo($this->getPath(), PATHINFO_EXTENSION);
         }
@@ -200,7 +255,13 @@ trait UploadableTrait
         if ($this->hasRename()) {
             $filename = Urlizer::transliterate(pathinfo($this->rename, PATHINFO_FILENAME));
         } elseif ($this->hasFile()) {
-            $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
+            if ($this->file instanceof SFile) {
+                $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
+            } elseif ($this->file instanceof GFile) {
+                $filename = $this->file->getName();
+            } else {
+                throw new UnexpectedTypeException($this->file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
+            }
         } elseif ($this->hasPath()) {
             $filename = pathinfo($this->path, PATHINFO_FILENAME);
         }
