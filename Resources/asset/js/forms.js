@@ -29,7 +29,9 @@
                 if ($file.files) {
                     $file.files = [];
                 }
-                $key.val(null);
+                if ($key.length == 1) {
+                    $key.val(null);
+                }
                 $file.val(null).trigger('change');
                 if (typeof params.onClear === 'function') {
                     params.onClear($file);
@@ -53,22 +55,26 @@
                 }
 			});
 
-            $file.fileupload({})
-                .bind('fileuploaddone', function(e, data) {
-                    var result = JSON.parse(data.result);
-                    if (result.hasOwnProperty('upload_key')) {
-                        $key.val(result.upload_key);
-                    }
-                })
-                .bind('fileuploadprogress', function(e, data) {
-                    if (data._progress) {
-                        var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
-                        $('div#' + $file.attr('id') + '_progress')
-                            .show().find('.progress-bar')
-                            .css({width: progress + '%'})
-                            .attr('aria-valuenow', progress);
-                    }
-                });
+            if ($key.length == 1) {
+                $file
+                    .fileupload({})
+                    .bind('fileuploaddone', function (e, data) {
+                        var result = JSON.parse(data.result);
+                        if (result.hasOwnProperty('upload_key')) {
+                            $key.val(result.upload_key);
+                        }
+                    })
+                    .bind('fileuploadprogress', function (e, data) {
+                        if (data._progress) {
+                            var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
+                            $('div#' + $file.attr('id') + '_progress')
+                                .show().find('.progress-bar')
+                                .css({width: progress + '%'})
+                                .attr('aria-valuenow', progress);
+                        }
+                    })
+                ;
+            }
 		});
 		return this;
 	};

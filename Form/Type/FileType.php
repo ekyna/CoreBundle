@@ -23,7 +23,9 @@ class FileType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('key', 'hidden');
+        if ($options['js_upload']) {
+            $builder->add('key', 'hidden');
+        }
 
         if ($options['rename_field']) {
             $builder->add('rename', 'text', array(
@@ -97,7 +99,9 @@ class FileType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $view->children['key']->vars['attr']['data-target'] = $view->children['file']->vars['id'];
+        if ($options['js_upload']) {
+            $view->children['key']->vars['attr']['data-target'] = $view->children['file']->vars['id'];
+        }
     }
 
     /**
@@ -111,12 +115,14 @@ class FileType extends AbstractType
                 'data_class'   => null,
                 'file_path'    => 'path',
                 'rename_field' => true,
+                'js_upload'    => false,
             ))
             ->setRequired(array('data_class'))
             ->setAllowedTypes(array(
                 'data_class'   => 'string',
                 'file_path'    => array('null', 'string'),
                 'rename_field' => 'bool',
+                'js_upload'    => 'bool',
             ))
         ;
     }
