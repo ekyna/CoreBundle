@@ -39,10 +39,10 @@ class TinymceConfiguration
             'entity_encoding'    => 'raw',
             'toolbar_items_size' => 'small',
             'plugins' => [
-                "advlist lists paste textcolor autoresize nonbreaking",
+                "advlist lists paste textcolor autoresize nonbreaking hr",
             ],
             'toolbar1' => "undo redo removeformat | styleselect | bold italic | forecolor backcolor | ".
-                          "alignleft aligncenter alignright alignjustify | bullist numlist",
+                          "alignleft aligncenter alignright alignjustify | bullist numlist | hr",
             'content_css' => $contentCss,
         ];
 
@@ -70,7 +70,7 @@ class TinymceConfiguration
             ],
             'toolbar1' => "undo redo removeformat code | styleselect | table link image media ",
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
-                          "alignright alignjustify | bullist numlist outdent indent",
+                          "alignright alignjustify | bullist numlist outdent indent | hr",
             'external_plugins' => [
                 'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
             ],
