@@ -85,6 +85,26 @@ class TinymceConfiguration
             $advancedTheme['style_formats'] = $styleFormats;
         }
 
+        // Front theme: for front usage
+        $frontTheme = [
+            'menubar'            => false,
+            'statusbar'          => false,
+            'resize'             => false,
+            'image_advtab'       => true,
+            'table_adv_tab'      => true,
+            'paste_as_text'      => true,
+            'relative_urls'      => false,
+            'remove_script_host' => true,
+            'entity_encoding'    => 'raw',
+            'toolbar_items_size' => 'small',
+            'valid_elements'     => 'p,span,em,strong/b,br',
+            'plugins' => [
+                "paste autoresize",
+            ],
+            'toolbar1' => "undo redo removeformat | bold italic",
+            'content_css' => $contentCss,
+        ];
+
         return [
             'include_jquery' => false,
             'tinymce_jquery' => false,
@@ -94,6 +114,7 @@ class TinymceConfiguration
             'theme' => [
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,
+                'front'    => $frontTheme,
             ],
         ];
     }
