@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -18,6 +19,20 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class FileType extends AbstractType
 {
+    /**
+     * @var string
+     */
+    private $uploadDirectory;
+
+
+    /**
+     * @param string $uploadDirectory
+     */
+    public function __construct($uploadDirectory)
+    {
+        $this->uploadDirectory = rtrim($uploadDirectory, '/') . '/';
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -70,6 +85,22 @@ class FileType extends AbstractType
                             'widget_col' => 10
                         )
                     ));
+                }
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::SUBMIT,
+            function(FormEvent $event) use ($options) {
+                /** @var \Ekyna\Bundle\CoreBundle\Model\FileInterface $file */
+                $file = $event->getData();
+
+                if ($file->hasKey()) {
+                    $path = $this->uploadDirectory.$file->getKey();
+                    if (file_exists($path)) {
+                        $file->setFile(new File($path));
+                        $event->setData($file);
+                    }
                 }
             }
         );

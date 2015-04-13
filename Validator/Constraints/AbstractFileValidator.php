@@ -30,7 +30,7 @@ class AbstractFileValidator extends ConstraintValidator
 		 * @var AbstractFile  $constraint
 		 * @var UploadableInterface $file
 		 */
-    	if ($file->hasFile() || $file->hasKey()) {
+    	if ($file->hasFile()) {
     	    if (! $file->hasRename()) {
     	        $this->context->addViolationAt(
     	            'name',

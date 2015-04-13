@@ -2,8 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Model;
 
-use Symfony\Component\HttpFoundation\File\File as SFile;
-use Gaufrette\File as GFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Interface UploadableInterface
@@ -44,17 +43,17 @@ interface UploadableInterface
     /**
      * Get file.
      *
-     * @return SFile|GFile
+     * @return File
      */
     public function getFile();
 
     /**
      * Set file
      *
-     * @param SFile|GFile $file
+     * @param File $file
      * @return UploadableInterface|$this
      */
-    public function setFile($file = null);
+    public function setFile(File $file = null);
 
     /**
      * Image has path.

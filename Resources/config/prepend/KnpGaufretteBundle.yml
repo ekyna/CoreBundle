@@ -1,9 +1,5 @@
 knp_gaufrette:
     adapters:
-        local_upload:
-            local:
-                directory:  "%kernel.root_dir%/../media/upload"
-                create:     true
         local_image:
             local:
                 directory:  "%kernel.root_dir%/../media/image"
@@ -13,8 +9,6 @@ knp_gaufrette:
                 directory:  "%kernel.root_dir%/../media/file"
                 create:     true
     filesystems:
-        local_upload:
-            adapter: local_upload
         local_image:
             adapter: local_image
         local_file:

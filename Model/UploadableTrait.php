@@ -3,9 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 use Gedmo\Sluggable\Util\Urlizer;
-use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
-use Symfony\Component\HttpFoundation\File\File as SFile;
-use Gaufrette\File as GFile;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -25,7 +23,7 @@ trait UploadableTrait
     /**
      * File uploaded
      *
-     * @var SFile | GFile
+     * @var File
      */
     protected $file;
 
@@ -103,7 +101,7 @@ trait UploadableTrait
     /**
      * Get file.
      *
-     * @return SFile|GFile
+     * @return File
      */
     public function getFile()
     {
@@ -113,15 +111,11 @@ trait UploadableTrait
     /**
      * Set file
      *
-     * @param SFile|GFile $file
+     * @param File $file
      * @return UploadableTrait|$this
      */
-    public function setFile($file = null)
+    public function setFile(File $file = null)
     {
-        if (!(null === $file || $file instanceof GFile || $file instanceof SFile)) {
-            throw new UnexpectedTypeException($file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
-        }
-
         $this->file = $file;
 
         if (!$this->hasRename()) {
@@ -129,10 +123,8 @@ trait UploadableTrait
                 $this->rename = pathinfo($this->path, PATHINFO_BASENAME);
             } elseif ($file instanceof UploadedFile) {
                 $this->rename = $file->getClientOriginalName();
-            } elseif ($file instanceof SFile) {
+            } elseif ($file instanceof File) {
                 $this->rename = $file->getBasename();
-            } elseif ($file instanceof GFile) {
-                $this->rename = $file->getName();
             }
         }
 
@@ -224,20 +216,17 @@ trait UploadableTrait
      */
     public function guessExtension()
     {
+        $extension = null;
         if ($this->hasFile()) {
-            if ($this->file instanceof SFile) {
-                return $this->file->guessExtension();
-            } elseif ($this->file instanceof GFile) {
-                return pathinfo($this->file->getName(), PATHINFO_EXTENSION);
-            } else {
-                throw new UnexpectedTypeException($this->file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
-            }
-        } elseif($this->hasKey()) {
-            return pathinfo($this->getKey(), PATHINFO_EXTENSION);
+            $extension = $this->file->guessExtension();
         } elseif ($this->hasPath()) {
-            return pathinfo($this->getPath(), PATHINFO_EXTENSION);
+            $extension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
         }
-        return null;
+        $extension = strtolower($extension);
+        if ($extension === 'jpeg') {
+            $extension = 'jpg';
+        }
+        return $extension;
     }
 
     /**
@@ -255,13 +244,7 @@ trait UploadableTrait
         if ($this->hasRename()) {
             $filename = Urlizer::transliterate(pathinfo($this->rename, PATHINFO_FILENAME));
         } elseif ($this->hasFile()) {
-            if ($this->file instanceof SFile) {
-                $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
-            } elseif ($this->file instanceof GFile) {
-                $filename = $this->file->getName();
-            } else {
-                throw new UnexpectedTypeException($this->file, 'Symfony\Component\HttpFoundation\File\File or Gaufrette\File');
-            }
+            $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
         } elseif ($this->hasPath()) {
             $filename = pathinfo($this->path, PATHINFO_FILENAME);
         }

@@ -42,16 +42,6 @@ class ImageType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        /*if (array_key_exists('image_path', $options) && 0 < strlen($imagePath = $options['image_path'])) {
-            $data = $form->getData();
-            if (null !== $data) {
-               $accessor = PropertyAccess::createPropertyAccessor();
-               $imageUrl = $accessor->getValue($data, $imagePath);
-            } else {
-                $imageUrl = null;
-            }
-            $view->vars['image_path'] = $imageUrl;
-        }*/
         $view->vars['thumb_col'] = $options['thumb_col'];
     }
 
@@ -63,20 +53,18 @@ class ImageType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'label'      => 'ekyna_core.field.image',
-                //'image_path' => 'path',
                 'thumb_col'  => 3,
                 'alt_field'  => true,
             ))
             ->setRequired(array('data_class'))
             ->setOptional(array('image_path'))
             ->setAllowedTypes(array(
-                //'image_path' => array('null', 'string'),
                 'thumb_col'  => 'int',
                 'alt_field'  => 'bool',
             ))
             ->setNormalizers(array(
                 'thumb_col' => function($options, $value) {
-                    if (0 == strlen($options['file_path'])) { // image_path
+                    if (0 == strlen($options['file_path'])) {
                         return 0;
                     }
                     if ($value > 4) {

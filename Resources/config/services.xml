@@ -8,6 +8,8 @@
     <parameters>
         <parameter key="ekyna_core.collection.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\CollectionType</parameter>
 
+        <parameter key="ekyna_core.upload_directory">%kernel.cache_dir%/upload</parameter>
+
         <parameter key="ekyna_core.file.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\FileType</parameter>
         <parameter key="ekyna_core.image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\ImageType</parameter>
         <parameter key="ekyna_core.gallery_image.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\GalleryImageType</parameter>
@@ -29,6 +31,7 @@
         </service>
 
         <service id="ekyna_core.file.form_type" class="%ekyna_core.file.form_type.class%">
+            <argument>%ekyna_core.upload_directory%</argument>
             <tag name="form.type" alias="ekyna_core_file" />
         </service>
         <service id="ekyna_core.image.form_type" class="%ekyna_core.image.form_type.class%">
@@ -103,13 +106,7 @@
 
         <!-- Uploaders -->
         <service id="ekyna_core.uploader" abstract="true">
-            <argument type="service">
-                <service class="Gaufrette\Filesystem"
-                         factory-service="knp_gaufrette.filesystem_map"
-                         factory-method="get">
-                    <argument>local_upload</argument>
-                </service>
-            </argument>
+            <argument>%ekyna_core.upload_directory%</argument>
         </service>
         <service id="ekyna_core.image.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader" parent="ekyna_core.uploader">
             <call method="setTargetFilesystem">

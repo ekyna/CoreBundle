@@ -3,6 +3,5 @@ oneup_uploader:
         local_upload:
             frontend: blueimp
             storage:
-                type: gaufrette
-                filesystem: gaufrette.local_upload_filesystem
-#            enable_progress: true
+                type: filesystem
+                directory: %ekyna_core.upload_directory%
