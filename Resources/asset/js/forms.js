@@ -17,7 +17,11 @@
             var current = $text.data('current') || null;
 			var $pickButton = $(this).find('button[data-role="pick"]');
 			var $clearButton = $(this).find('button[data-role="clear"]');
+
             var $key = $('input[data-target="' + $file.attr('id') + '"]');
+            var $form = $file.closest('form');
+            var uploadXhr = null;
+            var $progressBar = $('div#' + $file.attr('id') + '_progress');
 
             $pickButton.unbind('click').bind('click', function(e) {
 				e.preventDefault();
@@ -32,6 +36,9 @@
                 if ($key.length == 1) {
                     $key.val(null);
                 }
+                if (uploadXhr) {
+                    uploadXhr.abort();
+                }
                 $file.val(null).trigger('change');
                 if (typeof params.onClear === 'function') {
                     params.onClear($file);
@@ -44,6 +51,9 @@
 			});
 
 			$file.unbind('change').bind('change', function(e) {
+                if (uploadXhr) {
+                    uploadXhr.abort();
+                }
                 var val = $file.val();
                 if (0 < val.length) {
                     $text.val(val.fileName());
@@ -57,7 +67,30 @@
 
             if ($key.length == 1) {
                 $file
-                    .fileupload({})
+                    .fileupload()
+                    .bind('fileuploadadd', function (e, data) {
+                        uploadXhr = data.submit();
+                    })
+                    .bind('fileuploadsubmit', function (e, data) {
+                        var count = $form.data('uploadCount') || 0;
+                        count++;
+                        $form.find('[type=submit]').prop('disabled', true);
+                        $form.data('uploadCount', count);
+                        $progressBar.fadeIn();
+                    })
+                    .bind('fileuploadalways', function (e, data) {
+                        var count = $form.data('uploadCount') || 0;
+                        count--;
+                        $form.data('uploadCount', count);
+                        if (0 >= count) {
+                            $form.find('[type=submit]').prop('disabled', false);
+                        }
+                        $progressBar.fadeOut()
+                            .find('.progress-bar')
+                            .css({width: '0%'})
+                            .attr('aria-valuenow', 0);
+                        uploadXhr = null;
+                    })
                     .bind('fileuploaddone', function (e, data) {
                         var result = JSON.parse(data.result);
                         if (result.hasOwnProperty('upload_key')) {
@@ -67,13 +100,35 @@
                     .bind('fileuploadprogress', function (e, data) {
                         if (data._progress) {
                             var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
-                            $('div#' + $file.attr('id') + '_progress')
-                                .show().find('.progress-bar')
+                            $progressBar
+                                .find('.progress-bar')
                                 .css({width: progress + '%'})
                                 .attr('aria-valuenow', progress);
                         }
                     })
                 ;
+
+                $form.bind('submit', function(e) {
+                    var count = $form.data('uploadCount') || 0;
+                    if (0 < count) {
+                        $form.find('[type=submit]').qtip({
+                            content: 'Veuillez patienter pendant le téléchargement de vos fichiers.',
+                            style: { classes: 'qtip-bootstrap' },
+                            hide: { fixed: true, delay: 300 },
+                            position: {
+                                my: 'bottom center',
+                                at: 'top center',
+                                target: 'mouse',
+                                adjust: {
+                                    mouse: false,
+                                    scroll: false
+                                }
+                            }
+                        });
+                        e.preventDefault();
+                        return false;
+                    }
+                });
             }
 		});
 		return this;
@@ -210,18 +265,18 @@
 	/**
 	 * Collections
 	 * @see http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
-	 * @see http://symfony.com/fr/doc/current/cookbook/form/create_form_type_extension.html 
+	 * @see http://symfony.com/fr/doc/current/cookbook/form/create_form_type_extension.html
 	 */
 	/*$.fn.collectionWidget = function(params) {
-		
+
 		params = $.extend({}, params);
-		
+
 		this.each(function() {
 
 			var $collection = $(this);
 			var $container = $collection.find('> .children');
 			var prototype = $collection.attr('data-prototype');
-			
+
 			$collection.updateChilds = function() {
 				var maxIndex = $container.children().length-1;
 				$container.find('> div').each(function(index, child) {
@@ -285,7 +340,7 @@
 
 				$collection.updateChilds();
 			};
-			
+
 			$collection.init();
 		});
 		return this;
