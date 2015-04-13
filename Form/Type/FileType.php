@@ -95,7 +95,7 @@ class FileType extends AbstractType
                 /** @var \Ekyna\Bundle\CoreBundle\Model\FileInterface $file */
                 $file = $event->getData();
 
-                if ($file->hasKey()) {
+                if (null !== $file && $file->hasKey()) {
                     $path = $this->uploadDirectory.$file->getKey();
                     if (file_exists($path)) {
                         $file->setFile(new File($path));

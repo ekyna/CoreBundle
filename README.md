@@ -17,3 +17,4 @@ TODO
 - Fix default bootstrap less files
 - TimestampableInterface auto mapping
 - Remove useless interfaces (GallerySubjectInterface, ImageSubjectInterface, ...)
+- JS Upload : JS validation
