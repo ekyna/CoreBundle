@@ -13,3 +13,7 @@ knp_gaufrette:
             adapter: local_image
         local_file:
             adapter: local_file
+    stream_wrapper:
+        protocol: media
+        filesystems:
+            - local_file

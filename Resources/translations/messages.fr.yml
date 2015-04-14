@@ -102,6 +102,7 @@ ekyna_core:
         images: Images
         photo: Photo
         photos: Photos
+        icon: Icône
         video: Vidéo
         videos: Vidéos
         date: Date

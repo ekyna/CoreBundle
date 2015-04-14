@@ -17,4 +17,4 @@ TODO
 - Fix default bootstrap less files
 - TimestampableInterface auto mapping
 - Remove useless interfaces (GallerySubjectInterface, ImageSubjectInterface, ...)
-- JS Upload : JS validation
+- JS Upload : JS validation [see](https://github.com/blueimp/jQuery-File-Upload/wiki/Options#validation-options)

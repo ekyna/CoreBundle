@@ -2,11 +2,11 @@
 
 namespace Ekyna\Bundle\CoreBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Oneup\UploaderBundle\UploadEvents;
 use Oneup\UploaderBundle\Event\PostUploadEvent;
-use Symfony\Component\HttpFoundation\File\File as SFile;
-use Gaufrette\File as GFile;
+//use Oneup\UploaderBundle\Event\PreUploadEvent;
+use Oneup\UploaderBundle\UploadEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class UploadListener
@@ -15,25 +15,42 @@ use Gaufrette\File as GFile;
  */
 class UploadListener implements EventSubscriberInterface
 {
+    /**
+     * Pre upload event handler.
+     *
+     * @param PreUploadEvent $event
+     */
+    /*public function onPreUpload(PreUploadEvent $event)
+    {
+        ini_set('max_execution_time', 0);
+    }*/
+
+    /**
+     * Post upload event handler (returns the upload key).
+     *
+     * @param PostUploadEvent $event
+     */
     public function onPostUpload(PostUploadEvent $event)
     {
         $response = $event->getResponse();
 
         $key = null;
-        $file = $event->getFile();
 
-        if ($file instanceof SFile) {
+        $file = $event->getFile();
+        if ($file instanceof File) {
             $key = $file->getFileName();
-        } elseif($file instanceof GFile) {
-            $key = $file->getKey();
         }
 
         $response['upload_key'] = $key;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(
+            //UploadEvents::PRE_UPLOAD  => array('onPreUpload'),
             UploadEvents::POST_UPLOAD => array('onPostUpload'),
         );
     }
