@@ -40,6 +40,21 @@ class TaggedEntityListener implements EventSubscriber
     }
 
     /**
+     * Post persist event handler.
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
+    public function postPersist(LifecycleEventArgs $eventArgs)
+    {
+        // TODO
+        /*$entity = $eventArgs->getObject();
+
+        if ($entity instanceof TaggedEntityInterface) {
+            $this->addTagToInvalidate($entity::getEntityTagPrefix());
+        }*/
+    }
+
+    /**
      * Post update event handler.
      *
      * @param LifecycleEventArgs $eventArgs
@@ -107,6 +122,7 @@ class TaggedEntityListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(
+            Events::postPersist,
             Events::postUpdate,
             Events::preRemove,
             Events::postFlush,

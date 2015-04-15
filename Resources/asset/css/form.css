@@ -37,6 +37,7 @@
 .form-body textarea {
     resize: none !important;
     min-height: 34px;
+    max-height: 500px;
 }
 
 .form-with-tabs .form-body {

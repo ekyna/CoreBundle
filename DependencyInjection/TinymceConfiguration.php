@@ -44,6 +44,7 @@ class TinymceConfiguration
             'toolbar1' => "undo redo removeformat | styleselect | bold italic | forecolor backcolor | ".
                           "alignleft aligncenter alignright alignjustify | bullist numlist | hr",
             'content_css' => $contentCss,
+            'autoresize_max_height' => '500',
         ];
 
         // Advanced theme with almost all enabled plugins
@@ -75,6 +76,7 @@ class TinymceConfiguration
                 'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
             ],
             'content_css' => $contentCss,
+            'autoresize_max_height' => '500',
         ];
 
         $styleFormats = $config['ui']['tinymce_formats'];
@@ -103,6 +105,7 @@ class TinymceConfiguration
             ],
             'toolbar1' => "undo redo removeformat | bold italic",
             'content_css' => $contentCss,
+            'autoresize_max_height' => '500',
         ];
 
         return [
