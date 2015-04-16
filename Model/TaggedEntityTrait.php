@@ -10,7 +10,10 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 trait TaggedEntityTrait
 {
     /**
-     * {@inheritdoc}
+     * Returns the entity tag.
+     *
+     * @throws \RuntimeException
+     * @return string
      */
     public function getEntityTag()
     {
@@ -21,7 +24,9 @@ trait TaggedEntityTrait
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the entity and his related entities tags.
+     *
+     * @return array
      */
     public function getEntityTags()
     {
@@ -29,7 +34,9 @@ trait TaggedEntityTrait
     }
 
     /**
-     * @return mixed
+     * Returns the entity tag.
+     *
+     * @return string
      */
     public static function getEntityTagPrefix()
     {

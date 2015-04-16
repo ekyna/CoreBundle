@@ -3,7 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Listener;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
@@ -40,44 +40,52 @@ class TaggedEntityListener implements EventSubscriber
     }
 
     /**
-     * Post persist event handler.
+     * On flush event handler.
      *
-     * @param LifecycleEventArgs $eventArgs
+     * @param OnFlushEventArgs $eventArgs
      */
-    public function postPersist(LifecycleEventArgs $eventArgs)
+    public function onFlush(OnFlushEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getObject();
+        $em = $eventArgs->getEntityManager();
+        $uow = $em->getUnitOfWork();
 
-        if ($entity instanceof TaggedEntityInterface) {
-            $this->addTagToInvalidate($entity::getEntityTagPrefix());
+        foreach ($uow->getScheduledEntityInsertions() as $entity) {
+            if ($entity instanceof TaggedEntityInterface) {
+                $this->addTagToInvalidate($entity::getEntityTagPrefix());
+            }
         }
-    }
 
-    /**
-     * Post update event handler.
-     *
-     * @param LifecycleEventArgs $eventArgs
-     */
-    public function postUpdate(LifecycleEventArgs $eventArgs)
-    {
-        $entity = $eventArgs->getObject();
-
-        if ($entity instanceof TaggedEntityInterface) {
-            $this->addTagToInvalidate($entity->getEntityTag());
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+            if ($entity instanceof TaggedEntityInterface) {
+                $this->addTagToInvalidate($entity->getEntityTag());
+            }
         }
-    }
 
-    /**
-     * Pre remove event handler.
-     *
-     * @param LifecycleEventArgs $eventArgs
-     */
-    public function preRemove(LifecycleEventArgs $eventArgs)
-    {
-        $entity = $eventArgs->getObject();
+        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+            if ($entity instanceof TaggedEntityInterface) {
+                $this->addTagToInvalidate($entity->getEntityTag());
+            }
+        }
 
-        if ($entity instanceof TaggedEntityInterface) {
-            $this->addTagToInvalidate($entity->getEntityTag());
+        /** @var \Doctrine\Common\Collections\ArrayCollection $col */
+        foreach ($uow->getScheduledCollectionUpdates() as $col) {
+            foreach ($col as $entity) {
+                if ($entity instanceof TaggedEntityInterface) {
+                    if (null !== $entity->getId()) {
+                        $this->addTagToInvalidate($entity->getEntityTag());
+                    }
+                }
+            }
+        }
+
+        foreach ($uow->getScheduledCollectionDeletions() as $col) {
+            foreach ($col as $entity) {
+                if ($entity instanceof TaggedEntityInterface) {
+                    if (null !== $entity->getId()) {
+                        $this->addTagToInvalidate($entity->getEntityTag());
+                    }
+                }
+            }
         }
     }
 
@@ -121,9 +129,7 @@ class TaggedEntityListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(
-            Events::postPersist,
-            Events::postUpdate,
-            Events::preRemove,
+            Events::onFlush,
             Events::postFlush,
         );
     }
