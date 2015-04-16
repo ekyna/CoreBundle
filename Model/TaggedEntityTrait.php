@@ -17,6 +17,14 @@ trait TaggedEntityTrait
         if (null === $this->getId()) {
             throw new \RuntimeException('Unable to generate entity tag, as the id property is undefined.');
         }
-        return sprintf('%s[id:%s]', self::getEntityTagPrefix(), $this->getId());
+        return sprintf('%s[id:%s]', static::getEntityTagPrefix(), $this->getId());
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getEntityTagPrefix()
+    {
+        throw new \BadMethodCallException('Must be implemented');
     }
 }
