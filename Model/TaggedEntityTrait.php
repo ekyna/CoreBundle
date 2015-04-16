@@ -21,6 +21,14 @@ trait TaggedEntityTrait
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getEntityTags()
+    {
+        return array($this->getEntityTag());
+    }
+
+    /**
      * @return mixed
      */
     public static function getEntityTagPrefix()

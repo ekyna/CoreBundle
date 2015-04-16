@@ -18,6 +18,13 @@ interface TaggedEntityInterface
     public function getEntityTag();
 
     /**
+     * Returns the entity and his related entities tags.
+     *
+     * @return array
+     */
+    public function getEntityTags();
+
+    /**
      * Returns the entity tag.
      *
      * @return string
