@@ -46,12 +46,11 @@ class TaggedEntityListener implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
-        // TODO
-        /*$entity = $eventArgs->getObject();
+        $entity = $eventArgs->getObject();
 
         if ($entity instanceof TaggedEntityInterface) {
             $this->addTagToInvalidate($entity::getEntityTagPrefix());
-        }*/
+        }
     }
 
     /**

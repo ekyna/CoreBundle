@@ -16,4 +16,11 @@ interface TaggedEntityInterface
      * @return string
      */
     public function getEntityTag();
+
+    /**
+     * Returns the entity tag.
+     *
+     * @return string
+     */
+    public static function getEntityTagPrefix();
 }
