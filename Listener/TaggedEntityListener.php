@@ -57,12 +57,14 @@ class TaggedEntityListener implements EventSubscriber
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             if ($entity instanceof TaggedEntityInterface) {
+                $this->addTagToInvalidate($entity::getEntityTagPrefix());
                 $this->addTagToInvalidate($entity->getEntityTag());
             }
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof TaggedEntityInterface) {
+                $this->addTagToInvalidate($entity::getEntityTagPrefix());
                 $this->addTagToInvalidate($entity->getEntityTag());
             }
         }
@@ -72,6 +74,7 @@ class TaggedEntityListener implements EventSubscriber
             foreach ($col as $entity) {
                 if ($entity instanceof TaggedEntityInterface) {
                     if (null !== $entity->getId()) {
+                        $this->addTagToInvalidate($entity::getEntityTagPrefix());
                         $this->addTagToInvalidate($entity->getEntityTag());
                     }
                 }
@@ -82,6 +85,7 @@ class TaggedEntityListener implements EventSubscriber
             foreach ($col as $entity) {
                 if ($entity instanceof TaggedEntityInterface) {
                     if (null !== $entity->getId()) {
+                        $this->addTagToInvalidate($entity::getEntityTagPrefix());
                         $this->addTagToInvalidate($entity->getEntityTag());
                     }
                 }
