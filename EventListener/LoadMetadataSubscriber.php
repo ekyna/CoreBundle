@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
@@ -21,15 +22,22 @@ class LoadMetadataSubscriber implements EventSubscriber
      */
     protected $entities;
 
+    /**
+     * @var array
+     */
+    protected $interfaces;
+
 
     /**
      * Constructor
      *
      * @param array $entities
+     * @param array $interfaces
      */
-    public function __construct(array $entities)
+    public function __construct(array $entities, array $interfaces)
     {
-        $this->entities = $entities;
+        $this->entities   = $entities;
+        $this->interfaces = $interfaces;
     }
 
     /**
@@ -37,9 +45,7 @@ class LoadMetadataSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
-            'loadClassMetadata',
-        );
+        return array(Events::loadClassMetadata);
     }
 
     /**
@@ -65,7 +71,11 @@ class LoadMetadataSubscriber implements EventSubscriber
                 if (array_key_exists('repository', $entity)) {
                     $metadata->setCustomRepositoryClass($entity['repository']);
                 }
+                return;
             }
+        }
+        if (in_array($metadata->getName(), $this->interfaces)) {
+            $metadata->isMappedSuperclass = false;
         }
     }
 

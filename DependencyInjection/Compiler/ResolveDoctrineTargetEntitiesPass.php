@@ -39,16 +39,24 @@ class ResolveDoctrineTargetEntitiesPass implements CompilerPassInterface
             throw new \RuntimeException('Cannot find Doctrine RTEL');
         }
 
+        $resolvedInterfaces = [];
         $resolveTargetEntityListener = $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');
+
         foreach ($this->interfaces as $interface => $model) {
+            $i = $this->getInterface($container, $interface);
+            $c = $this->getClass($container, $model);
+
             $resolveTargetEntityListener
-                ->addMethodCall('addResolveTargetEntity', array(
-                    $this->getInterface($container, $interface),
-                    $this->getClass($container, $model),
-                    array(),
-                ))
+                ->addMethodCall('addResolveTargetEntity', array($i, $c, array()))
             ;
+
+            $resolvedInterfaces[$i] = $c;
         }
+
+        if ($container->hasParameter('ekyna_core.interfaces')) {
+            $resolvedInterfaces = array_merge($container->getParameter('ekyna_core.interfaces'), $resolvedInterfaces);
+        }
+        $container->setParameter('ekyna_core.interfaces', $resolvedInterfaces);
 
         if (!$resolveTargetEntityListener->hasTag('doctrine.event_listener')) {
             $resolveTargetEntityListener->addTag('doctrine.event_listener', array('event' => 'loadClassMetadata'));

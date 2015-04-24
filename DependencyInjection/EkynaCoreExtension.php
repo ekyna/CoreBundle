@@ -41,6 +41,9 @@ class EkynaCoreExtension extends Extension
         if (!$container->hasParameter('ekyna_core.entities')) {
             $container->setParameter('ekyna_core.entities', []);
         }
+        if (!$container->hasParameter('ekyna_core.interfaces')) {
+            $container->setParameter('ekyna_core.interfaces', []);
+        }
     }
 
     /**

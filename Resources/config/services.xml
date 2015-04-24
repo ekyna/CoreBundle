@@ -149,8 +149,9 @@
         <service id="ekyna_core.redirection.provider_registry" class="Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistry" />
 
         <!-- Event subscribers -->
-        <service id="ekyna_code.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
+        <service id="ekyna_core.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
             <argument>%ekyna_core.entities%</argument>
+            <argument>%ekyna_core.interfaces%</argument>
             <tag name="doctrine.event_subscriber" />
         </service>
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
