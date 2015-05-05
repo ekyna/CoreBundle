@@ -51,6 +51,7 @@
         {% set labelAttributes = item.labelAttributes %}
         {% set labelAttributes = labelAttributes|merge({'class': (labelAttributes.class|default('') ~ ' dropdown-toggle')|trim}) %}
         {#{% set labelAttributes = labelAttributes|merge({'data-toggle': 'dropdown'}) %}#}
+        {% set labelAttributes = labelAttributes|merge({'data-hover': 'dropdown'}) %}
         <a href="{{ item.uri }}"{{ macros.attributes(labelAttributes) }}>{{ block('label') }} <b class="caret"></b></a>
     {% endspaceless %}
 {% endblock dropdownElement %}

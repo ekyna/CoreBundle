@@ -148,7 +148,6 @@ class AsseticConfiguration
         $inputs = array(
             '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
-            '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.dropdown-hover-click.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/jquery.qtip.css',
             '@EkynaCoreBundle/Resources/asset/css/form.css',
@@ -179,6 +178,7 @@ class AsseticConfiguration
             '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/tinycolor.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.colorpickersliders.js',
+            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.hover-dropdown.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/jquery.autosize.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/select2.js',
             '@EkynaCoreBundle/Resources/asset/js/lib/jquery.qtip.js',
