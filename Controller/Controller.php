@@ -13,6 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 class Controller extends BaseController
 {
     /**
+     * Checks if the attributes are granted against the current authentication token and optionally supplied object.
+     *
+     * @param mixed $attributes
+     * @param mixed $object
+     * @return bool
+     */
+    protected function isGranted($attributes, $object = null)
+    {
+        return $this->get('security.context')->isGranted($attributes, $object);
+    }
+
+    /**
      * Returns the router.
      *
      * @return \Symfony\Component\Routing\RouterInterface;

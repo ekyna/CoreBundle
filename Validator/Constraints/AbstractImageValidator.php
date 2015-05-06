@@ -30,13 +30,11 @@ class AbstractImageValidator extends ConstraintValidator
 		 * @var AbstractImage $constraint
 		 * @var ImageInterface $image
 		 */
-    	if (!($image->hasFile() || !$image->hasPath())) {
-    	    if (0 < strlen($image->getAlt())) {
-    	        $this->context->addViolationAt(
-    	            'alt',
-    	            $constraint->leaveBlank
-    	        );
-    	    }
+    	if (!($image->hasFile() || $image->hasPath()) && 0 < strlen($image->getAlt())) {
+            $this->context->addViolationAt(
+                'alt',
+                $constraint->leaveBlank
+            );
     	}
     }
 }
