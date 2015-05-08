@@ -22,6 +22,16 @@ abstract class AbstractImage implements Model\ImageInterface
 
 
     /**
+     * Returns the string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return pathinfo($this->getPath(), PATHINFO_BASENAME);
+    }
+
+    /**
      * Get id
      *
      * @return number

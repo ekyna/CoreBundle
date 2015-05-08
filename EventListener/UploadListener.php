@@ -16,16 +16,6 @@ use Symfony\Component\HttpFoundation\File\File;
 class UploadListener implements EventSubscriberInterface
 {
     /**
-     * Pre upload event handler.
-     *
-     * @param PreUploadEvent $event
-     */
-    /*public function onPreUpload(PreUploadEvent $event)
-    {
-        ini_set('max_execution_time', 0);
-    }*/
-
-    /**
      * Post upload event handler (returns the upload key).
      *
      * @param PostUploadEvent $event
@@ -50,7 +40,6 @@ class UploadListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            //UploadEvents::PRE_UPLOAD  => array('onPreUpload'),
             UploadEvents::POST_UPLOAD => array('onPostUpload'),
         );
     }

@@ -57,7 +57,6 @@ class ImageType extends AbstractType
                 'alt_field'  => true,
             ))
             ->setRequired(array('data_class'))
-            ->setOptional(array('image_path'))
             ->setAllowedTypes(array(
                 'thumb_col'  => 'int',
                 'alt_field'  => 'bool',
