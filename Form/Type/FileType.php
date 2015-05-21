@@ -162,7 +162,7 @@ class FileType extends AbstractType
                 'data_class'   => null,
                 'file_path'    => 'path',
                 'rename_field' => true,
-                'unlink_field' => true,
+                'unlink_field' => false,
                 'js_upload'    => false,
             ))
             ->setRequired(array('data_class'))
