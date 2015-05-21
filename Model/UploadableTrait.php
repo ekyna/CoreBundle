@@ -49,6 +49,13 @@ trait UploadableTrait
     protected $rename;
 
     /**
+     * Unlink (set the subject image field to null)
+     *
+     * @var bool
+     */
+    protected $unlink;
+
+    /**
      * Update date
      *
      * @var \DateTime
@@ -289,6 +296,28 @@ trait UploadableTrait
         }
         $this->rename = $rename;
 
+        return $this;
+    }
+
+    /**
+     * Returns the unlink.
+     *
+     * @return boolean
+     */
+    public function getUnlink()
+    {
+        return $this->unlink;
+    }
+
+    /**
+     * Sets the unlink.
+     *
+     * @param boolean $unlink
+     * @return UploadableTrait
+     */
+    public function setUnlink($unlink)
+    {
+        $this->unlink = (bool) $unlink;
         return $this;
     }
 

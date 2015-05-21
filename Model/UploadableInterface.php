@@ -141,4 +141,19 @@ interface UploadableInterface
      * @return UploadableInterface|$this
      */
     public function setRename($rename);
+
+    /**
+     * Returns the unlink.
+     *
+     * @return boolean
+     */
+    public function getUnlink();
+
+    /**
+     * Sets the unlink.
+     *
+     * @param boolean $unlink
+     * @return UploadableTrait
+     */
+    public function setUnlink($unlink);
 }

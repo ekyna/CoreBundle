@@ -173,6 +173,9 @@
     {% if form.rename is defined %}
         {{ form_row(form.rename, {'style': 'horizontal'}) }}
     {% endif %}
+    {% if form.unlink is defined %}
+        {{ form_row(form.unlink, {'style': 'horizontal'}) }}
+    {% endif %}
 </div>
 {% endspaceless %}
 {% endblock ekyna_core_file_widget %}
@@ -219,6 +222,9 @@
         {% endif %}
         {% if form.alt is defined %}
             {{ form_row(form.alt, {'style': 'horizontal'}) }}
+        {% endif %}
+        {% if form.unlink is defined %}
+            {{ form_row(form.unlink, {'style': 'horizontal'}) }}
         {% endif %}
         {% if form.position is defined %}
             {{ form_row(form.position) }}

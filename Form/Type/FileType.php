@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
+use Ekyna\Bundle\CoreBundle\Form\DataTransformer\UploadableToNullTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -74,6 +75,19 @@ class FileType extends AbstractType
                             'widget_col' => 10
                         )
                     ));
+                    if ($options['unlink_field']) {
+                        $form->add('unlink', 'checkbox', array(
+                            'label' => 'ekyna_core.field.unlink',
+                            'required' => false,
+                            'sizing' => 'sm',
+                            'admin_helper' => 'FILE_UNLINK',
+                            'attr' => array(
+                                'label_col' => 2,
+                                'widget_col' => 10,
+                                'align_with_widget' => true,
+                            )
+                        ));
+                    }
                 } else {
                     $form->add('file', 'file', array(
                         'label' => 'ekyna_core.field.file',
@@ -104,6 +118,8 @@ class FileType extends AbstractType
                 }
             }
         );
+
+        $builder->addModelTransformer(new UploadableToNullTransformer());
     }
 
     /**
@@ -146,6 +162,7 @@ class FileType extends AbstractType
                 'data_class'   => null,
                 'file_path'    => 'path',
                 'rename_field' => true,
+                'unlink_field' => true,
                 'js_upload'    => false,
             ))
             ->setRequired(array('data_class'))
@@ -153,6 +170,7 @@ class FileType extends AbstractType
                 'data_class'   => 'string',
                 'file_path'    => array('null', 'string'),
                 'rename_field' => 'bool',
+                'unlink_field' => 'bool',
                 'js_upload'    => 'bool',
             ))
         ;

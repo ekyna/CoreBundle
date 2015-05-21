@@ -120,7 +120,7 @@ ekyna_core:
         enabled: Actif
         disabled: Inactif
         validated: Validé
-        locked: Vérouillé
+        locked: Vérrouillé
         expired: Expiré
         duration: Durée
         feed: Flux
@@ -130,6 +130,7 @@ ekyna_core:
         file: Fichier
         rename: Renommer
         choose_file: Choisissez un fichier
+        unlink: Supprimer l'association avec ce fichier
         import: Import
         export: Export
         path: Chemin
