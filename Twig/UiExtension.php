@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -12,6 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class UiExtension extends \Twig_Extension
 {
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
     /**
      * @var array
      */
@@ -30,10 +36,12 @@ class UiExtension extends \Twig_Extension
     /**
      * Constructor.
      *
-     * @param array $config
+     * @param RequestStack $requestStack
+     * @param array        $config
      */
-    public function __construct(array $config)
+    public function __construct(RequestStack $requestStack, array $config)
     {
+        $this->requestStack = $requestStack;
         $this->config = $config;
     }
 
@@ -56,6 +64,7 @@ class UiExtension extends \Twig_Extension
             new \Twig_SimpleFunction('ui_link', array($this, 'renderLink'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_button', array($this, 'renderButton'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_google_font', array($this, 'renderGoogleFontLink'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('ui_locale_switcher', array($this, 'renderLocaleSwitcher'), array('is_safe' => array('html'))),
         );
     }
 
@@ -144,12 +153,12 @@ class UiExtension extends \Twig_Extension
             $icon = $options['fa_icon'] ? 'fa fa-'.$options['icon'] : 'glyphicon glyphicon-'.$options['icon'];
         }
 
-        return trim($this->controlsTemplate->renderBlock('button', array(
+        return $this->controlsTemplate->renderBlock('button', array(
             'tag'   => $tag,
             'attr'  => $attributes,
             'label' => $label,
             'icon'  => $icon,
-        )));
+        ));
     }
 
     /**
@@ -163,6 +172,23 @@ class UiExtension extends \Twig_Extension
             return '<link href="' . $this->config['google_font_url'] . '" rel="stylesheet" type="text/css">' . "\n";
         }
         return '';
+    }
+
+    /**
+     * Renders the locale switcher.
+     *
+     * @return string
+     */
+    public function renderLocaleSwitcher()
+    {
+        if (null === $request = $this->requestStack->getMasterRequest()) {
+            return '';
+        }
+
+        return $this->controlsTemplate->renderBlock('locale_switcher', array(
+            'locales' => $this->config['locales'],
+            'request' => $request,
+        ));
     }
 
     /**

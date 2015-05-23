@@ -86,6 +86,7 @@ class Configuration implements ConfigurationInterface
 				->scalarNode('controls_template')->defaultValue('EkynaCoreBundle:Ui:controls.html.twig')->end()
 				->scalarNode('no_image_path')->defaultValue('/bundles/ekynacore/img/new-image.gif')->end()
 				->scalarNode('google_font_url')->defaultValue('')->end()
+				->variableNode('locales')->defaultValue('%locales%')->end()
 				->variableNode('tinymce_formats')->defaultNull()->end()
 			->end()
 		;
