@@ -148,6 +148,13 @@
         <!-- Redirection -->
         <service id="ekyna_core.redirection.provider_registry" class="Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistry" />
 
+        <!-- Locale -->
+        <service id="ekyna_core.locale_provider.request" class="Ekyna\Bundle\CoreBundle\Locale\RequestLocaleProvider">
+            <argument>%locale%</argument>
+            <argument>%locales%</argument>
+            <tag name="kernel.event_subscriber" priority="98" />
+        </service>
+
         <!-- Event subscribers -->
         <service id="ekyna_core.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
             <argument>%ekyna_core.entities%</argument>
