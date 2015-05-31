@@ -1,4 +1,4 @@
-;(function(doc, $, router) {
+;(function($, router) {
 	
 	/**
 	 * File widget
@@ -496,8 +496,8 @@
 
 			var $this = $(this);
 			
-			var searchUrl = Routing.generate($this.data('search'));
-			var findUrl = Routing.generate($this.data('find'));
+			var searchUrl = router.generate($this.data('search'));
+			var findUrl = router.generate($this.data('find'));
 			var allowClear = $this.data('clear') == 1;
 
 			$this.select2({
@@ -652,7 +652,7 @@
 		return this;
 	};
 
-	$(doc).ready(function() {
+	$(document).on('fos_js_routing_loaded', function() {
 
         /**
          * Form widget on all forms.
@@ -675,19 +675,19 @@
 			}
 			event.preventDefault();
 		});
-
-		/**
-		 * Tinymce modal fix
-		 * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
-		 * @see http://jsfiddle.net/e99xf/13/
-		 */
-		$(doc).on('focusin', function(e) {
-		    if ($(e.target).closest(".mce-window").length) {
-		        e.stopImmediatePropagation();
-		    }
-		});
 	});
 
-})(document, jQuery, Routing);
+    /**
+     * Tinymce modal fix
+     * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+     * @see http://jsfiddle.net/e99xf/13/
+     */
+    $(document).on('focusin', function(e) {
+        if ($(e.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+
+})(jQuery, Routing);
 
 
