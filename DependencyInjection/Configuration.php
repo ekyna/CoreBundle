@@ -63,11 +63,10 @@ class Configuration implements ConfigurationInterface
 		$node
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('enable')->defaultTrue()->end()
 				->arrayNode('routers_by_id')
 					->useAttributeAsKey('id')
 					->prototype('scalar')->end()
-                    ->defaultValue(array('router.default' => 100))
+                    ->defaultValue(array('router.default' => 1024))
 				->end()
 			->end()
 		;

@@ -2,7 +2,8 @@
     "name" : "ekyna/core-bundle",
     "description" : "Various utilities",
     "type" : "symfony-bundle",
-    "authors" : [{
+    "authors" : [
+        {
             "name" : "Etienne Dauvergne",
             "homepage" : "http://ekyna.com"
         }
@@ -27,12 +28,13 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "twig/extensions" : "~1.0",
-        "friendsofsymfony/jsrouting-bundle" : "1.5.*",
+        "friendsofsymfony/jsrouting-bundle" : "dev-master",
         "friendsofsymfony/elastica-bundle" : "3.1.*",
         "friendsofsymfony/http-cache-bundle" : "~1.0",
         "jms/serializer-bundle" : "0.*",
         "jms/i18n-routing-bundle": "1.1.*",
         "stof/doctrine-extensions-bundle" : "1.1.*",
+        "a2lix/translation-form-bundle" : "2.0.*",
         "knplabs/knp-menu" : "v2.0.1",
         "knplabs/knp-menu-bundle" : "v2.0.0",
         "knplabs/gaufrette" : "0.2.*@dev",
@@ -50,6 +52,14 @@
         {
             "type" : "git",
             "url" : "https://github.com/ekyna/TinymceBundle.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/ekyna/JMSI18nRoutingBundle.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/ekyna/FOSJsRoutingBundle.git"
         }
     ],
     "autoload" : {

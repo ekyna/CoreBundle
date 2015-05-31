@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -181,7 +182,8 @@ class UiExtension extends \Twig_Extension
      */
     public function renderLocaleSwitcher()
     {
-        if (null === $request = $this->requestStack->getMasterRequest()) {
+        // TODO Check if this is a (esi) sub request, as this must never be used in a esi fragment.
+        if (null === $request = $this->requestStack->getCurrentRequest()) {
             return '';
         }
 

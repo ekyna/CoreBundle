@@ -4,6 +4,8 @@ stof_doctrine_extensions:
         default:
             tree: true
             sluggable: true
+            translatable: false
             timestampable: true
             softdeleteable: true
             sortable: true
+            loggable: true

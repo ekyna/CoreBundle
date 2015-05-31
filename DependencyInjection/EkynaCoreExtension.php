@@ -25,22 +25,27 @@ class EkynaCoreExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if ($config['chain_router']['enable']) {
-            $container->setParameter('ekyna_core.enable_chain_router', true);
-
-            // add the routers defined in the configuration mapping
-            $router = $container->getDefinition($this->getAlias() . '.router');
-            foreach ($config['chain_router']['routers_by_id'] as $id => $priority) {
-                $router->addMethodCall('add', array(new Reference($id), $priority));
-            }
+        $routers = (array) $config['chain_router']['routers_by_id'];
+        if (!empty($routers)) {
+            $container->setParameter('ekyna_core.chain_router.routers', $routers);
         }
 
         $container->setParameter('ekyna_core.ui_config', $config['ui']);
         $container->setParameter('ekyna_core.cache_config', $config['cache']);
 
+        /* Inheritance mapping = [
+         *     resource_id => [
+         *         'class' => Class ,
+         *         'repository' => Repository class ,
+         *     ]
+         * ] */
         if (!$container->hasParameter('ekyna_core.entities')) {
             $container->setParameter('ekyna_core.entities', []);
         }
+
+        /* Target entities resolution
+         * [ Interface => Class or class parameter ]
+         */
         if (!$container->hasParameter('ekyna_core.interfaces')) {
             $container->setParameter('ekyna_core.interfaces', []);
         }

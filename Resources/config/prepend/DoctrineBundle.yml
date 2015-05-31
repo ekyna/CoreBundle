@@ -5,6 +5,10 @@ doctrine:
     orm:
         entity_managers:
             default:
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
                 dql:
                     datetime_functions:
                         month: Ekyna\Bundle\CoreBundle\Dql\Month
