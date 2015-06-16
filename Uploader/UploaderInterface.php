@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
+use Gaufrette\Filesystem;
 
 /**
  * Interface UploaderInterface
@@ -11,6 +12,13 @@ use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
  */
 interface UploaderInterface
 {
+    /**
+     * Sets the target filesystem.
+     *
+     * @param Filesystem $filesystem
+     */
+    public function setFilesystem(Filesystem $filesystem);
+
     /**
      * Prepare the entity for upload.
      *

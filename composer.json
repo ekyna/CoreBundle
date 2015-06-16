@@ -1,76 +1,81 @@
 {
-    "name" : "ekyna/core-bundle",
-    "description" : "Various utilities",
-    "type" : "symfony-bundle",
-    "authors" : [
+    "name": "ekyna/core-bundle",
+    "description": "Various utilities",
+    "type": "symfony-bundle",
+    "authors": [
         {
-            "name" : "Etienne Dauvergne",
-            "homepage" : "http://ekyna.com"
+            "name": "Etienne Dauvergne",
+            "homepage": "http://ekyna.com"
         }
     ],
-    "keywords" : [
+    "keywords": [
         "symfony2",
         "bundle"
     ],
-    "homepage" : "https://github.com/ekyna/CoreBundle",
-    "license" : [
+    "homepage": "https://github.com/ekyna/CoreBundle",
+    "license": [
         "MIT"
     ],
-    "require" : {
-        "php" : ">=5.4.0",
-        "symfony/framework-bundle" : "2.5.*",
-        "symfony-cmf/routing" : "1.3.*",
-        "doctrine/common" : "~2.4,<2.5",
-        "doctrine/orm" : "~2.2,>=2.2.3,<2.5",
-        "doctrine/dbal" : "<2.5",
-        "doctrine/doctrine-bundle" : "1.3.*",
-        "doctrine/doctrine-cache-bundle" : "1.0.*",
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/framework-bundle": "2.5.*",
+        "symfony-cmf/routing": "1.3.*",
+        "doctrine/common": "~2.4,<2.5",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "1.3.*",
+        "doctrine/doctrine-cache-bundle": "1.0.*",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
-        "twig/extensions" : "~1.0",
-        "friendsofsymfony/jsrouting-bundle" : "dev-fix-i18n-dump-command",
-        "friendsofsymfony/elastica-bundle" : "3.1.*",
-        "friendsofsymfony/http-cache-bundle" : "~1.0",
-        "jms/serializer-bundle" : "0.*",
+        "twig/extensions": "~1.0",
+        "friendsofsymfony/jsrouting-bundle": "~1.5",
+        "friendsofsymfony/elastica-bundle": "3.1.*",
+        "friendsofsymfony/http-cache-bundle": "~1.0",
+        "jms/serializer-bundle": "0.*",
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
-        "stof/doctrine-extensions-bundle" : "1.1.*",
-        "a2lix/translation-form-bundle" : "2.0.*",
-        "knplabs/knp-menu" : "v2.0.1",
-        "knplabs/knp-menu-bundle" : "v2.0.0",
+        "stof/doctrine-extensions-bundle": "1.1.*",
+        "a2lix/translation-form-bundle": "2.0.*",
+        "knplabs/knp-menu": "v2.0.1",
+        "knplabs/knp-menu-bundle": "v2.0.0",
         "knplabs/gaufrette" : "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "0.2.*@dev",
-        "liip/imagine-bundle" : "1.2.*",
-        "malsup/form" : "3.*",
-        "twbs/bootstrap" : "3.2.*",
-        "braincrafted/bootstrap-bundle" : "2.1.*",
-        "eonasdan/bootstrap-datetimepicker" : "4.7.*",
+        "ekyna/require-js-bundle": "0.3.*@dev",
+        "ekyna/fontawesome-bundle" : "0.3.*@dev",
+        "ekyna/table-bundle" : "0.3.*@dev",
+        "components/jquery": "~2.1",
+        "components/jqueryui": "~1.11",
+        "components/bootstrap": "~3.3",
+        "cross-solution/bootstrap3-dialog": "dev-composer",
+        "braincrafted/bootstrap-bundle": "2.1.*",
+        "malsup/form": "3.*",
+        "eonasdan/bootstrap-datetimepicker": "4.7.*",
         "gregwar/captcha-bundle": "~1.0",
         "oneup/uploader-bundle": "~1.3",
-        "stfalcon/tinymce-bundle" : "dev-master"
+        "stfalcon/tinymce-bundle": "dev-master"
     },
-    "repositories" : [
-        {
-            "type" : "git",
-            "url" : "https://github.com/ekyna/TinymceBundle.git"
-        },
+    "repositories": [
         {
             "type": "git",
             "url": "https://github.com/ekyna/JMSI18nRoutingBundle.git"
         },
         {
             "type": "git",
-            "url": "https://github.com/ekyna/FOSJsRoutingBundle.git"
+            "url": "https://github.com/ekyna/TinymceBundle.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/ekyna/bootstrap3-dialog.git"
         }
     ],
-    "autoload" : {
-        "psr-0" : {
-            "Ekyna\\Bundle\\CoreBundle" : ""
+    "autoload": {
+        "psr-0": {
+            "Ekyna\\Bundle\\CoreBundle": ""
         }
     },
-    "target-dir" : "Ekyna/Bundle/CoreBundle",
-    "extra" : {
-        "branch-alias" : {
-            "dev-master" : "0.2.x-dev"
+    "target-dir": "Ekyna/Bundle/CoreBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.3.x-dev"
         }
     }
 }

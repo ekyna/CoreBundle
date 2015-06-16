@@ -1,0 +1,92 @@
+config:
+    packages:
+        0:
+            name: 'ekyna-form'
+            location: 'bundles/ekynacore/js/form'
+            main: 'form'
+    shim:
+        'jquery-ui':
+            deps: ['jquery']
+        'jquery/autosize':
+            deps: ['jquery']
+        'jquery/qtip':
+            deps: ['jquery']
+        'jquery/fileupload':
+            deps: ['jquery']
+        'twig':
+            exports: 'Twig'
+        'routing':
+            exports: 'Routing'
+        'bootstrap-dialog':
+            deps: ['jquery', 'bootstrap']
+            exports: 'BootstrapDialog'
+        'bootstrap/colorpicker':
+            deps: ['jquery', 'bootstrap', 'tinycolor']
+            exports: 'BootstrapDialog'
+        'ekyna-modal':
+            deps: ['jquery', 'bootstrap-dialog']
+            exports: 'EkynaModal'
+        'bootstrap':
+            deps: ['jquery']
+        'select2':
+            deps: ['jquery']
+        'ekyna-form':
+            deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'malsup/form', 'jquery/autosize']
+            exports: 'EkynaForm'
+        'ekyna-form/upload':
+            deps: ['jquery', 'jquery/fileupload', 'ekyna-string']
+        'ekyna-form/datetime':
+            deps: ['jquery', 'bootstrap/datetimepicker']
+        'ekyna-form/color':
+            deps: ['jquery', 'bootstrap/colorpicker']
+        'ekyna-form/entity':
+            deps: ['jquery', 'ekyna-modal', 'ekyna-table']
+        'ekyna-form/entity-search':
+            deps: ['jquery', 'routing']
+    paths:
+        'jquery': 'assets/jquery/jquery.min'
+        'jquery-ui': 'assets/jquery-ui/jquery-ui.min'
+        'jquery/autosize': 'bundles/ekynacore/js/lib/jquery.autosize'
+        'jquery/qtip': 'bundles/ekynacore/js/lib/jquery.qtip'
+        'jquery/fileupload': 'bundles/ekynacore/js/lib/fileupload/jquery.fileupload'
+        'twig': 'js/twig'
+        'routing': 'bundles/fosjsrouting/js/router'
+        'routing_data':
+            route: fos_js_routing_js
+            params:
+                _format: json
+        'bootstrap': 'assets/bootstrap/js/bootstrap.min'
+        'moment': 'assets/moment/min/moment-with-locales.min'
+        'bootstrap/datetimepicker': 'assets/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker'
+        'tinycolor': 'bundles/ekynacore/js/lib/tinycolor'
+        'bootstrap/colorpicker': 'bundles/ekynacore/js/lib/bootstrap.colorpickersliders'
+        'bootstrap-dialog': 'assets/bootstrap-dialog/dist/js/bootstrap-dialog'
+        'malsup/form': 'assets/form/jquery.form'
+        'select2': 'bundles/ekynacore/js/lib/select2'
+        'ekyna-string': 'bundles/ekynacore/js/string'
+        'ekyna-routing': 'bundles/ekynacore/js/router'
+        'ekyna-modal': 'bundles/ekynacore/js/modal'
+        'ekyna-form/plugins':
+            route: ekyna_core_form_plugins
+            params: []
+    map:
+        '*':
+            'routing': 'ekyna-routing'
+        'ekyna-routing':
+            'routing': 'routing'
+build:
+    include:
+        - 'jquery'
+        - 'jquery-ui'
+        - 'twig'
+        - 'routing'
+        - 'bootstrap'
+        - 'malsup/form'
+        - 'select2'
+        - 'ekyna-string'
+        - 'ekyna-routing'
+        - 'ekyna-modal'
+        - 'ekyna-form'
+    paths:
+        'routing_data': 'empty:'
+        'ekyna-form/plugins': 'empty:'

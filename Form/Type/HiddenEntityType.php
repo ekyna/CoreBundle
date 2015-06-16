@@ -96,6 +96,6 @@ class HiddenEntityType extends AbstractType
      */
     public function getName()
     {
-        return 'ekyna_core_hidden_entity';
+        return 'ekyna_hidden_entity';
     }
 }

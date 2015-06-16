@@ -11,7 +11,7 @@
 {% endspaceless %}
 {% endblock collection_widget %}
 
-{% block ekyna_core_collection_widget %}
+{% block ekyna_collection_widget %}
 {% spaceless %}
     {% if prototype is defined %}
         {% set prototype_vars = {} %}
@@ -107,7 +107,7 @@
         {% endif %}
     </div>
 {% endspaceless %}
-{% endblock ekyna_core_collection_widget %}
+{% endblock ekyna_collection_widget %}
 
 {% block form_widget_compound %}
 {% spaceless %}
@@ -163,56 +163,9 @@
 {% endspaceless %}
 {% endblock file_widget %}
 
-{% block ekyna_core_file_widget %}
+{% block ekyna_upload_widget %}
 {% spaceless %}
-<div class="file-widget">
-    {{ form_row(form.file, {'style': 'horizontal'}) }}
-    {% if form.key is defined %}
-        {{ form_row(form.key) }}
-    {% endif %}
-    {% if form.rename is defined %}
-        {{ form_row(form.rename, {'style': 'horizontal'}) }}
-    {% endif %}
-    {% if form.unlink is defined %}
-        {{ form_row(form.unlink, {'style': 'horizontal'}) }}
-    {% endif %}
-</div>
-{% endspaceless %}
-{% endblock ekyna_core_file_widget %}
-
-{% block ekyna_core_image_widget %}
-{% spaceless %}
-    <div class="row image-widget modal-gallery">
-        {% if 0 < thumb_col %}
-        <div class="col-md-{{ thumb_col }}">
-            {{ block('ekyna_core_image_thumb') }}
-        </div>
-        {% endif %}
-        {% set attr = attr|merge({'class': 'col-md-' ~ (12 - thumb_col) }) %}
-        {{ block('ekyna_core_image_compound') }}
-    </div>
-{% endspaceless %}
-{% endblock ekyna_core_image_widget %}
-
-{% block ekyna_core_image_thumb %}
-{% spaceless %}
-    {% if current_file_path is not null %}
-        <a href="{{ current_file_path|imagine_filter('admin_modal') }}" class="thumbnail" data-preview="{{ id }}_file">
-            <img src="{{ current_file_path|imagine_filter('admin_thumb') }}" class="img-responsive" />
-        </a>
-    {% else %}
-        <span class="thumbnail" data-preview="{{ id }}_file">{{ ui_no_image({'class': 'img-responsive'}) }}</span>
-    {% endif %}
-{% endspaceless %}
-{% endblock ekyna_core_image_thumb %}
-
-{% block ekyna_core_image_compound %}
-{% spaceless %}
-    <div {{ block('widget_container_attributes') }}>
-        {% if form.parent is empty %}
-            {{ block('global_form_errors') }}
-        {% endif %}
-        <div class="children">
+    <div class="upload-widget">
         {{ form_row(form.file, {'style': 'horizontal'}) }}
         {% if form.key is defined %}
             {{ form_row(form.key) }}
@@ -220,29 +173,21 @@
         {% if form.rename is defined %}
             {{ form_row(form.rename, {'style': 'horizontal'}) }}
         {% endif %}
-        {% if form.alt is defined %}
-            {{ form_row(form.alt, {'style': 'horizontal'}) }}
-        {% endif %}
         {% if form.unlink is defined %}
             {{ form_row(form.unlink, {'style': 'horizontal'}) }}
         {% endif %}
-        {% if form.position is defined %}
-            {{ form_row(form.position) }}
-        {% endif %}
-        {#{ form_rest(form) }#}
-        </div>
     </div>
 {% endspaceless %}
-{% endblock ekyna_core_image_compound %}
+{% endblock ekyna_upload_widget %}
 
-{% block ekyna_core_entity_search_widget %}
+{% block ekyna_entity_search_widget %}
 {% spaceless %}
     {% set attr = attr|merge({'class': 'entity-search' }) %}
     {{ block('form_widget_simple') }}
 {% endspaceless %}
-{% endblock ekyna_core_entity_search_widget %}
+{% endblock ekyna_entity_search_widget %}
 
-{% block ekyna_core_color_picker_widget %}
+{% block ekyna_color_picker_widget %}
     <div class="input-group form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
         <span class="input-group-btn">
@@ -251,7 +196,7 @@
             </span>
         </span>
     </div>
-{% endblock ekyna_core_color_picker_widget %}
+{% endblock ekyna_color_picker_widget %}
 
 {% block ekyna_key_value_widget %}
     <div class="row">

@@ -59,6 +59,6 @@ class ColorPickerType extends AbstractType
      */
     public function getName()
     {
-        return 'ekyna_core_color_picker';
+        return 'ekyna_color_picker';
     }
 }

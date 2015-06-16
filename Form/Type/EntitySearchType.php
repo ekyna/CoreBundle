@@ -3,7 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
+use Ekyna\Bundle\FormBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -90,6 +90,6 @@ class EntitySearchType extends AbstractType
      */
     public function getName()
     {
-    	return 'ekyna_core_entity_search';
+    	return 'ekyna_entity_search';
     }
 }

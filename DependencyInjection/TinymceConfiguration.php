@@ -73,7 +73,7 @@ class TinymceConfiguration
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
                           "alignright alignjustify | bullist numlist outdent indent | hr",
             'external_plugins' => [
-                'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
+                //'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
             ],
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
@@ -113,7 +113,7 @@ class TinymceConfiguration
             'tinymce_jquery' => false,
             'selector' => '.tinymce',
             'language' => '%locale%',
-            //'language_url' => '/bundles/stfalcontinymce/vendor/tinymce-langs/%locale%.js',
+            'tinymce_url' => '/assets/tinymce',
             'theme' => [
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,

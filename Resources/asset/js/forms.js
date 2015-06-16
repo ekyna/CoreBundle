@@ -1,15 +1,15 @@
-;(function($, router) {
-	
+$(function() {
+
 	/**
 	 * File widget
 	 */
 	$.fn.filePicker = function(params) {
-		
+
 		params = $.extend({
             onChange: null,
             onClear: null
         }, params);
-		
+
 		this.each(function() {
 
 			var $file = $(this).find('input:file');
@@ -217,9 +217,9 @@
 	 * File widget
 	 */
 	$.fn.fileWidget = function(params) {
-		
+
 		params = $.extend({}, params);
-		
+
 		this.each(function() {
 			var $file = $(this).find('.file-picker').find('input:file');
 			$(this).find('.file-rename').renameWidget({file: $file});
@@ -262,90 +262,6 @@
 		return this;
 	};
 
-	/**
-	 * Collections
-	 * @see http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
-	 * @see http://symfony.com/fr/doc/current/cookbook/form/create_form_type_extension.html
-	 */
-	/*$.fn.collectionWidget = function(params) {
-
-		params = $.extend({}, params);
-
-		this.each(function() {
-
-			var $collection = $(this);
-			var $container = $collection.find('> .children');
-			var prototype = $collection.attr('data-prototype');
-
-			$collection.updateChilds = function() {
-				var maxIndex = $container.children().length-1;
-				$container.find('> div').each(function(index, child) {
-					var $controls = $(child).find('.child-controls');
-					if ($controls.length == 1) {
-						$controls.find('button[data-role="move-up"]').prop('disabled', (index == 0));
-						$controls.find('button[data-role="move-down"]').prop('disabled', (index == maxIndex));
-					}
-					$(child).find('input[data-role="position"]').val(index);
-				});
-			};
-
-			$collection.initChild = function($child) {
-				var $imageWidget = $child.find('.image-widget');
-				if ($imageWidget.length == 1) {
-					$imageWidget.imageWidget();
-				}
-				var $controls = $child.find('.child-controls');
-				if ($controls.length == 1) {
-					$controls.find('button[data-role="remove"]').bind('click', function(e) {
-						e.preventDefault();
-						if(confirm('Êtes-vous sûr de vouloir supprimer cette élément ?')) {
-							$child.remove();
-							$collection.updateChilds();
-						}
-					});
-					$controls.find('button[data-role="move-up"]').bind('click', function(e) {
-						e.preventDefault();
-						$child.prev().before($child.detach());
-						$collection.updateChilds();
-					});
-					$controls.find('button[data-role="move-down"]').bind('click', function(e) {
-						e.preventDefault();
-						$child.next().after($child.detach());
-						$collection.updateChilds();
-					});
-				}
-				$child.formWidget();
-			};
-
-			$collection.newChild = function() {
-				var $child = $(prototype.replace(/__name__/g, $container.children().length));
-				$container.append($child);
-				$collection.initChild($child);
-				$collection.updateChilds();
-			};
-
-			$collection.init = function() {
-				var $addChildLink = $('<a href="#" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus"></i> Ajouter un élément</a>');
-				$collection.append($addChildLink);
-				$addChildLink.wrap('<div class="row collection-add"></div>').wrap('<div class="col-md-12"></div>');
-
-				$addChildLink.bind('click', function(e) {
-					e.preventDefault();
-					$collection.newChild();
-				});
-
-				$container.find('> div').each(function(index, child) {
-					$collection.initChild($(child));
-				});
-
-				$collection.updateChilds();
-			};
-
-			$collection.init();
-		});
-		return this;
-	};*/
-
 	$.fn.entityWidget = function(params) {
 
 		params = $.extend({}, params);
@@ -353,129 +269,95 @@
 		this.each(function() {
 
 			var $entity = $(this);
-			var $modal = $('#modal');
 			var $addButton = $entity.find('button.new-resource');
 			var $listButton = $entity.find('button.list-resource');
 			var $select = $entity.find('select');
 
-            $modal
-                .off('hidden.bs.modal')
-                .on('hidden.bs.modal', function() {
-                    $modal.find('.modal-title').html('Modal title');
-                    $modal.find('.modal-body').empty();
-                });
-
             if ($addButton.length == 1) {
                 $addButton.bind('click', function(e) {
-					e.preventDefault();
+                    requirejs(['ekyna-modal'], function (EkynaModal) {
 
-					var path = $(this).data('path');
-					$.ajax({
-						url: path,
-						dataType: 'xml',
-                        cache: false
-					})
-					.done(function(xmldata) {
-                        /* TODO CDATA title */
-						var $title = $(xmldata).find('title');
-						var $form = $(xmldata).find('form');
-						if($title.length == 1) {
-							$modal.find('.modal-title').html($title.html());
-						}
-						if($form.length == 1) {
-                            $form = $($form.text());
-							$form.find('.form-footer a.form-cancel-btn').click(function(e) {
-								e.preventDefault();
-								$modal.modal('hide');
-							});
+                        var modal = new EkynaModal(), $form;
+                        modal.load({url: $addButton.data('path')});
 
-							$form.ajaxForm({
-								dataType: 'json',
-								success: function(data) {
-									var $option = $('<option />');
-									$option.prop('value', data.id);
-									$option.prop('selected', true);
-									if(data.name != undefined) {
-										$option.html(data.name);
-									}else if(data.title != undefined) {
-										$option.html(data.title);
-									}else{
-										$option.html('Entity #' + data.id);
-									}
-									$select.append($option).select2();
-									$modal.modal('hide');
-								}
-				            });
+                        $(modal).on('ekyna.modal.content', function (e) {
+                            if (e.contentType == 'form') {
+                                $form = e.content;
+                                $form.formWidget();
+                            } else if (e.contentType == 'data') {
+                                var data = e.content,
+                                    $option = $('<option />');
+                                $option.prop('value', data.id);
+                                $option.prop('selected', true);
+                                if (data.name != undefined) {
+                                    $option.html(data.name);
+                                } else if(data.title != undefined) {
+                                    $option.html(data.title);
+                                } else {
+                                    throw "Unexpected resource data.";
+                                }
+                                $select.append($option).select2();
+                                modal.getDialog().close();
+                            } else {
+                                throw "Unexpected modal content type";
+                            }
+                        });
 
-							$modal
-								.off('shown.bs.modal')
-								.on('shown.bs.modal', function() {
-									$form.formWidget();
-									initTinyMCE();
-								});
-
-							$modal.find('.modal-body').html($form);
-							$modal.modal({show:true});
-						}
-					});
+                        $(modal).on('ekyna.modal.button_click', function (e) {
+                            if (e.buttonId == 'submit') {
+                                $form.ajaxSubmit({
+                                    dataType: 'xml',
+                                    success: function(response) {
+                                        modal.handleResponse(response)
+                                    }
+                                });
+                            }
+                        });
+                    });
 				});
 			}
 
-            if($listButton.length == 1) {
+            if ($listButton.length == 1) {
                 $listButton.bind('click', function(e) {
-                    e.preventDefault();
+                    requirejs(['ekyna-modal', 'ekyna-table'], function (EkynaModal) {
 
-                    var path = $(this).data('path');
-                    $.ajax({
-                        url: path,
-                        dataType: 'xml',
-                        cache: false
-                    })
-                    .done(function(xmldata) {
-                        /* TODO CDATA title */
-                        var $title = $(xmldata).find('title');
-                        var $list = $(xmldata).find('list');
-                        if($title.length == 1) {
-                            $modal.find('.modal-title').html($title.html());
-                        }
-                        if($list.length == 1) {
-                            $list = $($list.text());
-                            $modal
-                                .off('shown.bs.modal')
-                                .on('shown.bs.modal', function() {
-                                    $list.ekynaTable({
-										ajax: true,
-                                        onSelection: function(elements) {
-                                            if ($select.prop('multiple')) {
-                                                $select.find('option').prop('selected', false);
-                                            }
-                                            $(elements).each(function(index, element) {
-                                                var $option = $select.find('option[value=' + element.id + ']');
-                                                if ($option.length == 1) {
-                                                    $option.prop('selected', true);
-                                                } else {
-                                                    $option = $('<option />');
-                                                    $option.prop('value', element.id);
-                                                    $option.prop('selected', true);
-                                                    if(element.name != undefined) {
-                                                        $option.html(element.name);
-                                                    }else if(element.title != undefined) {
-                                                        $option.html(element.title);
-                                                    }else{
-                                                        $option.html('Entity #' + element.id);
-                                                    }
-                                                    $select.append($option);
-                                                }
-                                                $select.select2();
-                                            });
-                                            $modal.modal('hide');
+                        var modal = new EkynaModal();
+                        modal.load({url: $listButton.data('path')});
+
+                        $(modal).on('ekyna.modal.content', function (e) {
+                            if (e.contentType == 'table') {
+                                e.content.ekynaTable({
+                                    ajax: true,
+                                    onSelection: function(elements) {
+                                        if ($select.prop('multiple')) {
+                                            $select.find('option').prop('selected', false);
                                         }
-                                    });
+                                        $(elements).each(function(index, element) {
+                                            var $option = $select.find('option[value=' + element.id + ']');
+                                            if ($option.length == 1) {
+                                                $option.prop('selected', true);
+                                            } else {
+                                                $option = $('<option />');
+                                                $option.prop('value', element.id);
+                                                $option.prop('selected', true);
+                                                if (element.name != undefined) {
+                                                    $option.html(element.name);
+                                                } else if (element.title != undefined) {
+                                                    $option.html(element.title);
+                                                } else {
+                                                    $option.html('Entity #' + element.id);
+                                                }
+                                                $select.append($option);
+                                            }
+                                        });
+                                        $select.select2();
+                                        modal.getDialog().close();
+                                    }
                                 });
-
-                            $modal.find('.modal-body').html($list);
-                            $modal.modal({show:true});
-                        }
+                            } else {
+                                throw "Expected modal content type = 'table'.";
+                            }
+                        });
                     });
                 });
             }
@@ -495,9 +377,9 @@
 		this.each(function() {
 
 			var $this = $(this);
-			
-			var searchUrl = router.generate($this.data('search'));
-			var findUrl = router.generate($this.data('find'));
+
+			var searchUrl = Routing.generate($this.data('search'));
+			var findUrl = Routing.generate($this.data('find'));
 			var allowClear = $this.data('clear') == 1;
 
 			$this.select2({
@@ -575,7 +457,7 @@
 			}
 			var $defaultOption = $select.find('option').eq(0);
 			$select.empty().append($defaultOption).prop('disabled', true);
-			var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
+			var xhr = $.get(Routing.generate(this.config.route, {'id': parentId}));
             xhr.done(function(data) {
                 if (typeof data.choices !== 'undefined') {
                     if ($(data.choices).length > 0) {
@@ -652,30 +534,22 @@
 		return this;
 	};
 
-	$(document).on('fos_js_routing_loaded', function() {
-
-        /**
-         * Form widget on all forms.
-         */
-		$('.form-body').formWidget();
-
-		/**
-		 * Form with tabs error handler
-		 * @see http://jsfiddle.net/GJeez/8/
-		 * @see http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/?redirect_from_locale=fr#toc-checkValidity
-		 */
-		$(".form-with-tabs input, .form-with-tabs textarea, .form-with-tabs select").on('invalid', function(event) {
-			var $tab = $(event.target).parents('.tab-pane').eq(0);
-			if ($tab.length == 1) {
-				var $a = $('a[href="#' + $tab.attr('id') + '"]');
-				if ($a.length == 1) {
-					$a.tab('show');
-					return;
-				}
-			}
-			event.preventDefault();
-		});
-	});
+    /**
+     * Form with tabs error handler
+     * @see http://jsfiddle.net/GJeez/8/
+     * @see http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/?redirect_from_locale=fr#toc-checkValidity
+     */
+    $(".form-with-tabs input, .form-with-tabs textarea, .form-with-tabs select").on('invalid', function(event) {
+        var $tab = $(event.target).parents('.tab-pane').eq(0);
+        if ($tab.length == 1) {
+            var $a = $('a[href="#' + $tab.attr('id') + '"]');
+            if ($a.length == 1) {
+                $a.tab('show');
+                return;
+            }
+        }
+        event.preventDefault();
+    });
 
     /**
      * Tinymce modal fix
@@ -688,6 +562,6 @@
         }
     });
 
-})(jQuery, Routing);
+    $('.form-body').formWidget();
 
-
+});

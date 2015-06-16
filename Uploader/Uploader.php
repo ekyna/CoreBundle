@@ -20,7 +20,7 @@ class Uploader implements UploaderInterface
     /**
      * @var Filesystem
      */
-    private $targetFilesystem;
+    private $filesystem;
 
 
     /**
@@ -34,15 +34,11 @@ class Uploader implements UploaderInterface
     }
 
     /**
-     * Sets the target filesystem.
-     *
-     * @param Filesystem $filesystem
-     * @return Uploader
+     * {@inheritdoc}
      */
-    public function setTargetFilesystem(Filesystem $filesystem)
+    public function setFilesystem(Filesystem $filesystem)
     {
-        $this->targetFilesystem = $filesystem;
-        return $this;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -63,13 +59,13 @@ class Uploader implements UploaderInterface
     {
         if ($uploadable->hasPath()) {
             if ($uploadable->hasFile()) {
-                $this->targetFilesystem->write(
+                $this->filesystem->write(
                     $uploadable->getPath(),
                     file_get_contents($uploadable->getFile()->getPathname())
                 );
                 $uploadable->setFile(null);
             } elseif ($uploadable->hasOldPath()) {
-                $this->targetFilesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
+                $this->filesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
             }
         }
 
@@ -91,8 +87,8 @@ class Uploader implements UploaderInterface
 
         if ($uploadable->hasOldPath()) {
             $oldPath = $uploadable->getOldPath();
-            if ($this->targetFilesystem->has($oldPath)) {
-                $this->targetFilesystem->delete($oldPath);
+            if ($this->filesystem->has($oldPath)) {
+                $this->filesystem->delete($oldPath);
             }
             $uploadable->setOldPath(null);
         }
@@ -115,7 +111,7 @@ class Uploader implements UploaderInterface
                 substr($hash, 3, 3),
                 $filename
             );
-        } while ($this->targetFilesystem->has($path));
+        } while ($this->filesystem->has($path));
 
         $uploadable->setPath($path);
     }

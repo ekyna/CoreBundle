@@ -1,5 +1,5 @@
 fos_js_routing:
-    router: ekyna_core.router
+#    router: ekyna_core.router
     cache_control:
         public: true
         maxage: 3600

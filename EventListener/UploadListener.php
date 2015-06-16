@@ -3,7 +3,6 @@
 namespace Ekyna\Bundle\CoreBundle\EventListener;
 
 use Oneup\UploaderBundle\Event\PostUploadEvent;
-//use Oneup\UploaderBundle\Event\PreUploadEvent;
 use Oneup\UploaderBundle\UploadEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\File\File;

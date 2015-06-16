@@ -23,7 +23,6 @@
 
 .form-body {
     border: 1px solid #ddd;
-    border-bottom: none;
     border-radius: 4px 4px 0 0;
     padding: 15px 15px 1px 15px;
     margin-bottom: 0;
@@ -48,6 +47,7 @@
 .form-footer {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
+    border-top: none;
     border-radius: 0 0 4px 4px;
     padding: 25px 15px;
 }
@@ -134,10 +134,9 @@
 .form-body label.checkbox input[type="checkbox"],
 .form-body label.checkbox input[type="radio"],
 .form-body label.radio input[type="checkbox"],
-.form-body label.radio input[type="radio"]
-    {
+.form-body label.radio input[type="radio"] {
     font-size: large;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 .form-body .wysi-column {
@@ -331,6 +330,18 @@
     /*
     TODO
     */
+}
+
+/**
+ * A2lix translation form
+ */
+.a2lix_translationsLocales > li > a {
+    font-size: 12px;
+    padding: 6px 9px;
+}
+
+.a2lix_translationsFields {
+    padding-top: 15px;
 }
 
 /* Responsive */

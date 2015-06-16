@@ -1,0 +1,48 @@
+{% spaceless %}
+<?xml version="1.0" encoding="UTF-8" ?> {# TODO charset #}
+<modal>
+{% block response %}
+
+    <config><![CDATA[{{ modal.config|json_encode|raw }}]]></config>
+
+{% block title %}
+{% if modal.title %}
+    <title><![CDATA[{{ modal.title|raw }}]]></title>
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+{% if modal.content %}
+    <content type="{{ modal.contentType }}"><![CDATA[
+    {%- if modal.contentType == 'form' -%}
+        {% set form = modal.content %}
+        {% if modal.vars.form_template is defined %}
+            {{ form_start(form) }}
+            {% include modal.vars.form_template with modal.vars %}
+            {{ form_end(form) }}
+        {% else %}
+            {{ form(modal.content) }}
+        {% endif %}
+    {%- elseif modal.contentType == 'table' -%}
+        {{ ekyna_table_render(modal.content) }}
+    {%- elseif modal.contentType == 'data' -%}
+        {{ modal.content|json_encode|raw }}
+    {%- elseif modal.contentType == 'html' -%}
+        {% include "EkynaCoreBundle:Ui:flashes.html.twig" %}
+        {{ modal.content|raw }}
+    {% else %}
+        {{ modal.content }}
+    {%- endif -%}
+    ]]></content>
+{% endif %}
+{% endblock content %}
+
+{% block buttons %}
+{% if modal.buttons|length %}
+    <buttons><![CDATA[{{ modal.buttons|json_encode|raw }}]]></buttons>
+{% endif %}
+{% endblock buttons %}
+
+{% endblock response %}
+</modal>
+{% endspaceless %}

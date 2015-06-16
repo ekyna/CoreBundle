@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 trait UploadableTrait
 {
+    use TimestampableTrait;
+
     /**
      * The key for the upload filesystem
      *
@@ -54,13 +56,6 @@ trait UploadableTrait
      * @var bool
      */
     protected $unlink;
-
-    /**
-     * Update date
-     *
-     * @var \DateTime
-     */
-    protected $updatedAt;
 
 
     /**
@@ -135,7 +130,7 @@ trait UploadableTrait
             }
         }
 
-        $this->updatedAt = new \DateTime();
+        $this->setUpdatedAt(new \DateTime());
 
         return $this;
     }
@@ -318,29 +313,6 @@ trait UploadableTrait
     public function setUnlink($unlink)
     {
         $this->unlink = (bool) $unlink;
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return UploadableTrait|$this
-     */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
-    {
-        $this->updatedAt = $updatedAt;
-
         return $this;
     }
 }

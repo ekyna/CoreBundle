@@ -9,8 +9,16 @@ use Symfony\Component\HttpFoundation\File\File;
  * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-interface UploadableInterface
+interface UploadableInterface extends TimestampableInterface
 {
+    /**
+     * Sets the key.
+     *
+     * @param string $key
+     * @return UploadableTrait
+     */
+    public function setKey($key);
+
     /**
      * Returns whether the uploadable has an upload key.
      *
@@ -26,12 +34,12 @@ interface UploadableInterface
     public function getKey();
 
     /**
-     * Sets the key.
+     * Set file
      *
-     * @param string $key
-     * @return UploadableTrait
+     * @param File $file
+     * @return UploadableInterface|$this
      */
-    public function setKey($key);
+    public function setFile(File $file = null);
 
     /**
      * Image has file.
@@ -48,12 +56,12 @@ interface UploadableInterface
     public function getFile();
 
     /**
-     * Set file
+     * Set path.
      *
-     * @param File $file
+     * @param string $path
      * @return UploadableInterface|$this
      */
-    public function setFile(File $file = null);
+    public function setPath($path);
 
     /**
      * Image has path.
@@ -70,12 +78,12 @@ interface UploadableInterface
     public function getPath();
 
     /**
-     * Set path.
+     * Set old path.
      *
-     * @param string $path
+     * @param string $oldPath
      * @return UploadableInterface|$this
      */
-    public function setPath($path);
+    public function setOldPath($oldPath);
 
     /**
      * Image has old path.
@@ -90,14 +98,6 @@ interface UploadableInterface
      * @return string
      */
     public function getOldPath();
-
-    /**
-     * Set old path.
-     *
-     * @param string $oldPath
-     * @return UploadableInterface|$this
-     */
-    public function setOldPath($oldPath);
 
     /**
      * Returns whether the image should be renamed or not.
@@ -121,6 +121,14 @@ interface UploadableInterface
     public function guessFilename();
 
     /**
+     * Set rename.
+     *
+     * @param string $rename
+     * @return UploadableInterface|$this
+     */
+    public function setRename($rename);
+
+    /**
      * Returns whether the image has a name or not.
      *
      * @return boolean
@@ -135,12 +143,12 @@ interface UploadableInterface
     public function getRename();
 
     /**
-     * Set rename.
+     * Sets the unlink.
      *
-     * @param string $rename
-     * @return UploadableInterface|$this
+     * @param boolean $unlink
+     * @return UploadableTrait
      */
-    public function setRename($rename);
+    public function setUnlink($unlink);
 
     /**
      * Returns the unlink.
@@ -148,12 +156,4 @@ interface UploadableInterface
      * @return boolean
      */
     public function getUnlink();
-
-    /**
-     * Sets the unlink.
-     *
-     * @param boolean $unlink
-     * @return UploadableTrait
-     */
-    public function setUnlink($unlink);
 }

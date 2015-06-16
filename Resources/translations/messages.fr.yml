@@ -41,6 +41,8 @@ ekyna_core:
         content_show: Voir le contenu
         content_edit: Modifier le contenu
         content: Contenu
+        browse: Parcourir
+        select: Sélectionner
         add: Ajouter
         add_parameter: Ajouter un paramètre
         add_attribute: Ajouter un attribut

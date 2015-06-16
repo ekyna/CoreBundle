@@ -70,6 +70,6 @@ class CollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'ekyna_core_collection';
+        return 'ekyna_collection';
     }
 }

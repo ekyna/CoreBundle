@@ -27,17 +27,12 @@ class AsseticConfiguration
         if ($config['bootstrap_css']['enabled']) {
             $output['bootstrap_css'] = $this->buildBootstrapCss($config);
         }
-        if ($config['bootstrap_js']['enabled']) {
-            $output['bootstrap_js'] = $this->buildBootstrapJs($config);
-        }
-        if ($config['jquery']['enabled']) {
-            $output['jquery'] = $this->buildJQuery($config);
-        }
         if ($config['content_css']['enabled']) {
             $output['content_css'] = $this->buildContentCss($config);
         }
-        $output['core_css'] = $this->buildCoreCss($config);
-        $output['core_js'] = $this->buildCoreJs($config);
+
+        $output['twig_js'] = $this->buildTwigJs($config);
+        $output['form_css'] = $this->buildFormCss($config);
 
         return $output;
     }
@@ -72,48 +67,12 @@ class AsseticConfiguration
         $dir = $config['output_dir'];
         $inputs = $config['bootstrap_css']['inputs'];
 
+        $inputs[] = 'assets/bootstrap-dialog/dist/css/bootstrap-dialog.min.css';
+
         return array(
             'inputs'  => $inputs,
             'filters' => array('cssrewrite', 'less', 'yui_css'),
             'output'  => $dir . 'css/bootstrap.css',
-            'debug'   => false,
-        );
-    }
-
-    /**
-     * Builds the bootstrap_js asset collection configuration.
-     *
-     * @param array $config
-     * @return array
-     */
-    protected function buildBootstrapJs(array $config)
-    {
-        $dir = $config['output_dir'];
-        $plugins = $config['bootstrap_js']['plugins'];
-
-        $inputs = array();
-
-        $bsAssetDir = '%kernel.root_dir%/../vendor/twbs/bootstrap/js/';
-        $pluginsKeys = array(
-            'transition', 'alert', 'button', 'carousel', 'collapse', 'dropdown',
-            'modal', 'tooltip', 'popover', 'scrollspy', 'tab', 'affix',
-        );
-        foreach($pluginsKeys as $pluginsKey) {
-            if (true === $plugins[$pluginsKey]) {
-                $inputs[] = $bsAssetDir . $pluginsKey . '.js';
-            }
-        }
-
-        /*if (true === $plugins['collection']) {
-            $inputs[] =
-                '%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/'.
-                'BootstrapBundle/Resources/js/bc-bootstrap-collection.js';
-        }*/
-
-        return array(
-            'inputs'  => $inputs,
-            'filters' => array('yui_js'),
-            'output'  => $dir . 'js/bootstrap.js',
             'debug'   => false,
         );
     }
@@ -124,15 +83,15 @@ class AsseticConfiguration
      * @param array $config
      * @return array
      */
-    protected function buildJQuery(array $config)
+    protected function buildTwigJs(array $config)
     {
         $dir = $config['output_dir'];
-        $inputs = $config['jquery']['inputs'];
+        $inputs = array('%kernel.root_dir%/../vendor/jms/twig-js/twig.js');
 
         return array(
             'inputs'  => $inputs,
-            'filters' => array('yui_js'),
-            'output'  => $dir . 'js/jquery.js',
+//            'filters' => array('yui_js'),
+            'output'  => $dir . 'js/twig.js',
             'debug'   => false,
         );
     }
@@ -143,59 +102,21 @@ class AsseticConfiguration
      * @param array $config
      * @return array
      */
-    protected function buildCoreCss(array $config)
+    protected function buildFormCss(array $config)
     {
-        $inputs = array(
-            '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
+        $inputs = array_merge(array(
+            '%kernel.root_dir%/../web/assets/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/jquery.qtip.css',
             '@EkynaCoreBundle/Resources/asset/css/form.css',
-            '@EkynaCoreBundle/Resources/asset/css/modal-gallery.css',
-        );
+            //'@EkynaCoreBundle/Resources/asset/css/modal-gallery.css',
+        ), $config['form_css']['inputs']);
 
         return array(
             'inputs'  => $inputs,
             'filters' => array('yui_css'), // 'cssrewrite'
-            'output'  => $config['output_dir'] . 'css/core.css',
-            'debug'   => false,
-        );
-    }
-
-    /**
-     * Builds the core_js asset collection configuration.
-     *
-     * @param array $config
-     * @return array
-     */
-    protected function buildCoreJs(array $config)
-    {
-        $inputs = array(
-    	    'bundles/fosjsrouting/js/router.js',
-            '%kernel.root_dir%/../vendor/malsup/form/jquery.form.js',
-            '%kernel.root_dir%/../vendor/moment/moment/min/moment-with-locales.min.js',
-            '%kernel.root_dir%/../vendor/eonasdan/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/tinycolor.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.colorpickersliders.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/bootstrap.hover-dropdown.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/jquery.autosize.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/select2.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/jquery.qtip.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/load-image.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/fileupload/jquery.ui.widget.js',
-            '@EkynaCoreBundle/Resources/asset/js/lib/fileupload/jquery.fileupload.js',
-            //'@EkynaCoreBundle/Resources/asset/js/lib/fileupload/jquery.fileupload-validate.js',
-            '@EkynaCoreBundle/Resources/asset/js/modal-gallery.js',
-            '@EkynaCoreBundle/Resources/asset/js/string.prototypes.js',
-            '@EkynaCoreBundle/Resources/asset/js/form.collection.js',
-            '@EkynaCoreBundle/Resources/asset/js/forms.js',
-            '@EkynaCoreBundle/Resources/asset/js/router.js',
-        );
-
-        return array(
-            'inputs'  => $inputs,
-            'filters' => array('yui_js'),
-            'output'  => $config['output_dir'] . 'js/core.js',
+            'output'  => $config['output_dir'] . 'css/form.css',
             'debug'   => false,
         );
     }

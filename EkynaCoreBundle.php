@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle;
 
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\DoctrineEntityListenerPass;
+use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FormJsPass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FosHttpCachePass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RedirectionProviderPass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RegisterRoutersPass;
@@ -30,5 +31,6 @@ class EkynaCoreBundle extends Bundle
         $container->addCompilerPass(new RedirectionProviderPass());
         $container->addCompilerPass(new SetRouterPass());
         $container->addCompilerPass(new RegisterRoutersPass('ekyna_core.router'), PassConfig::TYPE_BEFORE_REMOVING);
+        $container->addCompilerPass(new FormJsPass());
     }
 }

@@ -6,5 +6,3 @@ ekyna_core:
     color:
         invalid_code: Le code %type% "%code%" n'est pas valide.
         unknown_format: Le format du code couleur "%color%" est inconnu.
-    image:
-        invalid_mime_type: Les formats acceptés sont JPEG, GIF et PNG.

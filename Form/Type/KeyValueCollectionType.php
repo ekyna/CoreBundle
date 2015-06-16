@@ -77,7 +77,7 @@ class KeyValueCollectionType extends AbstractType
      */
     public function getParent()
     {
-        return 'ekyna_core_collection';
+        return 'ekyna_collection';
     }
 
     /**

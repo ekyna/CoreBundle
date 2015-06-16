@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
+use Ekyna\Bundle\CoreBundle\Modal\Modal;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -118,6 +119,7 @@ class Controller extends BaseController
     /**
      * Adds http cache tags to the response and sets the shared max age.
      *
+     * @todo move into service ekyna_core.http_cache.tag_manager
      * @param Response $response
      * @param array $tags
      * @param int $smaxage

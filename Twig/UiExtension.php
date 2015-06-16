@@ -70,6 +70,16 @@ class UiExtension extends \Twig_Extension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTests ()
+    {
+        return [
+            new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
+        ];
+    }
+
+    /**
      * Renders the form footer.
      *
      * @param FormView $form
