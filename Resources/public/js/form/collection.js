@@ -1,4 +1,4 @@
-define('ekyna-form/collection', ['jquery'], function($) {
+define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
     "use strict";
 
     var addField = '[data-collection-role="add"]',
@@ -62,7 +62,8 @@ define('ekyna-form/collection', ['jquery'], function($) {
         newWidget = newWidget.replace(re, count);
         newWidget = newWidget.replace(/__id__/g, newName[1].replace(re, count));
         var newLi = $('<li></li>').html(newWidget);
-        newLi.appendTo(list).formWidget();
+        newLi.appendTo(list);
+        Form.create($(newWidget));
         collectionUpdatePositions(collection);
         $this.trigger('ekyna-collection-field-added');
     };

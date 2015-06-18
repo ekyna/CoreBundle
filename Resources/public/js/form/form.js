@@ -1,42 +1,37 @@
 define(
     'ekyna-form',
     ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'malsup/form', 'jquery/autosize'],
-    function(require, $, config) {
+    function(require, $, plugins) {
     "use strict";
 
-    var EkynaForm = function () {
-        this.plugins = config;
+    var EkynaForm = function ($elem, options) {
+        this.$elem = typeof $elem == 'jQuery' ? $elem : $($elem);
+        this.options = options;
     };
 
     EkynaForm.prototype = {
         constructor: EkynaForm,
-        init: function(formSelector) {
+        init: function() {
             var that = this;
-            var $forms = $(formSelector);
-            if ($forms.size() > 0) {
-                $forms.each(function () {
-                    var $form = $(this);
 
-                    /* Textarea autosize */
-                    $form.find('textarea').not('.tinymce').autosize({append: "\n"});
+            /* Textarea autosize */
+            that.$elem.find('textarea').not('.tinymce').autosize({append: "\n"});
 
-                    /* Select2 */
-                    $form.find('select').not('.no-select2').each(function () {
-                        $(this).select2({
-                            allowClear: ($(this).data('allow-clear') == 1)
-                        });
-                    });
-
-                    $(that.plugins).each(function (i, config) {
-                        var $target = $form.find(config.selector);
-                        if ($target.size() > 0) {
-                            require([config.path], function (plugin) {
-                                plugin.init($target);
-                            });
-                        }
-                    });
+            /* Select2 */
+            that.$elem.find('select').not('.no-select2').each(function () {
+                $(this).select2({
+                    allowClear: ($(this).data('allow-clear') == 1)
                 });
-            }
+            });
+
+            $(plugins).each(function (i, config) {
+                var $target = that.$elem.find(config.selector);
+                if ($target.size() > 0) {
+                    require([config.path], function (plugin) {
+                        plugin.init($target);
+                    });
+                }
+            });
         }
     };
 
@@ -68,7 +63,11 @@ define(
         }
     });
 
-    window.EkynaForm = EkynaForm;
-
-    return new EkynaForm;
+    return {
+        create: function($element, options) {
+            var form = new EkynaForm($element, options);
+            form.init();
+            return form;
+        }
+    };
 });

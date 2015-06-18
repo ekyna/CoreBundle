@@ -4,4 +4,5 @@ a2lix_translation_form:
     default_locale: %locale%
     required_locales: [%locale%]
     manager_registry: doctrine
-    templating: "A2lixTranslationFormBundle::default.html.twig"
+    templating: "EkynaCoreBundle:Form:translation.html.twig"
+#    templating: "A2lixTranslationFormBundle::default.html.twig"

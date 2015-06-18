@@ -1,4 +1,4 @@
-define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-table'], function($, EkynaModal) {
+define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal, Form, Table) {
     "use strict";
 
     $.fn.entityWidget = function(params) {
@@ -15,13 +15,12 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-table'], function($
             if ($addButton.length == 1) {
                 $addButton.bind('click', function(e) {
 
-                    var modal = new EkynaModal(), $form;
+                    var modal = new Modal(), $form;
                     modal.load({url: $addButton.data('path')});
 
                     $(modal).on('ekyna.modal.content', function (e) {
                         if (e.contentType == 'form') {
-                            $form = e.content;
-                            $form.formWidget();
+                            Form.create(e.content);
                         } else if (e.contentType == 'data') {
                             var data = e.content,
                                 $option = $('<option />');
@@ -56,12 +55,12 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-table'], function($
 
             if ($listButton.length == 1) {
                 $listButton.bind('click', function(e) {
-                    var modal = new EkynaModal();
+                    var modal = new Modal();
                     modal.load({url: $listButton.data('path')});
 
                     $(modal).on('ekyna.modal.content', function (e) {
                         if (e.contentType == 'table') {
-                            e.content.ekynaTable({
+                            Table.create(e.content, {
                                 ajax: true,
                                 onSelection: function(elements) {
                                     if ($select.prop('multiple')) {

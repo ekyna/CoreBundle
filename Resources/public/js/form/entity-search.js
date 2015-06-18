@@ -1,4 +1,4 @@
-define('ekyna-form/entity-search', ['jquery', 'routing'], function($) {
+define('ekyna-form/entity-search', ['jquery', 'routing'], function($, router) {
     "use strict";
 
     /**
@@ -14,8 +14,8 @@ define('ekyna-form/entity-search', ['jquery', 'routing'], function($) {
 
             var $this = $(this);
 
-            var searchUrl = Routing.generate($this.data('search'));
-            var findUrl = Routing.generate($this.data('find'));
+            var searchUrl = router.generate($this.data('search'));
+            var findUrl = router.generate($this.data('find'));
             var allowClear = $this.data('clear') == 1;
 
             $this.select2({

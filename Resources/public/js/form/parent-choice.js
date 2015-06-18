@@ -1,4 +1,4 @@
-define('ekyna-form/parent-choice', ['jquery', 'routing'], function($) {
+define('ekyna-form/parent-choice', ['jquery', 'routing'], function($, router) {
     "use strict";
 
     /**
@@ -39,7 +39,7 @@ define('ekyna-form/parent-choice', ['jquery', 'routing'], function($) {
             }
             var $defaultOption = $select.find('option').eq(0);
             $select.empty().append($defaultOption).prop('disabled', true);
-            var xhr = $.get(Routing.generate(this.config.route, {'id': parentId}));
+            var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
             xhr.done(function(data) {
                 if (typeof data.choices !== 'undefined') {
                     if ($(data.choices).length > 0) {
