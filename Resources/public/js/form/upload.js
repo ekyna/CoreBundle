@@ -1,139 +1,5 @@
-define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'ekyna-string'], function($) {
+define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-string'], function($) {
     "use strict";
-
-    /**
-     * File widget
-     */
-    $.fn.filePicker = function(params) {
-
-        params = $.extend({
-            onChange: null,
-            onClear: null
-        }, params);
-
-        this.each(function() {
-
-            var $file = $(this).find('input:file');
-            var $text = $(this).find('input:text');
-            var current = $text.data('current') || null;
-            var $pickButton = $(this).find('button[data-role="pick"]');
-            var $clearButton = $(this).find('button[data-role="clear"]');
-
-            var $key = $('input[data-target="' + $file.attr('id') + '"]');
-            var $form = $file.closest('form');
-            var uploadXhr = null;
-            var $progressBar = $('div#' + $file.attr('id') + '_progress');
-
-            $pickButton.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                $file.trigger('click');
-            });
-
-            $clearButton.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                if ($file.files) {
-                    $file.files = [];
-                }
-                if ($key.length == 1) {
-                    $key.val(null);
-                }
-                if (uploadXhr) {
-                    uploadXhr.abort();
-                }
-                $file.val(null).trigger('change');
-                if (typeof params.onClear === 'function') {
-                    params.onClear($file);
-                }
-            }).trigger('click');
-
-            $text.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                $file.trigger('click');
-            });
-
-            $file.unbind('change').bind('change', function() {
-                if (uploadXhr) {
-                    uploadXhr.abort();
-                }
-                var val = $file.val();
-                if (0 < val.length) {
-                    $text.val(val.fileName());
-                } else {
-                    $text.val(current);
-                }
-                if (typeof params.onChange === 'function') {
-                    params.onChange(this);
-                }
-            });
-
-            if ($key.length == 1) {
-                $file
-                    .fileupload()
-                    .bind('fileuploadadd', function (e, data) {
-                        uploadXhr = data.submit();
-                    })
-                    .bind('fileuploadsubmit', function () { //e, data
-                        var count = $form.data('uploadCount') || 0;
-                        count++;
-                        $form.find('[type=submit]').prop('disabled', true);
-                        $form.data('uploadCount', count);
-                        $progressBar.fadeIn();
-                    })
-                    .bind('fileuploadalways', function () { // e, data
-                        var count = $form.data('uploadCount') || 0;
-                        count--;
-                        $form.data('uploadCount', count);
-                        if (0 >= count) {
-                            $form.find('[type=submit]').prop('disabled', false);
-                        }
-                        $progressBar.fadeOut()
-                            .find('.progress-bar')
-                            .css({width: '0%'})
-                            .attr('aria-valuenow', 0);
-                        uploadXhr = null;
-                    })
-                    .bind('fileuploaddone', function (e, data) {
-                        var result = JSON.parse(data.result);
-                        if (result.hasOwnProperty('upload_key')) {
-                            $key.val(result.upload_key);
-                        }
-                    })
-                    .bind('fileuploadprogress', function (e, data) {
-                        if (data._progress) {
-                            var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
-                            $progressBar
-                                .find('.progress-bar')
-                                .css({width: progress + '%'})
-                                .attr('aria-valuenow', progress);
-                        }
-                    })
-                ;
-
-                $form.bind('submit', function(e) {
-                    var count = $form.data('uploadCount') || 0;
-                    if (0 < count) {
-                        $form.find('[type=submit]').qtip({
-                            content: 'Veuillez patienter pendant le téléchargement de vos fichiers.',
-                            style: { classes: 'qtip-bootstrap' },
-                            hide: { fixed: true, delay: 300 },
-                            position: {
-                                my: 'bottom center',
-                                at: 'top center',
-                                target: 'mouse',
-                                adjust: {
-                                    mouse: false,
-                                    scroll: false
-                                }
-                            }
-                        });
-                        e.preventDefault();
-                        return false;
-                    }
-                });
-            }
-        });
-        return this;
-    };
 
     /**
      * Rename widget
@@ -211,13 +77,170 @@ define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'ekyna-string'], fun
 
             $rename.bind('blur', $rename.normalize);
         });
+
+        return this;
+    };
+
+    /**
+     * File widget
+     */
+    $.fn.filePicker = function() {
+
+        this.each(function() {
+            var $this = $(this);
+            var $file = $this.find('input:file');
+            var $text = $this.find('input:text');
+            var current = $text.data('current') || null;
+            var $pickButton = $this.find('button[data-role="pick"]');
+            var $clearButton = $this.find('button[data-role="clear"]');
+
+            $pickButton.unbind('click').bind('click', function(e) {
+                e.preventDefault();
+                $file.trigger('click');
+            });
+
+            $clearButton.unbind('click').bind('click', function(e) {
+                e.preventDefault();
+                if ($file.files) {
+                    $file.files = [];
+                }
+                $text.val(current);
+                $file.val(null).trigger('change');
+
+                $this.trigger(jQuery.Event('ekyna.upload.clear'));
+            }).trigger('click');
+
+            $text.unbind('click').bind('click', function(e) {
+                e.preventDefault();
+                $file.trigger('click');
+            });
+
+            $file.unbind('change').bind('change', function() {
+                var val = $file.val();
+                if (0 < val.length) {
+                    $text.val(val.fileName());
+                } else {
+                    $text.val(current);
+                }
+
+                $this.trigger(jQuery.Event('ekyna.upload.change'));
+            });
+        });
+
+        return this;
+    };
+
+    /**
+     * Upload widget
+     */
+    $.fn.uploadWidget = function() {
+
+        this.each(function() {
+            var $this = $(this);
+
+            var $filePicker = $this.find('.file-picker').filePicker();
+
+            var $file = $filePicker.find('input:file');
+            $this.find('.file-rename').renameWidget({file: $file});
+
+            var $key = $this.find('input[data-target="' + $file.attr('id') + '"]');
+
+            if ($key.length == 1) {
+                var uploadXhr = null;
+
+                var $form = $file.closest('form');
+                var $progressBar = $this.find('div#' + $file.attr('id') + '_progress');
+                var $submitButton = $form.find('[type=submit]');
+                if ($submitButton.length == 0) {
+                    $submitButton = $form.closest('.modal-content').find('button#submit'); // For modals
+                }
+                console.log($submitButton);
+
+                $filePicker.on('ekyna.upload.clear', function() {
+                    $key.val(null);
+                    if (uploadXhr) {
+                        uploadXhr.abort();
+                        uploadXhr = null;
+                    }
+                });
+
+                $file
+                    .fileupload()
+                    .bind('fileuploadadd', function (e, data) {
+                        if (uploadXhr) {
+                            uploadXhr.abort();
+                        }
+                        uploadXhr = data.submit();
+                    })
+                    .bind('fileuploadsubmit', function () { //e, data
+                        var count = $form.data('uploadCount') || 0;
+                        count++;
+                        $submitButton.prop('disabled', true);
+                        $form.data('uploadCount', count);
+                        $progressBar.fadeIn();
+                    })
+                    .bind('fileuploadalways', function () { // e, data
+                        var count = $form.data('uploadCount') || 0;
+                        count--;
+                        $form.data('uploadCount', count);
+                        if (0 >= count) {
+                            $submitButton.prop('disabled', false);
+                        }
+                        $progressBar.fadeOut(function() {
+                            $(this)
+                                .find('.progress-bar')
+                                .css({width: '0%'})
+                                .attr('aria-valuenow', 0);
+                        });
+                        uploadXhr = null;
+                    })
+                    .bind('fileuploaddone', function (e, data) {
+                        var result = JSON.parse(data.result);
+                        if (result.hasOwnProperty('upload_key')) {
+                            $key.val(result['upload_key']);
+                        }
+                    })
+                    .bind('fileuploadprogress', function (e, data) {
+                        if (data._progress) {
+                            var progress = parseInt(data._progress.loaded / data._progress.total * 100, 10);
+                            $progressBar
+                                .find('.progress-bar')
+                                .css({width: progress + '%'})
+                                .attr('aria-valuenow', progress);
+                        }
+                    })
+                ;
+
+                $form.bind('submit', function(e) {
+                    var count = $form.data('uploadCount') || 0;
+                    if (0 < count) {
+                        $submitButton.qtip({
+                            content: 'Veuillez patienter pendant le téléchargement de vos fichiers&hellip;',
+                            style: { classes: 'qtip-bootstrap' },
+                            hide: { fixed: true, delay: 300 },
+                            position: {
+                                my: 'bottom center',
+                                at: 'top center',
+                                target: 'mouse',
+                                adjust: {
+                                    mouse: false,
+                                    scroll: false
+                                }
+                            }
+                        });
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+        });
+
         return this;
     };
 
     return {
         init: function($element) {
-            var $file = $element.find('.file-picker').filePicker().find('input:file');
-            $element.find('.file-rename').renameWidget({file: $file});
+            $element.uploadWidget();
         }
     };
 });

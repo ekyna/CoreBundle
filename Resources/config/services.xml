@@ -97,11 +97,6 @@
             </call>
         </service>
 
-        <!-- Uploaders -->
-        <service id="ekyna_core.uploader" abstract="true">
-            <argument>%ekyna_core.upload_directory%</argument>
-        </service>
-
         <!-- Http cache -->
         <service id="ekyna_core.http_cache.tag_manager" class="Ekyna\Bundle\CoreBundle\HttpCache\TagManager">
             <argument>%ekyna_core.cache_config%</argument>
@@ -115,6 +110,28 @@
             <argument>%locale%</argument>
             <argument>%locales%</argument>
             <tag name="kernel.event_subscriber" priority="98" />
+        </service>
+
+        <!-- Uploaders -->
+        <service id="ekyna_core.uploader" abstract="true">
+            <argument>%ekyna_core.upload_directory%</argument>
+        </service>
+        <service id="ekyna_core.upload.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader" parent="ekyna_core.uploader">
+            <call method="setFilesystem">
+                <argument type="service">
+                    <service class="Gaufrette\Filesystem"
+                             factory-service="knp_gaufrette.filesystem_map"
+                             factory-method="get">
+                        <argument>local_upload</argument>
+                    </service>
+                </argument>
+            </call>
+        </service>
+
+        <!-- Doctrine event listeners -->
+        <service id="ekyna_core.upload.listener" class="Ekyna\Bundle\CoreBundle\Listener\UploadListener">
+            <argument type="service" id="ekyna_core.upload.uploader" />
+            <tag name="doctrine.entity_listener" />
         </service>
 
         <!-- Event listeners -->

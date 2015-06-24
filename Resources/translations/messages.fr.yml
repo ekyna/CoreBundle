@@ -178,6 +178,7 @@ ekyna_core:
         mobile: Mobile
         general: Général
         informations: Informations
+        coordinates: Coordonnées
         config: Configuration
     message:
         captcha: Veuillez recopier le code de l'image

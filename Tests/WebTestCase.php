@@ -25,6 +25,14 @@ abstract class WebTestCase extends BaseTestCase
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        unset($this->client);
+    }
+
+    /**
      * Returns the router.
      *
      * @return \Symfony\Component\Routing\Generator\UrlGeneratorInterface

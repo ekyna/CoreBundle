@@ -34,7 +34,7 @@ config:
             deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'malsup/form', 'jquery/autosize']
             exports: 'EkynaForm'
         'ekyna-form/upload':
-            deps: ['jquery', 'jquery/fileupload', 'ekyna-string']
+            deps: ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-string']
         'ekyna-form/datetime':
             deps: ['jquery', 'bootstrap/datetimepicker']
         'ekyna-form/color':
