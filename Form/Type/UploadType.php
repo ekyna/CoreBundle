@@ -46,7 +46,7 @@ class UploadType extends AbstractType
             $builder->add('rename', 'text', array(
                 'label' => 'ekyna_core.field.rename',
                 'required' => $options['required'],
-                //'sizing' => 'sm',
+                'sizing' => 'sm',
                 'admin_helper' => 'FILE_RENAME',
                 'attr' => array(
                     'class' => 'file-rename',
@@ -67,7 +67,7 @@ class UploadType extends AbstractType
                     $form->add('file', 'file', array(
                         'label' => 'ekyna_core.field.file',
                         'required' => false,
-                        //'sizing' => 'sm',
+                        'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
                         'attr' => array(
                             'label_col' => 2,
@@ -78,7 +78,7 @@ class UploadType extends AbstractType
                         $form->add('unlink', 'checkbox', array(
                             'label' => 'ekyna_core.field.unlink',
                             'required' => false,
-                            //'sizing' => 'sm',
+                            'sizing' => 'sm',
                             'admin_helper' => 'FILE_UNLINK',
                             'attr' => array(
                                 'label_col' => 2,
@@ -91,7 +91,7 @@ class UploadType extends AbstractType
                     $form->add('file', 'file', array(
                         'label' => 'ekyna_core.field.file',
                         'required' => true,
-                        //'sizing' => 'sm',
+                        'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
                         'attr' => array(
                             'label_col' => 2,
@@ -163,6 +163,7 @@ class UploadType extends AbstractType
                 'rename_field' => true,
                 'unlink_field' => false,
                 'js_upload'    => true,
+                'error_bubbling' => false,
             ))
             ->setAllowedTypes(array(
                 'file_path'    => array('null', 'string'),
