@@ -95,6 +95,8 @@
                     }
                 });
                 that.dialog.setButtons(buttons);
+            } else {
+                that.dialog.setButtons([]);
             }
 
             that.dialog.open();
