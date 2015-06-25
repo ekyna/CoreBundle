@@ -33,7 +33,7 @@ class UploadableValidator extends ConstraintValidator
     	if ($uploadable->hasFile()) {
     	    if (! $uploadable->hasRename()) {
     	        $this->context->addViolationAt(
-    	            'name',
+    	            'rename',
     	            $constraint->nameIsMandatory
     	        );
     	    }
@@ -44,7 +44,7 @@ class UploadableValidator extends ConstraintValidator
             );
     	    if ($uploadable->hasRename()) {
     	        $this->context->addViolationAt(
-    	            'name',
+    	            'rename',
     	            $constraint->leaveBlank
     	        );
     	    }
