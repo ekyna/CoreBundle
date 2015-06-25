@@ -158,6 +158,7 @@ class UploadType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'label'        => 'ekyna_core.field.file',
+                'data_class'   => 'Ekyna\Bundle\CoreBundle\Entity\Upload',
                 'file_path'    => 'path',
                 'rename_field' => true,
                 'unlink_field' => false,
