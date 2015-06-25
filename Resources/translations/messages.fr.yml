@@ -191,7 +191,7 @@ ekyna_core:
         allowed_to_switch: Authorisé à switcher
         admin: Administrateur
     error:
-        operation_failed: L'opération a échoué
+        operation_failed: L'application a rencontré une erreur. Veuillez nous excuser pour la gène occasionnée.
     image:
         new: Nouvelle image
             

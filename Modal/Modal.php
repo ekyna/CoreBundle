@@ -203,10 +203,29 @@ class Modal
     {
         $resolver = static::getButtonOptionsResolver();
         $tmp = array();
-        foreach ($buttons as $button) {
-            $tmp[] = $resolver->resolve($button);
+        foreach ($buttons as $options) {
+            $tmp[] = $resolver->resolve($options);
         }
         $this->buttons = $tmp;
+        return $this;
+    }
+
+    /**
+     * Adds the button.
+     *
+     * @param array $options
+     * @param bool $prepend
+     * @return Modal
+     */
+    public function addButton(array $options, $prepend = false)
+    {
+        $resolver = static::getButtonOptionsResolver();
+        $options = $resolver->resolve($options);
+        if ($prepend) {
+            array_unshift($this->buttons, $options);
+        } else {
+            array_push($this->buttons, $options);
+        }
         return $this;
     }
 
