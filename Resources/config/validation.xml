@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
                         http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="Ekyna\Bundle\CoreBundle\Entity\Upload">
+    <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractUpload">
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\Uploadable" />
         <property name="file">
             <constraint name="File" />
