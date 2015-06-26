@@ -11,6 +11,9 @@ define(
 
     EkynaForm.prototype = {
         constructor: EkynaForm,
+        getElement: function() {
+            return this.$elem;
+        },
         init: function() {
             var that = this;
 
@@ -24,11 +27,38 @@ define(
                 });
             });
 
+            /* Plugins */
             $(plugins).each(function (i, config) {
                 var $target = that.$elem.find(config.selector);
-                if ($target.size() > 0) {
+                if ($target.length > 0) {
                     require([config.path], function (plugin) {
                         plugin.init($target);
+                    });
+                }
+            });
+        },
+        destroy: function() {
+            var that = this;
+            $(plugins).each(function (i, config) {
+                var $target = that.$elem.find(config.selector);
+                if ($target.length > 0) {
+                    require([config.path], function (plugin) {
+                        if (plugin.hasOwnProperty('destroy')) {
+                            plugin.destroy($target);
+                        }
+                    });
+                }
+            });
+        },
+        save: function() {
+            var that = this;
+            $(plugins).each(function (i, config) {
+                var $target = that.$elem.find(config.selector);
+                if ($target.length > 0) {
+                    require([config.path], function (plugin) {
+                        if (plugin.hasOwnProperty('save')) {
+                            plugin.save($target);
+                        }
                     });
                 }
             });

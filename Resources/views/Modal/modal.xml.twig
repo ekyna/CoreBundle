@@ -27,11 +27,9 @@
         {{ ekyna_table_render(modal.content) }}
     {%- elseif modal.contentType == 'data' -%}
         {{ modal.content|json_encode|raw }}
-    {%- elseif modal.contentType == 'html' -%}
+    {%- else -%}
         {% include "EkynaCoreBundle:Ui:flashes.html.twig" %}
         {{ modal.content|raw }}
-    {% else %}
-        {{ modal.content }}
     {%- endif -%}
     ]]></content>
 {% endif %}

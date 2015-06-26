@@ -15,12 +15,16 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
             if ($addButton.length == 1) {
                 $addButton.bind('click', function(e) {
 
-                    var modal = new Modal(), $form;
+                    var modal = new Modal(), form;
                     modal.load({url: $addButton.data('path')});
 
                     $(modal).on('ekyna.modal.content', function (e) {
+                        if (form) {
+                            form.destroy();
+                            form = null;
+                        }
                         if (e.contentType == 'form') {
-                            Form.create(e.content);
+                            form = Form.create(e.content);
                         } else if (e.contentType == 'data') {
                             var data = e.content,
                                 $option = $('<option />');
@@ -42,12 +46,20 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
 
                     $(modal).on('ekyna.modal.button_click', function (e) {
                         if (e.buttonId == 'submit') {
-                            $form.ajaxSubmit({
+                            form.save();
+                            form.getElement().ajaxSubmit({
                                 dataType: 'xml',
                                 success: function(response) {
                                     modal.handleResponse(response)
                                 }
                             });
+                        }
+                    });
+
+                    modal.getDialog().onHide(function() {
+                        if (form) {
+                            form.destroy();
+                            form = null;
                         }
                     });
                 });

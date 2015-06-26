@@ -154,7 +154,6 @@ define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyn
                 if ($submitButton.length == 0) {
                     $submitButton = $form.closest('.modal-content').find('button#submit'); // For modals
                 }
-                console.log($submitButton);
 
                 $filePicker.on('ekyna.upload.clear', function() {
                     $key.val(null);
