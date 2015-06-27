@@ -47,12 +47,16 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
                     $(modal).on('ekyna.modal.button_click', function (e) {
                         if (e.buttonId == 'submit') {
                             form.save();
-                            form.getElement().ajaxSubmit({
-                                dataType: 'xml',
-                                success: function(response) {
-                                    modal.handleResponse(response)
-                                }
-                            });
+                            setTimeout(function() {
+                                form.getElement().ajaxSubmit({
+                                    dataType: 'xml',
+                                    success: function(response) {
+                                        form.destroy();
+                                        form = null;
+                                        modal.handleResponse(response);
+                                    }
+                                });
+                            }, 100);
                         }
                     });
 

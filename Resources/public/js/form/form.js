@@ -82,17 +82,6 @@ define(
         event.preventDefault();
     });
 
-    /**
-     * Tinymce modal fix
-     * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
-     * @see http://jsfiddle.net/e99xf/13/
-     */
-    $(document).on('focusin', function(e) {
-        if ($(e.target).closest(".mce-window").length) {
-            e.stopImmediatePropagation();
-        }
-    });
-
     return {
         create: function($element, options) {
             var form = new EkynaForm($element, options);
