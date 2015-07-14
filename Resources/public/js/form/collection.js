@@ -62,8 +62,11 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         newWidget = newWidget.replace(re, count);
         newWidget = newWidget.replace(/__id__/g, newName[1].replace(re, count));
         var newLi = $('<li></li>').html(newWidget);
-        newLi.appendTo(list);
-        Form.create($(newWidget));
+        list.append(newLi);
+
+        var form = Form.create(newLi.html());
+        form.init();
+
         collectionUpdatePositions(collection);
         $this.trigger('ekyna-collection-field-added');
     };
@@ -81,7 +84,13 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         }
 
         $this.trigger('ekyna-collection-field-removed');
-        $this.closest('li').remove();
+        var $element = $this.closest('li');
+
+        var form = Form.create($element.html());
+        form.save();
+        form.destroy();
+
+        $element.remove();
 
         var $collection = $('#'+selector);
         collectionUpdatePositions($collection);
@@ -94,9 +103,22 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         e && e.preventDefault();
 
         $this.trigger('ekyna-collection-field-moved-up');
-        var listElement = $this.closest('li');
-        if (!listElement.is(':first-child')) {
-            listElement.prev().before(listElement.detach());
+        var $element = $this.closest('li');
+        if (!$element.is(':first-child')) {
+            var $prev = $element.prev();
+
+            var form = Form.create($element.html());
+            form.save();
+            form.destroy();
+
+            var prevForm = Form.create($prev.html());
+            prevForm.save();
+            prevForm.destroy();
+
+            $prev.before($element.detach());
+
+            form.init();
+            prevForm.init();
         }
 
         var $collection = $('#'+selector);
@@ -110,9 +132,22 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         e && e.preventDefault();
 
         $this.trigger('ekyna-collection-field-moved-down');
-        var listElement = $this.closest('li');
-        if (!listElement.is(':last-child')) {
-            listElement.next().after(listElement.detach());
+        var $element = $this.closest('li');
+        if (!$element.is(':last-child')) {
+            var $next = $element.next();
+
+            var form = Form.create($element.html());
+            form.save();
+            form.destroy();
+
+            var nextForm = Form.create($next.html());
+            nextForm.save();
+            nextForm.destroy();
+
+            $next.after($element.detach());
+
+            form.init();
+            nextForm.init();
         }
 
         var $collection = $('#'+selector);

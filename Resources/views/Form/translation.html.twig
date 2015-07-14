@@ -1,29 +1,29 @@
 {% block a2lix_translations_widget %}
-    {% set tabbed = form|length > 1 %}
-    {{ form_errors(form) }}
-    <div class="a2lix_translations{% if tabbed %} tabbable{% endif %}">
+    <div class="translations-forms">
+        {% set tabbed = form|length > 1 %}
+        {{ form_errors(form) }}
         {% if tabbed %}
-        <ul class="a2lix_translationsLocales nav nav-tabs">
-            {% for translationsFields in form %}
-                {% set locale = translationsFields.vars.name %}
-
+        <ul class="translations-locales nav nav-tabs">
+            {% for translationForm in form %}
+                {% set locale = translationForm.vars.name %}
                 <li {% if app.request.locale == locale %}class="active"{% endif %}>
-                    <a href="#" data-toggle="tab" data-target=".a2lix_translationsFields-{{ locale }}">
-                        {{ locale|capitalize }}
+                    <a href="#{{ translationForm.vars.id }}" data-toggle="tab">
+                        {{ locale|language|capitalize }}
                         {% if form.vars.default_locale == locale %}[Default]{% endif %}
-                        {% if translationsFields.vars.required %}*{% endif %}
+                        {% if translationForm.vars.required %}*{% endif %}
                     </a>
                 </li>
             {% endfor %}
         </ul>
         {% endif %}
-        <div class="a2lix_translationsFields{% if tabbed %} tab-content{% endif %}">
-            {% for translationsFields in form %}
-                {% set locale = translationsFields.vars.name %}
-
-                <div class="a2lix_translationsFields-{{ locale }}{% if tabbed %} tab-pane {% if app.request.locale == locale %}active{% endif %}{% endif %}">
-                    {{ form_errors(translationsFields) }}
-                    {{ form_widget(translationsFields) }}
+        <div class="translations-fields{% if tabbed %} tab-content{% endif %}">
+            {% for translationForm in form %}
+                {% set locale = translationForm.vars.name %}
+                {% for translationField in translationForm %}
+                {% endfor %}
+                <div id="{{ translationForm.vars.id }}" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
+                    {{ form_errors(translationForm) }}
+                    {{ form_widget(translationForm) }}
                 </div>
             {% endfor %}
         </div>

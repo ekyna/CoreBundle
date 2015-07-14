@@ -84,9 +84,7 @@ define(
 
     return {
         create: function($element, options) {
-            var form = new EkynaForm($element, options);
-            form.init();
-            return form;
+            return new EkynaForm($element, options);
         }
     };
 });

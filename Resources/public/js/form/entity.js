@@ -25,6 +25,7 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
                         }
                         if (e.contentType == 'form') {
                             form = Form.create(e.content);
+                            form.init();
                         } else if (e.contentType == 'data') {
                             var data = e.content,
                                 $option = $('<option />');

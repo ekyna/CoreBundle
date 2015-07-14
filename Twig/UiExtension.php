@@ -3,7 +3,6 @@
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -66,6 +65,16 @@ class UiExtension extends \Twig_Extension
             new \Twig_SimpleFunction('ui_button', array($this, 'renderButton'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_google_font', array($this, 'renderGoogleFontLink'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_locale_switcher', array($this, 'renderLocaleSwitcher'), array('is_safe' => array('html'))),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('language', array($this, 'getLanguage')),
         );
     }
 
@@ -201,6 +210,20 @@ class UiExtension extends \Twig_Extension
             'locales' => $this->config['locales'],
             'request' => $request,
         ));
+    }
+
+    /**
+     * Display the language for the given locale.
+     *
+     * @return string
+     */
+    public function getLanguage($locale)
+    {
+        $inLocale = 'en';
+        if (null !== $request = $this->requestStack->getCurrentRequest()) {
+            $inLocale = $request->attributes->get('_locale');
+        }
+        return \Locale::getDisplayLanguage($locale, $inLocale);
     }
 
     /**
