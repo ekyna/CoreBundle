@@ -81,11 +81,21 @@ class UiExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
+    public function getGlobals()
+    {
+        return array(
+            'locales' => $this->config['locales'],
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTests ()
     {
-        return [
+        return array(
             new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
-        ];
+        );
     }
 
     /**
