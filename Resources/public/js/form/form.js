@@ -71,16 +71,27 @@ define(
      * @see http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/?redirect_from_locale=fr#toc-checkValidity
      */
     $(".form-with-tabs input, .form-with-tabs textarea, .form-with-tabs select").on('invalid', function(event) {
-        var $tab = $(event.target).parents('.tab-pane').eq(0);
-        if ($tab.length == 1) {
-            var $a = $('a[href="#' + $tab.attr('id') + '"]');
-            if ($a.length == 1) {
-                $a.tab('show');
-                return;
-            }
+        var $tabs = $(event.target).eq(0).parents('.tab-pane');
+        if ($tabs.size()) {
+            showTabs($tabs);
+            return;
         }
         event.preventDefault();
     });
+
+    var $errorFields = $('form .has-error');
+    if ($errorFields.size()) {
+        showTabs($errorFields.eq(0).parents('.tab-pane'));
+    }
+
+    function showTabs($tabs) {
+        $tabs.each(function() {
+            var $a = $('a[href="#' + $(this).attr('id') + '"]');
+            if ($a.size() == 1) {
+                $a.tab('show');
+            }
+        });
+    }
 
     return {
         create: function($element, options) {

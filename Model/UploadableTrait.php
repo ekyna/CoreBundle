@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Model;
 
-use Gedmo\Sluggable\Util\Urlizer;
+use Behat\Transliterator\Transliterator;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -244,7 +244,7 @@ trait UploadableTrait
         // Filename
         $filename = null;
         if ($this->hasRename()) {
-            $filename = Urlizer::transliterate(pathinfo($this->rename, PATHINFO_FILENAME));
+            $filename = Transliterator::urlize(pathinfo($this->rename, PATHINFO_FILENAME));
         } elseif ($this->hasFile()) {
             $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
         } elseif ($this->hasPath()) {

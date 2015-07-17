@@ -23,6 +23,8 @@ config:
         'bootstrap/colorpicker':
             deps: ['jquery', 'bootstrap', 'tinycolor']
             exports: 'BootstrapDialog'
+        'bootstrap/hover-dropdown':
+            deps: ['jquery']
         'ekyna-modal':
             deps: ['jquery', 'bootstrap-dialog']
             exports: 'EkynaModal'
@@ -61,6 +63,7 @@ config:
         'tinycolor': 'bundles/ekynacore/js/lib/tinycolor'
         'bootstrap/colorpicker': 'bundles/ekynacore/js/lib/bootstrap.colorpickersliders'
         'bootstrap-dialog': 'assets/bootstrap-dialog/dist/js/bootstrap-dialog'
+        'bootstrap/hover-dropdown': 'assets/bootstrap-hover-dropdown/bootstrap-hover-dropdown'
         'malsup/form': 'assets/form/jquery.form'
         'select2': 'bundles/ekynacore/js/lib/select2'
         'ekyna-string': 'bundles/ekynacore/js/string'
@@ -81,6 +84,7 @@ build:
         - 'twig'
         - 'routing'
         - 'bootstrap'
+        - 'bootstrap/hover-dropdown'
         - 'malsup/form'
         - 'select2'
         - 'ekyna-string'

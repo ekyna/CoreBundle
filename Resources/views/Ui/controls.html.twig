@@ -52,7 +52,7 @@
 {% set currentLocale = request.attributes.get("_locale") %}
 {% set routeName = request.attributes.get("_route") %}
 {% set routeParams = request.attributes.get("_route_params") %}
-<ul class="list-inline">
+<ul class="list-inline locale-switcher">
     {% for locale in locales -%}
         <li{% if currentLocale == locale %} class="current"{% endif %}>
             <a href="{{ path(routeName, routeParams|merge({"_locale": locale})) }}">{{ locale|language|capitalize }}</a>
