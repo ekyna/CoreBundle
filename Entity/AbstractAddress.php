@@ -1,10 +1,12 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\Model;
+namespace Ekyna\Bundle\CoreBundle\Entity;
+
+use Ekyna\Bundle\CoreBundle\Model\AddressInterface;
 
 /**
  * Class AbstractAddress
- * @package Ekyna\Bundle\CoreBundle\Model
+ * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractAddress implements AddressInterface
