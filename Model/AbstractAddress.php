@@ -29,6 +29,16 @@ abstract class AbstractAddress implements AddressInterface
      */
     protected $city;
 
+    /**
+     * @var string
+     */
+    protected $country = 'FR'; // TODO configurable default country (through repo::createNew)
+
+    /**
+     * @var string
+     */
+    protected $state;
+
 
     /**
      * {@inheritdoc}
@@ -100,5 +110,49 @@ abstract class AbstractAddress implements AddressInterface
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Sets the country.
+     *
+     * @param string $country
+     * @return AbstractAddress
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * Returns the country.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Sets the state.
+     *
+     * @param string $state
+     * @return AbstractAddress
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    /**
+     * Returns the state.
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }

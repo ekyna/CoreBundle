@@ -31,6 +31,13 @@ abstract class AbstractAddressType extends AbstractType
             ->add('city', 'text', array(
                 'label' => 'ekyna_core.field.city',
             ))
+            ->add('country', 'country', array(
+                'label' => 'ekyna_core.field.country',
+            ))
+            ->add('state', 'text', array(
+                'label' => 'ekyna_core.field.state',
+                'required' => false,
+            ))
         ;
     }
 }

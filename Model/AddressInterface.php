@@ -68,4 +68,34 @@ interface AddressInterface
      * @return string
      */
     public function getCity();
+
+    /**
+     * Sets the country.
+     *
+     * @param string $country
+     * @return AddressInterface|$this
+     */
+    public function setCountry($country);
+
+    /**
+     * Returns the country.
+     *
+     * @return string
+     */
+    public function getCountry();
+
+    /**
+     * Sets the state.
+     *
+     * @param string $state
+     * @return AddressInterface|$this
+     */
+    public function setState($state);
+
+    /**
+     * Returns the state.
+     *
+     * @return string
+     */
+    public function getState();
 }

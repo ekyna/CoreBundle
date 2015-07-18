@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -75,6 +76,7 @@ class UiExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('language', array($this, 'getLanguage')),
+            new \Twig_SimpleFilter('country', array($this, 'getCountry')),
         );
     }
 
@@ -225,6 +227,7 @@ class UiExtension extends \Twig_Extension
     /**
      * Display the language for the given locale.
      *
+     * @param string $locale
      * @return string
      */
     public function getLanguage($locale)
@@ -234,6 +237,21 @@ class UiExtension extends \Twig_Extension
             $inLocale = $request->attributes->get('_locale');
         }
         return \Locale::getDisplayLanguage($locale, $inLocale);
+    }
+
+    /**
+     * Display the country name for the given code.
+     *
+     * @param string $countryCode
+     * @return string
+     */
+    public function getCountry($countryCode)
+    {
+        $inLocale = 'en';
+        if (null !== $request = $this->requestStack->getCurrentRequest()) {
+            $inLocale = $request->attributes->get('_locale');
+        }
+        return Intl::getRegionBundle()->getCountryName($countryCode, $inLocale);
     }
 
     /**
