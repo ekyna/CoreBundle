@@ -4,13 +4,14 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class AbstractAddressType
+ * Class AddressType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-abstract class AbstractAddressType extends AbstractType
+class AddressType extends AbstractType
 {
     /**
      * {@inheritDoc}
@@ -39,5 +40,13 @@ abstract class AbstractAddressType extends AbstractType
                 'required' => false,
             ))
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'ekyna_address';
     }
 }
