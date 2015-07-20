@@ -209,18 +209,24 @@ class UiExtension extends \Twig_Extension
     /**
      * Renders the locale switcher.
      *
+     * @param array $attributes
      * @return string
      */
-    public function renderLocaleSwitcher()
+    public function renderLocaleSwitcher($attributes = array())
     {
         // TODO Check if this is a (esi) sub request, as this must never be used in a esi fragment.
         if (null === $request = $this->requestStack->getCurrentRequest()) {
             return '';
         }
 
+        if (!array_key_exists('class', $attributes)) {
+            $attributes['class'] = 'list-inline locale-switcher';
+        }
+
         return $this->controlsTemplate->renderBlock('locale_switcher', array(
             'locales' => $this->config['locales'],
             'request' => $request,
+            'attr' => $attributes,
         ));
     }
 
