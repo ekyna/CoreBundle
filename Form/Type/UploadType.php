@@ -36,7 +36,7 @@ class UploadType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options = array())
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['js_upload']) {
             $builder->add('key', 'hidden');

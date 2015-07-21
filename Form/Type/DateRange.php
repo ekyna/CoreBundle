@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class DateRange extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options = array())
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $format = $options['time'] ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy';
 

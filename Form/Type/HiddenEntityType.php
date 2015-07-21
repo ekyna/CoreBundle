@@ -41,7 +41,7 @@ class HiddenEntityType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options = array())
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new ObjectToIdentifierTransformer();
         $builder->addViewTransformer($transformer);
