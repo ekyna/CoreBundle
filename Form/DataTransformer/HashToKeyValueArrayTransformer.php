@@ -31,6 +31,9 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
     /**
      * Doing the transformation here would be too late for the collection type to do it's resizing magic, so
      * instead it is done in the forms PRE_SET_DATA listener
+     *
+     * @param KeyValueContainer|array $value
+     * @return KeyValueContainer|array
      */
     public function transform($value)
     {
@@ -38,7 +41,7 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param mixed $value
+     * @param array $value
      * @return KeyValueContainer|array
      * @throws \Symfony\Component\Form\Exception\TransformationFailedException
      */
