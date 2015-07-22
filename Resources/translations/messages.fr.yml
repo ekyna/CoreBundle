@@ -104,6 +104,8 @@ ekyna_core:
         images: Images
         photo: Photo
         photos: Photos
+        media: Média
+        medias: Médias
         icon: Icône
         video: Vidéo
         videos: Vidéos
