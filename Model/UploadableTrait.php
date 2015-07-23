@@ -225,9 +225,6 @@ trait UploadableTrait
             $extension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
         }
         $extension = strtolower($extension);
-        if ($extension === 'jpeg') {
-            $extension = 'jpg';
-        }
         return $extension;
     }
 
