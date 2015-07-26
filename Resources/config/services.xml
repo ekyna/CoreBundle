@@ -102,7 +102,7 @@
         </service>
 
         <!-- Http cache -->
-        <service id="ekyna_core.http_cache.tag_manager" class="Ekyna\Bundle\CoreBundle\HttpCache\TagManager">
+        <service id="ekyna_core.cache.tag_manager" class="Ekyna\Bundle\CoreBundle\Cache\TagManager">
             <argument>%ekyna_core.cache_config%</argument>
         </service>
 
@@ -151,7 +151,7 @@
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.http_cache.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\HttpCacheEventSubscriber">
-            <argument type="service" id="ekyna_core.http_cache.tag_manager" />
+            <argument type="service" id="ekyna_core.cache.tag_manager" />
             <tag name="kernel.event_subscriber" />
         </service>
         <service id="ekyna_core.upload.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\UploadListener">

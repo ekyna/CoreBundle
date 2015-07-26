@@ -6,6 +6,8 @@ namespace Ekyna\Bundle\CoreBundle\Model;
  * Trait TaggedEntityTrait
  * @package Ekyna\Bundle\CoreBundle\Model
  * @author Étienne Dauvergne <contact@ekyna.com>
+ *
+ * @method int getId()
  */
 trait TaggedEntityTrait
 {

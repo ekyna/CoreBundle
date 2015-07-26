@@ -1,13 +1,16 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\HttpCache;
+namespace Ekyna\Bundle\CoreBundle\Cache;
 
+use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Class TagManager
- * @package Ekyna\Bundle\CoreBundle\HttpCache
+ * @package Ekyna\Bundle\CoreBundle\Cache
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class TagManager
@@ -23,6 +26,12 @@ class TagManager
     protected $cacheManager;
 
     /**
+     * @var PropertyAccessor
+     */
+    protected $propertyAccessor;
+
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -30,16 +39,7 @@ class TagManager
     public function __construct(array $config)
     {
         $this->config = $config;
-    }
-
-    /**
-     * Returns whether the tag management is active or not.
-     *
-     * @return bool
-     */
-    private function isEnabled()
-    {
-        return $this->config['enable'] && null !== $this->cacheManager;
+        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
     }
 
     /**
@@ -50,6 +50,26 @@ class TagManager
     public function setCacheManager(CacheManager $cacheManager)
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    /**
+     * Builds the entity tag.
+     *
+     * @param object $entity
+     * @param string $property
+     * @return string
+     */
+    public function buildEntityTag($entity, $property = 'id')
+    {
+        if ($entity instanceof TaggedEntityInterface) {
+            $prefix = $entity->getEntityTagPrefix();
+        } else {
+            $prefix = get_class($entity);
+        }
+
+        $value = $this->propertyAccessor->getValue($entity, $property);
+
+        return sprintf('%s[%s:%s]', $prefix, $property, $value);
     }
 
     /**
@@ -107,5 +127,15 @@ class TagManager
             return $tmp;
         }
         return $tags;
+    }
+
+    /**
+     * Returns whether the tag management is active or not.
+     *
+     * @return bool
+     */
+    private function isEnabled()
+    {
+        return $this->config['enable'] && null !== $this->cacheManager;
     }
 }

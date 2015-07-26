@@ -2,9 +2,9 @@
 
 namespace Ekyna\Bundle\CoreBundle\EventListener;
 
+use Ekyna\Bundle\CoreBundle\Cache\TagManager;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
-use Ekyna\Bundle\CoreBundle\HttpCache\TagManager;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;

@@ -21,7 +21,7 @@ class FosHttpCachePass  implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::FOS_HTTP_CACHE_MANAGER_ID)) {
-            $tagManagerDefinition = $container->getDefinition('ekyna_core.http_cache.tag_manager');
+            $tagManagerDefinition = $container->getDefinition('ekyna_core.cache.tag_manager');
 
             $tagManagerDefinition->addMethodCall(
                 'setCacheManager',
