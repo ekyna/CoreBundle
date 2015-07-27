@@ -60,7 +60,6 @@ class UiExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('ui_form_footer', array($this, 'renderFormFooter'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_no_image', array($this, 'renderNoImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_link', array($this, 'renderLink'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('ui_button', array($this, 'renderButton'), array('is_safe' => array('html'))),
@@ -98,20 +97,6 @@ class UiExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
         );
-    }
-
-    /**
-     * Renders the form footer.
-     *
-     * @param FormView $form
-     * @return string
-     */
-    public function renderFormFooter(FormView $form)
-    {
-        if (array_key_exists('footer', $form->vars)) {
-            return $this->controlsTemplate->renderBlock('form_footer', $form->vars['footer']);
-        }
-        return '';
     }
 
     /**

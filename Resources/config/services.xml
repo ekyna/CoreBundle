@@ -70,9 +70,7 @@
             <argument type="service" id="request_stack" />
             <tag name="form.type_extension" alias="form" />
         </service>
-        <service id="ekyna_core.form_type_footer_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeFooterExtension">
-            <tag name="form.type_extension" alias="form" />
-        </service>
+
         <service id="ekyna_core.entity_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension">
             <tag name="form.type_extension" alias="entity" />
             <tag name="form.js" selector=".entity-widget" path="ekyna-form/entity" />
