@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class AddressType
@@ -34,14 +35,35 @@ class AddressType extends AbstractType
                 'label' => 'ekyna_core.field.city',
                 'attr' => array('data-role' => 'city'),
             ))
-            ->add('country', 'country', array(
-                'label' => 'ekyna_core.field.country',
-                'attr' => array('data-role' => 'country'),
+        ;
+        if ($options['country']) {
+            $builder
+                ->add('country', 'country', array(
+                    'label' => 'ekyna_core.field.country',
+                    'attr'  => array('data-role' => 'country'),
+                ))
+                ->add('state', 'text', array(
+                    'label'    => 'ekyna_core.field.state',
+                    'attr'     => array('data-role' => 'state'),
+                    'required' => false,
+                ))
+            ;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+
+        $resolver
+            ->setDefaults(array(
+                'country' => true,
             ))
-            ->add('state', 'text', array(
-                'label' => 'ekyna_core.field.state',
-                'attr' => array('data-role' => 'state'),
-                'required' => false,
+            ->addAllowedTypes(array(
+                'country' => 'bool',
             ))
         ;
     }
