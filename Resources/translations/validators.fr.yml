@@ -1,4 +1,6 @@
 ekyna_core:
+    address:
+        invalid_postal_code: Ce code postal n'est pas valide.
     uploadable:
         name_is_mandatory: Veuillez saisir un nom de fichier.
         file_is_mandatory: Veuillez sélectionner un fichier.
