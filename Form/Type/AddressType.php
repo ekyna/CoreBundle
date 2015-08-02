@@ -4,6 +4,8 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Intl\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -13,6 +15,20 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class AddressType extends AbstractType
 {
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
+     * Constructor.
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -37,11 +53,21 @@ class AddressType extends AbstractType
             ))
         ;
         if ($options['country']) {
+            $countryOptions = array(
+                'label' => 'ekyna_core.field.country',
+                'attr'  => array('data-role' => 'country'),
+                'empty_data' => null,
+                'empty_value' => 'ekyna_core.value.choose',
+            );
+            if ($options['required']) {
+                if (null !== $request = $this->requestStack->getMasterRequest()) {
+                    $countryOptions['data'] = $request->getLocale();
+                } else {
+                    $countryOptions['data'] = Locale::getDefault();
+                }
+            }
             $builder
-                ->add('country', 'country', array(
-                    'label' => 'ekyna_core.field.country',
-                    'attr'  => array('data-role' => 'country'),
-                ))
+                ->add('country', 'country', $countryOptions)
                 ->add('state', 'text', array(
                     'label'    => 'ekyna_core.field.state',
                     'attr'     => array('data-role' => 'state'),

@@ -34,7 +34,7 @@ abstract class AbstractAddress implements AddressInterface
     /**
      * @var string
      */
-    protected $country = 'FR'; // TODO configurable default country (through repo::createNew)
+    protected $country; // = 'FR'; // TODO configurable default country (through repo::createNew)
 
     /**
      * @var string
