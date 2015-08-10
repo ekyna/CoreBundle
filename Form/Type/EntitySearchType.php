@@ -3,7 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Ekyna\Bundle\FormBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
+use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
