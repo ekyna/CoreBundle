@@ -18,7 +18,11 @@ class FormJsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $formJs = array();
+        // TODO configuration / extension parameter
+        $formJs = array(array(
+            'selector' => '.file-picker',
+            'path'     => 'ekyna-form/file-picker',
+        ));
         $taggedFormServices = $container->findTaggedServiceIds('form.js');
 
         foreach ($taggedFormServices as $service => $tagAttributes) {
