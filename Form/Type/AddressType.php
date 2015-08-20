@@ -61,9 +61,9 @@ class AddressType extends AbstractType
             );
             if ($options['required']) {
                 if (null !== $request = $this->requestStack->getMasterRequest()) {
-                    $countryOptions['data'] = $request->getLocale();
+                    $countryOptions['data'] = strtoupper($request->getLocale());
                 } else {
-                    $countryOptions['data'] = Locale::getDefault();
+                    $countryOptions['data'] = strtoupper(Locale::getDefault());
                 }
             }
             $builder
