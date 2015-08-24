@@ -41,6 +41,10 @@ abstract class AbstractConstants implements ConstantsInterface
      */
     public static function getLabel($constant)
     {
+        if (null === $constant) {
+            return 'ekyna_core.value.undefined';
+        }
+
         static::isValid($constant, true);
 
         return static::getConfig()[$constant][0];
