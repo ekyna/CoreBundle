@@ -47,46 +47,6 @@ class TinymceConfiguration
             'autoresize_max_height' => '500',
         ];
 
-        // Advanced theme with almost all enabled plugins
-        $advancedTheme = [
-            'menubar'            => false,
-            'statusbar'          => true,
-            'resize'             => false,
-            'image_advtab'       => true,
-            'table_advtab'      => true,
-            'paste_as_text'      => true,
-            'relative_urls'      => false,
-            'remove_script_host' => true,
-            'entity_encoding'  => 'raw',
-            'image_class_list' => [
-                ['title' => 'Responsive', 'value' => 'img-responsive'],
-                ['title' => 'Flottant à gauche', 'value' => 'img-float-left'],
-                ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
-            ],
-            'plugins' => [
-                "autoresize advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons paste textcolor template",
-            ],
-            'toolbar1' => "undo redo removeformat code | styleselect | table link image media ",
-            'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
-                          "alignright alignjustify | bullist numlist outdent indent | hr",
-            'external_plugins' => [
-                //'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
-            ],
-            'content_css' => $contentCss,
-            'autoresize_max_height' => '500',
-        ];
-
-        $styleFormats = $config['ui']['tinymce_formats'];
-        if (is_array($styleFormats) && !empty($styleFormats)) {
-            $simpleTheme['style_formats_merge'] = true;
-            $simpleTheme['style_formats'] = $styleFormats;
-            $advancedTheme['style_formats_merge'] = true;
-            $advancedTheme['style_formats'] = $styleFormats;
-        }
-
         // Front theme: for front usage
         $frontTheme = [
             'menubar'            => false,
@@ -107,6 +67,46 @@ class TinymceConfiguration
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
+
+        // Advanced theme with almost all enabled plugins
+        $advancedTheme = [
+            'menubar'            => false,
+            'statusbar'          => true,
+            'resize'             => false,
+            'image_advtab'       => true,
+            'table_advtab'      => true,
+            'paste_as_text'      => true,
+            'relative_urls'      => false,
+            'remove_script_host' => true,
+            'entity_encoding'  => 'raw',
+            'image_class_list' => [
+                ['title' => 'Responsive', 'value' => 'img-responsive'],
+                ['title' => 'Flottant à gauche', 'value' => 'img-float-left'],
+                ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
+            ],
+            'plugins' => [
+                "autoresize advlist autolink lists link charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime nonbreaking save table contextmenu directionality",
+                "paste textcolor", // emoticons image media template
+            ],
+            'toolbar1' => "undo redo removeformat code | styleselect | table link", // image media
+            'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
+                          "alignright alignjustify | bullist numlist outdent indent | hr",
+            'external_plugins' => [
+                //'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
+            ],
+            'content_css' => $contentCss,
+            'autoresize_max_height' => '500',
+        ];
+
+        $styleFormats = $config['ui']['tinymce_formats'];
+        if (is_array($styleFormats) && !empty($styleFormats)) {
+            $simpleTheme['style_formats_merge'] = true;
+            $simpleTheme['style_formats'] = $styleFormats;
+            $advancedTheme['style_formats_merge'] = true;
+            $advancedTheme['style_formats'] = $styleFormats;
+        }
 
         return [
             'include_jquery' => false,
