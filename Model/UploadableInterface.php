@@ -143,7 +143,7 @@ interface UploadableInterface extends TimestampableInterface
     public function getRename();
 
     /**
-     * Sets the unlink.
+     * Sets whether the uploadable should be unlinked from subject.
      *
      * @param boolean $unlink
      * @return UploadableTrait
@@ -151,7 +151,7 @@ interface UploadableInterface extends TimestampableInterface
     public function setUnlink($unlink);
 
     /**
-     * Returns the unlink.
+     * Returns whether the uploadable should be unlinked from subject.
      *
      * @return boolean
      */

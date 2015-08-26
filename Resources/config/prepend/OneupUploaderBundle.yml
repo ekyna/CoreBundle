@@ -1,8 +1,8 @@
 oneup_uploader:
     mappings:
-        local_upload:
+        local_tmp:
             frontend: blueimp
             max_size: 137438953472 # 128M
             storage:
                 type: filesystem
-                directory: %ekyna_core.upload_directory%
+                directory: %kernel.root_dir%/../var/tmp

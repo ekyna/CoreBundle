@@ -59,6 +59,18 @@ trait UploadableTrait
 
 
     /**
+     * Sets the key.
+     *
+     * @param string $key
+     * @return UploadableTrait
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
      * Returns whether the uploadable has an upload key.
      *
      * @return bool
@@ -76,38 +88,6 @@ trait UploadableTrait
     public function getKey()
     {
         return $this->key;
-    }
-
-    /**
-     * Sets the key.
-     *
-     * @param string $key
-     * @return UploadableTrait
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
-    }
-
-    /**
-     * Has file.
-     *
-     * @return boolean
-     */
-    public function hasFile()
-    {
-        return null !== $this->file;
-    }
-
-    /**
-     * Get file.
-     *
-     * @return File
-     */
-    public function getFile()
-    {
-        return $this->file;
     }
 
     /**
@@ -136,6 +116,26 @@ trait UploadableTrait
     }
 
     /**
+     * Has file.
+     *
+     * @return boolean
+     */
+    public function hasFile()
+    {
+        return null !== $this->file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return File
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
      * Has path.
      *
      * @return boolean
@@ -143,6 +143,19 @@ trait UploadableTrait
     public function hasPath()
     {
         return null !== $this->path;
+    }
+
+    /**
+     * Set path.
+     *
+     * @param string $path
+     * @return UploadableTrait|$this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
     }
 
     /**
@@ -156,14 +169,14 @@ trait UploadableTrait
     }
 
     /**
-     * Set path.
+     * Set old path.
      *
-     * @param string $path
+     * @param string $oldPath
      * @return UploadableTrait|$this
      */
-    public function setPath($path)
+    public function setOldPath($oldPath)
     {
-        $this->path = $path;
+        $this->oldPath = $oldPath;
 
         return $this;
     }
@@ -189,19 +202,6 @@ trait UploadableTrait
     }
 
     /**
-     * Set old path.
-     *
-     * @param string $oldPath
-     * @return UploadableTrait|$this
-     */
-    public function setOldPath($oldPath)
-    {
-        $this->oldPath = $oldPath;
-
-        return $this;
-    }
-
-    /**
      * Returns whether the uploadable should be renamed or not.
      *
      * @return boolean
@@ -221,6 +221,8 @@ trait UploadableTrait
         $extension = null;
         if ($this->hasFile()) {
             $extension = $this->file->guessExtension();
+        } elseif ($this->hasKey()) {
+            $extension = pathinfo($this->getKey(), PATHINFO_EXTENSION);
         } elseif ($this->hasPath()) {
             $extension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
         }
@@ -244,6 +246,8 @@ trait UploadableTrait
             $filename = Transliterator::urlize(pathinfo($this->rename, PATHINFO_FILENAME));
         } elseif ($this->hasFile()) {
             $filename = pathinfo($this->file->getFilename(), PATHINFO_FILENAME);
+        } elseif ($this->hasKey()) {
+            $filename = pathinfo($this->getKey(), PATHINFO_FILENAME);
         } elseif ($this->hasPath()) {
             $filename = pathinfo($this->path, PATHINFO_FILENAME);
         }
@@ -253,6 +257,22 @@ trait UploadableTrait
         }
 
         return null;
+    }
+
+    /**
+     * Set rename.
+     *
+     * @param string $rename
+     * @return UploadableTrait|$this
+     */
+    public function setRename($rename)
+    {
+        if ($rename !== $this->rename) {
+            $this->updatedAt = new \DateTime();
+        }
+        $this->rename = $rename;
+
+        return $this;
     }
 
     /**
@@ -276,33 +296,7 @@ trait UploadableTrait
     }
 
     /**
-     * Set rename.
-     *
-     * @param string $rename
-     * @return UploadableTrait|$this
-     */
-    public function setRename($rename)
-    {
-        if ($rename !== $this->rename) {
-            $this->updatedAt = new \DateTime();
-        }
-        $this->rename = $rename;
-
-        return $this;
-    }
-
-    /**
-     * Returns the unlink.
-     *
-     * @return boolean
-     */
-    public function getUnlink()
-    {
-        return $this->unlink;
-    }
-
-    /**
-     * Sets the unlink.
+     * Sets the whether the uploadable should be unlinked from subject.
      *
      * @param boolean $unlink
      * @return UploadableTrait
@@ -311,5 +305,15 @@ trait UploadableTrait
     {
         $this->unlink = (bool) $unlink;
         return $this;
+    }
+
+    /**
+     * Returns whether the uploadable should be unlinked from subject.
+     *
+     * @return boolean
+     */
+    public function getUnlink()
+    {
+        return $this->unlink;
     }
 }
