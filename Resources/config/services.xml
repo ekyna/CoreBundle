@@ -6,7 +6,6 @@
                         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="ekyna_core.upload_directory">%kernel.cache_dir%/upload</parameter>
         <parameter key="ekyna_core.collection.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\CollectionType</parameter>
 
         <parameter key="ekyna_core.entity_search.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\EntitySearchType</parameter>
@@ -58,7 +57,6 @@
             <tag name="form.type" alias="ekyna_address" />
         </service>
         <service id="ekyna_core.upload.form_type" class="%ekyna_core.upload.form_type.class%">
-            <argument>%ekyna_core.upload_directory%</argument>
             <tag name="form.type" alias="ekyna_upload" />
             <tag name="form.js" selector=".upload-widget" path="ekyna-form/upload" />
         </service>
@@ -116,19 +114,9 @@
         </service>
 
         <!-- Uploaders -->
-        <service id="ekyna_core.uploader" abstract="true">
-            <argument>%ekyna_core.upload_directory%</argument>
-        </service>
-        <service id="ekyna_core.upload.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader" parent="ekyna_core.uploader">
-            <call method="setFilesystem">
-                <argument type="service">
-                    <service class="Gaufrette\Filesystem"
-                             factory-service="knp_gaufrette.filesystem_map"
-                             factory-method="get">
-                        <argument>local_upload</argument>
-                    </service>
-                </argument>
-            </call>
+        <service id="ekyna_core.upload.uploader" class="Ekyna\Bundle\CoreBundle\Uploader\Uploader">
+            <argument type="service" id="oneup_flysystem.mount_manager" />
+            <argument>local_upload</argument><!-- TODO config -->
         </service>
 
         <!-- Doctrine event listeners -->

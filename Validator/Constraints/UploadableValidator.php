@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class UploadableValidator extends ConstraintValidator
 {
-	/**
+    /**
 	 * {@inheritdoc}
 	 */
     public function validate($uploadable, Constraint $constraint)
@@ -30,7 +30,7 @@ class UploadableValidator extends ConstraintValidator
 		 * @var Uploadable          $constraint
 		 * @var UploadableInterface $uploadable
 		 */
-    	if ($uploadable->hasFile()) {
+    	if ($uploadable->hasFile() || $uploadable->hasKey()) {
     	    if (! $uploadable->hasRename()) {
     	        $this->context->addViolationAt(
     	            'rename',

@@ -3,7 +3,6 @@
 namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
-use Gaufrette\Filesystem;
 
 /**
  * Interface UploaderInterface
@@ -12,13 +11,6 @@ use Gaufrette\Filesystem;
  */
 interface UploaderInterface
 {
-    /**
-     * Sets the target filesystem.
-     *
-     * @param Filesystem $filesystem
-     */
-    public function setFilesystem(Filesystem $filesystem);
-
     /**
      * Prepare the entity for upload.
      *
@@ -39,4 +31,12 @@ interface UploaderInterface
      * @param UploadableInterface $image
      */
     public function remove(UploadableInterface $image);
+
+    /**
+     * Generates a unique path.
+     *
+     * @param string $filename
+     * @return string
+     */
+    public function generatePath($filename);
 }

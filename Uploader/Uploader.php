@@ -2,8 +2,9 @@
 
 namespace Ekyna\Bundle\CoreBundle\Uploader;
 
+use Ekyna\Bundle\CoreBundle\Exception\UploadException;
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
-use Gaufrette\Filesystem;
+use League\Flysystem\MountManager;
 
 /**
  * Class Uploader
@@ -13,32 +14,26 @@ use Gaufrette\Filesystem;
 class Uploader implements UploaderInterface
 {
     /**
-     * @var string
+     * @var MountManager
      */
-    private $uploadDirectory;
+    protected $mountManager;
 
     /**
-     * @var Filesystem
+     * @var string
      */
-    private $filesystem;
+    protected $targetFileSystem;
 
 
     /**
      * Constructor.
      *
-     * @param string $uploadDirectory
+     * @param MountManager $mountManager
+     * @param string       $targetFs
      */
-    public function __construct($uploadDirectory)
+    public function __construct(MountManager $mountManager, $targetFs = 'local_upload')
     {
-        $this->uploadDirectory = rtrim($uploadDirectory, '/') . '/';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
+        $this->mountManager      = $mountManager;
+        $this->targetFileSystem  = $targetFs;
     }
 
     /**
@@ -46,9 +41,9 @@ class Uploader implements UploaderInterface
      */
     public function prepare(UploadableInterface $uploadable)
     {
-        if ($uploadable->hasFile() || $uploadable->shouldBeRenamed()) {
+        if ($uploadable->hasFile() || $uploadable->hasKey() || $uploadable->shouldBeRenamed()) {
             $uploadable->setOldPath($uploadable->getPath());
-            $this->generatePath($uploadable);
+            $uploadable->setPath($this->generatePath($uploadable->guessFilename()));
         }
     }
 
@@ -58,14 +53,33 @@ class Uploader implements UploaderInterface
     public function upload(UploadableInterface $uploadable)
     {
         if ($uploadable->hasPath()) {
+            $targetKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getPath());
+
+            // By file
             if ($uploadable->hasFile()) {
-                $this->filesystem->write(
-                    $uploadable->getPath(),
-                    file_get_contents($uploadable->getFile()->getPathname())
-                );
+                $file = $uploadable->getFile();
+                if (false === $stream = fopen($file->getRealPath(), 'r+')) {
+                    throw new UploadException($file->getRealPath());
+                }
+
+                $this->mountManager->writeStream($targetKey, $stream);
+
+                fclose($stream);
+                unlink($file->getRealPath());
                 $uploadable->setFile(null);
+
+            // By key
+            } elseif ($uploadable->hasKey()) {
+                if (!$this->mountManager->has($uploadable->getKey())) {
+                    throw new UploadException($uploadable->getKey());
+                }
+                $this->mountManager->move($uploadable->getKey(), $targetKey);
+                $uploadable->setKey(null);
+
+            // Rename
             } elseif ($uploadable->hasOldPath()) {
-                $this->filesystem->rename($uploadable->getOldPath(), $uploadable->getPath());
+                $sourceKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getOldPath());
+                $this->mountManager->rename($sourceKey, $targetKey);
             }
         }
 
@@ -77,32 +91,20 @@ class Uploader implements UploaderInterface
      */
     public function remove(UploadableInterface $uploadable)
     {
-        if ($uploadable->hasKey()) {
-            $path = $this->uploadDirectory . $uploadable->getKey();
-            if (file_exists($path)) {
-                @unlink($path);
-            }
-            $uploadable->setKey(null);
-        }
-
         if ($uploadable->hasOldPath()) {
-            $oldPath = $uploadable->getOldPath();
-            if ($this->filesystem->has($oldPath)) {
-                $this->filesystem->delete($oldPath);
+            $targetKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getOldPath());
+            if ($this->mountManager->has($targetKey)) {
+                $this->mountManager->delete($targetKey);
             }
             $uploadable->setOldPath(null);
         }
     }
 
     /**
-     * Generates a unique path.
-     * 
-     * @param UploadableInterface $uploadable
+     * {@inheritdoc}
      */
-    private function generatePath(UploadableInterface $uploadable)
+    public function generatePath($filename)
     {
-        $filename = $uploadable->guessFilename();
-
         do {
             $hash = md5(uniqid(mt_rand()));
             $path = sprintf(
@@ -111,8 +113,8 @@ class Uploader implements UploaderInterface
                 substr($hash, 3, 3),
                 $filename
             );
-        } while ($this->filesystem->has($path));
+        } while ($this->mountManager->has(sprintf('%s://%s', $this->targetFileSystem, $path)));
 
-        $uploadable->setPath($path);
+        return $path;
     }
 }

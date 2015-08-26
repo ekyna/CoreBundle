@@ -159,7 +159,7 @@
 {% block file_widget %}
 {% spaceless %}
     <div class="file-picker">
-        <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_upload') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+        <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
             <input type="text" class="form-control" value="{{ value }}" readonly="true"
