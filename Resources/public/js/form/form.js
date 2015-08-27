@@ -27,6 +27,16 @@ define(
                 });
             });
 
+            /* Submit buttons */
+            /*that.$elem.find('button[type="submit"]').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // TODO spin icon
+
+                that.save();
+            });*/
+
             /* Plugins */
             $(plugins).each(function (i, config) {
                 var $target = that.$elem.find(config.selector);

@@ -2,17 +2,18 @@
 
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class UploadController
+ * Class FileController
  * @package Ekyna\Bundle\CoreBundle\Controller
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class UploadController extends Controller
+class FileController extends Controller
 {
     /**
      * Download local file.
@@ -53,5 +54,39 @@ class UploadController extends Controller
         }
 
         throw new NotFoundHttpException('File not found');
+    }
+
+    /**
+     * Handle tinymce upload.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function tinymceUploadAction(Request $request)
+    {
+        // TODO check admin ?
+
+        if (!$request->isXmlHttpRequest()) {
+            throw new NotFoundHttpException();
+        }
+
+        $name = $request->request->get('name');
+        $base64 = $request->request->get('data');
+
+        $filename = md5(time().uniqid()).".jpg";
+        $data = explode(',', $base64);
+        if (2 != count($data)) {
+            throw new \InvalidArgumentException('Invalid image data.');
+        }
+
+        $fs = $this->get('local_tinymce_filesystem');
+        if (!$fs->put($filename, base64_decode($data[1]))) {
+            throw new \Exception('Failed to create image.');
+        }
+
+        return new JsonResponse(array(
+            'location' => '/tinymce/' . $filename,
+        ));
     }
 }

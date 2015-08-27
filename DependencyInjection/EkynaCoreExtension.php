@@ -74,7 +74,7 @@ class EkynaCoreExtension extends Extension
             $this->configureKnpMenuBundle($container);
         }
         if (array_key_exists('StfalconTinymceBundle', $bundles)) {
-            $this->configureStfalconTinymceBundle($container, $config);
+            $this->configureStfalconTinymceBundle($container, $config, $bundles);
         }
         if ($config['cache']['enable'] && array_key_exists('FOSHttpCacheBundle', $bundles)) {
             $this->configureFOSHttpCacheBundle($container);
@@ -143,11 +143,12 @@ class EkynaCoreExtension extends Extension
      *
      * @param ContainerBuilder $container
      * @param array            $config
+     * @param array            $bundles
      */
-    protected function configureStfalconTinymceBundle(ContainerBuilder $container, array $config)
+    protected function configureStfalconTinymceBundle(ContainerBuilder $container, array $config, array $bundles)
     {
         $tinymceConfig = new TinymceConfiguration();
-        $container->prependExtensionConfig('stfalcon_tinymce', $tinymceConfig->build($config));
+        $container->prependExtensionConfig('stfalcon_tinymce', $tinymceConfig->build($config, $bundles));
     }
 
     /**

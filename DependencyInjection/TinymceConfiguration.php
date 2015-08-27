@@ -13,9 +13,10 @@ class TinymceConfiguration
      * Builds the tinymce configuration.
      *
      * @param array $config
+     * @param array $bundles
      * @return array
      */
-    public function build(array $config)
+    public function build(array $config, array $bundles)
     {
         $contentCss = [
             "asset[css/content.css]",
@@ -59,7 +60,7 @@ class TinymceConfiguration
             'remove_script_host' => true,
             'entity_encoding'    => 'raw',
             //'toolbar_items_size' => 'small',
-            'valid_elements'     => 'p,span,em,strong/b,br',
+            'valid_elements'     => 'p,span,em,strong,br',
             'plugins' => [
                 "paste autoresize",
             ],
@@ -88,24 +89,31 @@ class TinymceConfiguration
                 "autoresize advlist autolink lists link charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
                 "insertdatetime nonbreaking save table contextmenu directionality",
-                "paste textcolor", // emoticons image media template
+                "paste textcolor image media", // imagetools emoticons template
             ],
-            'toolbar1' => "undo redo removeformat code | styleselect | table link", // image media
+            'toolbar1' => "undo redo removeformat code | styleselect | table link image media",
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
                           "alignright alignjustify | bullist numlist outdent indent | hr",
-            'external_plugins' => [
-                //'filemanager' => "/bundles/ekynafilemanager/js/tinymce.plugin.js",
-            ],
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
 
         $styleFormats = $config['ui']['tinymce_formats'];
+
+        $externalPlugins = [];
+        if (!in_array('EkynaMediaBundle', $bundles)) {
+            $externalPlugins['filemanager'] = '/bundles/ekynamedia/js/tinymce.plugin.js';
+        }
+
         if (is_array($styleFormats) && !empty($styleFormats)) {
             $simpleTheme['style_formats_merge'] = true;
             $simpleTheme['style_formats'] = $styleFormats;
             $advancedTheme['style_formats_merge'] = true;
             $advancedTheme['style_formats'] = $styleFormats;
+        }
+
+        if (!empty($externalPlugins)) {
+            $advancedTheme['external_plugins'] = $externalPlugins;
         }
 
         return [

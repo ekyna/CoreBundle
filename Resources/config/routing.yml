@@ -13,8 +13,14 @@ ekyna_core_form_plugins:
 
 ekyna_core_download:
     path: /download/file/{key}
-    defaults: { _controller: "EkynaCoreBundle:Upload:download" }
+    defaults: { _controller: "EkynaCoreBundle:File:download" }
     requirements:
         _method: GET
         key: "[a-z0-9-\./]+"
     options: { expose: true }
+
+ekyna_core_tiymce_upload:
+    path: /tinymce/upload
+    defaults: { _controller: "EkynaCoreBundle:File:tinymceUpload" }
+    requirements:
+        _method: POST

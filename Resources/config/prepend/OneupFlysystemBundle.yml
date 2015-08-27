@@ -6,6 +6,12 @@ oneup_flysystem:
         local_tmp:
             local:
                 directory: %kernel.root_dir%/../var/tmp
+        local_ftp:
+            local:
+                directory: %kernel.root_dir%/../var/ftp
+        local_tinymce:
+            local:
+                directory: %kernel.root_dir%/../web/tinymce
     filesystems:
         local_upload:
             adapter: local_upload
@@ -15,3 +21,10 @@ oneup_flysystem:
             adapter: local_tmp
             alias:   local_tmp_filesystem
             mount:   local_tmp
+        local_ftp:
+            adapter: local_ftp
+            alias: local_ftp_filesystem
+            mount: local_ftp
+        local_tinymce:
+            adapter: local_tinymce
+            alias: local_tinymce_filesystem
