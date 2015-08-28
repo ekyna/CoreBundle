@@ -81,6 +81,7 @@ class TinymceConfiguration
             'remove_script_host' => true,
             'entity_encoding'  => 'raw',
             'image_class_list' => [
+                ['title' => 'Aucun', 'value' => ''],
                 ['title' => 'Responsive', 'value' => 'img-responsive'],
                 ['title' => 'Flottant à gauche', 'value' => 'img-float-left'],
                 ['title' => 'Flottant à droite', 'value' => 'img-float-right'],

@@ -64,6 +64,8 @@ class Uploader implements UploaderInterface
 
                 $this->mountManager->writeStream($targetKey, $stream);
 
+                // TODO size
+
                 fclose($stream);
                 unlink($file->getRealPath());
                 $uploadable->setFile(null);
@@ -74,6 +76,7 @@ class Uploader implements UploaderInterface
                     throw new UploadException($uploadable->getKey());
                 }
                 $this->mountManager->move($uploadable->getKey(), $targetKey);
+                // TODO size
                 $uploadable->setKey(null);
 
             // Rename
