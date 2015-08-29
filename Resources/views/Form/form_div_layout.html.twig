@@ -48,13 +48,9 @@
             '</div>'
         %}
         {% set controls = '' %}
-        {% set controls_class = 'ekyna-collection-controls' %}
         {% set remove_confirm = '' %}
         {% if form.vars.remove_confirm is not sameas(null) %}
             {% set remove_confirm = ' data-confirm="' ~ (form.vars.remove_confirm|trans|escape) ~ '"' %}
-        {% endif %}
-        {% if form.vars.button_col >= 3 %}
-            {% set controls_class = controls_class ~ ' controls-inline' %}
         {% endif %}
         {% if form.vars.allow_delete or form.vars.allow_sort %}
             {# Move up button #}
@@ -85,7 +81,11 @@
 
         {% set attr = attr|merge({'data-prototype': prototype_html }) %}
         {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
-        {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
+    {% endif %}
+    {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
+    {% set controls_class = ' ekyna-collection-controls' %}
+    {% if form.vars.button_col >= 3 %}
+        {% set controls_class = controls_class ~ ' controls-inline' %}
     {% endif %}
     <div {{ block('widget_container_attributes') }}>
         <ul class="list-unstyled">
@@ -97,7 +97,7 @@
                             {{ form_errors(field) }}
                         </div>
                         {% if form.vars.allow_delete or form.vars.allow_sort %}
-                        <div class="col-xs-{{ form.vars.button_col }} {{ controls_class }}">
+                        <div class="col-xs-{{ form.vars.button_col }}{{ controls_class }}">
                             {% if form.vars.allow_sort %}
                             <button type="button" class="btn btn-default btn-sm" data-collection-role="move-up"
                                     data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
@@ -162,7 +162,7 @@
         <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
-            <input type="text" class="form-control" value="{{ value }}" readonly="true"
+            <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
                    {% if form.parent.vars.current_file_name is defined %}
                        data-current="{{ form.parent.vars.current_file_name }}"
                    {% endif %}
