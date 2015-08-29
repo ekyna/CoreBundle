@@ -37,6 +37,11 @@
 
 {% block ekyna_collection_widget %}
 {% spaceless %}
+    {% set controls_class = ' ekyna-collection-controls' %}
+    {% if form.vars.button_col >= 3 %}
+        {% set controls_class = controls_class ~ ' controls-inline' %}
+    {% endif %}
+    {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
     {% if prototype is defined %}
         {% set prototype_vars = {} %}
         {% if style is defined %}
@@ -81,11 +86,6 @@
 
         {% set attr = attr|merge({'data-prototype': prototype_html }) %}
         {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
-    {% endif %}
-    {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
-    {% set controls_class = ' ekyna-collection-controls' %}
-    {% if form.vars.button_col >= 3 %}
-        {% set controls_class = controls_class ~ ' controls-inline' %}
     {% endif %}
     <div {{ block('widget_container_attributes') }}>
         <ul class="list-unstyled">
