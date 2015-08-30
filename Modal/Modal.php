@@ -102,7 +102,7 @@ class Modal
      */
     public function setSize($size)
     {
-        static::validateType($size);
+        static::validateSize($size);
 
         $this->size = $size;
         return $this;
