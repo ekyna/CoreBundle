@@ -87,12 +87,12 @@ class TinymceConfiguration
                 ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
             ],
             'plugins' => [
-                "autoresize advlist autolink lists link charmap print preview hr anchor pagebreak",
+                "autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
                 "insertdatetime nonbreaking save table contextmenu directionality",
                 "paste textcolor image media", // imagetools emoticons template
             ],
-            'toolbar1' => "undo redo removeformat code | styleselect | table link image media",
+            'toolbar1' => "undo redo removeformat code | styleselect | table link anchor image media",
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
                           "alignright alignjustify | bullist numlist outdent indent | hr",
             'content_css' => $contentCss,
