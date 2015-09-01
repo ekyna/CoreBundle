@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
+use Ekyna\Bundle\CoreBundle\Locale\LocaleProviderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
@@ -20,6 +21,11 @@ class UiExtension extends \Twig_Extension
     private $requestStack;
 
     /**
+     * @var LocaleProviderInterface
+     */
+    private $localeProvider;
+
+    /**
      * @var array
      */
     private $config;
@@ -34,16 +40,19 @@ class UiExtension extends \Twig_Extension
      */
     private $buttonOptionsResolver;
 
+
     /**
      * Constructor.
      *
-     * @param RequestStack $requestStack
-     * @param array        $config
+     * @param RequestStack            $requestStack
+     * @param LocaleProviderInterface $localeProvider
+     * @param array                   $config
      */
-    public function __construct(RequestStack $requestStack, array $config)
+    public function __construct(RequestStack $requestStack, LocaleProviderInterface $localeProvider, array $config)
     {
-        $this->requestStack = $requestStack;
-        $this->config = $config;
+        $this->requestStack   = $requestStack;
+        $this->localeProvider = $localeProvider;
+        $this->config         = $config;
     }
 
     /**
@@ -223,11 +232,7 @@ class UiExtension extends \Twig_Extension
      */
     public function getLanguage($locale)
     {
-        $inLocale = 'en';
-        if (null !== $request = $this->requestStack->getCurrentRequest()) {
-            $inLocale = $request->attributes->get('_locale');
-        }
-        return \Locale::getDisplayLanguage($locale, $inLocale);
+        return \Locale::getDisplayLanguage($locale, $this->localeProvider->getCurrentLocale());
     }
 
     /**
@@ -238,11 +243,7 @@ class UiExtension extends \Twig_Extension
      */
     public function getCountry($countryCode)
     {
-        $inLocale = 'en';
-        if (null !== $request = $this->requestStack->getCurrentRequest()) {
-            $inLocale = $request->attributes->get('_locale');
-        }
-        return Intl::getRegionBundle()->getCountryName($countryCode, $inLocale);
+        return Intl::getRegionBundle()->getCountryName($countryCode, $this->localeProvider->getCurrentLocale());
     }
 
     /**

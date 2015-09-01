@@ -157,6 +157,7 @@
         </service>
         <service id="ekyna_core.twig.ui_extension" class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
             <argument type="service" id="request_stack" />
+            <argument type="service" id="ekyna_core.locale_provider.request" />
             <argument>%ekyna_core.ui_config%</argument>
             <tag name="twig.extension" />
         </service>
