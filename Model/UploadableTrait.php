@@ -30,6 +30,13 @@ trait UploadableTrait
     protected $file;
 
     /**
+     * Size
+     *
+     * @var int
+     */
+    protected $size;
+
+    /**
      * Path
      *
      * @var string
@@ -136,13 +143,25 @@ trait UploadableTrait
     }
 
     /**
-     * Has path.
+     * Sets the size.
      *
-     * @return boolean
+     * @param int $size
+     * @return UploadableTrait|$this
      */
-    public function hasPath()
+    public function setSize($size)
     {
-        return null !== $this->path;
+        $this->size = intval($size);
+        return $this;
+    }
+
+    /**
+     * Returns the size.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
     /**
@@ -156,6 +175,16 @@ trait UploadableTrait
         $this->path = $path;
 
         return $this;
+    }
+
+    /**
+     * Has path.
+     *
+     * @return boolean
+     */
+    public function hasPath()
+    {
+        return null !== $this->path;
     }
 
     /**
@@ -208,7 +237,7 @@ trait UploadableTrait
      */
     public function shouldBeRenamed()
     {
-        return (bool)($this->hasPath() && $this->guessFilename() != pathinfo($this->getPath(), PATHINFO_BASENAME));
+        return (bool) ($this->hasPath() && $this->guessFilename() != pathinfo($this->getPath(), PATHINFO_BASENAME));
     }
 
     /**
@@ -257,6 +286,16 @@ trait UploadableTrait
         }
 
         return null;
+    }
+
+    /**
+     * GuessFilename alias.
+     *
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->guessFilename();
     }
 
     /**

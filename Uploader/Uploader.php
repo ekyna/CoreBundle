@@ -44,6 +44,24 @@ class Uploader implements UploaderInterface
         if ($uploadable->hasFile() || $uploadable->hasKey() || $uploadable->shouldBeRenamed()) {
             $uploadable->setOldPath($uploadable->getPath());
             $uploadable->setPath($this->generatePath($uploadable->guessFilename()));
+
+            // Check source and set size
+            // By File
+            if ($uploadable->hasFile()) {
+                $file = $uploadable->getFile();
+                if (!file_exists($file->getRealPath())) {
+                    throw new UploadException(sprintf('Source file "%s" does not exists.', $file->getRealPath()));
+                }
+                $uploadable->setSize(filesize($file->getRealPath()));
+
+            // By Key
+            } elseif($uploadable->hasKey()) {
+                $key = $uploadable->getKey();
+                if (!$this->mountManager->has($key)) {
+                    throw new UploadException(sprintf('Source file "%s" does not exists.', $key));
+                }
+                $uploadable->setSize($this->mountManager->getSize($key));
+            }
         }
     }
 
@@ -58,25 +76,34 @@ class Uploader implements UploaderInterface
             // By file
             if ($uploadable->hasFile()) {
                 $file = $uploadable->getFile();
+
                 if (false === $stream = fopen($file->getRealPath(), 'r+')) {
-                    throw new UploadException($file->getRealPath());
+                    throw new UploadException(sprintf('Failed to open file "%s".', $file->getRealPath()));
                 }
 
-                $this->mountManager->writeStream($targetKey, $stream);
-
-                // TODO size
+                if (!$this->mountManager->writeStream($targetKey, $stream)) {
+                    throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $file->getRealPath(), $targetKey));
+                }
 
                 fclose($stream);
                 unlink($file->getRealPath());
+
                 $uploadable->setFile(null);
 
             // By key
             } elseif ($uploadable->hasKey()) {
-                if (!$this->mountManager->has($uploadable->getKey())) {
-                    throw new UploadException($uploadable->getKey());
+                $sourceKey = $uploadable->getKey();
+
+                if (0 === strpos($sourceKey, 'local_')) {
+                    if (!$this->mountManager->move($sourceKey, $targetKey)) {
+                        throw new UploadException(sprintf('Failed to move file form "%s" to "%s".', $sourceKey, $targetKey));
+                    }
+                } else {
+                    if (!$this->mountManager->copy($sourceKey, $targetKey)) {
+                        throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $sourceKey, $targetKey));
+                    }
                 }
-                $this->mountManager->move($uploadable->getKey(), $targetKey);
-                // TODO size
+
                 $uploadable->setKey(null);
 
             // Rename
@@ -98,6 +125,7 @@ class Uploader implements UploaderInterface
             $targetKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getOldPath());
             if ($this->mountManager->has($targetKey)) {
                 $this->mountManager->delete($targetKey);
+                // TODO Clear empty directories
             }
             $uploadable->setOldPath(null);
         }

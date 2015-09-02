@@ -29,7 +29,7 @@ class UploadListener
     /**
      * Pre persist event handler.
      *
-     * @param AbstractUpload             $upload
+     * @param AbstractUpload $upload
      */
     public function prePersist(AbstractUpload $upload)
     {

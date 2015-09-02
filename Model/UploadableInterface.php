@@ -56,6 +56,21 @@ interface UploadableInterface extends TimestampableInterface
     public function getFile();
 
     /**
+     * Sets the size.
+     *
+     * @param int $size
+     * @return UploadableInterface|$this
+     */
+    public function setSize($size);
+
+    /**
+     * Returns the size.
+     *
+     * @return int
+     */
+    public function getSize();
+
+    /**
      * Set path.
      *
      * @param string $path
