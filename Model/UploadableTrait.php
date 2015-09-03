@@ -74,6 +74,16 @@ trait UploadableTrait
     public function setKey($key)
     {
         $this->key = $key;
+
+        if (0 < strlen($this->key) && !$this->hasRename()) {
+            if ($this->hasPath()) {
+                $this->rename = pathinfo($this->path, PATHINFO_BASENAME);
+            } else {
+                $this->rename = pathinfo($this->key, PATHINFO_BASENAME);
+            }
+            $this->setUpdatedAt(new \DateTime());
+        }
+
         return $this;
     }
 
@@ -107,7 +117,7 @@ trait UploadableTrait
     {
         $this->file = $file;
 
-        if (!$this->hasRename()) {
+        if (null !== $file && !$this->hasRename()) {
             if ($this->hasPath()) {
                 $this->rename = pathinfo($this->path, PATHINFO_BASENAME);
             } elseif ($file instanceof UploadedFile) {
@@ -115,9 +125,8 @@ trait UploadableTrait
             } elseif ($file instanceof File) {
                 $this->rename = $file->getBasename();
             }
+            $this->setUpdatedAt(new \DateTime());
         }
-
-        $this->setUpdatedAt(new \DateTime());
 
         return $this;
     }
