@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Uploader;
 
 use Ekyna\Bundle\CoreBundle\Exception\UploadException;
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
+use League\Flysystem\Adapter\AbstractFtpAdapter;
 use League\Flysystem\MountManager;
 
 /**
@@ -49,18 +50,22 @@ class Uploader implements UploaderInterface
             // By File
             if ($uploadable->hasFile()) {
                 $file = $uploadable->getFile();
+
                 if (!file_exists($file->getRealPath())) {
                     throw new UploadException(sprintf('Source file "%s" does not exists.', $file->getRealPath()));
                 }
+
                 $uploadable->setSize(filesize($file->getRealPath()));
 
             // By Key
-            } elseif($uploadable->hasKey()) {
-                $key = $uploadable->getKey();
-                if (!$this->mountManager->has($key)) {
-                    throw new UploadException(sprintf('Source file "%s" does not exists.', $key));
+            } elseif ($uploadable->hasKey()) {
+                $sourceKey = $uploadable->getKey();
+
+                if (!$this->checkKey($sourceKey)) {
+                    throw new UploadException(sprintf('Source file "%s" does not exists.', $sourceKey));
                 }
-                $uploadable->setSize($this->mountManager->getSize($key));
+
+                $uploadable->setSize($this->mountManager->getSize($sourceKey));
             }
         }
     }
@@ -94,14 +99,8 @@ class Uploader implements UploaderInterface
             } elseif ($uploadable->hasKey()) {
                 $sourceKey = $uploadable->getKey();
 
-                if (0 === strpos($sourceKey, 'local_')) {
-                    if (!$this->mountManager->move($sourceKey, $targetKey)) {
-                        throw new UploadException(sprintf('Failed to move file form "%s" to "%s".', $sourceKey, $targetKey));
-                    }
-                } else {
-                    if (!$this->mountManager->copy($sourceKey, $targetKey)) {
-                        throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $sourceKey, $targetKey));
-                    }
+                if (!$this->moveKey($sourceKey, $targetKey)) {
+                    throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $sourceKey, $targetKey));
                 }
 
                 $uploadable->setKey(null);
@@ -147,5 +146,101 @@ class Uploader implements UploaderInterface
         } while ($this->mountManager->has(sprintf('%s://%s', $this->targetFileSystem, $path)));
 
         return $path;
+    }
+
+    /**
+     * Check the distant source key.
+     *
+     * @param string $sourceKey
+     * @return bool
+     */
+    private function checkKey($sourceKey)
+    {
+        if ($this->mountManager->has($sourceKey)) {
+            return true;
+        }
+
+        if ($this->reconnectDistantFs($sourceKey)) {
+            if ($this->mountManager->has($sourceKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Copies or moves the distant source key to target key.
+     *
+     * @param string $sourceKey
+     * @param string $targetKey
+     * @return bool
+     */
+    private function moveKey($sourceKey, $targetKey)
+    {
+        if (!$this->isDistant($sourceKey)) {
+            return $this->mountManager->move($sourceKey, $targetKey);
+        }
+
+        if ($this->mountManager->copy($sourceKey, $targetKey)) {
+            return true;
+        }
+        if ($this->reconnectDistantFs($sourceKey)) {
+            if ($this->mountManager->copy($sourceKey, $targetKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Reconnects the file system adapter if possible.
+     *
+     * @param string $key
+     * @return bool
+     */
+    private function reconnectDistantFs($key)
+    {
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        list($prefix, $args) = $this->mountManager->filterPrefix([$key]);
+
+        /** @var \League\Flysystem\FileSystem $fs */
+        $fs = $this->mountManager->getFilesystem($prefix);
+        $adapter = $fs->getAdapter();
+
+        // Try reconnection
+        if (!$adapter instanceof AbstractFtpAdapter) {
+            return false;
+        }
+
+        $adapter->disconnect();
+        sleep(1);
+        $adapter->connect();
+
+        return true;
+    }
+
+    /**
+     * Returns whether the key is distant.
+     *
+     * @param string $key
+     * @return bool
+     */
+    private function isDistant($key)
+    {
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        list($prefix, $args) = $this->mountManager->filterPrefix([$key]);
+
+        /** @var \League\Flysystem\FileSystem $fs */
+        $fs = $this->mountManager->getFilesystem($prefix);
+        $adapter = $fs->getAdapter();
+
+        // Try reconnection
+        if ($adapter instanceof AbstractFtpAdapter) {
+            return true;
+        }
+
+        return false;
     }
 }
