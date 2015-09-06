@@ -13,6 +13,8 @@ config:
             deps: ['jquery']
         'jquery/fileupload':
             deps: ['jquery']
+        'jquery/match-height':
+            deps: ['jquery']
         'twig':
             exports: 'Twig'
         'routing':
@@ -53,6 +55,7 @@ config:
         'jquery/autosize': 'bundles/ekynacore/js/lib/jquery.autosize'
         'jquery/qtip': 'bundles/ekynacore/js/lib/jquery.qtip'
         'jquery/fileupload': 'bundles/ekynacore/js/lib/fileupload/jquery.fileupload'
+        'jquery/match-height': 'bundles/ekynacore/js/lib/jquery.matchHeight-min'
         'twig': 'js/twig'
         'routing': 'bundles/fosjsrouting/js/router'
         'routing_data':
