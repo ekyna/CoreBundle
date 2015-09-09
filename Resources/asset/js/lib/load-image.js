@@ -1,5 +1,5 @@
 /*
- * JavaScript Load Image 1.9.0
+ * JavaScript Load Image 1.10.0
  * https://github.com/blueimp/JavaScript-Load-Image
  *
  * Copyright 2011, Sebastian Tschan
@@ -34,7 +34,7 @@
             if (loadImage.isInstanceOf('Blob', file) ||
                     // Files are also Blob instances, but some browsers
                     // (Firefox 3.6) support the File API but not Blobs:
-                    loadImage.isInstanceOf('File', file)) {
+                loadImage.isInstanceOf('File', file)) {
                 url = oUrl = loadImage.createObjectURL(file);
                 // Store the file type for resize processing:
                 img._type = file.type;
@@ -61,8 +61,8 @@
                 }
             });
         },
-        // The check for URL.revokeObjectURL fixes an issue with Opera 12,
-        // which provides URL.createObjectURL but doesn't properly implement it:
+    // The check for URL.revokeObjectURL fixes an issue with Opera 12,
+    // which provides URL.createObjectURL but doesn't properly implement it:
         urlAPI = (window.createObjectURL && window) ||
             (window.URL && URL.revokeObjectURL && URL) ||
             (window.webkitURL && webkitURL);
@@ -80,9 +80,34 @@
     };
 
     // Returns transformed options, allows to override e.g.
-    // coordinate and dimension options based on the orientation:
-    loadImage.getTransformedOptions = function (options) {
-        return options;
+    // maxWidth, maxHeight and crop options based on the aspectRatio.
+    // gets img, options passed as arguments:
+    loadImage.getTransformedOptions = function (img, options) {
+        var aspectRatio = options.aspectRatio,
+            newOptions,
+            i,
+            width,
+            height;
+        if (!aspectRatio) {
+            return options;
+        }
+        newOptions = {};
+        for (i in options) {
+            if (options.hasOwnProperty(i)) {
+                newOptions[i] = options[i];
+            }
+        }
+        newOptions.crop = true;
+        width = img.naturalWidth || img.width;
+        height = img.naturalHeight || img.height;
+        if (width / height > aspectRatio) {
+            newOptions.maxWidth = height * aspectRatio;
+            newOptions.maxHeight = height;
+        } else {
+            newOptions.maxWidth = width;
+            newOptions.maxHeight = width / aspectRatio;
+        }
+        return newOptions;
     };
 
     // Canvas render method, allows to override the
@@ -116,7 +141,7 @@
     // This method is used to determine if the target image
     // should be a canvas element:
     loadImage.hasCanvasOption = function (options) {
-        return options.canvas || options.crop;
+        return options.canvas || options.crop || options.aspectRatio;
     };
 
     // Scales and/or crops the given image (img or canvas HTML element)
@@ -148,8 +173,8 @@
                     (minHeight || destHeight) / destHeight
                 );
                 if (scale > 1) {
-                    destWidth = Math.ceil(destWidth * scale);
-                    destHeight = Math.ceil(destHeight * scale);
+                    destWidth = destWidth * scale;
+                    destHeight = destHeight * scale;
                 }
             },
             scaleDown = function () {
@@ -158,12 +183,12 @@
                     (maxHeight || destHeight) / destHeight
                 );
                 if (scale < 1) {
-                    destWidth = Math.ceil(destWidth * scale);
-                    destHeight = Math.ceil(destHeight * scale);
+                    destWidth = destWidth * scale;
+                    destHeight = destHeight * scale;
                 }
             };
         if (useCanvas) {
-            options = loadImage.getTransformedOptions(options);
+            options = loadImage.getTransformedOptions(img, options);
             sourceX = options.left || 0;
             sourceY = options.top || 0;
             if (options.sourceWidth) {
@@ -266,11 +291,11 @@
         return false;
     };
 
-    //if (typeof define === 'function' && define.amd) {
-    //    define(function () {
-    //        return loadImage;
-    //    });
-    //} else {
+    if (typeof define === 'function' && define.amd) {
+        define(function () {
+            return loadImage;
+        });
+    } else {
         $.loadImage = loadImage;
-    //}
-}(jQuery));
+    }
+}(window));
