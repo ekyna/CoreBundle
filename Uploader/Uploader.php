@@ -87,7 +87,7 @@ class Uploader implements UploaderInterface
                 }
 
                 if (!$this->mountManager->writeStream($targetKey, $stream)) {
-                    throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $file->getRealPath(), $targetKey));
+                    throw new UploadException(sprintf('Failed to copy file from "%s" to "%s".', $file->getRealPath(), $targetKey));
                 }
 
                 fclose($stream);
@@ -100,19 +100,23 @@ class Uploader implements UploaderInterface
                 $sourceKey = $uploadable->getKey();
 
                 if (!$this->moveKey($sourceKey, $targetKey)) {
-                    throw new UploadException(sprintf('Failed to copy file form "%s" to "%s".', $sourceKey, $targetKey));
+                    throw new UploadException(sprintf('Failed to copy file from "%s" to "%s".', $sourceKey, $targetKey));
                 }
 
                 $uploadable->setKey(null);
 
             // Rename
             } elseif ($uploadable->hasOldPath()) {
-                $sourceKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getOldPath());
-                $this->mountManager->rename($sourceKey, $targetKey);
+                $fs = $this->getFilesystem();
+
+                if (!$fs->rename($uploadable->getOldPath(), $uploadable->getPath())) {
+                    throw new UploadException(sprintf('Failed to rename file from "%s" to "%s".', $uploadable->getOldPath(), $uploadable->getPath()));
+                }
+
+                $this->cleanUp($uploadable->getOldPath());
+                $uploadable->setOldPath(null);
             }
         }
-
-        $this->remove($uploadable);
     }
 
     /**
@@ -120,12 +124,17 @@ class Uploader implements UploaderInterface
      */
     public function remove(UploadableInterface $uploadable)
     {
-        if ($uploadable->hasOldPath()) {
-            $targetKey = sprintf('%s://%s', $this->targetFileSystem, $uploadable->getOldPath());
-            if ($this->mountManager->has($targetKey)) {
-                $this->mountManager->delete($targetKey);
-                // TODO Clear empty directories
+        if (0 < strlen($path = $uploadable->getOldPath())) {
+            $fs = $this->getFilesystem();
+
+            if (!$fs->has($path)) {
+                throw new UploadException(sprintf('File "%s" not found.', $path));
             }
+            if (!$fs->delete($path)) {
+                throw new UploadException(sprintf('Failed to delete file "%s".', $path));
+            }
+
+            $this->cleanUp($path);
             $uploadable->setOldPath(null);
         }
     }
@@ -146,6 +155,42 @@ class Uploader implements UploaderInterface
         } while ($this->mountManager->has(sprintf('%s://%s', $this->targetFileSystem, $path)));
 
         return $path;
+    }
+
+    /**
+     * Removes the path directories if they are empty.
+     *
+     * @param string $path
+     * @throws UploadException
+     */
+    private function cleanUp($path)
+    {
+        $fs = $this->getFilesystem();
+        $parts = explode('/', $path);
+
+        while (0 < count($parts)) {
+            $key = implode('/', $parts);
+            if ($fs->has($key)) {
+                $dir = $fs->get($key);
+                if (!$dir->isDir() || 0 < count($fs->listContents($key))) {
+                    break;
+                }
+                if (!$fs->deleteDir($key)) {
+                    throw new UploadException(sprintf('Failed to delete directory "%s".', $key));
+                }
+            }
+            array_pop($parts);
+        }
+    }
+
+    /**
+     * Returns the target filesystem.
+     *
+     * @return \League\Flysystem\FilesystemInterface
+     */
+    private function getFilesystem()
+    {
+        return $this->mountManager->getFilesystem($this->targetFileSystem);
     }
 
     /**
