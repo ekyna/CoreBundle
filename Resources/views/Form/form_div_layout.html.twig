@@ -156,6 +156,18 @@
 {% endspaceless %}
 {% endblock form_widget_simple %}
 
+{% block form_help %}
+    {% spaceless %}
+        {% if attr.help_text is defined and attr.help_text is not empty %}
+            {% set help_text = attr.help_text %}
+        {% endif %}
+        {% set help_text = help_text|default('') %}
+        {% if help_text is not empty %}
+            <span class="help-block">{{ help_text|trans({}, translation_domain)|raw }}</span>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_help %}
+
 {% block file_widget %}
 {% spaceless %}
     <div class="file-picker">
