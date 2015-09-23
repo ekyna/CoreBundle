@@ -10,7 +10,7 @@
 
 {% block button_widget %}
     {% spaceless %}
-        {% if label is empty and label is not sameas(false) %}
+        {% if label is empty and label is not same as(false) %}
             {% set label = name|humanize %}
         {% endif %}
         {% if type is defined and type == 'submit' %}
@@ -54,7 +54,7 @@
         %}
         {% set controls = '' %}
         {% set remove_confirm = '' %}
-        {% if form.vars.remove_confirm is not sameas(null) %}
+        {% if form.vars.remove_confirm is not same as(null) %}
             {% set remove_confirm = ' data-confirm="' ~ (form.vars.remove_confirm|trans|escape) ~ '"' %}
         {% endif %}
         {% if form.vars.allow_delete or form.vars.allow_sort %}
@@ -172,7 +172,7 @@
 {% spaceless %}
     <div class="file-picker">
         <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
-        {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
+        {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
             <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
                    {% if form.parent.vars.current_file_name is defined %}
@@ -248,7 +248,7 @@
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
-    {% set size_class = sizing is not sameas(false) ? ' input-group-' ~ sizing : '' %}
+    {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
     <div class="input-group{{ size_class }} date form-datetime-picker" data-options='{{ picker_options|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
         <span class="input-group-btn">
@@ -304,7 +304,7 @@
         <div class="form-group{% if not form.vars.valid %} has-error{% endif %}">
     {% endif %}
         <div class="checkbox">
-            {% if label is not sameas(false) %}
+            {% if label is not same as(false) %}
                 {% if not compound %}
                     {% set label_attr = label_attr|merge({'for': id}) %}
                 {% endif %}
@@ -361,7 +361,7 @@
     {% endif %}
 
         <div class="radio">
-            {% if label is not sameas(false) %}
+            {% if label is not same as(false) %}
                 {% if not compound %}
                     {% set label_attr = label_attr|merge({'for': id}) %}
                 {% endif %}
@@ -398,13 +398,13 @@
 
 {% block choice_widget_collapsed %}
 {% spaceless %}
-    {% if add_route is defined and add_route is not sameas(false) %}
+    {% if add_route is defined and add_route is not same as(false) %}
     <div class="input-group entity-widget">
     {% endif %}
     {% if required and empty_value is none and not empty_value_in_choices %}{% set required = false %}{% endif %}
     {% if not required %}{% set attr = attr|merge({'data-allow-clear': 1}) %}{% endif %}
     {{ parent() }}
-    {% if add_route is defined and add_route is not sameas(false) %}
+    {% if add_route is defined and add_route is not same as(false) %}
     <span class="input-group-btn">
         <button class="btn btn-default new-resource" type="button" data-path="{{ path(add_route, add_route_params) }}">
             <span class="fa fa-plus"></span>

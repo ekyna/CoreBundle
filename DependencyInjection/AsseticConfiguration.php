@@ -17,7 +17,7 @@ class AsseticConfiguration
      */
     public function build(array $config)
     {
-        $output = array();
+        $output = [];
 
         // Fix output dir trailing slash
         if ('/' !== substr($config['output_dir'], -1) && strlen($config['output_dir']) > 0) {
@@ -48,12 +48,12 @@ class AsseticConfiguration
         $dir = $config['output_dir'];
         $inputs = $config['content_css']['inputs'];
 
-        return array(
+        return [
             'inputs'  => $inputs,
-            'filters' => array('cssrewrite', 'yui_css'),
+            'filters' => ['cssrewrite', 'yui_css'],
             'output'  => $dir . 'css/content.css',
             'debug'   => false,
-        );
+        ];
     }
 
     /**
@@ -69,12 +69,12 @@ class AsseticConfiguration
 
         $inputs[] = 'assets/bootstrap-dialog/dist/css/bootstrap-dialog.min.css';
 
-        return array(
+        return [
             'inputs'  => $inputs,
-            'filters' => array('cssrewrite', 'less', 'yui_css'),
+            'filters' => ['cssrewrite', 'less', 'yui_css'],
             'output'  => $dir . 'css/bootstrap.css',
             'debug'   => false,
-        );
+        ];
     }
 
     /**
@@ -86,14 +86,14 @@ class AsseticConfiguration
     protected function buildTwigJs(array $config)
     {
         $dir = $config['output_dir'];
-        $inputs = array('%kernel.root_dir%/../vendor/jms/twig-js/twig.js');
+        $inputs = ['%kernel.root_dir%/../vendor/jms/twig-js/twig.js'];
 
-        return array(
+        return [
             'inputs'  => $inputs,
 //            'filters' => array('yui_js'),
             'output'  => $dir . 'js/twig.js',
             'debug'   => false,
-        );
+        ];
     }
 
     /**
@@ -104,20 +104,20 @@ class AsseticConfiguration
      */
     protected function buildFormCss(array $config)
     {
-        $inputs = array_merge(array(
+        $inputs = array_merge([
             '%kernel.root_dir%/../web/assets/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/bootstrap.colorpickersliders.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/select2.css',
             '@EkynaCoreBundle/Resources/asset/css/lib/jquery.qtip.css',
             '@EkynaCoreBundle/Resources/asset/css/form.css',
             //'@EkynaCoreBundle/Resources/asset/css/modal-gallery.css',
-        ), $config['form_css']['inputs']);
+        ], $config['form_css']['inputs']);
 
-        return array(
+        return [
             'inputs'  => $inputs,
-            'filters' => array('yui_css'), // 'cssrewrite'
+            'filters' => ['yui_css'], // 'cssrewrite'
             'output'  => $config['output_dir'] . 'css/form.css',
             'debug'   => false,
-        );
+        ];
     }
 }

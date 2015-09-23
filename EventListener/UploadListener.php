@@ -27,7 +27,7 @@ class UploadListener implements EventSubscriberInterface
 
         $file = $event->getFile();
         if ($file instanceof File) {
-            $key = sprintf('%s://%s', 'local_tmp', $file->getFileName());
+            $key = sprintf('%s://%s', 'local_tmp', $file->getFilename());
 
             // TODO check if mountManager has key
         }
@@ -40,8 +40,8 @@ class UploadListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            UploadEvents::POST_UPLOAD => array('onPostUpload'),
-        );
+        return [
+            UploadEvents::POST_UPLOAD => ['onPostUpload'],
+        ];
     }
 }

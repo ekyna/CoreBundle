@@ -66,7 +66,7 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('routers_by_id')
 					->useAttributeAsKey('id')
 					->prototype('scalar')->end()
-                    ->defaultValue(array('router.default' => 1024))
+                    ->defaultValue(['router.default' => 1024])
 				->end()
 			->end()
 		;
@@ -98,14 +98,14 @@ class Configuration implements ConfigurationInterface
 		$builder = new TreeBuilder();
 		$node = $builder->root('assets');
 	
-		$defaultBootstrapCssInputs = array(
+		$defaultBootstrapCssInputs = [
 			'@EkynaCoreBundle/Resources/asset/less/bootstrap.less',
 			'%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less',
-		);
-		$defaultContentInputs = array(
+		];
+		$defaultContentInputs = [
 			'@bootstrap_css',
 			'@EkynaCoreBundle/Resources/asset/css/content.css',
-		);
+		];
 
 		$node
 			->addDefaultsIfNotSet()
@@ -116,7 +116,7 @@ class Configuration implements ConfigurationInterface
 					->children()
 						->booleanNode('enabled')->defaultTrue()->end()
 						->arrayNode('inputs')
-                            ->treatNullLike(array())
+                            ->treatNullLike([])
                             ->prototype('scalar')->end()
                             ->defaultValue($defaultBootstrapCssInputs)
                         ->end()
@@ -127,7 +127,7 @@ class Configuration implements ConfigurationInterface
 					->children()
 						->booleanNode('enabled')->defaultTrue()->end()
 						->arrayNode('inputs')
-                            ->treatNullLike(array())
+                            ->treatNullLike([])
                             ->prototype('scalar')->end()
                             ->defaultValue($defaultContentInputs)
                         ->end()
@@ -137,9 +137,9 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
 					->children()
 						->arrayNode('inputs')
-                            ->treatNullLike(array())
+                            ->treatNullLike([])
                             ->prototype('scalar')->end()
-                            ->defaultValue(array())
+                            ->defaultValue([])
                         ->end()
 					->end()
 				->end()

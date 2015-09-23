@@ -54,7 +54,7 @@ class Modal
     /**
      * @var array
      */
-    protected $vars = array();
+    protected $vars = [];
 
     /**
      * @var string
@@ -73,7 +73,7 @@ class Modal
      * @param mixed  $content
      * @param array  $buttons
      */
-    public function __construct($title = null, $content = null, array $buttons = array())
+    public function __construct($title = null, $content = null, array $buttons = [])
     {
         $this->setTitle($title);
         $this->setContent($content);
@@ -202,7 +202,7 @@ class Modal
     public function setButtons(array $buttons)
     {
         $resolver = static::getButtonOptionsResolver();
-        $tmp = array();
+        $tmp = [];
         foreach ($buttons as $options) {
             $tmp[] = $resolver->resolve($options);
         }
@@ -246,10 +246,10 @@ class Modal
      */
     public function getConfig()
     {
-        return array(
+        return [
             'size' => $this->size,
             'type' => $this->type,
-        );
+        ];
     }
 
     /**
@@ -262,22 +262,20 @@ class Modal
         if (null === static::$buttonOptionsResolver) {
             static::$buttonOptionsResolver = new OptionsResolver();
             static::$buttonOptionsResolver
-                ->setDefaults(array(
+                ->setDefaults([
                     'id'       => null,
                     'icon'     => null,
                     'label'    => null,
                     'autospin' => null,
                     'cssClass' => 'btn-default',
                     'hotkey'   => null,
-                ))
-                ->setAllowedTypes(array(
-                    'id'       => 'string',
-                    'icon'     => array('null', 'string'),
-                    'label'    => 'string',
-                    'autospin' => array('null', 'bool'),
-                    'cssClass' => 'string',
-                    'hotkey'   => array('null', 'int'),
-                ))
+                ])
+                ->setAllowedTypes('id',       'string')
+                ->setAllowedTypes('icon',     ['null', 'string'])
+                ->setAllowedTypes('label',    'string')
+                ->setAllowedTypes('autospin', ['null', 'bool'])
+                ->setAllowedTypes('cssClass', 'string')
+                ->setAllowedTypes('hotkey',   ['null', 'int'])
             ;
         }
         return static::$buttonOptionsResolver;
@@ -293,14 +291,14 @@ class Modal
      */
     static public function validateType($type, $throwException = true)
     {
-        if (in_array($type, array(
+        if (in_array($type, [
             self::TYPE_DEFAULT,
             self::TYPE_INFO,
             self::TYPE_PRIMARY,
             self::TYPE_SUCCESS,
             self::TYPE_WARNING,
             self::TYPE_DANGER,
-        ))) {
+        ])) {
             return true;
         }
 
@@ -321,12 +319,12 @@ class Modal
      */
     static public function validateSize($size, $throwException = true)
     {
-        if (in_array($size, array(
+        if (in_array($size, [
             self::SIZE_NORMAL,
             self::SIZE_SMALL,
             self::SIZE_WIDE,
             self::SIZE_LARGE,
-        ))) {
+        ])) {
             return true;
         }
 

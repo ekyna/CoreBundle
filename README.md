@@ -15,3 +15,4 @@ TODO
 ## TODO
 - Fix default bootstrap less files
 - TimestampableInterface auto mapping
+- Check translations validation : Valid (cascade) in .xml files.

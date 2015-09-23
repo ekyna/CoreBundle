@@ -132,9 +132,9 @@ class TaggedEntityListener implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::onFlush,
             Events::postFlush,
-        );
+        ];
     }
 }

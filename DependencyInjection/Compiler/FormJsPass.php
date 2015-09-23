@@ -4,7 +4,6 @@ namespace Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Class FormJsPass
@@ -19,10 +18,10 @@ class FormJsPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // TODO configuration / extension parameter
-        $formJs = array(array(
+        $formJs = [[
             'selector' => '.file-picker',
             'path'     => 'ekyna-form/file-picker',
-        ));
+        ]];
         $taggedFormServices = $container->findTaggedServiceIds('form.js');
 
         foreach ($taggedFormServices as $service => $tagAttributes) {
@@ -37,10 +36,10 @@ class FormJsPass implements CompilerPassInterface
                         sprintf('The "path" attributes is missing for tag "form.js" of service "%s"', $service)
                     );
                 }
-                $formJs[] = array(
+                $formJs[] = [
                     'selector' => $attributes['selector'],
                     'path'     => $attributes['path'],
-                );
+                ];
             }
         }
 

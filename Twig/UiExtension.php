@@ -68,13 +68,13 @@ class UiExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('ui_no_image', array($this, 'renderNoImage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('ui_link', array($this, 'renderLink'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('ui_button', array($this, 'renderButton'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('ui_google_font', array($this, 'renderGoogleFontLink'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('ui_locale_switcher', array($this, 'renderLocaleSwitcher'), array('is_safe' => array('html'))),
-        );
+        return [
+            new \Twig_SimpleFunction('ui_no_image', [$this, 'renderNoImage'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_link', [$this, 'renderLink'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_button', [$this, 'renderButton'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_google_font', [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_locale_switcher', [$this, 'renderLocaleSwitcher'], ['is_safe' => ['html']]),
+        ];
     }
 
     /**
@@ -82,10 +82,10 @@ class UiExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('language', array($this, 'getLanguage')),
-            new \Twig_SimpleFilter('country', array($this, 'getCountry')),
-        );
+        return [
+            new \Twig_SimpleFilter('language', [$this, 'getLanguage']),
+            new \Twig_SimpleFilter('country', [$this, 'getCountry']),
+        ];
     }
 
     /**
@@ -93,9 +93,9 @@ class UiExtension extends \Twig_Extension
      */
     public function getGlobals()
     {
-        return array(
+        return [
             'locales' => $this->config['locales'],
-        );
+        ];
     }
 
     /**
@@ -103,9 +103,9 @@ class UiExtension extends \Twig_Extension
      */
     public function getTests ()
     {
-        return array(
+        return [
             new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
-        );
+        ];
     }
 
     /**
@@ -114,12 +114,12 @@ class UiExtension extends \Twig_Extension
      * @param array $attributes
      * @return string
      */
-    public function renderNoImage(array $attributes = array())
+    public function renderNoImage(array $attributes = [])
     {
-        return $this->controlsTemplate->renderBlock('no_image', array(
+        return $this->controlsTemplate->renderBlock('no_image', [
             'no_image_path' => $this->config['no_image_path'],
             'attr' => $attributes,
-        ));
+        ]);
     }
 
     /**
@@ -131,7 +131,7 @@ class UiExtension extends \Twig_Extension
      * @param array $attributes
      * @return string
      */
-    public function renderLink($href, $label = '', array $options = array(), array $attributes = array())
+    public function renderLink($href, $label = '', array $options = [], array $attributes = [])
     {
         $options['type'] = 'link';
         $options['path'] = $href;
@@ -148,15 +148,15 @@ class UiExtension extends \Twig_Extension
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function renderButton($label = '', array $options = array(), array $attributes = array())
+    public function renderButton($label = '', array $options = [], array $attributes = [])
     {
         $options = $this->getButtonOptionsResolver()->resolve($options);
 
         $tag = 'button';
-        $classes = array('btn', 'btn-'.$options['theme'], 'btn-'.$options['size']);
-        $defaultAttributes = array(
+        $classes = ['btn', 'btn-'.$options['theme'], 'btn-'.$options['size']];
+        $defaultAttributes = [
         	'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
-        );
+        ];
         if ($options['type'] == 'link') {
             if (0 == strlen($options['path'])) {
                 throw new \InvalidArgumentException('"path" option must be defined for "link" button type.');
@@ -179,12 +179,12 @@ class UiExtension extends \Twig_Extension
             $icon = $options['fa_icon'] ? 'fa fa-'.$options['icon'] : 'glyphicon glyphicon-'.$options['icon'];
         }
 
-        return $this->controlsTemplate->renderBlock('button', array(
+        return $this->controlsTemplate->renderBlock('button', [
             'tag'   => $tag,
             'attr'  => $attributes,
             'label' => $label,
             'icon'  => $icon,
-        ));
+        ]);
     }
 
     /**
@@ -206,7 +206,7 @@ class UiExtension extends \Twig_Extension
      * @param array $attributes
      * @return string
      */
-    public function renderLocaleSwitcher($attributes = array())
+    public function renderLocaleSwitcher($attributes = [])
     {
         // TODO Check if this is a (esi) sub request, as this must never be used in a esi fragment.
         if (null === $request = $this->requestStack->getCurrentRequest()) {
@@ -217,11 +217,11 @@ class UiExtension extends \Twig_Extension
             $attributes['class'] = 'list-inline locale-switcher';
         }
 
-        return $this->controlsTemplate->renderBlock('locale_switcher', array(
+        return $this->controlsTemplate->renderBlock('locale_switcher', [
             'locales' => $this->config['locales'],
             'request' => $request,
             'attr' => $attributes,
-        ));
+        ]);
     }
 
     /**
@@ -256,25 +256,23 @@ class UiExtension extends \Twig_Extension
         if (null === $this->buttonOptionsResolver) {
             $this->buttonOptionsResolver = new OptionsResolver();
             $this->buttonOptionsResolver
-            ->setDefaults(array(
-                'type'    => 'button',
-                'theme'   => 'default',
-                'size'    => 'sm',
-                'icon'    => null,
-                'fa_icon' => false,
-                'path'    => null,
-            ))
-            ->setRequired(array('type', 'theme', 'size'))
-            ->setAllowedValues(array(
-                'type'  => array('link', 'button', 'submit', 'reset'),
-                'theme' => array('default', 'primary', 'success', 'warning', 'danger'),
-                'size'  => array('xs', 'sm', 'md', 'lg'),
-            ))
-            ->setAllowedTypes(array(
-                'icon' => array('string', 'null'),
-                'fa_icon' => 'bool',
-                'path' => array('string', 'null'),
-            ))
+                ->setDefaults([
+                    'type'    => 'button',
+                    'theme'   => 'default',
+                    'size'    => 'sm',
+                    'icon'    => null,
+                    'fa_icon' => false,
+                    'path'    => null,
+                ])
+                ->setRequired(['type', 'theme', 'size'])
+
+                ->setAllowedValues('type',  ['link', 'button', 'submit', 'reset'])
+                ->setAllowedValues('theme', ['default', 'primary', 'success', 'warning', 'danger'])
+                ->setAllowedValues('size',  ['xs', 'sm', 'md', 'lg'])
+
+                ->setAllowedTypes('icon',    ['string', 'null'])
+                ->setAllowedTypes('fa_icon', 'bool')
+                ->setAllowedTypes('path',    ['string', 'null'])
             ;
         }
 

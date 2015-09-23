@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ChoiceTypeParentExtension
@@ -20,18 +20,15 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'parent_choice_field' => null,
                 'parent_choice_route' => null,
-            ))
-            ->setOptional(array('parent_choice_field', 'parent_choice_route'))
-            ->setAllowedTypes(array(
-                'parent_choice_field' => array('string', 'null'),
-                'parent_choice_route' => array('string', 'null'),
-            ))
+            ])
+            ->setAllowedTypes('parent_choice_field',  ['string', 'null'])
+            ->setAllowedTypes('parent_choice_route',  ['string', 'null'])
         ;
     }
 
@@ -48,10 +45,10 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
         }
 
         if ($fieldDefined && $routeDefined) {
-            $view->vars['attr']['data-parent-choice'] = json_encode(array(
+            $view->vars['attr']['data-parent-choice'] = json_encode([
                 'field' => $view->parent->vars['id'].'_'.$options['parent_choice_field'],
                 'route' => $options['parent_choice_route'],
-            ));
+            ]);
         }
     }
 

@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CollectionType
@@ -17,10 +17,10 @@ class CollectionType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'error_bubbling'     => false,
                 'by_reference'       => false,
                 'add_button_text'    => 'ekyna_core.button.add',
@@ -29,11 +29,9 @@ class CollectionType extends AbstractType
                 'allow_delete'       => true,
                 'allow_sort'         => false,
                 'remove_confirm'     => 'ekyna_core.message.remove_confirm',
-            ))
-            ->setAllowedTypes(array(
-                'allow_sort' => 'bool',
-                'remove_confirm' => array('null', 'string'),
-            ))
+            ])
+            ->setAllowedTypes('allow_sort',  'bool')
+            ->setAllowedTypes('remove_confirm',  ['null', 'string'])
         ;
     }
 

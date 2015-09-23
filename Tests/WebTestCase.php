@@ -49,7 +49,7 @@ abstract class WebTestCase extends BaseTestCase
      * @param array $params
      * @return string
      */
-    protected function generatePath($route, $params = array())
+    protected function generatePath($route, $params = [])
     {
         return $this->getRouter()->generate($route, $params);
     }

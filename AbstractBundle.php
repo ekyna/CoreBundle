@@ -33,6 +33,6 @@ abstract class AbstractBundle extends Bundle
      */
     protected function getModelInterfaces()
     {
-        return array();
+        return [];
     }
 }

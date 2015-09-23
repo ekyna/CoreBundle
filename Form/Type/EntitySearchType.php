@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EntitySearchType
@@ -58,22 +58,20 @@ class EntitySearchType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'entity'       => null,
                 'search_route' => null,
                 'find_route'   => null,
                 'allow_clear'  => false,
-            ))
-            ->setRequired(array('entity', 'search_route', 'find_route'))
-            ->setAllowedTypes(array(
-                'entity'       => 'string',
-                'search_route' => 'string',
-                'find_route'   => 'string',
-                'allow_clear'  => 'bool',
-            ))
+            ])
+            ->setRequired(['entity', 'search_route', 'find_route'])
+            ->setAllowedTypes('entity',        'string')
+            ->setAllowedTypes('search_route',  'string')
+            ->setAllowedTypes('find_route',    'string')
+            ->setAllowedTypes('allow_clear',   'bool')
         ;
     }
 

@@ -32,9 +32,9 @@ class UtilsExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('get_property', array($this, 'getProperty')),
-        );
+        return [
+            new \Twig_SimpleFunction('get_property', [$this, 'getProperty']),
+        ];
     }
 
     /**
@@ -42,10 +42,10 @@ class UtilsExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('truncate_html', array($this, 'truncateHtml')),
-            new \Twig_SimpleFilter('pluralize', array($this, 'pluralize')),
-        );
+        return [
+            new \Twig_SimpleFilter('truncate_html', [$this, 'truncateHtml']),
+            new \Twig_SimpleFilter('pluralize', [$this, 'pluralize']),
+        ];
     }
 
     /**

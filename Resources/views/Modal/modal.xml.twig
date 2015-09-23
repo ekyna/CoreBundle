@@ -12,7 +12,7 @@
 {% endblock title %}
 
 {% block content %}
-{% if modal.content is not sameas(null) %}
+{% if modal.content is not same as(null) %}
     <content type="{{ modal.contentType }}"><![CDATA[
     {%- if modal.contentType == 'form' -%}
         {% set form = modal.content %}

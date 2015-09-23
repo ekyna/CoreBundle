@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class FormTypeSizingExtension
@@ -17,11 +17,11 @@ class FormTypeSizingExtension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'sizing' => null,
-        ));
+        ]);
     }
 
     /**
@@ -29,7 +29,7 @@ class FormTypeSizingExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['sizing'] = in_array($options['sizing'], array('xs', 'sm', 'md', 'lg')) ? $options['sizing'] : false;
+        $view->vars['sizing'] = in_array($options['sizing'], ['xs', 'sm', 'md', 'lg']) ? $options['sizing'] : false;
     }
 
     /**

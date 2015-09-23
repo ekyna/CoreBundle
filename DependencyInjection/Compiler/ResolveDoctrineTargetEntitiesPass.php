@@ -47,7 +47,7 @@ class ResolveDoctrineTargetEntitiesPass implements CompilerPassInterface
             $c = $this->getClass($container, $model);
 
             $resolveTargetEntityListener
-                ->addMethodCall('addResolveTargetEntity', array($i, $c, array()))
+                ->addMethodCall('addResolveTargetEntity', [$i, $c, []])
             ;
 
             $resolvedInterfaces[$i] = $c;
@@ -59,7 +59,7 @@ class ResolveDoctrineTargetEntitiesPass implements CompilerPassInterface
         $container->setParameter('ekyna_core.interfaces', $resolvedInterfaces);
 
         if (!$resolveTargetEntityListener->hasTag('doctrine.event_listener')) {
-            $resolveTargetEntityListener->addTag('doctrine.event_listener', array('event' => 'loadClassMetadata'));
+            $resolveTargetEntityListener->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata']);
         }
     }
 

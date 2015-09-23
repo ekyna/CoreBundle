@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EntityTypeExtension
@@ -17,14 +17,14 @@ class EntityTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'add_route' => false,
-                'add_route_params' => array(),
-            ))
-            ->setOptional(array('add_route', 'add_route_params'))
+                'add_route_params' => [],
+            ])
+            ->setDefined(['add_route', 'add_route_params'])
         ;
     }
 

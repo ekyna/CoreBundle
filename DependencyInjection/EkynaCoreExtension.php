@@ -88,9 +88,9 @@ class EkynaCoreExtension extends Extension
      */
     protected function configureTwigBundle(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('twig', array(
-            'form' => array('resources' => array('EkynaCoreBundle:Form:form_div_layout.html.twig')),
-        ));
+        $container->prependExtensionConfig('twig', [
+            'form' => ['resources' => ['EkynaCoreBundle:Form:form_div_layout.html.twig']],
+        ]);
     }
 
     /**
@@ -102,10 +102,10 @@ class EkynaCoreExtension extends Extension
     protected function configureAsseticBundle(ContainerBuilder $container, array $config)
     {
         $asseticConfig = new AsseticConfiguration();
-        $container->prependExtensionConfig('assetic', array(
+        $container->prependExtensionConfig('assetic', [
             'assets' => $asseticConfig->build($config),
-            'bundles' => array('EkynaCoreBundle'),
-        ));
+            'bundles' => ['EkynaCoreBundle'],
+        ]);
     }
 
     /**
@@ -115,13 +115,13 @@ class EkynaCoreExtension extends Extension
      */
     protected function configureBraincraftedBootstrapBundle(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('braincrafted_bootstrap', array(
-            'auto_configure' => array(
+        $container->prependExtensionConfig('braincrafted_bootstrap', [
+            'auto_configure' => [
                 'twig' => false,
                 'assetic' => false,
                 'knp_menu' => false,
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -131,11 +131,11 @@ class EkynaCoreExtension extends Extension
      */
     protected function configureKnpMenuBundle(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('knp_menu', array(
-            'twig' => array(
+        $container->prependExtensionConfig('knp_menu', [
+            'twig' => [
                 'template' => 'EkynaCoreBundle:Ui:menu.html.twig',
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -158,14 +158,14 @@ class EkynaCoreExtension extends Extension
      */
     protected function configureFOSHttpCacheBundle(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('fos_http_cache', array(
-            'proxy_client' => array(
+        $container->prependExtensionConfig('fos_http_cache', [
+            'proxy_client' => [
                 'default' =>  'varnish',
-                'varnish' => array(
+                'varnish' => [
                     'servers' =>  "%reverse_proxy.host%:%reverse_proxy.port%",
                     'base_url' => "%hostname%:%reverse_proxy.port%",
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
     }
 }

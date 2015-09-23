@@ -14,6 +14,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  */
 class RegisterRoutersPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('ekyna_core.router')) {
@@ -23,7 +26,7 @@ class RegisterRoutersPass implements CompilerPassInterface
         $definition = $container->getDefinition('ekyna_core.router');
 
         // Gather routers
-        $routers = array();
+        $routers = [];
         if ($container->hasParameter('ekyna_core.chain_router.routers')) {
             $routers = $container->getParameter('ekyna_core.chain_router.routers');
         }
@@ -34,7 +37,7 @@ class RegisterRoutersPass implements CompilerPassInterface
 
         // Register routers
         foreach ($routers as $id => $priority) {
-            $definition->addMethodCall('add', array(new Reference($id), $priority));
+            $definition->addMethodCall('add', [new Reference($id), $priority]);
         }
     }
 }

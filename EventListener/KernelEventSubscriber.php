@@ -103,14 +103,14 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
 
             $content = $this->container->get('twig')->render(
                 (string) $template,
-                array(
+                [
                     'status_code' => $code,
                     'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
                     'exception' => FlattenException::create($exception),
                     'request' => $request,
                     'logger' => null,
                     'currentContent' => null,
-                )
+                ]
             );
 
             $report = \Swift_Message::newInstance('Error report', $content, 'text/html');
@@ -124,8 +124,8 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
      */
     public static function getSubscribedEvents()
     {
-    	return array(
-            KernelEvents::EXCEPTION => array('onKernelException', 0),
-    	);
+    	return [
+            KernelEvents::EXCEPTION => ['onKernelException', 0],
+    	];
     }
 }

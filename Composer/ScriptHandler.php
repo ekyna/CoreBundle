@@ -58,11 +58,11 @@ class ScriptHandler
 
     protected static function getOptions(CommandEvent $event)
     {
-        $options = array_merge(array(
+        $options = array_merge([
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
             'symfony-assets-install' => 'hard'
-        ), $event->getComposer()->getPackage()->getExtra());
+        ], $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 

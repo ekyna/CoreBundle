@@ -18,26 +18,18 @@ class UriVoter implements VoterInterface
      */
     private $request;
 
-    /**
-     * @var string
-     */
-    private $path;
 
     /**
-     * @var string
+     * @param Request $request
      */
-    private $scriptName;
-
-    /*public function __construct(Request $request = null)
-    {
-        $this->request = $request;
-    }*/
-
     public function setRequest(Request $request)
     {
         $this->request = $request;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function matchItem(ItemInterface $item)
     {
         if (null === $this->request) {

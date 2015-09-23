@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ColorPickerType
@@ -22,18 +22,18 @@ class ColorPickerType extends AbstractType
     {
         $pickerOptions = $options['pickerOptions'];
 
-        $view->vars = array_replace($view->vars, array(
+        $view->vars = array_replace($view->vars, [
             'pickerOptions' => $pickerOptions,
-        ));
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'pickerOptions' => array(
+        $resolver->setDefaults([
+            'pickerOptions' => [
                 'color' => '#ffffff',
                 'previewformat' => 'hex',
                 'size' => 'default',
@@ -42,8 +42,8 @@ class ColorPickerType extends AbstractType
                 'hsvpanel' => true,
                 'sliders' => false,
                 'swatches' => false,
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**

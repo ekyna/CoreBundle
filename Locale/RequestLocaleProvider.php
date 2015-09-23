@@ -46,10 +46,10 @@ class RequestLocaleProvider implements LocaleProviderInterface, EventSubscriberI
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             // IMPORTANT to keep priority 34.
-            KernelEvents::REQUEST => array(array('onKernelRequest', 34)),
-        );
+            KernelEvents::REQUEST => [['onKernelRequest', 34]],
+        ];
     }
 
     /**

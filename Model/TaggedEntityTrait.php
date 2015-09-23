@@ -32,7 +32,7 @@ trait TaggedEntityTrait
      */
     public function getEntityTags()
     {
-        return array($this->getEntityTag());
+        return [$this->getEntityTag()];
     }
 
     /**

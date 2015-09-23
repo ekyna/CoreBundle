@@ -1,7 +1,7 @@
 <p>[exception] {{ status_code ~ ' | ' ~ status_text ~ ' | ' ~ exception.class }}</p>
 <p>[message] {{ exception.message }}</p>
 
-{% if request is not sameas(null) %}
+{% if request is not same as(null) %}
 <p>
     [request] {{ request.pathInfo }}
 </p>

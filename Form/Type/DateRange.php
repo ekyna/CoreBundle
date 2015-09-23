@@ -1,9 +1,10 @@
 <?php
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class DateRange
@@ -13,32 +14,41 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class DateRange extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $format = $options['time'] ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy';
 
         $builder
-            ->add('startDate', 'datetime', array(
+            ->add('startDate', 'datetime', [
                 'label' => 'ekyna_core.field.start_date',
                 'format' => $format,
-            ))
-            ->add('endDate', 'datetime', array(
+            ])
+            ->add('endDate', 'datetime', [
                 'label' => 'ekyna_core.field.end_date',
                 'format' => $format,
-            ))
+            ])
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'time'         => true,
                 'inherit_data' => true,
-            ))
+            ])
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'ekyna_date_range';

@@ -26,7 +26,7 @@ class FormController extends Controller
             ->setPublic()
             ->setMaxAge(3600*6)
             ->setSharedMaxAge(3600*6)
-            ->headers->add(array('Content-Type' => 'application/json'))
+            ->headers->add(['Content-Type' => 'application/json'])
         ;
 
         return $response;

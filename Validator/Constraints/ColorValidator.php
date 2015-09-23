@@ -24,14 +24,14 @@ class ColorValidator extends ConstraintValidator
 
         /** @var Color $constraint */
 
-        $types = array(
-            'RGBA' => array('rgba', '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3},\s?[0-9\.]{1,5}\)'),
-            'RGB'  => array('rgb',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'),
-            'HSLA' => array('hsla', '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3},\s?[0-9\.]{1,5}\)'),
-            'HSL'  => array('hsl',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'),
-            'HSV'  => array('hsv',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'),
-            'HEX'  => array('#',    '([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})'),
-        );
+        $types = [
+            'RGBA' => ['rgba', '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3},\s?[0-9\.]{1,5}\)'],
+            'RGB'  => ['rgb',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'],
+            'HSLA' => ['hsla', '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3},\s?[0-9\.]{1,5}\)'],
+            'HSL'  => ['hsl',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'],
+            'HSV'  => ['hsv',  '\([0-9]{1,3},\s?[0-9]{1,3},\s?[0-9]{1,3}\)'],
+            'HEX'  => ['#',    '([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})'],
+        ];
 
         foreach($types as $type => $tests) {
             if ($tests[0] !== substr($code, 0, strlen($tests[0]))) {
@@ -39,11 +39,11 @@ class ColorValidator extends ConstraintValidator
             }
             $regex = sprintf('@^(%s%s)$@', $tests[0], $tests[1]);
             if (!preg_match($regex, $code, $matches)) {
-                $this->context->addViolation($constraint->invalidCode, array('%type%' => $type, '%code%' => $code));
+                $this->context->addViolation($constraint->invalidCode, ['%type%' => $type, '%code%' => $code]);
             }
             return;
         }
 
-        $this->context->addViolation($constraint->unknownFormat, array('%color%' => $code));
+        $this->context->addViolation($constraint->unknownFormat, ['%color%' => $code]);
     }
 }

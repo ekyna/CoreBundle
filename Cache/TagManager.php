@@ -86,7 +86,7 @@ class TagManager
         }
 
         if (!is_array($tags)) {
-            $tags = array($tags);
+            $tags = [$tags];
         }
 
         $tags = $this->encodeTags($tags);

@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -29,17 +29,17 @@ class UploadType extends AbstractType
         }
 
         if ($options['rename_field']) {
-            $builder->add('rename', 'text', array(
+            $builder->add('rename', 'text', [
                 'label' => 'ekyna_core.field.rename',
                 'required' => $options['required'],
                 'sizing' => 'sm',
                 'admin_helper' => 'FILE_RENAME',
-                'attr' => array(
+                'attr' => [
                     'class' => 'file-rename',
                     'label_col' => 2,
                     'widget_col' => 10
-                ),
-            ));
+                ],
+            ]);
         }
 
         $builder->addEventListener(
@@ -50,40 +50,40 @@ class UploadType extends AbstractType
                 $uploadable = $event->getData();
 
                 if (null !== $uploadable && null !== $uploadable->getPath()) {
-                    $form->add('file', 'file', array(
+                    $form->add('file', 'file', [
                         'label' => 'ekyna_core.field.file',
                         'required' => false,
                         'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
-                        'attr' => array(
+                        'attr' => [
                             'label_col' => 2,
                             'widget_col' => 10
-                        )
-                    ));
+                        ]
+                    ]);
                     if ($options['unlink_field']) {
-                        $form->add('unlink', 'checkbox', array(
+                        $form->add('unlink', 'checkbox', [
                             'label' => 'ekyna_core.field.unlink',
                             'required' => false,
                             'sizing' => 'sm',
                             'admin_helper' => 'FILE_UNLINK',
-                            'attr' => array(
+                            'attr' => [
                                 'label_col' => 2,
                                 'widget_col' => 10,
                                 'align_with_widget' => true,
-                            )
-                        ));
+                            ]
+                        ]);
                     }
                 } else {
-                    $form->add('file', 'file', array(
+                    $form->add('file', 'file', [
                         'label' => 'ekyna_core.field.file',
                         'required' => true,
                         'sizing' => 'sm',
                         'admin_helper' => 'FILE_UPLOAD',
-                        'attr' => array(
+                        'attr' => [
                             'label_col' => 2,
                             'widget_col' => 10
-                        )
-                    ));
+                        ]
+                    ]);
                 }
             }
         );
@@ -123,10 +123,10 @@ class UploadType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'label'        => 'ekyna_core.field.file',
                 'data_class'   => 'Ekyna\Bundle\CoreBundle\Entity\AbstractUpload',
                 'file_path'    => 'path',
@@ -134,13 +134,11 @@ class UploadType extends AbstractType
                 'unlink_field' => false,
                 'js_upload'    => true,
                 'error_bubbling' => false,
-            ))
-            ->setAllowedTypes(array(
-                'file_path'    => array('null', 'string'),
-                'rename_field' => 'bool',
-                'unlink_field' => 'bool',
-                'js_upload'    => 'bool',
-            ))
+            ])
+            ->setAllowedTypes('file_path',    ['null', 'string'])
+            ->setAllowedTypes('rename_field', 'bool')
+            ->setAllowedTypes('unlink_field', 'bool')
+            ->setAllowedTypes('js_upload',    'bool')
         ;
     }
 

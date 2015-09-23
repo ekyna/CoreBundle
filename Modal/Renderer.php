@@ -59,9 +59,9 @@ class Renderer
         }
         $modal->setButtons($buttons);
 
-        $response->setContent($this->twig->render($template, array('modal' => $modal)));
+        $response->setContent($this->twig->render($template, ['modal' => $modal]));
 
-        $response->headers->add(array('Content-Type' => 'application/xml; charset='.strtolower($this->charset)));
+        $response->headers->add(['Content-Type' => 'application/xml; charset='.strtolower($this->charset)]);
 
         return $response;
     }

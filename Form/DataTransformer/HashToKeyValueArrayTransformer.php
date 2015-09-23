@@ -47,10 +47,10 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        $return = $this->useContainerObject ? new KeyValueContainer() : array();
+        $return = $this->useContainerObject ? new KeyValueContainer() : [];
 
         foreach ($value as $data) {
-            if (array('key', 'value') != array_keys($data)) {
+            if (['key', 'value'] != array_keys($data)) {
                 throw new TransformationFailedException();
             }
             if (array_key_exists($data['key'], $return)) {

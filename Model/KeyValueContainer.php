@@ -19,7 +19,7 @@ class KeyValueContainer implements \ArrayAccess
     /**
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         $this->data = $data;
     }

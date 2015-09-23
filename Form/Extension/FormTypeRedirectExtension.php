@@ -3,7 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Form\FormEvents;
@@ -58,7 +58,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
                 if(null !== $form->getParent()) {
                     return;
                 }
-                $form->add('_redirect', 'hidden', array('mapped' => false));
+                $form->add('_redirect', 'hidden', ['mapped' => false]);
             }
         );
 
@@ -73,7 +73,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
                 }
                 // If form has been posted => retrieve _redirect path from request (POST)
                 if(null === $redirectPath && null !== $request) {
-                    $datas = $request->request->get($form->getName(), array('_redirect' => null));
+                    $datas = $request->request->get($form->getName(), ['_redirect' => null]);
                     if (array_key_exists('_redirect', $datas)) {
                         $redirectPath = $datas['_redirect'];
                     }
@@ -94,11 +94,11 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setOptional(array('_redirect_enabled'))
-            ->setAllowedTypes(array('_redirect_enabled' => 'bool'))
+            ->setDefined(['_redirect_enabled'])
+            ->setAllowedTypes('_redirect_enabled', 'bool')
         ;
     }
 

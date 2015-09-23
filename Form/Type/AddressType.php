@@ -5,8 +5,8 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Intl\Locale;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Intl\Locale\Locale;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AddressType
@@ -35,30 +35,30 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('street', 'text', array(
+            ->add('street', 'text', [
                 'label' => 'ekyna_core.field.street',
-                'attr' => array('data-role' => 'street'),
-            ))
-            ->add('supplement', 'text', array(
+                'attr' => ['data-role' => 'street'],
+            ])
+            ->add('supplement', 'text', [
                 'label' => 'ekyna_core.field.supplement',
                 'required' => false,
-            ))
-            ->add('postalCode', 'text', array(
+            ])
+            ->add('postalCode', 'text', [
                 'label' => 'ekyna_core.field.postal_code',
-                'attr' => array('data-role' => 'postal-code'),
-            ))
-            ->add('city', 'text', array(
+                'attr' => ['data-role' => 'postal-code'],
+            ])
+            ->add('city', 'text', [
                 'label' => 'ekyna_core.field.city',
-                'attr' => array('data-role' => 'city'),
-            ))
+                'attr' => ['data-role' => 'city'],
+            ])
         ;
         if ($options['country']) {
-            $countryOptions = array(
+            $countryOptions = [
                 'label' => 'ekyna_core.field.country',
-                'attr'  => array('data-role' => 'country'),
+                'attr'  => ['data-role' => 'country'],
                 'empty_data' => null,
                 'empty_value' => 'ekyna_core.value.choose',
-            );
+            ];
             if ($options['required']) {
                 if (null !== $request = $this->requestStack->getMasterRequest()) {
                     $countryOptions['data'] = strtoupper($request->getLocale());
@@ -68,11 +68,11 @@ class AddressType extends AbstractType
             }
             $builder
                 ->add('country', 'country', $countryOptions)
-                ->add('state', 'text', array(
+                ->add('state', 'text', [
                     'label'    => 'ekyna_core.field.state',
-                    'attr'     => array('data-role' => 'state'),
+                    'attr'     => ['data-role' => 'state'],
                     'required' => false,
-                ))
+                ])
             ;
         }
     }
@@ -80,17 +80,17 @@ class AddressType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'country' => true,
-            ))
-            ->addAllowedTypes(array(
+            ])
+            ->addAllowedTypes([
                 'country' => 'bool',
-            ))
+            ])
         ;
     }
 

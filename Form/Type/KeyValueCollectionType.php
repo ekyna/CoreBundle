@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -33,12 +33,12 @@ class KeyValueCollectionType extends AbstractType
                 if (null === $input) {
                     return;
                 }
-                $output = array();
+                $output = [];
                 foreach ($input as $key => $value) {
-                    $output[] = array(
+                    $output[] = [
                         'key' => $key,
                         'value' => $value
-                    );
+                    ];
                 }
                 $e->setData($output);
             }, 1
@@ -48,27 +48,25 @@ class KeyValueCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'type'                 => 'ekyna_key_value',
                 'value_type'           => 'text',
-                'value_options'        => array(),
+                'value_options'        => [],
                 'allowed_keys'         => null,
                 'use_container_object' => false,
                 'options'              => function (Options $options) {
-                    return array(
+                    return [
                         'value_type'    => $options['value_type'],
                         'value_options' => $options['value_options'],
                         'allowed_keys'  => $options['allowed_keys']
-                    );
+                    ];
                 },
-            ))
-            ->setRequired(array('value_type'))
-            ->setAllowedTypes(array(
-                'allowed_keys' => array('null', 'array'),
-            ))
+            ])
+            ->setRequired(['value_type'])
+            ->setAllowedTypes('allowed_keys', ['null', 'array'])
         ;
     }
 

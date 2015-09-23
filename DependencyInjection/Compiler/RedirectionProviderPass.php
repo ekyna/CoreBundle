@@ -26,7 +26,7 @@ class RedirectionProviderPass implements CompilerPassInterface
         $services = $container->findTaggedServiceIds('ekyna_core.redirection_provider');
 
         foreach ($services as $service => $attributes) {
-            $definition->addMethodCall('addProvider', array(new Reference($service)));
+            $definition->addMethodCall('addProvider', [new Reference($service)]);
         }
     }
 }

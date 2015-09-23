@@ -76,7 +76,7 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
         }
 
         if (is_array($value)) {
-            if (null === $entities = $this->repository->findBy(array($this->identifier => $value))) {
+            if (null === $entities = $this->repository->findBy([$this->identifier => $value])) {
                 throw new TransformationFailedException(sprintf(
                     'Objects "%s" could not be converted from value "%" with identifier "%s".',
                     $this->repository->getClassName(),
@@ -93,7 +93,7 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
             } else {
                 return $entities;
             }
-        } elseif (null === $entity = $this->repository->findOneBy(array($this->identifier => $value))) {
+        } elseif (null === $entity = $this->repository->findOneBy([$this->identifier => $value])) {
             throw new TransformationFailedException(sprintf(
                 'Object "%s" with identifier "%s"="%s" does not exist.',
                 $this->repository->getClassName(),

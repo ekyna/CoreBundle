@@ -3,7 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CaptchaType
@@ -15,16 +15,16 @@ class CaptchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'label' => false,
                 'height' => 34,
-                'attr' => array(
+                'attr' => [
                     'help_text' => 'ekyna_core.message.captcha',
-                )
-            ))
+                ]
+            ])
         ;
     }
 

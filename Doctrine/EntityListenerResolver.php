@@ -26,7 +26,7 @@ class EntityListenerResolver extends DefaultEntityListenerResolver implements Co
      */
     public function __construct()
     {
-        $this->mapping = array();
+        $this->mapping = [];
     }
 
     /**

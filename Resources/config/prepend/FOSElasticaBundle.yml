@@ -26,6 +26,7 @@ fos_elastica:
                             fr_stemmer:
                                 type: stemmer
                                 language: light_french
+                            # TODO replace special chars
                         analyzer:
                             fr_index:
                                 type: custom

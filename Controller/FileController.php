@@ -85,8 +85,8 @@ class FileController extends Controller
             throw new \Exception('Failed to create image.');
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'location' => '/tinymce/' . $filename,
-        ));
+        ]);
     }
 }

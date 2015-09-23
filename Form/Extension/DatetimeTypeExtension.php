@@ -6,7 +6,7 @@ use Ekyna\Bundle\CoreBundle\Form\Util\MomentFormatConverter;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class DatetimeTypeExtension
@@ -33,27 +33,27 @@ class DatetimeTypeExtension extends AbstractTypeExtension
         // Convert format for moment.js
         $pickerOptions['format'] = MomentFormatConverter::convert($options['format']);
 
-        $view->vars = array_replace($view->vars, array(
+        $view->vars = array_replace($view->vars, [
             'picker_options' => $pickerOptions,
-        ));
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy HH:mm', // TODO localised configurable format
-                'picker_options' => array(
-                    'widgetPositioning' => array('horizontal' => 'right'),
+                'picker_options' => [
+                    'widgetPositioning' => ['horizontal' => 'right'],
                     'showTodayButton' => true,
                     'showClear'       => true,
                     'showClose'       => true,
-                ),
-            )
+                ],
+            ]
         );
     }
 

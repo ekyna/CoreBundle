@@ -2,7 +2,6 @@
 
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
-use Ekyna\Bundle\CoreBundle\Modal\Modal;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +21,7 @@ class Controller extends BaseController
      */
     protected function isGranted($attributes, $object = null)
     {
-        return $this->get('security.context')->isGranted($attributes, $object);
+        return $this->get('security.authorization_checker')->isGranted($attributes, $object);
     }
 
     /**
@@ -94,7 +93,7 @@ class Controller extends BaseController
      */
     protected function addFlash($message, $type = 'info')
     {
-        if (!in_array($type, array('info', 'success', 'warning', 'danger'))) {
+        if (!in_array($type, ['info', 'success', 'warning', 'danger'])) {
             throw new \InvalidArgumentException(sprintf('Invalid flash type "%s".', $type));
         }
         $this->getFlashBag()->add($type, $message);
@@ -125,7 +124,7 @@ class Controller extends BaseController
      * @param int $smaxage
      * @return Response;
      */
-    protected function configureSharedCache(Response $response, array $tags = array(), $smaxage = null)
+    protected function configureSharedCache(Response $response, array $tags = [], $smaxage = null)
     {
         if (!empty($tags)) {
             $this->get('ekyna_core.cache.tag_manager')->tagResponse($response, $tags);

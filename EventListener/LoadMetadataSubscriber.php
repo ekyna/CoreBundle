@@ -45,7 +45,7 @@ class LoadMetadataSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(Events::loadClassMetadata);
+        return [Events::loadClassMetadata];
     }
 
     /**
@@ -113,11 +113,11 @@ class LoadMetadataSubscriber implements EventSubscriber
     {
         return in_array(
             $type,
-            array(
+            [
                 ClassMetadataInfo::MANY_TO_MANY,
                 ClassMetadataInfo::ONE_TO_MANY,
                 ClassMetadataInfo::ONE_TO_ONE,
-            ),
+            ],
             true
         );
     }

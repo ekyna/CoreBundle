@@ -57,7 +57,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
         }
 
         if (!is_array($tags)) {
-            $tags = array($tags);
+            $tags = [$tags];
         }
 
         foreach ($tags as $tag) {
@@ -81,7 +81,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
         }
 
         if (!is_array($tags)) {
-            $tags = array($tags);
+            $tags = [$tags];
         }
 
         foreach ($tags as $tag) {
@@ -132,14 +132,14 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            HttpCacheEvents::TAG_RESPONSE   => array('onTagResponse', 0),
-            HttpCacheEvents::INVALIDATE_TAG => array('onInvalidateTag', 0),
+        return [
+            HttpCacheEvents::TAG_RESPONSE   => ['onTagResponse', 0],
+            HttpCacheEvents::INVALIDATE_TAG => ['onInvalidateTag', 0],
 
-            KernelEvents::RESPONSE          => array('onKernelResponse', 0),
+            KernelEvents::RESPONSE          => ['onKernelResponse', 0],
 
-            KernelEvents::TERMINATE         => array('onKernelTerminate', 0),
-            ConsoleEvents::TERMINATE        => array('onKernelTerminate', 0),
-        );
+            KernelEvents::TERMINATE         => ['onKernelTerminate', 0],
+            ConsoleEvents::TERMINATE        => ['onKernelTerminate', 0],
+        ];
     }
 }
