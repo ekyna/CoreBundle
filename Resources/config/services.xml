@@ -83,13 +83,6 @@
             <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime" />
         </service>
 
-        <!-- Doctrine entity listener resolver -->
-        <service id="ekyna_core.doctrine.entity_listener_resolver" class="Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
-
         <!-- Chain router -->
         <service id="ekyna_core.router" class="Symfony\Cmf\Component\Routing\ChainRouter">
             <argument type="service" id="logger" on-invalid="ignore" />
@@ -122,7 +115,7 @@
         <!-- Doctrine event listeners -->
         <service id="ekyna_core.upload.listener" class="Ekyna\Bundle\CoreBundle\Listener\UploadListener">
             <argument type="service" id="ekyna_core.upload.uploader" />
-            <tag name="doctrine.entity_listener" />
+            <tag name="doctrine.orm.entity_listener" />
         </service>
 
         <!-- Event listeners -->

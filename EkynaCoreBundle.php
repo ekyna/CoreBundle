@@ -2,7 +2,6 @@
 
 namespace Ekyna\Bundle\CoreBundle;
 
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\DoctrineEntityListenerPass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FormJsPass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FosHttpCachePass;
 use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RedirectionProviderPass;
@@ -26,7 +25,6 @@ class EkynaCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new DoctrineEntityListenerPass());
         $container->addCompilerPass(new FosHttpCachePass());
         $container->addCompilerPass(new RedirectionProviderPass());
         $container->addCompilerPass(new SetRouterPass());
