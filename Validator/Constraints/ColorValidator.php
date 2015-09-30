@@ -22,6 +22,10 @@ class ColorValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Color');
         }
 
+        if (null === $code) {
+            return;
+        }
+
         /** @var Color $constraint */
 
         $types = array(
