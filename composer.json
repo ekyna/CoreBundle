@@ -35,9 +35,9 @@
         "a2lix/translation-form-bundle": "2.0.*",
         "knplabs/knp-menu": "v2.0.1",
         "knplabs/knp-menu-bundle": "v2.0.0",
-        "ekyna/require-js-bundle": "0.4.x-dev",
-        "ekyna/fontawesome-bundle" : "0.4.x-dev",
-        "ekyna/table-bundle" : "0.4.x-dev",
+        "ekyna/require-js-bundle": "1.0.x-dev",
+        "ekyna/fontawesome-bundle" : "1.0.x-dev",
+        "ekyna/table-bundle" : "1.0.x-dev",
         "components/jquery": "~2.1",
         "components/jqueryui": "~1.11",
         "components/bootstrap": "~3.3",
@@ -72,7 +72,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }
