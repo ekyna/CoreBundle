@@ -10,6 +10,13 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 interface TaggedEntityInterface
 {
     /**
+     * Returns the entity id.
+     *
+     * @return int
+     */
+    public function getId();
+
+    /**
      * Returns the entity tag.
      *
      * @throws \RuntimeException

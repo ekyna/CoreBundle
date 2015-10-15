@@ -4,7 +4,6 @@ namespace Ekyna\Bundle\CoreBundle\Listener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
@@ -27,6 +26,7 @@ class TaggedEntityListener implements EventSubscriber
      * @var array
      */
     protected $tagsToInvalidate;
+
 
     /**
      * Constructor.
@@ -95,10 +95,8 @@ class TaggedEntityListener implements EventSubscriber
 
     /**
      * Post flush event handler.
-     *
-     * @param PostFlushEventArgs $eventArgs
      */
-    public function postFlush(PostFlushEventArgs $eventArgs)
+    public function postFlush()
     {
         $this->eventDispatcher->dispatch(
             HttpCacheEvents::INVALIDATE_TAG,

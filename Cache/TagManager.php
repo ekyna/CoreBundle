@@ -2,11 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Cache;
 
-use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
-use FOS\HttpCacheBundle\CacheManager;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use FOS\HttpCacheBundle\Handler\TagHandler;
 
 /**
  * Class TagManager
@@ -21,14 +17,19 @@ class TagManager
     protected $config;
 
     /**
-     * @var CacheManager
+     * @var TagHandler
      */
-    protected $cacheManager;
+    protected $tagHandler;
 
     /**
-     * @var PropertyAccessor
+     * @var array
      */
-    protected $propertyAccessor;
+    protected $responseTags;
+
+    /**
+     * @var array
+     */
+    protected $invalidateTags;
 
 
     /**
@@ -39,45 +40,24 @@ class TagManager
     public function __construct(array $config)
     {
         $this->config = $config;
-        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+        $this->reset();
     }
 
     /**
-     * Sets the cache manager.
+     * Sets the tag handler.
      *
-     * @param CacheManager $cacheManager
+     * @param TagHandler $tagHandler
      */
-    public function setCacheManager(CacheManager $cacheManager)
+    public function setTagHandler(TagHandler $tagHandler)
     {
-        $this->cacheManager = $cacheManager;
-    }
-
-    /**
-     * Builds the entity tag.
-     *
-     * @param object $entity
-     * @param string $property
-     * @return string
-     */
-    public function buildEntityTag($entity, $property = 'id')
-    {
-        if ($entity instanceof TaggedEntityInterface) {
-            $prefix = $entity->getEntityTagPrefix();
-        } else {
-            $prefix = get_class($entity);
-        }
-
-        $value = $this->propertyAccessor->getValue($entity, $property);
-
-        return sprintf('%s[%s:%s]', $prefix, $property, $value);
+        $this->tagHandler = $tagHandler;
     }
 
     /**
      * Invalidates tags.
      *
      * @param mixed $tags
-     * @throws \Exception
-     * @throws \FOS\HttpCache\Exception\ExceptionCollection
      */
     public function invalidateTags($tags)
     {
@@ -85,22 +65,21 @@ class TagManager
             return;
         }
 
-        if (!is_array($tags)) {
-            $tags = array($tags);
-        }
-
         $tags = $this->encodeTags($tags);
 
-        $this->cacheManager->invalidateTags($tags)->flush();
+        foreach ($tags as $tag) {
+            if (!in_array($tag, $this->invalidateTags)) {
+                $this->invalidateTags[] = $tag;
+            }
+        }
     }
 
     /**
-     * Adds tags to the response.
+     * Adds tags (for the response).
      *
-     * @param Response $response
      * @param mixed $tags
      */
-    public function tagResponse(Response $response, array $tags)
+    public function addTags($tags)
     {
         if (empty($tags) || !$this->isEnabled()) {
             return;
@@ -108,24 +87,58 @@ class TagManager
 
         $tags = $this->encodeTags($tags);
 
-        $this->cacheManager->tagResponse($response, $tags);
+        foreach ($tags as $tag) {
+            if (!in_array($tag, $this->responseTags)) {
+                $this->responseTags[] = $tag;
+            }
+        }
+    }
+
+    /**
+     * Flushes the tag manager.
+     */
+    public function flush()
+    {
+        if (!empty($this->invalidateTags)) {
+            $this->tagHandler->invalidateTags($this->invalidateTags);
+        }
+
+        if (!empty($this->responseTags)) {
+            $this->tagHandler->addTags($this->responseTags);
+        }
+
+        $this->reset();
+    }
+
+    /**
+     * Rests the tags arrays.
+     */
+    private function reset()
+    {
+        $this->responseTags = [];
+        $this->invalidateTags = [];
     }
 
     /**
      * Encodes the tags.
      *
-     * @param array $tags
+     * @param mixed $tags
      * @return array
      */
-    private function encodeTags(array $tags)
+    private function encodeTags($tags)
     {
+        if (!is_array($tags)) {
+            $tags = array($tags);
+        }
+
         if ($this->config['tag']['encode']) {
             $tmp = [];
             foreach ($tags as $tag) {
                 $tmp[] = hash('crc32b', $this->config['tag']['secret'].$tag, false);
             }
-            return $tmp;
+            $tags = $tmp;
         }
+
         return $tags;
     }
 
@@ -136,6 +149,6 @@ class TagManager
      */
     private function isEnabled()
     {
-        return $this->config['enable'] && null !== $this->cacheManager;
+        return $this->config['enable'] && null !== $this->tagHandler;
     }
 }

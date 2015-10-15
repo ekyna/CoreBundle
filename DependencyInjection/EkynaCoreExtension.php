@@ -166,6 +166,10 @@ class EkynaCoreExtension extends Extension
                     'base_url' => "%hostname%:%reverse_proxy.port%",
                 ),
             ),
+            /*'user_context' => array(
+                'enabled' => true,
+                //'role_provider' => true,
+            ),*/
         ));
     }
 }
