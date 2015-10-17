@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Listener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
+use Ekyna\Bundle\AdminBundle\Model\TranslationInterface;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
 use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
@@ -50,45 +51,27 @@ class TaggedEntityListener implements EventSubscriber
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof TaggedEntityInterface) {
-                $this->addTagToInvalidate($entity::getEntityTagPrefix());
-            }
+            $this->invalidateEntity($entity);
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof TaggedEntityInterface) {
-                $this->addTagToInvalidate($entity::getEntityTagPrefix());
-                $this->addTagToInvalidate($entity->getEntityTag());
-            }
+            $this->invalidateEntity($entity);
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof TaggedEntityInterface) {
-                $this->addTagToInvalidate($entity::getEntityTagPrefix());
-                $this->addTagToInvalidate($entity->getEntityTag());
-            }
+            $this->invalidateEntity($entity);
         }
 
         /** @var \Doctrine\Common\Collections\ArrayCollection $col */
         foreach ($uow->getScheduledCollectionUpdates() as $col) {
             foreach ($col as $entity) {
-                if ($entity instanceof TaggedEntityInterface) {
-                    if (null !== $entity->getId()) {
-                        $this->addTagToInvalidate($entity::getEntityTagPrefix());
-                        $this->addTagToInvalidate($entity->getEntityTag());
-                    }
-                }
+                $this->invalidateEntity($entity);
             }
         }
 
         foreach ($uow->getScheduledCollectionDeletions() as $col) {
             foreach ($col as $entity) {
-                if ($entity instanceof TaggedEntityInterface) {
-                    if (null !== $entity->getId()) {
-                        $this->addTagToInvalidate($entity::getEntityTagPrefix());
-                        $this->addTagToInvalidate($entity->getEntityTag());
-                    }
-                }
+                $this->invalidateEntity($entity);
             }
         }
     }
@@ -103,6 +86,24 @@ class TaggedEntityListener implements EventSubscriber
             new HttpCacheEvent($this->tagsToInvalidate)
         );
         $this->reset();
+    }
+
+    /**
+     * Invalidates the entity http cache.
+     *
+     * @param object $entity
+     */
+    private function invalidateEntity($entity)
+    {
+        if ($entity instanceof TaggedEntityInterface) {
+            $this->addTagToInvalidate($entity::getEntityTagPrefix());
+            if (null !== $entity->getId()) {
+                $this->addTagToInvalidate($entity->getEntityTag());
+            }
+        } elseif ($entity instanceof TranslationInterface) {
+            $translatable = $entity->getTranslatable();
+            $this->invalidateEntity($translatable);
+        }
     }
 
     /**
