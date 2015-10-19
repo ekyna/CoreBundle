@@ -10,7 +10,7 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 interface TaggedEntityInterface
 {
     /**
-     * Returns the id.
+     * Returns the entity id.
      *
      * @return int
      */

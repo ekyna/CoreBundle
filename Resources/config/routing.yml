@@ -7,6 +7,9 @@ _fos_js_routing:
 _tinymce_routing:
     resource: "@StfalconTinymceBundle/Resources/config/routing.yml"
 
+user_context_hash:
+    path: /_fos_user_context_hash
+
 ekyna_core_form_plugins:
     path: /js/form-plugins.json
     defaults: { _controller: "EkynaCoreBundle:Form:config" }
