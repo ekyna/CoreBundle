@@ -318,7 +318,7 @@ trait UploadableTrait
         if ($rename !== $this->rename) {
             $this->updatedAt = new \DateTime();
         }
-        $this->rename = $rename;
+        $this->rename = strtolower($rename);
 
         return $this;
     }

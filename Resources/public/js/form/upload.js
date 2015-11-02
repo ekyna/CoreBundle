@@ -29,7 +29,7 @@ define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyn
 
             $rename.normalize = function() {
                 $rename.stripExtension();
-                var value = $rename.val().trim().urlize();
+                var value = $rename.val().trim().toLowerCase().urlize();
                 if(value.length > 0) {
                     $rename.val(value);
                     $rename.appendExtension();
