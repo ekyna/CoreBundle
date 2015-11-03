@@ -64,7 +64,7 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         var newLi = $('<li></li>').html(newWidget);
         list.append(newLi);
 
-        var form = Form.create(newLi.html());
+        var form = Form.create(newLi);
         form.init();
 
         collectionUpdatePositions(collection);

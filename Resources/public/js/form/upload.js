@@ -89,7 +89,7 @@ define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyn
         this.each(function() {
             var $this = $(this);
 
-            var $filePicker = $this.find('.file-picker').filePickerWidget();
+            var $filePicker = $this.find('.file-picker');
 
             var $file = $filePicker.find('input:file');
             $this.find('.file-rename').renameWidget({file: $file});
