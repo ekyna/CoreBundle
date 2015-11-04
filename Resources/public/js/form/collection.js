@@ -46,29 +46,32 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
 
         e && e.preventDefault();
 
-        var collection = $('#'+selector),
-            list = collection.find('> ul'),
+        var $collection = $('#'+selector),
+            list = $collection.find('> ul'),
             count = list.find('> li').size();
 
-        var newWidget = collection.attr('data-prototype');
+        var widget = $collection.attr('data-prototype');
 
         // Check if an element with this ID already exists.
         // If it does, increase the count by one and try again
-        var newName = newWidget.match(/id="(.*?)"/);
+        var name = widget.match(/id="(.*?)"/);
         var re = new RegExp(prototypeName, "g");
-        while ($('#' + newName[1].replace(re, count)).size() > 0) {
+        while ($('#' + name[1].replace(re, count)).size() > 0) {
             count++;
         }
-        newWidget = newWidget.replace(re, count);
-        newWidget = newWidget.replace(/__id__/g, newName[1].replace(re, count));
-        var newLi = $('<li></li>').html(newWidget);
-        list.append(newLi);
+        widget = widget.replace(re, count);
+        widget = widget.replace(/__id__/g, name[1].replace(re, count));
+        var $element = $('<li></li>').html(widget);
+        list.append($element);
 
-        var form = Form.create(newLi);
+        var form = Form.create($element);
         form.init();
 
-        collectionUpdatePositions(collection);
-        $this.trigger('ekyna-collection-field-added');
+        collectionUpdatePositions($collection);
+
+        var event = $.Event('ekyna-collection-field-added');
+        event.target = $element;
+        $collection.trigger(event);
     };
 
     CollectionRemove.prototype.removeField = function (e) {
@@ -83,10 +86,9 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
             }
         }
 
-        $this.trigger('ekyna-collection-field-removed');
         var $element = $this.closest('li');
 
-        var form = Form.create($element.html());
+        var form = Form.create($element);
         form.save();
         form.destroy();
 
@@ -94,6 +96,10 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
 
         var $collection = $('#'+selector);
         collectionUpdatePositions($collection);
+
+        var event = $.Event('ekyna-collection-field-removed');
+        event.target = $element;
+        $collection.trigger(event);
     };
 
     CollectionMoveUp.prototype.moveUpField = function (e) {
@@ -102,16 +108,15 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
 
         e && e.preventDefault();
 
-        $this.trigger('ekyna-collection-field-moved-up');
         var $element = $this.closest('li');
         if (!$element.is(':first-child')) {
             var $prev = $element.prev();
 
-            var form = Form.create($element.html());
+            var form = Form.create($element);
             form.save();
             form.destroy();
 
-            var prevForm = Form.create($prev.html());
+            var prevForm = Form.create($prev);
             prevForm.save();
             prevForm.destroy();
 
@@ -119,10 +124,14 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
 
             form.init();
             prevForm.init();
-        }
 
-        var $collection = $('#'+selector);
-        collectionUpdatePositions($collection);
+            var $collection = $('#'+selector);
+            collectionUpdatePositions($collection);
+
+            var event = $.Event('ekyna-collection-field-moved-up');
+            event.target = $element;
+            $collection.trigger(event);
+        }
     };
 
     CollectionMoveDown.prototype.moveDownField = function (e) {
@@ -136,11 +145,11 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
         if (!$element.is(':last-child')) {
             var $next = $element.next();
 
-            var form = Form.create($element.html());
+            var form = Form.create($element);
             form.save();
             form.destroy();
 
-            var nextForm = Form.create($next.html());
+            var nextForm = Form.create($next);
             nextForm.save();
             nextForm.destroy();
 
@@ -148,10 +157,14 @@ define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
 
             form.init();
             nextForm.init();
-        }
 
-        var $collection = $('#'+selector);
-        collectionUpdatePositions($collection);
+            var $collection = $('#'+selector);
+            collectionUpdatePositions($collection);
+
+            var event = $.Event('ekyna-collection-field-moved-down');
+            event.target = $element;
+            $collection.trigger(event);
+        }
     };
 
     var oldAdd = $.fn.addField;

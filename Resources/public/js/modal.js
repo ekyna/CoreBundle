@@ -35,7 +35,7 @@
             });
             xhr.fail(function() {
                 console.log('Failed to load modal.');
-                var event = jQuery.Event('ekyna.modal.load_fail');
+                var event = $.Event('ekyna.modal.load_fail');
                 $(that).trigger(event);
             });
         },
@@ -47,7 +47,7 @@
             var $content = $xmlData.find('content');
             if ($content.size() > 0) {
                 var type = $content.attr('type');
-                event = jQuery.Event('ekyna.modal.content');
+                event = $.Event('ekyna.modal.content');
                 event.contentType = type;
                 var content = $content.text();
                 if (type === 'data') {
@@ -59,7 +59,7 @@
                 }
                 // Prevent dialog open
                 if (type === 'data' || event.isDefaultPrevented()) {
-                    $(that).trigger(event)
+                    $(that).trigger(event);
                     return;
                 }
             }
@@ -89,7 +89,7 @@
                     } else {
                         button.action = function (dialog) {
                             dialog.enableButtons(false);
-                            var event = jQuery.Event('ekyna.modal.button_click');
+                            var event = $.Event('ekyna.modal.button_click');
                             event.buttonId = button.id;
                             $(that).trigger(event);
                         };
