@@ -35,18 +35,19 @@
             });
             xhr.fail(function() {
                 console.log('Failed to load modal.');
-                var event = jQuery.Event('ekyna.modal.load_fail');
+                var event = $.Event('ekyna.modal.load_fail');
                 $(that).trigger(event);
             });
         },
         handleResponse: function(xmlData) {
             var that = this;
             var $xmlData = $(xmlData);
+            var event = null;
 
             var $content = $xmlData.find('content');
             if ($content.size() > 0) {
                 var type = $content.attr('type');
-                var event = jQuery.Event('ekyna.modal.content');
+                event = $.Event('ekyna.modal.content');
                 event.contentType = type;
                 var content = $content.text();
                 if (type === 'data') {
@@ -56,16 +57,16 @@
                     event.content = $html;
                     that.dialog.setMessage($html);
                 }
-                $(that).trigger(event);
                 // Prevent dialog open
                 if (type === 'data' || event.isDefaultPrevented()) {
+                    $(that).trigger(event);
                     return;
                 }
             }
 
             var $title = $xmlData.find('title');
             if ($title.size() > 0) {
-                this.dialog.setTitle($title.text());
+                that.dialog.setTitle($title.text());
             }
 
             var config = JSON.parse($xmlData.find('config').text());
@@ -88,7 +89,7 @@
                     } else {
                         button.action = function (dialog) {
                             dialog.enableButtons(false);
-                            var event = jQuery.Event('ekyna.modal.button_click');
+                            var event = $.Event('ekyna.modal.button_click');
                             event.buttonId = button.id;
                             $(that).trigger(event);
                         };
@@ -98,6 +99,12 @@
             } else {
                 that.dialog.setButtons([]);
             }
+
+            that.dialog.onShown(function() {
+                if (event) {
+                    $(that).trigger(event);
+                }
+            });
 
             that.dialog.open();
         },
