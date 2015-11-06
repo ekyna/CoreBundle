@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Class RequestLocaleProvider
  * @package Ekyna\Bundle\CoreBundle\Locale
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class RequestLocaleProvider implements LocaleProviderInterface, EventSubscriberInterface
 {
@@ -29,6 +29,7 @@ class RequestLocaleProvider implements LocaleProviderInterface, EventSubscriberI
      */
     private $availableLocales;
 
+
     /**
      * Constructor.
      *
@@ -37,7 +38,7 @@ class RequestLocaleProvider implements LocaleProviderInterface, EventSubscriberI
      */
     public function __construct($defaultLocale, array $availableLocales)
     {
-        $this->defaultLocale    = $defaultLocale;
+        $this->defaultLocale = $defaultLocale;
         $this->availableLocales = $availableLocales;
     }
 
