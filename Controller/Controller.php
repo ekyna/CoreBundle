@@ -116,9 +116,8 @@ class Controller extends BaseController
     }
 
     /**
-     * Adds http cache tags to the response and sets the shared max age.
+     * Adds http cache tags and sets the shared max age.
      *
-     * @todo move into service ekyna_core.http_cache.tag_manager
      * @param Response $response
      * @param array $tags
      * @param int $smaxage
@@ -127,7 +126,7 @@ class Controller extends BaseController
     protected function configureSharedCache(Response $response, array $tags = [], $smaxage = null)
     {
         if (!empty($tags)) {
-            $this->get('ekyna_core.cache.tag_manager')->tagResponse($response, $tags);
+            $this->get('ekyna_core.cache.tag_manager')->addTags($tags);
         }
         $smaxage = intval($smaxage);
         if (0 >= $smaxage) {

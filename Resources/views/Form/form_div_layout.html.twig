@@ -53,9 +53,9 @@
             '</div>'
         %}
         {% set controls = '' %}
-        {% set remove_confirm = '' %}
-        {% if form.vars.remove_confirm is not same as(null) %}
-            {% set remove_confirm = ' data-confirm="' ~ (form.vars.remove_confirm|trans|escape) ~ '"' %}
+        {% set delete_button_confirm = '' %}
+        {% if form.vars.delete_button_confirm is not same as(null) %}
+            {% set delete_button_confirm = ' data-confirm="' ~ (form.vars.delete_button_confirm|trans|escape) ~ '"' %}
         {% endif %}
         {% if form.vars.allow_delete or form.vars.allow_sort %}
             {# Move up button #}
@@ -68,7 +68,7 @@
             {# Remove button #}
             {% if form.vars.allow_delete %}{% set controls = controls ~
                 '<button type="button" class="btn btn-danger btn-sm" data-collection-role="remove" ' ~
-                        'data-collection="' ~ form.vars.id ~ '" data-field="__id__"' ~ remove_confirm ~ '>' ~
+                        'data-collection="' ~ form.vars.id ~ '" data-field="__id__"' ~ delete_button_confirm ~ '>' ~
                     '<span class="glyphicon glyphicon-remove"></span>' ~
                 '</button>'
             %}{% endif %}
@@ -107,7 +107,7 @@
                             {% if form.vars.allow_delete %}
                             <button type="button" class="btn btn-danger btn-sm" data-collection-role="remove"
                                     data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}"
-                                    {{ remove_confirm|raw }}>
+                                    {{ delete_button_confirm|raw }}>
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                             {% endif %}
@@ -171,7 +171,6 @@
 {% block file_widget %}
 {% spaceless %}
     <div class="file-picker">
-        <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
         {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
         <div class="input-group{{ size_class }}">
             <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
@@ -195,6 +194,7 @@
             </div>
         </div>
         {% endif %}
+        <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
     </div>
 {% endspaceless %}
 {% endblock file_widget %}

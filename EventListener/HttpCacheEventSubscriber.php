@@ -7,7 +7,6 @@ use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -22,15 +21,6 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      */
     protected $tagManager;
 
-    /**
-     * @var array
-     */
-    protected $responseTags;
-
-    /**
-     * @var array
-     */
-    protected $invalidateTags;
 
     /**
      * Constructor.
@@ -40,7 +30,6 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
     public function __construct(TagManager $tagManager)
     {
         $this->tagManager = $tagManager;
-        $this->reset();
     }
 
     /**
@@ -56,15 +45,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!is_array($tags)) {
-            $tags = [$tags];
-        }
-
-        foreach ($tags as $tag) {
-            if (!in_array($tag, $this->responseTags)) {
-                $this->responseTags[] = $tag;
-            }
-        }
+        $this->tagManager->addTags($tags);
     }
 
     /**
@@ -80,31 +61,15 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!is_array($tags)) {
-            $tags = [$tags];
-        }
-
-        foreach ($tags as $tag) {
-            if (!in_array($tag, $this->invalidateTags)) {
-                $this->invalidateTags[] = $tag;
-            }
-        }
+        $this->tagManager->invalidateTags($tags);
     }
 
     /**
      * Kernel response event handler.
-     *
-     * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse()
     {
-        if (!empty($this->invalidateTags)) {
-            $this->tagManager->invalidateTags($this->invalidateTags);
-        }
-        if (!empty($this->responseTags)) {
-            $this->tagManager->tagResponse($event->getResponse(), $this->responseTags);
-        }
-        $this->reset();
+        $this->tagManager->flush();
     }
 
     /**
@@ -112,19 +77,7 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
      */
     public function onKernelTerminate()
     {
-        if (!empty($this->invalidateTags)) {
-            $this->tagManager->invalidateTags($this->invalidateTags);
-        }
-        $this->reset();
-    }
-
-    /**
-     * Resets the response tags.
-     */
-    private function reset()
-    {
-        $this->responseTags = [];
-        $this->invalidateTags = [];
+        $this->tagManager->flush();
     }
 
     /**

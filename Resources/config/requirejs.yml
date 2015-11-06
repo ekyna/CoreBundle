@@ -12,7 +12,7 @@ config:
         'jquery/qtip':
             deps: ['jquery']
         'jquery/fileupload':
-            deps: ['jquery']
+            deps: ['jquery', 'jquery-ui']
         'jquery/match-height':
             deps: ['jquery']
         'twig':

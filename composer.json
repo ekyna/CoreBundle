@@ -31,13 +31,13 @@
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "jms/serializer-bundle": "0.*",
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
-        "stof/doctrine-extensions-bundle": "1.1.*",
-        "a2lix/translation-form-bundle": "2.0.*",
+        "stof/doctrine-extensions-bundle": "~1.2",
+        "a2lix/translation-form-bundle": "dev-master",
         "knplabs/knp-menu": "v2.0.1",
         "knplabs/knp-menu-bundle": "v2.0.0",
-        "ekyna/require-js-bundle": "1.0.x-dev",
-        "ekyna/fontawesome-bundle" : "1.0.x-dev",
-        "ekyna/table-bundle" : "1.0.x-dev",
+        "ekyna/require-js-bundle": "dev-master",
+        "ekyna/fontawesome-bundle" : "dev-master",
+        "ekyna/table-bundle" : "dev-master",
         "components/jquery": "~2.1",
         "components/jqueryui": "~1.11",
         "components/bootstrap": "~3.3",
@@ -68,11 +68,6 @@
     "autoload": {
         "psr-4": {
             "Ekyna\\Bundle\\CoreBundle\\": ""
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
         }
     }
 }

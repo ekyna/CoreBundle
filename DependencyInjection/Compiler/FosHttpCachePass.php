@@ -13,19 +13,19 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FosHttpCachePass  implements CompilerPassInterface
 {
-    const FOS_HTTP_CACHE_MANAGER_ID = 'fos_http_cache.cache_manager';
+    const FOS_HTTP_TAG_HANDLER_ID = 'fos_http_cache.handler.tag_handler';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition(self::FOS_HTTP_CACHE_MANAGER_ID)) {
+        if ($container->hasDefinition(self::FOS_HTTP_TAG_HANDLER_ID)) {
             $tagManagerDefinition = $container->getDefinition('ekyna_core.cache.tag_manager');
 
             $tagManagerDefinition->addMethodCall(
-                'setCacheManager',
-                [new Reference(self::FOS_HTTP_CACHE_MANAGER_ID)]
+                'setTagHandler',
+                [new Reference(self::FOS_HTTP_TAG_HANDLER_ID)]
             );
         }
     }

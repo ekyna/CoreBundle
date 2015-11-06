@@ -22,7 +22,7 @@ class ColorValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Color');
         }
 
-        if (0 == strlen($code)) {
+        if (null === $code) {
             return;
         }
 
