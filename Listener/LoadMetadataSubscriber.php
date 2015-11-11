@@ -1,6 +1,6 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\EventListener;
+namespace Ekyna\Bundle\CoreBundle\Listener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 /**
  * Class LoadMetadataSubscriber
- * @package Ekyna\Bundle\CoreBundle\EventListener
+ * @package Ekyna\Bundle\CoreBundle\Listener
  * @author Ivan Molchanov <ivan.molchanov@opensoftdev.ru>
  * @see https://github.com/Sylius/SyliusResourceBundle/blob/master/EventListener/LoadORMMetadataSubscriber.php
  * @author Étienne Dauvergne <contact@ekyna.com>

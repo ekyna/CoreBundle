@@ -8,11 +8,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * Class UploadListener
+ * Class UploadEventSubscriber
  * @package Ekyna\Bundle\CoreBundle\EventListener
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class UploadListener implements EventSubscriberInterface
+class UploadEventSubscriber implements EventSubscriberInterface
 {
     /**
      * Post upload event handler (returns the upload key).

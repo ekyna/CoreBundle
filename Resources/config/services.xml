@@ -83,13 +83,6 @@
             <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime" />
         </service>
 
-        <!-- Doctrine entity listener resolver -->
-        <service id="ekyna_core.doctrine.entity_listener_resolver" class="Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
-
         <!-- Chain router -->
         <service id="ekyna_core.router" class="Symfony\Cmf\Component\Routing\ChainRouter">
             <argument type="service" id="logger" on-invalid="ignore" />
@@ -119,18 +112,7 @@
             <argument>local_upload</argument><!-- TODO config -->
         </service>
 
-        <!-- Doctrine event listeners -->
-        <service id="ekyna_core.upload.listener" class="Ekyna\Bundle\CoreBundle\Listener\UploadListener">
-            <argument type="service" id="ekyna_core.upload.uploader" />
-            <tag name="doctrine.entity_listener" />
-        </service>
-
-        <!-- Event listeners -->
-        <service id="ekyna_core.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\LoadMetadataSubscriber">
-            <argument>%ekyna_core.entities%</argument>
-            <argument>%ekyna_core.interfaces%</argument>
-            <tag name="doctrine.event_subscriber" />
-        </service>
+        <!-- Event subscribers/listeners -->
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -141,14 +123,23 @@
             <argument type="service" id="ekyna_core.cache.tag_manager" />
             <tag name="kernel.event_subscriber" />
         </service>
-        <service id="ekyna_core.upload.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\UploadListener">
+        <service id="ekyna_core.upload.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\UploadEventSubscriber">
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <!-- Doctrine event listeners -->
-        <service id="ekyna_core.tagged_entity.listener" class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityListener" public="false">
+        <!-- Doctrine subscribers/listeners -->
+        <service id="ekyna_core.load_orm_metadata.event_subscriber" class="Ekyna\Bundle\CoreBundle\Listener\LoadMetadataSubscriber" public="false">
+            <argument>%ekyna_core.entities%</argument>
+            <argument>%ekyna_core.interfaces%</argument>
+            <tag name="doctrine.event_subscriber" />
+        </service>
+        <service id="ekyna_core.tagged_entity.event_subscriber" class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityEventSubscriber" public="false">
             <argument type="service" id="event_dispatcher" />
             <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+        <service id="ekyna_core.upload.listener" class="Ekyna\Bundle\CoreBundle\Listener\UploadListener">
+            <argument type="service" id="ekyna_core.upload.uploader" />
+            <tag name="doctrine.orm.entity_listener" />
         </service>
 
         <!-- Twig extensions -->

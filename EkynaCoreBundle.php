@@ -26,7 +26,6 @@ class EkynaCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new DoctrineEntityListenerPass());
         $container->addCompilerPass(new FosHttpCachePass());
         $container->addCompilerPass(new RedirectionProviderPass());
         $container->addCompilerPass(new SetRouterPass());

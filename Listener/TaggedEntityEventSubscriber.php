@@ -12,11 +12,11 @@ use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class TaggedEntityListener
+ * Class TaggedEntityEventSubscriber
  * @package Ekyna\Bundle\CoreBundle\Listener
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class TaggedEntityListener implements EventSubscriber
+class TaggedEntityEventSubscriber implements EventSubscriber
 {
     /**
      * @var EventDispatcherInterface
