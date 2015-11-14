@@ -2,11 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle;
 
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FormJsPass;
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\FosHttpCachePass;
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RedirectionProviderPass;
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RegisterRoutersPass;
-use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\SetRouterPass;
+use Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler as Pass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -25,11 +21,11 @@ class EkynaCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new DoctrineEntityListenerPass());
-        $container->addCompilerPass(new FosHttpCachePass());
-        $container->addCompilerPass(new RedirectionProviderPass());
-        $container->addCompilerPass(new SetRouterPass());
-        $container->addCompilerPass(new RegisterRoutersPass('ekyna_core.router'), PassConfig::TYPE_BEFORE_REMOVING);
-        $container->addCompilerPass(new FormJsPass());
+        $container->addCompilerPass(new Pass\DoctrineEntityListenerPass());
+        $container->addCompilerPass(new Pass\FosHttpCachePass());
+        $container->addCompilerPass(new Pass\RedirectionProviderPass());
+        $container->addCompilerPass(new Pass\SetRouterPass());
+        $container->addCompilerPass(new Pass\RegisterRoutersPass('ekyna_core.router'), PassConfig::TYPE_BEFORE_REMOVING);
+        $container->addCompilerPass(new Pass\FormJsPass());
     }
 }
