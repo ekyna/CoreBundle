@@ -112,6 +112,13 @@
             <argument>local_upload</argument><!-- TODO config -->
         </service>
 
+        <!-- Doctrine entity listener resolver -->
+        <service id="ekyna_core.doctrine.entity_listener_resolver" class="Ekyna\Bundle\CoreBundle\Doctrine\EntityListenerResolver">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
         <!-- Event subscribers/listeners -->
         <service id="ekyna_core.kernel.event_subscriber" class="Ekyna\Bundle\CoreBundle\EventListener\KernelEventSubscriber">
             <call method="setContainer">
@@ -139,7 +146,7 @@
         </service>
         <service id="ekyna_core.upload.listener" class="Ekyna\Bundle\CoreBundle\Listener\UploadListener">
             <argument type="service" id="ekyna_core.upload.uploader" />
-            <tag name="doctrine.orm.entity_listener" />
+            <tag name="doctrine.entity_listener" />
         </service>
 
         <!-- Twig extensions -->
