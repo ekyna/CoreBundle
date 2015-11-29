@@ -100,13 +100,18 @@
                 that.dialog.setButtons([]);
             }
 
-            that.dialog.onShown(function() {
+            if (that.dialog.isOpened()) {
                 if (event) {
                     $(that).trigger(event);
                 }
-            });
-
-            that.dialog.open();
+            } else {
+                that.dialog.onShown(function() {
+                    if (event) {
+                        $(that).trigger(event);
+                    }
+                });
+                that.dialog.open();
+            }
         },
         getDialog: function() {
             return this.dialog;
