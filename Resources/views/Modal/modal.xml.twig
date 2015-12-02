@@ -12,7 +12,7 @@
 {% endblock title %}
 
 {% block content %}
-{% if modal.content is not same as(null) %}
+{#{% if modal.content is not same as(null) %}#}
     <content type="{{ modal.contentType }}"><![CDATA[
     {%- if modal.contentType == 'form' -%}
         {% set form = modal.content %}
@@ -32,7 +32,7 @@
         {{ modal.content|raw }}
     {%- endif -%}
     ]]></content>
-{% endif %}
+{#{% endif %}#}
 {% endblock content %}
 
 {% block buttons %}
