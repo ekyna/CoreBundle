@@ -1,21 +1,4 @@
-(function(root, factory) {
-    "use strict";
-
-    // CommonJS module is defined
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = factory(require('jquery'), require('bootstrap-dialog'));
-    }
-    // AMD module is defined
-    else if (typeof define === 'function' && define.amd) {
-        define('ekyna-modal', ['jquery', 'bootstrap-dialog'], function($, bsDialog) {
-            return factory($, bsDialog);
-        });
-    } else {
-        // planted over the root!
-        root.EkynaModal = factory(root.jQuery, root.BootstrapDialog);
-    }
-
-}(this, function($, bsDialog) {
+define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(require, $, bsDialog) {
     "use strict";
 
     var EkynaModal = function() {
@@ -79,20 +62,27 @@
 
             var $buttons = $xmlData.find('buttons');
             if ($buttons.size() > 0) {
-                var buttons = JSON.parse($buttons.text());
+                var buttons = JSON.parse($buttons.text(), function (key, value) {
+                    if (value && (typeof value === 'string') && value.indexOf("function") === 0) {
+                        return new Function('return ' + value)();
+                    }
+                    return value;
+                });
                 $(buttons).each(function(index, button) {
-                    if (button.id == 'close') {
-                        button.action = function (dialog) {
-                            dialog.enableButtons(false);
-                            dialog.close();
-                        };
-                    } else {
-                        button.action = function (dialog) {
-                            dialog.enableButtons(false);
-                            var event = $.Event('ekyna.modal.button_click');
-                            event.buttonId = button.id;
-                            $(that).trigger(event);
-                        };
+                    if (!button.hasOwnProperty('action')) {
+                        if (button.id == 'close') {
+                            button.action = function (dialog) {
+                                dialog.enableButtons(false);
+                                dialog.close();
+                            };
+                        } else {
+                            button.action = function (dialog) {
+                                dialog.enableButtons(false);
+                                var event = $.Event('ekyna.modal.button_click');
+                                event.buttonId = button.id;
+                                $(that).trigger(event);
+                            };
+                        }
                     }
                 });
                 that.dialog.setButtons(buttons);
@@ -118,6 +108,52 @@
         }
     };
 
+    // Modal
+    $('[data-modal="true"]').bind('click', function(e) {
+        e.preventDefault();
+
+        var modal = new EkynaModal(), form;
+        modal.load({url: $(this).attr('href')});
+
+        $(modal).on('ekyna.modal.content', function (e) {
+            if (form) {
+                form.destroy();
+                form = null;
+            }
+            if (e.contentType == 'form') {
+                require(['ekyna-form'], function (Form) {
+                    form = Form.create(e.content);
+                    form.init();
+                });
+            }
+        });
+
+        $(modal).on('ekyna.modal.button_click', function (e) {
+            if (e.buttonId == 'submit') {
+                form.save();
+                setTimeout(function () {
+                    form.getElement().ajaxSubmit({
+                        dataType: 'xml',
+                        success: function (response) {
+                            form.destroy();
+                            form = null;
+                            modal.handleResponse(response);
+                        }
+                    });
+                }, 100);
+            }
+        });
+
+        modal.getDialog().onHide(function () {
+            if (form) {
+                form.destroy();
+                form = null;
+            }
+        });
+
+        return false;
+    });
+
     return EkynaModal;
 
-}));
+});

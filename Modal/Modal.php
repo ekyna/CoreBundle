@@ -266,16 +266,26 @@ class Modal
                     'id'       => null,
                     'icon'     => null,
                     'label'    => null,
+                    'action'   => null,
                     'autospin' => null,
                     'cssClass' => 'btn-default',
                     'hotkey'   => null,
                 ])
+
                 ->setAllowedTypes('id',       'string')
                 ->setAllowedTypes('icon',     ['null', 'string'])
                 ->setAllowedTypes('label',    'string')
+                ->setAllowedTypes('action',   ['null', 'string'])
                 ->setAllowedTypes('autospin', ['null', 'bool'])
                 ->setAllowedTypes('cssClass', 'string')
                 ->setAllowedTypes('hotkey',   ['null', 'int'])
+
+                ->setAllowedValues('action', function ($value) {
+                    if (null === $value) {
+                        return true;
+                    }
+                    return preg_match('~^function\s?\((dialog)?\)\s?\{[^}]+\}$~', $value);
+                })
             ;
         }
         return static::$buttonOptionsResolver;
