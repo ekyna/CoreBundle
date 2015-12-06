@@ -69,7 +69,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
                     return value;
                 });
                 $(buttons).each(function(index, button) {
-                    if (!button.hasOwnProperty('action')) {
+                    if (typeof button.action != "function") {
                         if (button.id == 'close') {
                             button.action = function (dialog) {
                                 dialog.enableButtons(false);
