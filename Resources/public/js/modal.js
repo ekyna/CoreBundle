@@ -109,7 +109,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
     };
 
     // Modal
-    $('body').on('click', '[data-modal="true"]', function(e) {
+    $('body').on('click', 'a[data-modal="true"], [data-modal="true"] > a', function(e) {
         e.preventDefault();
 
         var modal = new EkynaModal(), form;
