@@ -5,7 +5,7 @@ define(
     "use strict";
 
     var EkynaForm = function ($elem, options) {
-        this.$elem = typeof $elem == 'jQuery' ? $elem : $($elem);
+        this.$elem = $($elem);
         this.options = options;
     };
 

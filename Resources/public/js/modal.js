@@ -3,6 +3,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
 
     var EkynaModal = function() {
         this.dialog = new bsDialog();
+        this.form = null;
     };
 
     EkynaModal.prototype = {
@@ -27,31 +28,85 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
             var $xmlData = $(xmlData);
             var event = null;
 
+            if (that.form) {
+                that.form.destroy();
+                that.form = null;
+            }
+
+            // Content
             var $content = $xmlData.find('content');
             if ($content.size() > 0) {
                 var type = $content.attr('type');
                 event = $.Event('ekyna.modal.content');
+                event.modal = that;
                 event.contentType = type;
+
                 var content = $content.text();
+
+                // Data content type
                 if (type === 'data') {
                     event.content = JSON.parse(content);
-                } else {
-                    var $html = $(content); // html, form or table
-                    event.content = $html;
-                    that.dialog.setMessage($html);
-                }
-                // Prevent dialog open
-                if (type === 'data' || event.isDefaultPrevented()) {
                     $(that).trigger(event);
+                    if (that.dialog.isOpened()) {
+                        that.dialog.close();
+                    }
                     return;
                 }
+
+                // Html content type
+                var $html = $(content);
+                event.content = $html;
+                $(that).trigger(event);
+                if (event.isDefaultPrevented()) {
+                    if (that.dialog.isOpened()) {
+                        that.dialog.close();
+                    }
+                    return;
+                }
+
+                that.dialog.setMessage($html);
+
+                // Form content type
+                if (type === 'form') {
+                    require(['ekyna-form'], function (Form) {
+                        that.form = Form.create($html);
+                        that.form.init();
+
+                        that.form.getElement().on('submit', function(e) {
+                            e.preventDefault();
+
+                            that.dialog.enableButtons(false);
+                            var submitButton = that.dialog.getButton('submit');
+                            if (submitButton) {
+                                submitButton.spin();
+                            }
+
+                            that.form.save();
+                            setTimeout(function () {
+                                that.form.getElement().ajaxSubmit({
+                                    dataType: 'xml',
+                                    success: function (response) {
+                                        that.handleResponse(response);
+                                    }
+                                });
+                            }, 100);
+
+                            return false;
+                        });
+                    });
+                }
+            } else {
+                // No content => abort
+                return;
             }
 
+            // Title
             var $title = $xmlData.find('title');
             if ($title.size() > 0) {
                 that.dialog.setTitle($title.text());
             }
 
+            // Type and Size
             var config = JSON.parse($xmlData.find('config').text());
             if (config.type) {
                 that.dialog.setType(config.type);
@@ -60,6 +115,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
                 that.dialog.setSize(config.size);
             }
 
+            // Buttons
             var $buttons = $xmlData.find('buttons');
             if ($buttons.size() > 0) {
                 var buttons = JSON.parse($buttons.text(), function (key, value) {
@@ -79,8 +135,13 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
                             button.action = function (dialog) {
                                 dialog.enableButtons(false);
                                 var event = $.Event('ekyna.modal.button_click');
+                                event.modal = that;
                                 event.buttonId = button.id;
                                 $(that).trigger(event);
+
+                                if (that.form && button.id == 'submit' && !event.isDefaultPrevented()) {
+                                    that.form.getElement().submit();
+                                }
                             };
                         }
                     }
@@ -90,16 +151,23 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
                 that.dialog.setButtons([]);
             }
 
-            if (that.dialog.isOpened()) {
-                if (event) {
-                    $(that).trigger(event);
+            // Handle hide dialog
+            that.dialog.onHide(function () {
+                var event = $.Event('ekyna.modal.hide');
+                event.modal = that;
+                $(that).trigger(event);
+                if (event.isDefaultPrevented()) {
+                    return false;
                 }
-            } else {
-                that.dialog.onShown(function() {
-                    if (event) {
-                        $(that).trigger(event);
-                    }
-                });
+
+                if (that.form) {
+                    that.form.destroy();
+                    that.form = null;
+                }
+            });
+
+            // Handle open/shown dialog
+            if (!that.dialog.isOpened()) {
                 that.dialog.open();
             }
         },
@@ -108,48 +176,12 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap-dialog'], function(requir
         }
     };
 
-    // Modal
-    $('body').on('click', 'a[data-modal="true"], [data-modal="true"] > a', function(e) {
+    // Auto modal buttons and links
+    $('body').on('click', 'button[data-modal="true"], a[data-modal="true"], [data-modal="true"] > a', function(e) {
         e.preventDefault();
 
-        var modal = new EkynaModal(), form;
+        var modal = new EkynaModal();
         modal.load({url: $(this).attr('href')});
-
-        $(modal).on('ekyna.modal.content', function (e) {
-            if (form) {
-                form.destroy();
-                form = null;
-            }
-            if (e.contentType == 'form') {
-                require(['ekyna-form'], function (Form) {
-                    form = Form.create(e.content);
-                    form.init();
-                });
-            }
-        });
-
-        $(modal).on('ekyna.modal.button_click', function (e) {
-            if (e.buttonId == 'submit') {
-                form.save();
-                setTimeout(function () {
-                    form.getElement().ajaxSubmit({
-                        dataType: 'xml',
-                        success: function (response) {
-                            form.destroy();
-                            form = null;
-                            modal.handleResponse(response);
-                        }
-                    });
-                }, 100);
-            }
-        });
-
-        modal.getDialog().onHide(function () {
-            if (form) {
-                form.destroy();
-                form = null;
-            }
-        });
 
         return false;
     });

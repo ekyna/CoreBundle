@@ -1,9 +1,7 @@
 define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal, Form, Table) {
     "use strict";
 
-    $.fn.entityWidget = function(params) {
-
-        params = $.extend({}, params);
+    $.fn.entityWidget = function() {
 
         this.each(function() {
 
@@ -13,20 +11,13 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
             var $select = $entity.find('select');
 
             if ($addButton.length == 1) {
-                $addButton.bind('click', function(e) {
+                $addButton.bind('click', function() {
 
-                    var modal = new Modal(), form;
+                    var modal = new Modal();
                     modal.load({url: $addButton.data('path')});
 
                     $(modal).on('ekyna.modal.content', function (e) {
-                        if (form) {
-                            form.destroy();
-                            form = null;
-                        }
-                        if (e.contentType == 'form') {
-                            form = Form.create(e.content);
-                            form.init();
-                        } else if (e.contentType == 'data') {
+                        if (e.contentType == 'data') {
                             var data = e.content,
                                 $option = $('<option />');
                             $option.prop('value', data.id);
@@ -39,39 +30,13 @@ define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table
                                 throw "Unexpected resource data.";
                             }
                             $select.append($option).select2();
-                            modal.getDialog().close();
-                        } else {
-                            throw "Unexpected modal content type";
-                        }
-                    });
-
-                    $(modal).on('ekyna.modal.button_click', function (e) {
-                        if (e.buttonId == 'submit') {
-                            form.save();
-                            setTimeout(function() {
-                                form.getElement().ajaxSubmit({
-                                    dataType: 'xml',
-                                    success: function(response) {
-                                        form.destroy();
-                                        form = null;
-                                        modal.handleResponse(response);
-                                    }
-                                });
-                            }, 100);
-                        }
-                    });
-
-                    modal.getDialog().onHide(function() {
-                        if (form) {
-                            form.destroy();
-                            form = null;
                         }
                     });
                 });
             }
 
             if ($listButton.length == 1) {
-                $listButton.bind('click', function(e) {
+                $listButton.bind('click', function() {
                     var modal = new Modal();
                     modal.load({url: $listButton.data('path')});
 
