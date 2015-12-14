@@ -56,10 +56,5 @@
             "Ekyna\\Bundle\\CoreBundle" : ""
         }
     },
-    "target-dir" : "Ekyna/Bundle/CoreBundle",
-    "extra" : {
-        "branch-alias" : {
-            "dev-master" : "0.1.x-dev"
-        }
-    }
+    "target-dir" : "Ekyna/Bundle/CoreBundle"
 }
