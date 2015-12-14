@@ -9,30 +9,43 @@ fos_elastica:
                 index:
                     analysis:
                         tokenizer:
-                            nGram:
+                            n_gram:
                                 type: nGram
-                                min_gram: 2
+                                min_gram: 3
                                 max_gram: 20
+                                token_chars: [letter, digit]
                         filter:
+                            # Common
+                            delimiter:
+                                type: word_delimiter
+                            # FR
                             fr_stop:
                                 type: stop
                                 stopwords: [_french_]
                                 ignore_case: true
+                            fr_stemmer:
+                                type: stemmer
+                                language: minimal_french
                             fr_elision:
                                 type: elision
                                 articles: [l, m, t, qu, n, s, j, d, c, jusqu, quoiqu, lorsqu, puisqu]
-                            fr_delimiter:
-                                type: word_delimiter
-                            fr_stemmer:
-                                type: stemmer
-                                language: light_french
                         analyzer:
+                            # Default
+                            index:
+                                type: custom
+                                tokenizer: n_gram
+                                filter: [asciifolding, lowercase, delimiter]
+                            search:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, delimiter]
+                            # FR
                             fr_index:
                                 type: custom
-                                tokenizer: nGram
-                                filter: [fr_stop, asciifolding, lowercase, fr_elision, fr_delimiter, fr_stemmer]
                                 char_filter: [html_strip]
+                                tokenizer: n_gram
+                                filter: [fr_stop, asciifolding, lowercase, fr_elision, delimiter, fr_stemmer]
                             fr_search:
                                 type: custom
                                 tokenizer: standard
-                                filter: [fr_stop, asciifolding, lowercase, fr_elision, fr_delimiter, fr_stemmer]
+                                filter: [fr_stop, asciifolding, lowercase, fr_elision, delimiter, fr_stemmer]
