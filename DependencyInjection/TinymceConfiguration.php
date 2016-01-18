@@ -33,7 +33,7 @@ class TinymceConfiguration
             'statusbar'          => false,
             'resize'             => false,
             'image_advtab'       => true,
-            'table_advtab'      => true,
+            'table_advtab'       => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
             'remove_script_host' => true,
@@ -54,7 +54,7 @@ class TinymceConfiguration
             'statusbar'          => false,
             'resize'             => false,
             'image_advtab'       => true,
-            'table_advtab'      => true,
+            'table_advtab'       => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
             'remove_script_host' => true,
@@ -75,7 +75,7 @@ class TinymceConfiguration
             'statusbar'          => true,
             'resize'             => false,
             'image_advtab'       => true,
-            'table_advtab'      => true,
+            'table_advtab'       => true,
             'paste_as_text'      => true,
             'relative_urls'      => false,
             'remove_script_host' => true,
@@ -90,16 +90,25 @@ class TinymceConfiguration
                 "autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
                 "insertdatetime nonbreaking save table contextmenu directionality",
-                "paste textcolor image media", // imagetools emoticons template
+                "paste textcolor image media imagetools", // emoticons template
             ],
             'toolbar1' => "undo redo removeformat code | styleselect | table link anchor image media",
             'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
                           "alignright alignjustify | bullist numlist outdent indent | hr",
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
+
+            'images_upload_url' => '/admin/tinymce/upload',
+            //'images_upload_base_path' => '/some/basepath',
+            'images_upload_credentials' => true,
         ];
 
-        $styleFormats = $config['ui']['tinymce_formats'];
+        $styleFormatsMerge = (bool) $config['ui']['tinymce_formats_merge'];
+        if (null === $styleFormats = $config['ui']['tinymce_formats']) {
+            $styleFormats = $this->getDefaultFormats();
+        } elseif ($styleFormatsMerge) {
+            $styleFormats = array_merge($this->getDefaultFormats(), $styleFormats);
+        }
 
         $externalPlugins = [];
         if (!in_array('EkynaMediaBundle', $bundles)) {
@@ -107,9 +116,9 @@ class TinymceConfiguration
         }
 
         if (is_array($styleFormats) && !empty($styleFormats)) {
-            $simpleTheme['style_formats_merge'] = true;
+            //$simpleTheme['style_formats_merge'] = $styleFormatsMerge;
             $simpleTheme['style_formats'] = $styleFormats;
-            $advancedTheme['style_formats_merge'] = true;
+            //$advancedTheme['style_formats_merge'] = $styleFormatsMerge;
             $advancedTheme['style_formats'] = $styleFormats;
         }
 
@@ -127,6 +136,45 @@ class TinymceConfiguration
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,
                 'front'    => $frontTheme,
+            ],
+        ];
+    }
+
+    private function getDefaultFormats()
+    {
+        // https://www.tinymce.com/docs/configure/content-formatting/
+        return [
+            [
+                'title' => 'Titraille',
+                'items' => [
+                    ['title' => 'Titre 1', 'format' => 'h1'],
+                    ['title' => 'Titre 2', 'format' => 'h2'],
+                    ['title' => 'Titre 3', 'format' => 'h3'],
+                    ['title' => 'Titre 4', 'format' => 'h4'],
+                    ['title' => 'Titre 5', 'format' => 'h5'],
+                    ['title' => 'Titre 6', 'format' => 'h6'],
+                ],
+            ],
+            [
+                'title' => 'En ligne',
+                'items' => [
+                    ['title' => 'Gras', 'icon' => 'bold', 'format' => 'bold'],
+                    ['title' => 'Italique', 'icon' => 'italic', 'format' => 'italic'],
+                    ['title' => 'Souligné', 'icon' => 'underline', 'format' => 'underline'],
+                    ['title' => 'Batté', 'icon' => 'strikethrough', 'format' => 'strikethrough'],
+                    ['title' => 'Exposant', 'icon' => 'superscript', 'format' => 'superscript'],
+                    ['title' => 'Indice', 'icon' => 'subscript', 'format' => 'subscript'],
+                    //['title' => 'Code', 'icon' => 'code', 'format' => 'code'],
+                ],
+            ],
+            [
+                'title' => 'Blocs',
+                'items' => [
+                    ['title' => 'Paragraphe', 'format' => 'p'],
+                    ['title' => 'Citation', 'format' => 'blockquote'],
+                    ['title' => 'Calque', 'format' => 'div'],
+                    ['title' => 'Pré-formatté', 'format' => 'pre'],
+                ],
             ],
         ];
     }

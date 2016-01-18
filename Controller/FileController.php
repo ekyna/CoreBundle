@@ -65,24 +65,38 @@ class FileController extends Controller
      */
     public function tinymceUploadAction(Request $request)
     {
-        // TODO check admin ?
+        // https://www.tinymce.com/docs/advanced/handle-async-image-uploads/
 
-        if (!$request->isXmlHttpRequest()) {
-            throw new NotFoundHttpException();
+        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        $file = current($request->files->all());
+
+        // Check file
+        if (!$file->isValid()) {
+            throw new \Exception('Invalid file.');
         }
 
-        $name = $request->request->get('name');
-        $base64 = $request->request->get('data');
-
-        $filename = md5(time().uniqid()).".jpg";
-        $data = explode(',', $base64);
-        if (2 != count($data)) {
-            throw new \InvalidArgumentException('Invalid image data.');
+        // Open uploaded file
+        if (false === $stream = fopen($file->getRealPath(), 'r+')) {
+            throw new \Exception('Failed to open file.');
         }
 
+        // Verify extension
+        // TODO check $mimeType = $file->getClientMimeType();
+        $extension = strtolower($file->getClientOriginalExtension());
+        if (!in_array($extension, array("gif", "jpg", "png"))) {
+            throw new \Exception('Invalid extension.');
+        }
+
+        // New file name
+        $filename = strtolower(md5(time().uniqid())).'.'.$extension;
+
+        // Write new file
         $fs = $this->get('local_tinymce_filesystem');
-        if (!$fs->put($filename, base64_decode($data[1]))) {
-            throw new \Exception('Failed to create image.');
+        if (!$fs->writeStream($filename, $stream)) {
+            throw new \Exception('Failed to write file.');
+        }
+        if (is_resource($stream)) {
+            fclose($stream);
         }
 
         return new JsonResponse([

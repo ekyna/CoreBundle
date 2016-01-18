@@ -23,6 +23,6 @@ ekyna_core_download:
     options: { expose: true }
 
 ekyna_core_tiymce_upload:
-    path: /tinymce/upload
+    path: /admin/tinymce/upload
     defaults: { _controller: "EkynaCoreBundle:File:tinymceUpload" }
     methods: [POST]

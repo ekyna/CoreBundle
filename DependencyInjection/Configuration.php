@@ -86,7 +86,8 @@ class Configuration implements ConfigurationInterface
 				->scalarNode('no_image_path')->defaultValue('/bundles/ekynacore/img/new-image.gif')->end()
 				->scalarNode('google_font_url')->defaultValue('')->end()
 				->variableNode('locales')->defaultValue('%locales%')->end()
-				->variableNode('tinymce_formats')->defaultNull()->end()
+                ->booleanNode('tinymce_formats_merge')->defaultTrue()->end()
+                ->variableNode('tinymce_formats')->defaultNull()->end()
 			->end()
 		;
 		
