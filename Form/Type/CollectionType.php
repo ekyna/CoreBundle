@@ -29,6 +29,8 @@ class CollectionType extends AbstractType
                 'add_button_text'       => 'ekyna_core.button.add',
                 'delete_button_text'    => 'ekyna_core.button.remove',
                 'delete_button_confirm' => 'ekyna_core.message.remove_confirm',
+                'sub_widget_col'        => 11,
+                'button_col'            => 1,
             ))
             ->setAllowedTypes('allow_sort',  'bool')
             ->setAllowedTypes('delete_button_confirm',  array('null', 'string'));
