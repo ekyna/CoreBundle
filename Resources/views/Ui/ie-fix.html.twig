@@ -1,16 +1,6 @@
-{% javascripts output='js/ie/fix-10.js' filter='yui_js' debug=false
-    '@EkynaCoreBundle/Resources/asset/js/ie/ie10-viewport-bug-workaround.js'
--%}
 <!--[if IE 10]>
-<script type="text/javascript" src="{{ asset_url }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/ekynacore/js/ie/fix-10.js') }}"></script>
 <![endif]-->
-{%- endjavascripts %}
-{% javascripts output='js/ie/fix-lt-9.js' filter='yui_js' debug=false
-    '@EkynaCoreBundle/Resources/asset/js/ie/html5shiv.min.js'
-    '@EkynaCoreBundle/Resources/asset/js/ie/respond.min.js'
-    '@EkynaCoreBundle/Resources/asset/js/ie/excanvas.min.js'
--%}
 <!--[if lt IE 9]>
-<script type="text/javascript" src="{{ asset_url }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/ekynacore/js/ie/fix-9.js') }}"></script>
 <![endif]-->
-{%- endjavascripts %}
