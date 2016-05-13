@@ -89,7 +89,7 @@ class EkynaCoreExtension extends Extension
     protected function configureTwigBundle(ContainerBuilder $container)
     {
         $container->prependExtensionConfig('twig', [
-            'form' => ['resources' => ['EkynaCoreBundle:Form:form_div_layout.html.twig']],
+            'form_themes' => ['EkynaCoreBundle:Form:form_div_layout.html.twig'],
         ]);
     }
 

@@ -19,7 +19,7 @@ ekyna_core_download:
     defaults: { _controller: "EkynaCoreBundle:File:download" }
     methods: [GET]
     requirements:
-        key: "[a-z0-9-\./]+"
+        key: '[a-z0-9-\./]+'
     options: { expose: true }
 
 ekyna_core_tiymce_upload:

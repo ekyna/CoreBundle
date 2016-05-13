@@ -63,23 +63,23 @@
 
         <!-- Form Extensions -->
         <service id="ekyna_core.form_type_sizing_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension">
-            <tag name="form.type_extension" alias="form" />
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
         <service id="ekyna_core.form_type_redirect_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension">
             <argument type="service" id="request_stack" />
-            <tag name="form.type_extension" alias="form" />
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
 
         <service id="ekyna_core.entity_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension">
-            <tag name="form.type_extension" alias="entity" />
+            <tag name="form.type_extension" extended-type="Symfony\Bridge\Doctrine\Form\Type\EntityType" />
             <tag name="form.js" selector=".entity-widget" path="ekyna-form/entity" />
         </service>
         <service id="ekyna_core.choice_type_parent_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\ChoiceTypeParentExtension">
-            <tag name="form.type_extension" alias="choice" />
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\ChoiceType" />
             <tag name="form.js" selector="select[data-parent-choice]" path="ekyna-form/parent-choice" />
         </service>
         <service id="ekyna_core.datetime_type_extension" class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
-            <tag name="form.type_extension" alias="datetime" />
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\DateTimeType" />
             <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime" />
         </service>
 

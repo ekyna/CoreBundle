@@ -5,4 +5,4 @@ oneup_uploader:
             max_size: 137438953472 # 128M
             storage:
                 type: filesystem
-                directory: %kernel.var_dir%/tmp
+                directory: "%kernel.media_dir%/tmp"

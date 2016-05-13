@@ -31,7 +31,10 @@ abstract class Extension extends BaseExtension implements PrependExtensionInterf
             foreach ($finder->in($this->getConfigurationDirectory() . '/prepend')->files()->name('*.yml') as $file) {
                 $bundle = $file->getBasename('.yml');
                 if (array_key_exists($bundle, $bundles)) {
-                    $configs = Yaml::parse($file->getRealPath());
+                    $configs = Yaml::parse(file_get_contents($file->getRealPath()));
+                    if (!is_array($configs)) {
+                        throw new \RuntimeException('Failed to parse ' . $file->getRealPath());
+                    }
                     foreach ($configs as $key => $config) {
                         $container->prependExtensionConfig($key, $config);
                     }
