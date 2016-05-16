@@ -93,7 +93,7 @@
 
         <!-- Http cache -->
         <service id="ekyna_core.cache.tag_manager" class="Ekyna\Bundle\CoreBundle\Cache\TagManager">
-            <argument>%ekyna_core.cache_config%</argument>
+            <argument>%ekyna_core.config.cache%</argument>
         </service>
 
         <!-- Redirection -->
@@ -154,9 +154,10 @@
             <tag name="twig.extension" />
         </service>
         <service id="ekyna_core.twig.ui_extension" class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
+            <argument type="service" id="twig.extension.assets" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="ekyna_core.locale_provider.request" />
-            <argument>%ekyna_core.ui_config%</argument>
+            <argument>%ekyna_core.config.ui%</argument>
             <tag name="twig.extension" />
         </service>
         <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">

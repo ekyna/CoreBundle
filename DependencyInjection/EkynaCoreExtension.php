@@ -29,8 +29,8 @@ class EkynaCoreExtension extends Extension
             $container->setParameter('ekyna_core.chain_router.routers', $routers);
         }
 
-        $container->setParameter('ekyna_core.ui_config', $config['ui']);
-        $container->setParameter('ekyna_core.cache_config', $config['cache']);
+        $container->setParameter('ekyna_core.config.ui', $config['ui']);
+        $container->setParameter('ekyna_core.config.cache', $config['cache']);
 
         /* Inheritance mapping = [
          *     resource_id => [
@@ -61,9 +61,9 @@ class EkynaCoreExtension extends Extension
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        if (array_key_exists('AsseticBundle', $bundles)) {
+        /*if (array_key_exists('AsseticBundle', $bundles)) {
             $this->configureAsseticBundle($container, $config['assets']);
-        }
+        }*/
         if (array_key_exists('TwigBundle', $bundles)) {
             $this->configureTwigBundle($container);
         }
@@ -90,21 +90,6 @@ class EkynaCoreExtension extends Extension
     {
         $container->prependExtensionConfig('twig', [
             'form_themes' => ['EkynaCoreBundle:Form:form_div_layout.html.twig'],
-        ]);
-    }
-
-    /**
-     * Configures the AsseticBundle.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    protected function configureAsseticBundle(ContainerBuilder $container, array $config)
-    {
-        $asseticConfig = new AsseticConfiguration();
-        $container->prependExtensionConfig('assetic', [
-            'assets' => $asseticConfig->build($config),
-            'bundles' => ['EkynaCoreBundle'],
         ]);
     }
 

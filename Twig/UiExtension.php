@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Ekyna\Bundle\CoreBundle\Locale\LocaleProviderInterface;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
@@ -13,8 +14,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @package Ekyna\Bundle\CoreBundle\Twig
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class UiExtension extends \Twig_Extension
+class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
+    /**
+     * @var AssetExtension
+     */
+    private $assetExtension;
+
     /**
      * @var RequestStack
      */
@@ -44,12 +50,18 @@ class UiExtension extends \Twig_Extension
     /**
      * Constructor.
      *
+     * @param AssetExtension          $assetExtension
      * @param RequestStack            $requestStack
      * @param LocaleProviderInterface $localeProvider
      * @param array                   $config
      */
-    public function __construct(RequestStack $requestStack, LocaleProviderInterface $localeProvider, array $config)
-    {
+    public function __construct(
+        AssetExtension $assetExtension,
+        RequestStack $requestStack,
+        LocaleProviderInterface $localeProvider,
+        array $config
+    ) {
+        $this->assetExtension = $assetExtension;
         $this->requestStack   = $requestStack;
         $this->localeProvider = $localeProvider;
         $this->config         = $config;
@@ -69,10 +81,14 @@ class UiExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('ui_no_image', [$this, 'renderNoImage'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_link', [$this, 'renderLink'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_button', [$this, 'renderButton'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_google_font', [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_content_stylesheet', [$this, 'renderContentStylesheet'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_forms_stylesheets',  [$this, 'renderFormsStylesheets'],  ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_fonts_stylesheets',  [$this, 'renderFontsStylesheets'],  ['is_safe' => ['html']]),
+
+            new \Twig_SimpleFunction('ui_no_image',        [$this, 'renderNoImage'],        ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_link',            [$this, 'renderLink'],           ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_button',          [$this, 'renderButton'],         ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_google_font',     [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_locale_switcher', [$this, 'renderLocaleSwitcher'], ['is_safe' => ['html']]),
         ];
     }
@@ -98,6 +114,8 @@ class UiExtension extends \Twig_Extension
         ];
     }
 
+
+
     /**
      * {@inheritdoc}
      */
@@ -106,6 +124,56 @@ class UiExtension extends \Twig_Extension
         return [
             new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
         ];
+    }
+
+    public function buildStylesheetTag($path)
+    {
+        return '<link href="' . $this->assetExtension->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
+    }
+
+    /**
+     * Renders the content stylesheet link.
+     *
+     * @return string
+     */
+    public function renderContentStylesheet()
+    {
+        if (0 < strlen($path = $this->config['stylesheets']['content'])) {
+            return $this->buildStylesheetTag($path);
+        }
+        return '';
+    }
+
+    /**
+     * Renders the forms stylesheets links.
+     *
+     * @return string
+     */
+    public function renderFormsStylesheets()
+    {
+        $output = '';
+
+        foreach ($this->config['stylesheets']['forms'] as $path) {
+            $output .= $this->buildStylesheetTag($path);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Renders the fonts stylesheets links.
+     *
+     * @return string
+     */
+    public function renderFontsStylesheets()
+    {
+        $output = '';
+
+        foreach ($this->config['stylesheets']['fonts'] as $path) {
+            $output .= $this->buildStylesheetTag($path);
+        }
+
+        return $output;
     }
 
     /**
@@ -155,7 +223,7 @@ class UiExtension extends \Twig_Extension
         $tag = 'button';
         $classes = ['btn', 'btn-'.$options['theme'], 'btn-'.$options['size']];
         $defaultAttributes = [
-        	'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
+            'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
         ];
         if ($options['type'] == 'link') {
             if (0 == strlen($options['path'])) {
@@ -185,19 +253,6 @@ class UiExtension extends \Twig_Extension
             'label' => $label,
             'icon'  => $icon,
         ]);
-    }
-
-    /**
-     * Renders the google font css link.
-     *
-     * @return string
-     */
-    public function renderGoogleFontLink()
-    {
-        if (0 < strlen($this->config['google_font_url'])) {
-            return '<link href="' . $this->config['google_font_url'] . '" rel="stylesheet" type="text/css">' . "\n";
-        }
-        return '';
     }
 
     /**
@@ -284,6 +339,6 @@ class UiExtension extends \Twig_Extension
      */
     public function getName()
     {
-    	return 'ekyna_core_ui';
+        return 'ekyna_core_ui';
     }
 }

@@ -1,41 +1,52 @@
 config:
     packages:
-        0:
+        -
             name: 'ekyna-form'
             location: 'bundles/ekynacore/js/form'
             main: 'form'
+        -
+            name: 'jquery'
+            location: 'bundles/ekynacore/lib/jquery'
+            main: 'jquery'
+        -
+            name: 'jquery-ui'
+            location: 'bundles/ekynacore/lib/jquery-ui'
+            main: 'core'
+        -
+            name: 'bootstrap'
+            location: 'bundles/ekynacore/lib/bootstrap'
+            main: 'bootstrap'
     shim:
         'jquery-ui':
             deps: ['jquery']
-        'jquery/autosize':
+        'autosize':
             deps: ['jquery']
         'jquery/qtip':
             deps: ['jquery']
-        'jquery/fileupload':
-            deps: ['jquery', 'jquery-ui']
+#        'jquery/fileupload':
+#            deps: ['jquery', 'jquery-ui']
         'jquery/match-height':
             deps: ['jquery']
         'twig':
             exports: 'Twig'
         'routing':
             exports: 'Routing'
-        'bootstrap-dialog':
+        'bootstrap/dialog':
             deps: ['jquery', 'bootstrap']
             exports: 'BootstrapDialog'
         'bootstrap/colorpicker':
             deps: ['jquery', 'bootstrap', 'tinycolor']
-            exports: 'BootstrapDialog'
         'bootstrap/hover-dropdown':
             deps: ['jquery']
         'ekyna-modal':
-            deps: ['jquery', 'bootstrap-dialog']
+            deps: ['jquery', 'bootstrap/dialog']
             exports: 'EkynaModal'
         'bootstrap':
             deps: ['jquery']
         'select2':
             deps: ['jquery']
         'ekyna-form':
-            deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'malsup/form', 'jquery/autosize']
+            deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'jquery/form', 'autosize']
             exports: 'EkynaForm'
         'ekyna-form/file-picker':
             deps: ['jquery', 'ekyna-string']
@@ -50,27 +61,18 @@ config:
         'ekyna-form/entity-search':
             deps: ['jquery', 'routing']
     paths:
-        'jquery': 'assets/jquery/jquery.min'
-        'jquery-ui': 'assets/jquery-ui/jquery-ui.min'
-        'jquery/autosize': 'bundles/ekynacore/js/lib/jquery.autosize'
-        'jquery/qtip': 'bundles/ekynacore/js/lib/jquery.qtip'
-        'jquery/fileupload': 'bundles/ekynacore/js/lib/fileupload/jquery.fileupload'
-        'jquery/match-height': 'bundles/ekynacore/js/lib/jquery.matchHeight-min'
-        'twig': 'js/twig'
+        'twig': 'bundles/ekynacore/lib/twig'
+        'autosize': 'bundles/ekynacore/lib/autosize'
+        'moment': 'bundles/ekynacore/lib/moment'
+        'tinycolor': 'bundles/ekynacore/lib/tinycolor'
+        'select2': 'bundles/ekynacore/lib/select2'
+
         'routing': 'bundles/fosjsrouting/js/router'
         'routing_data':
             route: fos_js_routing_js
             params:
                 _format: json
-        'bootstrap': 'assets/bootstrap/js/bootstrap.min'
-        'moment': 'assets/moment/min/moment-with-locales.min'
-        'bootstrap/datetimepicker': 'assets/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker'
-        'tinycolor': 'bundles/ekynacore/js/lib/tinycolor'
-        'bootstrap/colorpicker': 'bundles/ekynacore/js/lib/bootstrap.colorpickersliders'
-        'bootstrap-dialog': 'assets/bootstrap-dialog/dist/js/bootstrap-dialog'
-        'bootstrap/hover-dropdown': 'assets/bootstrap-hover-dropdown/bootstrap-hover-dropdown'
-        'malsup/form': 'assets/form/jquery.form'
-        'select2': 'bundles/ekynacore/js/lib/select2'
+
         'ekyna-string': 'bundles/ekynacore/js/string'
         'ekyna-routing': 'bundles/ekynacore/js/router'
         'ekyna-modal': 'bundles/ekynacore/js/modal'
@@ -90,7 +92,7 @@ build:
         - 'routing'
         - 'bootstrap'
         - 'bootstrap/hover-dropdown'
-        - 'malsup/form'
+        - 'jquery/form'
         - 'select2'
         - 'ekyna-string'
         - 'ekyna-routing'

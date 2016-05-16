@@ -130,7 +130,7 @@ class Controller extends BaseController
         }
         $smaxage = intval($smaxage);
         if (0 >= $smaxage) {
-            $smaxage = $this->container->getParameter('ekyna_core.cache_config')['default_smaxage'];
+            $smaxage = $this->container->getParameter('ekyna_core.config.cache')['default_smaxage'];
         }
         return $response->setSharedMaxAge($smaxage);
     }
