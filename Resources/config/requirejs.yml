@@ -19,8 +19,6 @@ config:
     shim:
         'jquery-ui':
             deps: ['jquery']
-        'autosize':
-            deps: ['jquery']
         'jquery/qtip':
             deps: ['jquery']
 #        'jquery/fileupload':
@@ -31,6 +29,8 @@ config:
             exports: 'Twig'
         'routing':
             exports: 'Routing'
+        'bootstrap/bootstrap':
+            deps: ['jquery']
         'bootstrap/dialog':
             deps: ['jquery', 'bootstrap']
             exports: 'BootstrapDialog'
@@ -38,34 +38,38 @@ config:
             deps: ['jquery', 'bootstrap', 'tinycolor']
         'bootstrap/hover-dropdown':
             deps: ['jquery']
-        'ekyna-modal':
-            deps: ['jquery', 'bootstrap/dialog']
-            exports: 'EkynaModal'
-        'bootstrap':
+        'autosize':
             deps: ['jquery']
         'select2':
             deps: ['jquery']
+        'ekyna-modal':
+#            deps: ['jquery', 'bootstrap/dialog']
+            exports: 'EkynaModal'
         'ekyna-form':
-            deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'jquery/form', 'autosize']
+#            deps: ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'jquery/form', 'autosize']
             exports: 'EkynaForm'
-        'ekyna-form/file-picker':
-            deps: ['jquery', 'ekyna-string']
-        'ekyna-form/upload':
-            deps: ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-form/file-picker', 'ekyna-string']
-        'ekyna-form/datetime':
-            deps: ['jquery', 'bootstrap/datetimepicker']
-        'ekyna-form/color':
-            deps: ['jquery', 'bootstrap/colorpicker']
-        'ekyna-form/entity':
-            deps: ['jquery', 'ekyna-modal', 'ekyna-table']
-        'ekyna-form/entity-search':
-            deps: ['jquery', 'routing']
+#        'ekyna-form/file-picker':
+#            deps: ['jquery', 'ekyna-string']
+#        'ekyna-form/upload':
+#            deps: ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-form/file-picker', 'ekyna-string']
+#        'ekyna-form/datetime':
+#            deps: ['jquery', 'bootstrap/datetimepicker']
+#        'ekyna-form/color':
+#            deps: ['jquery', 'bootstrap/colorpicker']
+#        'ekyna-form/entity':
+#            deps: ['jquery', 'ekyna-modal', 'ekyna-table']
+#        'ekyna-form/entity-search':
+#            deps: ['jquery', 'routing']
     paths:
         'twig': 'bundles/ekynacore/lib/twig'
         'autosize': 'bundles/ekynacore/lib/autosize'
         'moment': 'bundles/ekynacore/lib/moment'
         'tinycolor': 'bundles/ekynacore/lib/tinycolor'
         'select2': 'bundles/ekynacore/lib/select2'
+        'tinymce': 'bundles/ekynacore/lib/tinymce/tinymce.min'
+        'tinymce_config':
+            route: ekyna_core_tinymce_config
+            params: []
 
         'routing': 'bundles/fosjsrouting/js/router'
         'routing_data':
@@ -101,3 +105,4 @@ build:
     paths:
         'routing_data': 'empty:'
         'ekyna-form/plugins': 'empty:'
+        'tinymce_config': 'empty:'

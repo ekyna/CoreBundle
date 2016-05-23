@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -13,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class EntitySearchType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class EntitySearchType extends AbstractType
 {
@@ -24,7 +25,7 @@ class EntitySearchType extends AbstractType
 
     /**
      * Constructor.
-     * 
+     *
      * @param ObjectManager $om
      */
     public function __construct(ObjectManager $om)
@@ -41,8 +42,7 @@ class EntitySearchType extends AbstractType
         $builder
             ->addModelTransformer(
                 new ObjectToIdentifierTransformer($repository)
-            )
-        ;
+            );
     }
 
     /**
@@ -51,8 +51,8 @@ class EntitySearchType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['attr']['data-search'] = $options['search_route'];
-        $view->vars['attr']['data-find']   = $options['find_route'];
-        $view->vars['attr']['data-clear']  = intval($options['allow_clear']);
+        $view->vars['attr']['data-find'] = $options['find_route'];
+        $view->vars['attr']['data-clear'] = intval($options['allow_clear']);
     }
 
     /**
@@ -68,11 +68,10 @@ class EntitySearchType extends AbstractType
                 'allow_clear'  => false,
             ])
             ->setRequired(['entity', 'search_route', 'find_route'])
-            ->setAllowedTypes('entity',        'string')
-            ->setAllowedTypes('search_route',  'string')
-            ->setAllowedTypes('find_route',    'string')
-            ->setAllowedTypes('allow_clear',   'bool')
-        ;
+            ->setAllowedTypes('entity', 'string')
+            ->setAllowedTypes('search_route', 'string')
+            ->setAllowedTypes('find_route', 'string')
+            ->setAllowedTypes('allow_clear', 'bool');
     }
 
     /**
@@ -80,14 +79,14 @@ class EntitySearchType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-    	return 'ekyna_entity_search';
+        return 'ekyna_entity_search';
     }
 }

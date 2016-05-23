@@ -162,7 +162,15 @@
 /**
  *  Select2 Fixes
  */
-.select2-container,
+.select2-container--bootstrap {
+    width: auto !important;
+}
+
+.select2-container--bootstrap .select2-selection {
+    font-family: inherit;
+}
+
+/*.select2-container,
 .select2-drop {
     font-size: 14px;
 }
@@ -217,7 +225,7 @@
     height: 16px;
     line-height: 16px;
     width: 20px;
-}
+}*/
 
 .form-body .form-group .select2-container-disabled .select2-choice {
     cursor: not-allowed;

@@ -1,0 +1,5 @@
+braincrafted_bootstrap:
+    auto_configure:
+        twig: false
+        assetic: false
+        knp_menu: false

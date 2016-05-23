@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Locale\Locale;
@@ -11,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class AddressType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class AddressType extends AbstractType
 {
@@ -22,6 +23,7 @@ class AddressType extends AbstractType
 
     /**
      * Constructor.
+     *
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -35,29 +37,29 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('street', 'text', [
+            ->add('street', Type\TextType::class, [
                 'label' => 'ekyna_core.field.street',
-                'attr' => ['data-role' => 'street'],
+                'attr'  => ['data-role' => 'street'],
             ])
-            ->add('supplement', 'text', [
-                'label' => 'ekyna_core.field.supplement',
+            ->add('supplement', Type\TextType::class, [
+                'label'    => 'ekyna_core.field.supplement',
                 'required' => false,
             ])
-            ->add('postalCode', 'text', [
+            ->add('postalCode', Type\TextType::class, [
                 'label' => 'ekyna_core.field.postal_code',
-                'attr' => ['data-role' => 'postal-code'],
+                'attr'  => ['data-role' => 'postal-code'],
             ])
-            ->add('city', 'text', [
+            ->add('city', Type\TextType::class, [
                 'label' => 'ekyna_core.field.city',
-                'attr' => ['data-role' => 'city'],
-            ])
-        ;
+                'attr'  => ['data-role' => 'city'],
+            ]);
+
         if ($options['country']) {
             $countryOptions = [
-                'label' => 'ekyna_core.field.country',
-                'attr'  => ['data-role' => 'country'],
-                'empty_data' => null,
-                'empty_value' => 'ekyna_core.value.choose',
+                'label'       => 'ekyna_core.field.country',
+                'attr'        => ['data-role' => 'country'],
+                'empty_data'  => null,
+                'placeholder' => 'ekyna_core.value.choose',
             ];
             if ($options['required']) {
                 if (null !== $request = $this->requestStack->getMasterRequest()) {
@@ -67,13 +69,12 @@ class AddressType extends AbstractType
                 }
             }
             $builder
-                ->add('country', 'country', $countryOptions)
-                ->add('state', 'text', [
+                ->add('country', Type\CountryType::class, $countryOptions)
+                ->add('state', Type\TextType::class, [
                     'label'    => 'ekyna_core.field.state',
                     'attr'     => ['data-role' => 'state'],
                     'required' => false,
-                ])
-            ;
+                ]);
         }
     }
 
@@ -88,17 +89,6 @@ class AddressType extends AbstractType
             ->setDefaults([
                 'country' => true,
             ])
-            ->addAllowedTypes([
-                'country' => 'bool',
-            ])
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ekyna_address';
+            ->addAllowedTypes('country', 'bool');
     }
 }

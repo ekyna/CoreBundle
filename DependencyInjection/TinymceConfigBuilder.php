@@ -3,11 +3,11 @@
 namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 
 /**
- * Class TinymceConfiguration
+ * Class TinymceConfigBuilder
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class TinymceConfiguration
+class TinymceConfigBuilder
 {
     /**
      * Builds the tinymce configuration.
@@ -19,8 +19,8 @@ class TinymceConfiguration
     public function build(array $config, array $bundles)
     {
         $contentCss = [
-            "asset[css/content.css]",
-            "asset[bundles/ekynacore/css/tinymce-content.css]",
+            'asset[' . $config['ui']['stylesheets']['content'] . ']',
+            'asset[bundles/ekynacore/css/tinymce-content.css]',
         ];
 
         if (0 < strlen($config['ui']['google_font_url'])) {
@@ -40,10 +40,10 @@ class TinymceConfiguration
             'entity_encoding'    => 'raw',
             //'toolbar_items_size' => 'small',
             'plugins' => [
-                "advlist lists paste textcolor autoresize nonbreaking hr",
+                'advlist lists paste textcolor autoresize nonbreaking hr',
             ],
-            'toolbar1' => "undo redo removeformat | styleselect | bold italic | forecolor backcolor | ".
-                          "alignleft aligncenter alignright alignjustify | bullist numlist | hr",
+            'toolbar1' => 'undo redo removeformat | styleselect | bold italic | forecolor backcolor | '.
+                          'alignleft aligncenter alignright alignjustify | bullist numlist | hr',
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
@@ -62,9 +62,9 @@ class TinymceConfiguration
             //'toolbar_items_size' => 'small',
             'valid_elements'     => 'p,span,em,strong,br',
             'plugins' => [
-                "paste autoresize",
+                'paste autoresize',
             ],
-            'toolbar1' => "undo redo removeformat | bold italic",
+            'toolbar1' => 'undo redo removeformat | bold italic',
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
@@ -87,14 +87,14 @@ class TinymceConfiguration
                 ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
             ],
             'plugins' => [
-                "autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak",
-                "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime nonbreaking save table contextmenu directionality",
-                "paste textcolor image media imagetools", // emoticons template
+                'autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen',
+                'insertdatetime nonbreaking save table contextmenu directionality',
+                'paste textcolor image media imagetools', // emoticons template
             ],
-            'toolbar1' => "undo redo removeformat code | styleselect | table link anchor image media",
-            'toolbar2' => "bold italic underline strikethrough forecolor backcolor | alignleft aligncenter " .
-                          "alignright alignjustify | bullist numlist outdent indent | hr",
+            'toolbar1' => 'undo redo removeformat code | styleselect | table link anchor image media',
+            'toolbar2' => 'bold italic underline strikethrough forecolor backcolor | alignleft aligncenter ' .
+                          'alignright alignjustify | bullist numlist outdent indent | hr',
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
 
@@ -127,11 +127,9 @@ class TinymceConfiguration
         }
 
         return [
-            'include_jquery' => false,
-            'tinymce_jquery' => false,
             'selector' => '.tinymce',
             'language' => '%locale%',
-            'tinymce_url' => '/assets/tinymce',
+            'tinymce_url' => '/bundles/ekynacore/lib/tinymce',
             'theme' => [
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,
@@ -178,4 +176,4 @@ class TinymceConfiguration
             ],
         ];
     }
-} 
+}

@@ -114,8 +114,6 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         ];
     }
 
-
-
     /**
      * {@inheritdoc}
      */

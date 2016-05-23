@@ -2,13 +2,13 @@ oneup_flysystem:
     adapters:
         local_upload:
             local:
-                directory: "%kernel.media_dir%/upload"
+                directory: "%kernel.data_dir%/upload"
         local_tmp:
             local:
-                directory: "%kernel.media_dir%/tmp"
+                directory: "%kernel.data_dir%/tmp"
         local_ftp:
             local:
-                directory: "%kernel.media_dir%/ftp"
+                directory: "%kernel.data_dir%/ftp"
         local_tinymce:
             local:
                 directory: "%kernel.root_dir%/../web/tinymce"

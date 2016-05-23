@@ -1,8 +1,14 @@
 module.exports = function (grunt, options) {
     return {
-        core_fonts: {
+        core_fontawesome: {
             expand: true,
             cwd: 'bower_components/font-awesome/fonts',
+            src: ['**'],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
+        },
+        core_glyphicons: {
+            expand: true,
+            cwd: 'bower_components/bootstrap/dist/fonts',
             src: ['**'],
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
         },
@@ -102,10 +108,24 @@ module.exports = function (grunt, options) {
                 }
             ]
         },
+        core_tinymce: {
+            expand: true,
+            cwd: 'bower_components/tinymce',
+            src: [
+                'plugins/**/*.min.js',
+                'plugins/**/*.css',
+                'plugins/**/*.swf',
+                'plugins/**/*.gif',
+                'skins/**',
+                'themes/**',
+                'tinymce.min.js'
+            ],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinymce'
+        },
         core_files: {
             expand: true,
             cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
-            src: ['js/*.js', 'js/form/**', 'img/**'],
+            src: ['js/*.js', 'js/form/**', 'img/**', 'lib/**'],
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
         }
     }

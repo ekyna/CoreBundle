@@ -13,7 +13,9 @@
     "autosize": "^3.0.15",
     "matchHeight": "jquery-match-height#^0.7.0",
     "bootstrap-hover-dropdown": "^2.2.1",
-    "jquery-form": "^3.46.0"
+    "jquery-form": "^3.46.0",
+    "select2-bootstrap-theme": "^0.1.0-beta.4",
+    "tinymce": "^4.3.12"
   },
   "resolutions": {
     "jquery": "1.9.1 - 2"

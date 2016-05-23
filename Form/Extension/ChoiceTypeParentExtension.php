@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
@@ -11,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class ChoiceTypeParentExtension
  * @package Ekyna\Bundle\CoreBundle\Form\Extension
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class ChoiceTypeParentExtension extends AbstractTypeExtension
 {
@@ -27,9 +28,8 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
                 'parent_choice_field' => null,
                 'parent_choice_route' => null,
             ])
-            ->setAllowedTypes('parent_choice_field',  ['string', 'null'])
-            ->setAllowedTypes('parent_choice_route',  ['string', 'null'])
-        ;
+            ->setAllowedTypes('parent_choice_field', ['string', 'null'])
+            ->setAllowedTypes('parent_choice_route', ['string', 'null']);
     }
 
     /**
@@ -46,7 +46,7 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
 
         if ($fieldDefined && $routeDefined) {
             $view->vars['attr']['data-parent-choice'] = json_encode([
-                'field' => $view->parent->vars['id'].'_'.$options['parent_choice_field'],
+                'field' => $view->parent->vars['id'] . '_' . $options['parent_choice_field'],
                 'route' => $options['parent_choice_route'],
             ]);
         }
@@ -57,6 +57,6 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 }

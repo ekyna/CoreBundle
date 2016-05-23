@@ -3,18 +3,20 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class FormTypeRedirectExtension
  * @package Ekyna\Bundle\CoreBundle\Form\Extension
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class FormTypeRedirectExtension extends AbstractTypeExtension
 {
@@ -25,7 +27,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
 
     /**
      * Constructor.
-     * 
+     *
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -39,7 +41,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Abort if not enabled
-        if (! (array_key_exists('_redirect_enabled', $options) && $options['_redirect_enabled'] === true)) {
+        if (!(array_key_exists('_redirect_enabled', $options) && $options['_redirect_enabled'] === true)) {
             return;
         }
 
@@ -55,10 +57,10 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
             function (FormEvent $event) {
                 $form = $event->getForm();
                 // Only "root" form
-                if(null !== $form->getParent()) {
+                if (null !== $form->getParent()) {
                     return;
                 }
-                $form->add('_redirect', 'hidden', ['mapped' => false]);
+                $form->add('_redirect', HiddenType::class, ['mapped' => false]);
             }
         );
 
@@ -68,11 +70,11 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
             function (FormEvent $event) use ($redirectPath, $request) {
                 $form = $event->getForm();
                 // Only "root" form
-                if(null !== $form->getParent()) {
+                if (null !== $form->getParent()) {
                     return;
                 }
                 // If form has been posted => retrieve _redirect path from request (POST)
-                if(null === $redirectPath && null !== $request) {
+                if (null === $redirectPath && null !== $request) {
                     $datas = $request->request->get($form->getName(), ['_redirect' => null]);
                     if (array_key_exists('_redirect', $datas)) {
                         $redirectPath = $datas['_redirect'];
@@ -83,13 +85,13 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
         );
     }
 
-	public function buildView(FormView $view, FormInterface $form, array $options)
-	{
-	    // Only "root" form
-	    if(null !== $form->getParent()) {
-	        return;
-	    }
-	}
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        // Only "root" form
+        if (null !== $form->getParent()) {
+            return;
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -98,8 +100,7 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
     {
         $resolver
             ->setDefined(['_redirect_enabled'])
-            ->setAllowedTypes('_redirect_enabled', 'bool')
-        ;
+            ->setAllowedTypes('_redirect_enabled', 'bool');
     }
 
     /**
@@ -107,6 +108,6 @@ class FormTypeRedirectExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-    	return 'form';
+        return FormType::class;
     }
 }

@@ -28,7 +28,7 @@ abstract class AbstractConstants implements ConstantsInterface
     {
         $choices = [];
         foreach (static::getConfig() as $constant => $config) {
-            $choices[$constant] = $config[0];
+            $choices[$config[0]] = $constant;
         }
         return $choices;
     }

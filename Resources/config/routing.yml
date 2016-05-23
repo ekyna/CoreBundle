@@ -4,15 +4,19 @@ _gregwar_captcha_routing:
 _fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
-_tinymce_routing:
-    resource: "@StfalconTinymceBundle/Resources/config/routing.yml"
+#_tinymce_routing:
+#    resource: "@StfalconTinymceBundle/Resources/config/routing.yml"
 
 user_context_hash:
     path: /_fos_user_context_hash
 
 ekyna_core_form_plugins:
     path: /js/form-plugins.json
-    defaults: { _controller: "EkynaCoreBundle:Form:config" }
+    defaults: { _controller: "EkynaCoreBundle:Form:plugins" }
+
+ekyna_core_tinymce_config:
+    path: /js/tinymce-config.json
+    defaults: { _controller: "EkynaCoreBundle:Form:tinymce" }
 
 ekyna_core_download:
     path: /download/file/{key}

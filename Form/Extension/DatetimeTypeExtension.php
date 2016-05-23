@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Extension;
 
 use Ekyna\Bundle\CoreBundle\Form\Util\MomentFormatConverter;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class DatetimeTypeExtension
  * @package Ekyna\Bundle\CoreBundle\Form\Extension
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class DatetimeTypeExtension extends AbstractTypeExtension
 {
@@ -45,16 +46,15 @@ class DatetimeTypeExtension extends AbstractTypeExtension
     {
         $resolver
             ->setDefaults([
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy HH:mm', // TODO localised configurable format
+                'widget'         => 'single_text',
+                'format'         => 'dd/MM/yyyy HH:mm', // TODO localised configurable format
                 'picker_options' => [
                     'widgetPositioning' => ['horizontal' => 'right'],
-                    'showTodayButton' => true,
-                    'showClear'       => true,
-                    'showClose'       => true,
+                    'showTodayButton'   => true,
+                    'showClear'         => true,
+                    'showClose'         => true,
                 ],
-            ]
-        );
+            ]);
     }
 
     /**
@@ -62,6 +62,6 @@ class DatetimeTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'datetime';
+        return DateTimeType::class;
     }
 }

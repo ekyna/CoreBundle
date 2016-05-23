@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
+use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -20,7 +21,7 @@ class CollectionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'error_bubbling'        => false,
                 'by_reference'          => false,
                 'allow_add'             => true,
@@ -31,9 +32,9 @@ class CollectionType extends AbstractType
                 'delete_button_confirm' => 'ekyna_core.message.remove_confirm',
                 'sub_widget_col'        => 11,
                 'button_col'            => 1,
-            ))
-            ->setAllowedTypes('allow_sort',  'bool')
-            ->setAllowedTypes('delete_button_confirm',  array('null', 'string'));
+            ])
+            ->setAllowedTypes('allow_sort', 'bool')
+            ->setAllowedTypes('delete_button_confirm', ['null', 'string']);
     }
 
     /**
@@ -61,13 +62,13 @@ class CollectionType extends AbstractType
      */
     public function getParent()
     {
-        return 'bootstrap_collection';
+        return BootstrapCollectionType::class;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ekyna_collection';
     }

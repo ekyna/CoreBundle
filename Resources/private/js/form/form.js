@@ -1,8 +1,11 @@
 define(
     'ekyna-form',
-    ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'jquery/form', 'autosize'],
-    function(require, $, plugins) {
+    ['require', 'jquery', 'json!ekyna-form/plugins', 'autosize', 'select2', 'jquery/form'],
+    function(require, $, plugins, autosize) {
     "use strict";
+
+    $.fn.select2.defaults.set('theme', 'bootstrap');
+
 
     var EkynaForm = function ($elem, options) {
         this.$elem = $($elem);
@@ -18,7 +21,7 @@ define(
             var that = this;
 
             /* Textarea autosize */
-            that.$elem.find('textarea').not('.tinymce').autosize({append: "\n"});
+            autosize(that.$elem.find('textarea').not('.tinymce'));
 
             /* Select2 */
             that.$elem.find('select').not('.no-select2').each(function () {

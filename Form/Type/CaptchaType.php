@@ -2,13 +2,14 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
+use Gregwar\CaptchaBundle\Type\CaptchaType as BaseType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CaptchaType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class CaptchaType extends AbstractType
 {
@@ -19,13 +20,12 @@ class CaptchaType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'label' => false,
+                'label'  => false,
                 'height' => 34,
-                'attr' => [
+                'attr'   => [
                     'help_text' => 'ekyna_core.message.captcha',
-                ]
-            ])
-        ;
+                ],
+            ]);
     }
 
     /**
@@ -33,14 +33,14 @@ class CaptchaType extends AbstractType
      */
     public function getParent()
     {
-        return 'captcha';
+        return BaseType::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'ekyna_captcha';
+        return 'captcha';
     }
 }

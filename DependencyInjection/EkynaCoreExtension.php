@@ -29,6 +29,10 @@ class EkynaCoreExtension extends Extension
             $container->setParameter('ekyna_core.chain_router.routers', $routers);
         }
 
+        if (!in_array('bundles/ekynacore/css/core.css', $config['ui']['stylesheets']['forms'])) {
+            $config['ui']['stylesheets']['forms'][] = 'bundles/ekynacore/css/core.css';
+        }
+
         $container->setParameter('ekyna_core.config.ui', $config['ui']);
         $container->setParameter('ekyna_core.config.cache', $config['cache']);
 
@@ -48,6 +52,13 @@ class EkynaCoreExtension extends Extension
         if (!$container->hasParameter('ekyna_core.interfaces')) {
             $container->setParameter('ekyna_core.interfaces', []);
         }
+
+        $bundles = $container->getParameter('kernel.bundles');
+        $tinymceCfgBuilder = new TinymceConfigBuilder();
+        $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles) ;
+
+        $container->setParameter('ekyna_core.config.tinymce', $tinymceConfig);
+        $container->setParameter('ekyna_core.config.tinymce_themes', array_keys($tinymceConfig['theme']));
     }
 
     /**
@@ -61,79 +72,9 @@ class EkynaCoreExtension extends Extension
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        /*if (array_key_exists('AsseticBundle', $bundles)) {
-            $this->configureAsseticBundle($container, $config['assets']);
-        }*/
-        if (array_key_exists('TwigBundle', $bundles)) {
-            $this->configureTwigBundle($container);
-        }
-        if (array_key_exists('BraincraftedBootstrapBundle', $bundles)) {
-            $this->configureBraincraftedBootstrapBundle($container);
-        }
-        if (array_key_exists('KnpMenuBundle', $bundles)) {
-            $this->configureKnpMenuBundle($container);
-        }
-        if (array_key_exists('StfalconTinymceBundle', $bundles)) {
-            $this->configureStfalconTinymceBundle($container, $config, $bundles);
-        }
         if ($config['cache']['enable'] && array_key_exists('FOSHttpCacheBundle', $bundles)) {
             $this->configureFOSHttpCacheBundle($container);
         }
-    }
-
-    /**
-     * Configures the TwigBundle.
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function configureTwigBundle(ContainerBuilder $container)
-    {
-        $container->prependExtensionConfig('twig', [
-            'form_themes' => ['EkynaCoreBundle:Form:form_div_layout.html.twig'],
-        ]);
-    }
-
-    /**
-     * Configures the BraincraftedBootstrapBundle.
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function configureBraincraftedBootstrapBundle(ContainerBuilder $container)
-    {
-        $container->prependExtensionConfig('braincrafted_bootstrap', [
-            'auto_configure' => [
-                'twig' => false,
-                'assetic' => false,
-                'knp_menu' => false,
-            ],
-        ]);
-    }
-
-    /**
-     * Configures the KnpMenuBundle.
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function configureKnpMenuBundle(ContainerBuilder $container)
-    {
-        $container->prependExtensionConfig('knp_menu', [
-            'twig' => [
-                'template' => 'EkynaCoreBundle:Ui:menu.html.twig',
-            ],
-        ]);
-    }
-
-    /**
-     * Configures the StfalconTinymceBundle.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     * @param array            $bundles
-     */
-    protected function configureStfalconTinymceBundle(ContainerBuilder $container, array $config, array $bundles)
-    {
-        $tinymceConfig = new TinymceConfiguration();
-        $container->prependExtensionConfig('stfalcon_tinymce', $tinymceConfig->build($config, $bundles));
     }
 
     /**

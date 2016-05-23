@@ -3,13 +3,14 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class DateRange
  * @package Ekyna\Bundle\CoreBundle\Form\Type
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  * TODO see http://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
  */
 class DateRange extends AbstractType
@@ -22,15 +23,14 @@ class DateRange extends AbstractType
         $format = $options['time'] ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy';
 
         $builder
-            ->add('startDate', 'datetime', [
-                'label' => 'ekyna_core.field.start_date',
+            ->add('startDate', DateTimeType::class, [
+                'label'  => 'ekyna_core.field.start_date',
                 'format' => $format,
             ])
-            ->add('endDate', 'datetime', [
-                'label' => 'ekyna_core.field.end_date',
+            ->add('endDate', DateTimeType::class, [
+                'label'  => 'ekyna_core.field.end_date',
                 'format' => $format,
-            ])
-        ;
+            ]);
     }
 
     /**
@@ -42,15 +42,6 @@ class DateRange extends AbstractType
             ->setDefaults([
                 'time'         => true,
                 'inherit_data' => true,
-            ])
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ekyna_date_range';
+            ]);
     }
 }

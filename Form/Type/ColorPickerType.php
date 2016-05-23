@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,8 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class ColorPickerType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
- * @author Étienne Dauvergne <contact@ekyna.com>
- * @see http://www.jqueryrain.com/?obvgj1Bz
+ * @author  Étienne Dauvergne <contact@ekyna.com>
+ * @see     http://www.jqueryrain.com/?obvgj1Bz
  */
 class ColorPickerType extends AbstractType
 {
@@ -34,14 +35,14 @@ class ColorPickerType extends AbstractType
     {
         $resolver->setDefaults([
             'pickerOptions' => [
-                'color' => '#ffffff',
+                'color'         => '#ffffff',
                 'previewformat' => 'hex',
-                'size' => 'default',
-                'placement' => 'bottom',
-                'flat' => false,
-                'hsvpanel' => true,
-                'sliders' => false,
-                'swatches' => false,
+                'size'          => 'default',
+                'placement'     => 'bottom',
+                'flat'          => false,
+                'hsvpanel'      => true,
+                'sliders'       => false,
+                'swatches'      => false,
             ],
         ]);
     }
@@ -51,13 +52,13 @@ class ColorPickerType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ekyna_color_picker';
     }

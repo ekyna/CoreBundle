@@ -18,47 +18,53 @@
         <parameter key="ekyna_core.captcha.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\CaptchaType</parameter>
         <parameter key="ekyna_core.address.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\AddressType</parameter>
         <parameter key="ekyna_core.upload.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\UploadType</parameter>
+        <parameter key="ekyna_core.tinymce.form_type.class">Ekyna\Bundle\CoreBundle\Form\Type\TinymceType</parameter>
     </parameters>
 
     <services>
         <!-- Form types -->
         <service id="ekyna_core.collection.form_type" class="%ekyna_core.collection.form_type.class%">
-            <tag name="form.type" alias="ekyna_collection" />
+            <tag name="form.type" />
             <tag name="form.js" selector=".ekyna-collection" path="ekyna-form/collection" />
         </service>
 
         <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <tag name="form.type" alias="ekyna_entity_search" />
+            <tag name="form.type" />
             <tag name="form.js" selector=".entity-search" path="ekyna-form/entity-search" />
         </service>
         <service id="ekyna_core.hidden_entity.form_type" class="%ekyna_core.hidden_entity.form_type.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="form.type_guesser.doctrine" />
-            <tag name="form.type" alias="ekyna_hidden_entity" />
+            <tag name="form.type" />
         </service>
 
         <service id="ekyna_core.key_value_collection.form_type" class="%ekyna_core.key_value_collection.form_type.class%">
-            <tag name="form.type" alias="ekyna_key_value_collection" />
+            <tag name="form.type" />
         </service>
         <service id="ekyna_core.key_value.form_type" class="%ekyna_core.key_value.form_type.class%">
-            <tag name="form.type" alias="ekyna_key_value" />
+            <tag name="form.type" />
         </service>
 
         <service id="ekyna_core.color_picker.form_type" class="%ekyna_core.color_picker.form_type.class%">
-            <tag name="form.type" alias="ekyna_color_picker" />
+            <tag name="form.type" />
             <tag name="form.js" selector=".form-color-picker" path="ekyna-form/color" />
         </service>
         <service id="ekyna_core.captcha.form_type" class="%ekyna_core.captcha.form_type.class%">
-            <tag name="form.type" alias="ekyna_captcha" />
+            <tag name="form.type" />
         </service>
         <service id="ekyna_core.address.form_type" class="%ekyna_core.address.form_type.class%">
             <argument type="service" id="request_stack" />
-            <tag name="form.type" alias="ekyna_address" />
+            <tag name="form.type" />
         </service>
         <service id="ekyna_core.upload.form_type" class="%ekyna_core.upload.form_type.class%">
-            <tag name="form.type" alias="ekyna_upload" />
+            <tag name="form.type" />
             <tag name="form.js" selector=".upload-widget" path="ekyna-form/upload" />
+        </service>
+        <service id="ekyna_core.tinymce.form_type" class="%ekyna_core.tinymce.form_type.class%">
+            <argument>%ekyna_core.config.tinymce_themes%</argument>
+            <tag name="form.type" />
+            <tag name="form.js" selector=".tinymce" path="ekyna-form/tinymce" />
         </service>
 
         <!-- Form Extensions -->

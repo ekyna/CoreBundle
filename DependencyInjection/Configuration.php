@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->getUiNode())
                 ->append($this->getRouterNode())
                 ->append($this->getCacheNode())
+                //->append($this->getTinymceNode())
             ->end()
         ;
 
@@ -90,7 +91,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('stylesheets')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('content')->defaultValue('')->cannotBeEmpty()->end()
+                        ->scalarNode('content')
+                            ->defaultValue('bundles/ekynacore/css/content.css')
+                            ->cannotBeEmpty()
+                        ->end()
                         ->arrayNode('forms')
                             ->treatNullLike([])
                             ->defaultValue([])
@@ -107,5 +111,76 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $node;
+    }
+
+    private function getTinymceNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root('tinymce');
+
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('theme')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->useAttributeAsKey('name')
+                        ->prototype('variable')->end()
+                    ->end()
+                    // Add default theme if it doesn't set
+                    ->defaultValue($this->getTinymceDefaultThemes())
+                ->end()
+                // Configure custom TinyMCE buttons
+                ->arrayNode('tinymce_buttons')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('text')->defaultNull()->end()
+                            ->scalarNode('title')->defaultNull()->end()
+                            ->scalarNode('image')->defaultNull()->end()
+                            ->scalarNode('icon')->defaultNull()->end()
+                        ->end()
+                    ->end()
+                ->end()
+                // Configure external TinyMCE plugins
+                ->arrayNode('external_plugins')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('url')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    /**
+     * Get default configuration of the each instance of editor
+     *
+     * @return array
+     */
+    private function getTinymceDefaultThemes()
+    {
+        return array(
+            'advanced' => array(
+                "theme"        => "modern",
+                "plugins"      => array(
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime media nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor",
+                ),
+                "toolbar1"     => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify " .
+                    "| bullist numlist outdent indent | link image",
+                "toolbar2"     => "print preview media | forecolor backcolor emoticons",
+                "image_advtab" => true,
+            ),
+            'simple'   => array(),
+        );
     }
 }
