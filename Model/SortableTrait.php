@@ -22,7 +22,7 @@ trait SortableTrait
      */
     public function setPosition($position)
     {
-        $this->position = $position;
+        $this->position = abs(intval($position));
 
         return $this;
     }
