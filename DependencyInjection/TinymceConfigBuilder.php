@@ -10,6 +10,22 @@ namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 class TinymceConfigBuilder
 {
     /**
+     * @var bool
+     */
+    private $isDevEnv = false;
+
+
+    /**
+     * Constructor.
+     *
+     * @param bool $isDevEnv
+     */
+    public function __construct($isDevEnv)
+    {
+        $this->isDevEnv = $isDevEnv;
+    }
+
+    /**
      * Builds the tinymce configuration.
      *
      * @param array $config
@@ -18,14 +34,16 @@ class TinymceConfigBuilder
      */
     public function build(array $config, array $bundles)
     {
-        $contentCss = [
-            'asset[' . $config['ui']['stylesheets']['content'] . ']',
-            'asset[bundles/ekynacore/css/tinymce-content.css]',
-        ];
+        $pathPrefix = $this->isDevEnv ? '/app_dev.php' : '';
 
+        $contentCss = [];
+        foreach ($config['ui']['stylesheets']['contents'] as $path) {
+            $contentCss[] = 'asset[' . $path . ']';
+        }
         if (0 < strlen($config['ui']['google_font_url'])) {
             $contentCss[] = $config['ui']['google_font_url'];
         }
+        $contentCss[] = 'asset[bundles/ekynacore/css/tinymce-content.css]';
 
         // Simple theme: same as default theme
         $simpleTheme = [
@@ -98,7 +116,7 @@ class TinymceConfigBuilder
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
 
-            'images_upload_url' => '/admin/tinymce/upload',
+            'images_upload_url' => $pathPrefix.'/admin/tinymce/upload',
             //'images_upload_base_path' => '/some/basepath',
             'images_upload_credentials' => true,
         ];

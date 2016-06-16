@@ -54,7 +54,7 @@ class EkynaCoreExtension extends Extension
         }
 
         $bundles = $container->getParameter('kernel.bundles');
-        $tinymceCfgBuilder = new TinymceConfigBuilder();
+        $tinymceCfgBuilder = new TinymceConfigBuilder($container->getParameter('kernel.environment') == 'dev');
         $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles) ;
 
         $container->setParameter('ekyna_core.config.tinymce', $tinymceConfig);

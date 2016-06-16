@@ -81,9 +81,9 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('ui_content_stylesheet', [$this, 'renderContentStylesheet'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_forms_stylesheets',  [$this, 'renderFormsStylesheets'],  ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_fonts_stylesheets',  [$this, 'renderFontsStylesheets'],  ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_content_stylesheets', [$this, 'renderContentStylesheets'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_forms_stylesheets',   [$this, 'renderFormsStylesheets'],   ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_fonts_stylesheets',   [$this, 'renderFontsStylesheets'],   ['is_safe' => ['html']]),
 
             new \Twig_SimpleFunction('ui_no_image',        [$this, 'renderNoImage'],        ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_link',            [$this, 'renderLink'],           ['is_safe' => ['html']]),
@@ -134,12 +134,15 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      *
      * @return string
      */
-    public function renderContentStylesheet()
+    public function renderContentStylesheets()
     {
-        if (0 < strlen($path = $this->config['stylesheets']['content'])) {
-            return $this->buildStylesheetTag($path);
+        $output = '';
+
+        foreach ($this->config['stylesheets']['contents'] as $path) {
+            $output .= $this->buildStylesheetTag($path);
         }
-        return '';
+
+        return $output;
     }
 
     /**
