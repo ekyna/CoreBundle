@@ -1,5 +1,4 @@
 define(
-    'ekyna-form',
     ['require', 'jquery', 'json!ekyna-form/plugins', 'autosize', 'select2', 'jquery/form'],
     function(require, $, plugins, autosize) {
     "use strict";

@@ -1,4 +1,4 @@
-define('ekyna-form/entity', ['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal, Form, Table) {
+define(['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal, Form, Table) {
     "use strict";
 
     $.fn.entityWidget = function() {

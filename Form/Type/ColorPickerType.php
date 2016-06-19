@@ -22,6 +22,11 @@ class ColorPickerType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $pickerOptions = $options['pickerOptions'];
+        if (0 < strlen($view->vars['value'])) {
+            $pickerOptions['value'] = $view->vars['value'];
+        }
+
+        // TODO colorSelectors [hex => hex]
 
         $view->vars = array_replace($view->vars, [
             'pickerOptions' => $pickerOptions,
@@ -33,16 +38,10 @@ class ColorPickerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        // @see http://mjolnic.com/bootstrap-colorpicker/
         $resolver->setDefaults([
             'pickerOptions' => [
-                'color'         => '#ffffff',
-                'previewformat' => 'hex',
-                'size'          => 'default',
-                'placement'     => 'bottom',
-                'flat'          => false,
-                'hsvpanel'      => true,
-                'sliders'       => false,
-                'swatches'      => false,
+                'component' => '.input-group-btn',
             ],
         ]);
     }

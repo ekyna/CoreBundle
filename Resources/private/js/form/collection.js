@@ -1,4 +1,4 @@
-define('ekyna-form/collection', ['jquery', 'ekyna-form'], function($, Form) {
+define(['jquery', 'ekyna-form'], function($, Form) {
     "use strict";
 
     var addField = '[data-collection-role="add"]',

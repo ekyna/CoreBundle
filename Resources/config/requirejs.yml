@@ -17,12 +17,19 @@ config:
             location: 'bundles/ekynacore/lib/bootstrap'
             main: 'bootstrap'
     shim:
+        underscore:
+            exports: '_'
+        backbone:
+            deps: ['underscore', 'jquery']
+            exports: 'Backbone'
+#        handlebars:
+#            exports: 'Handlebars'
+        'es6-promise':
+            exports: 'Promise'
         'jquery-ui':
             deps: ['jquery']
         'jquery/qtip':
             deps: ['jquery']
-#        'jquery/fileupload':
-#            deps: ['jquery', 'jquery-ui']
         'jquery/match-height':
             deps: ['jquery']
         'twig':
@@ -35,7 +42,7 @@ config:
             deps: ['jquery', 'bootstrap']
             exports: 'BootstrapDialog'
         'bootstrap/colorpicker':
-            deps: ['jquery', 'bootstrap', 'tinycolor']
+            deps: ['jquery', 'bootstrap']
         'bootstrap/hover-dropdown':
             deps: ['jquery']
         'autosize':
@@ -43,10 +50,15 @@ config:
         'select2':
             deps: ['jquery']
         'ekyna-modal':
-            exports: 'EkynaModal'
-        'ekyna-form':
-            exports: 'EkynaForm'
+            deps: ['require', 'jquery', 'bootstrap/dialog']
+#            exports: 'EkynaModal'
+#        'ekyna-form':
+#            exports: 'EkynaForm'
     paths:
+        underscore: 'bundles/ekynacore/lib/underscore'
+        backbone: 'bundles/ekynacore/lib/backbone'
+#        handlebars: 'bundles/ekynacms/lib/handlebars'
+        'es6-promise': 'bundles/ekynacore/lib/es6-promise'
         'twig': 'bundles/ekynacore/lib/twig'
         'autosize': 'bundles/ekynacore/lib/autosize'
         'moment': 'bundles/ekynacore/lib/moment'
@@ -82,6 +94,7 @@ build:
         - 'routing'
         - 'bootstrap'
         - 'bootstrap/hover-dropdown'
+        - 'bootstrap/dialog'
         - 'jquery/form'
         - 'select2'
         - 'ekyna-string'
@@ -90,5 +103,5 @@ build:
         - 'ekyna-form'
     paths:
         'routing_data': 'empty:'
-        'ekyna-form/plugins': 'empty:'
         'tinymce_config': 'empty:'
+        'ekyna-form/plugins': 'empty:'

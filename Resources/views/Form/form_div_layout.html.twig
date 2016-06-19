@@ -224,7 +224,7 @@
 {% endblock ekyna_entity_search_widget %}
 
 {% block ekyna_color_picker_widget %}
-    <div class="input-group form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
+    <div class="input-group colorpicker-component form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
         <span class="input-group-btn">
             <span class="btn btn-default">

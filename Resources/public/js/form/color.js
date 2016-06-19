@@ -1,11 +1,1 @@
-define('ekyna-form/color', ['jquery', 'bootstrap/colorpicker'], function($) {
-    "use strict";
-
-    return {
-        init: function($element) {
-            $element.each(function() {
-                $(this).find('input[type="text"]').ColorPickerSliders($(this).data('options'));
-            });
-        }
-    };
-});
+define(["jquery","bootstrap/colorpicker"],function(a){"use strict";return{init:function(b){b.each(function(){var b=a(this).find('input[type="text"]');b.colorpicker(a(this).data("options")),b.on("changeColor",function(a){b.css({backgroundColor:a.color.toHex()})})})}}});

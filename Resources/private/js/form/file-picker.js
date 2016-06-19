@@ -1,4 +1,4 @@
-define('ekyna-form/file-picker', ['jquery', 'ekyna-string'], function($) {
+define(['jquery', 'ekyna-string'], function($) {
     "use strict";
 
     /**

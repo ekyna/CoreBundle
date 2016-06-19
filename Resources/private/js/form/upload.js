@@ -1,4 +1,4 @@
-define('ekyna-form/upload', ['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-form/file-picker', 'ekyna-string'], function($) {
+define(['jquery', 'jquery/fileupload', 'jquery/qtip', 'ekyna-form/file-picker', 'ekyna-string'], function($) {
     "use strict";
 
     /**

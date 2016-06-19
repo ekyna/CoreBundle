@@ -1,16 +1,4 @@
-(function(root, factory) {
-    "use strict";
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = factory(require('jquery')); // TODO
-    }
-    else if (typeof define === 'function' && define.amd) {
-        define('ekyna-form/tinymce', ['jquery', 'json!tinymce_config', 'tinymce'], function($, config) {
-            return factory($, config);
-        });
-    } else {
-        root.EkynaFormTinymce = factory(root.jQuery); // TODO
-    }
-}(this, function($, config) {
+define(['jquery', 'json!tinymce_config', 'tinymce'], function($, config) {
     "use strict";
 
     if (typeof tinymce == 'undefined') {
@@ -154,4 +142,4 @@
             });
         }
     };
-}));
+});

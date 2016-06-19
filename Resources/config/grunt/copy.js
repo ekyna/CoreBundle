@@ -1,30 +1,26 @@
 module.exports = function (grunt, options) {
     return {
-        core_fontawesome: {
-            expand: true,
-            cwd: 'bower_components/font-awesome/fonts',
-            src: ['**'],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
-        },
-        core_glyphicons: {
-            expand: true,
-            cwd: 'bower_components/bootstrap/dist/fonts',
-            src: ['**'],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
-        },
-        core_fileupload: {
-            src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/fileupload.js', // tmp to minify
-            options: {
-                process: function (content, srcpath) {
-                    content = content.replace(/\.\/vendor\/jquery\.ui\.widget/g, 'jquery-ui/widget');
-                    return content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
-                }
-            }
-        },
-        core_jquery: {
+        core_fonts: {
             files: [
-                // jQuery
+                // Fontawesome
+                {
+                    expand: true,
+                    cwd: 'bower_components/font-awesome/fonts',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
+                },
+                // Glyphicons
+                {
+                    expand: true,
+                    cwd: 'bower_components/bootstrap/dist/fonts',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
+                }
+            ]
+        },
+        core_libs: {
+            files: [
+                // Jquery
                 {
                     src: 'bower_components/jquery/dist/jquery.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/jquery.js'
@@ -40,55 +36,46 @@ module.exports = function (grunt, options) {
                 {
                     src: 'bower_components/jquery-form/jquery.form.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js' // tmp to minify
-                }
-                // TODO blueimp load image ?
-            ]
-        },
-        core_jquery_ui: {
-            expand: true,
-            cwd: 'bower_components/jquery-ui/ui/minified',
-            src: ['*.js'],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery-ui',
-            rename: function(dest, src) {
-                return dest + '/' + src.replace(/\.min\.js/, '.js');
-            }
-        },
-        core_bootstrap: {
-            files: [
+                },
+                // Jquery Ui
+                {
+                    expand: true,
+                    cwd: 'bower_components/jquery-ui/ui/minified',
+                    src: ['*.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery-ui',
+                    rename: function(dest, src) {
+                        return dest + '/' + src.replace(/\.min\.js/, '.js');
+                    }
+                },
+                {
+                    expand: true,
+                    cwd: 'bower_components/jquery-ui/themes/smoothness/images',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/images'
+                },
                 // Bootstrap
                 {
                     src: 'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/bootstrap.js'
                 },
-                /*{
-                    src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js'
-                },*/
                 {
                     src: 'bower_components/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/hover-dropdown.js'
                 },
                 {
-                    src: 'bower_components/bootstrap-colorpickersliders/dist/bootstrap.colorpickersliders.min.js',
+                    src: 'bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/colorpicker.js'
                 },
                 {
                     src: 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/datetimepicker.js'
-                }
-            ]
-        },
-        core_bootstrap_dialog: {
-            src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js',
-            options: {
-                process: function (content, srcpath) {
-                    return content.replace('"bootstrap-dialog",', '');
-                }
-            }
-        },
-        core_libs: {
-            files: [
+                },
+                {
+                    expand: true,
+                    cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/img'
+                },
                 // Others
                 {
                     src: 'bower_components/moment/min/moment-with-locales.min.js',
@@ -105,27 +92,72 @@ module.exports = function (grunt, options) {
                 {
                     src: 'bower_components/tinycolor/dist/tinycolor-min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinycolor.js'
+                },
+                {
+                    src: 'bower_components/es6-promise/es6-promise.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/es6-promise.js'
+                },
+                {
+                    src: 'bower_components/backbone/backbone-min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/backbone.js'
+                },
+                {
+                    src: 'bower_components/underscore/underscore-min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/underscore.js'
+                },
+                {
+                    expand: true,
+                    cwd: 'bower_components/tinymce',
+                    src: [
+                        'plugins/**/*.min.js',
+                        'plugins/**/*.css',
+                        'plugins/**/*.swf',
+                        'plugins/**/*.gif',
+                        'skins/**',
+                        'themes/**',
+                        'tinymce.min.js'
+                    ],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinymce'
                 }
             ]
         },
-        core_tinymce: {
-            expand: true,
-            cwd: 'bower_components/tinymce',
-            src: [
-                'plugins/**/*.min.js',
-                'plugins/**/*.css',
-                'plugins/**/*.swf',
-                'plugins/**/*.gif',
-                'skins/**',
-                'themes/**',
-                'tinymce.min.js'
+        core_libs_fix: {
+            files: [
+                {
+                    src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/fileupload.js' // tmp to minify
+                },
+                {
+                    src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js'
+                }
             ],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinymce'
+            options: {
+                process: function (content, srcpath) {
+                    // Bootstrap Dialog
+                    if (/bootstrap-dialog/.test(srcpath)) {
+                        content = content.replace('"bootstrap-dialog",', '');
+                    }
+                    // jQuery FileUpload
+                    if (/jquery\.fileupload/.test(srcpath)) {
+                        content = content.replace(/\.\/vendor\/jquery\.ui\.widget/g, 'jquery-ui/widget');
+                        content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
+                    }
+
+                    return content;
+                }
+            }
         },
         core_files: {
             expand: true,
             cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
-            src: ['js/*.js', 'js/form/**', 'img/**', 'lib/**'],
+            src: ['img/**', 'lib/**'],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
+        },
+        core_js: {
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
+            src: ['js/*.js', 'js/form/**'],
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
         }
     }

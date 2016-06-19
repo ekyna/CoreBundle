@@ -1,21 +1,71 @@
-define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
+define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
     "use strict";
+
+    function contentType(jqXHR) {
+        var type = 'html',
+            header = jqXHR.getResponseHeader('content-type');
+
+        if (/json/.test(header)) {
+            type = 'json';
+        } else if (/xml/.test(header)) {
+            type = 'xml';
+        }
+
+        return type;
+    }
 
     var EkynaModal = function() {
         this.dialog = new BootstrapDialog();
         this.form = null;
+
+
+        var that = this;
+        // Handle shown dialog
+        that.dialog.onShow(function () {
+            var event = $.Event('ekyna.modal.show');
+            event.modal = that;
+            $(that).trigger(event);
+        });
+
+        // Handle shown dialog
+        that.dialog.onShown(function () {
+            var event = $.Event('ekyna.modal.shown');
+            event.modal = that;
+            $(that).trigger(event);
+        });
+
+        // Handle hide dialog
+        that.dialog.onHide(function () {
+            var event = $.Event('ekyna.modal.hide');
+            event.modal = that;
+            $(that).trigger(event);
+            if (event.isDefaultPrevented()) {
+                return false;
+            }
+
+            if (that.form) {
+                that.form.destroy();
+                that.form = null;
+            }
+        });
+
+        // Handle hide dialog
+        that.dialog.onHidden(function () {
+            var event = $.Event('ekyna.modal.hidden');
+            event.modal = that;
+            $(that).trigger(event);
+        });
     };
 
     EkynaModal.prototype = {
         constructor: EkynaModal,
         load: function(params) {
-            params.dataType = 'xml';
             params.cache = false;
 
             var that = this;
             var xhr = $.ajax(params);
-            xhr.done(function(xmlData) {
-                that.handleResponse(xmlData);
+            xhr.done(function(data, textStatus, jqXHR) {
+                that.handleResponse(data, textStatus, jqXHR);
             });
             xhr.fail(function() {
                 console.log('Failed to load modal.');
@@ -23,20 +73,33 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                 $(that).trigger(event);
             });
         },
-        handleResponse: function(xmlData) {
-            var that = this;
-            var $xmlData = $(xmlData);
-            var event = null;
+        handleResponse: function(data, textStatus, jqXHR) {
+            var that = this, event;
 
             if (that.form) {
                 that.form.destroy();
                 that.form = null;
             }
 
+            var type = contentType(jqXHR);
+            if (type != 'xml') {
+                event = $.Event('ekyna.modal.response');
+                event.modal = that;
+                event.contentType = type;
+                event.content = data;
+
+                $(that).trigger(event);
+                if (event.isDefaultPrevented()) {
+                    return that.close();
+                }
+            }
+
+            var $xmlData = $(data);
+
             // Content
             var $content = $xmlData.find('content');
             if ($content.size() > 0) {
-                var type = $content.attr('type');
+                type = $content.attr('type');
                 event = $.Event('ekyna.modal.content');
                 event.modal = that;
                 event.contentType = type;
@@ -47,10 +110,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                 if (type === 'data') {
                     event.content = JSON.parse(content);
                     $(that).trigger(event);
-                    if (that.dialog.isOpened()) {
-                        that.dialog.close();
-                    }
-                    return;
+                    return that.close();
                 }
 
                 // Html content type
@@ -58,10 +118,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                 event.content = $html;
                 $(that).trigger(event);
                 if (event.isDefaultPrevented()) {
-                    if (that.dialog.isOpened()) {
-                        that.dialog.close();
-                    }
-                    return;
+                    return that.close();
                 }
 
                 that.dialog.setMessage($html);
@@ -84,9 +141,8 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                             that.form.save();
                             setTimeout(function () {
                                 that.form.getElement().ajaxSubmit({
-                                    dataType: 'xml',
-                                    success: function (response) {
-                                        that.handleResponse(response);
+                                    success: function (data, textStatus, jqXHR) {
+                                        that.handleResponse(data, textStatus, jqXHR);
                                     }
                                 });
                             }, 100);
@@ -97,7 +153,7 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                 }
             } else {
                 // No content => abort
-                return;
+                return this;
             }
 
             // Title
@@ -151,25 +207,18 @@ define('ekyna-modal', ['require', 'jquery', 'bootstrap/dialog'], function(requir
                 that.dialog.setButtons([]);
             }
 
-            // Handle hide dialog
-            that.dialog.onHide(function () {
-                var event = $.Event('ekyna.modal.hide');
-                event.modal = that;
-                $(that).trigger(event);
-                if (event.isDefaultPrevented()) {
-                    return false;
-                }
-
-                if (that.form) {
-                    that.form.destroy();
-                    that.form = null;
-                }
-            });
-
             // Handle open/shown dialog
             if (!that.dialog.isOpened()) {
                 that.dialog.open();
             }
+
+            return this;
+        },
+        close: function() {
+            if (this.dialog.isOpened()) {
+                this.dialog.close();
+            }
+            return this;
         },
         getDialog: function() {
             return this.dialog;

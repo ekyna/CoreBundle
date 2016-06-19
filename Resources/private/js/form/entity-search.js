@@ -1,4 +1,4 @@
-define('ekyna-form/entity-search', ['jquery', 'routing'], function($, router) {
+define(['jquery', 'routing'], function($, router) {
     "use strict";
 
     /**

@@ -1,4 +1,4 @@
-define('ekyna-form/parent-choice', ['jquery', 'routing'], function($, router) {
+define(['jquery', 'routing'], function($, router) {
     "use strict";
 
     /**

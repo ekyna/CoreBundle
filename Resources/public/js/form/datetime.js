@@ -1,11 +1,1 @@
-define('ekyna-form/datetime', ['jquery', 'bootstrap/datetimepicker'], function($) {
-    "use strict";
-
-    return {
-        init: function($element) {
-            $element.each(function() {
-                $(this).datetimepicker($(this).data('options'));
-            });
-        }
-    };
-});
+define(["jquery","bootstrap/datetimepicker"],function(a){"use strict";return{init:function(b){b.each(function(){a(this).datetimepicker(a(this).data("options"))})}}});
