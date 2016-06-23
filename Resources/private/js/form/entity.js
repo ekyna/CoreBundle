@@ -16,8 +16,10 @@ define(['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal
                     var modal = new Modal();
                     modal.load({url: $addButton.data('path')});
 
-                    $(modal).on('ekyna.modal.content', function (e) {
-                        if (e.contentType == 'data') {
+                    $(modal).on('ekyna.modal.reponse', function (e) {
+                        if (e.contentType == 'json') {
+                            e.preventDefault();
+
                             var data = e.content,
                                 $option = $('<option />');
                             $option.prop('value', data.id);

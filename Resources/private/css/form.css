@@ -162,11 +162,11 @@
 /**
  *  Select2 Fixes
  */
-.select2-container--bootstrap {
-    width: auto !important;
+.form-group .select2-container--bootstrap {
+    width: 100% !important;
 }
 
-.select2-container--bootstrap .select2-selection {
+.form-group .select2-container--bootstrap .select2-selection {
     font-family: inherit;
 }
 
