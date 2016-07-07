@@ -82,15 +82,15 @@
             {# Controls column #}
             {% set controls = '<div class="col-xs-' ~ form.vars.button_col ~ ' ' ~ controls_class ~ '">' ~ controls ~ '</div>' %}
         {% endif %}
-        {% set prototype_html = '<div class="row">' ~ prototype_html ~ controls ~ '</div>' %}
+        {% set prototype_html = '<li class="ekyna-collection-child"><div class="row">' ~ prototype_html ~ controls ~ '</div></li>' %}
 
         {% set attr = attr|merge({'data-prototype': prototype_html }) %}
         {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
     {% endif %}
     <div {{ block('widget_container_attributes') }}>
-        <ul class="list-unstyled">
+        <ul class="ekyna-collection-child-container list-unstyled">
             {% for field in form %}
-                <li>
+                <li class="ekyna-collection-child">
                     <div class="row">
                         <div class="col-xs-{{ form.vars.sub_widget_col }} ekyna-collection-child-form">
                             {{ form_widget(field) }}
@@ -150,7 +150,7 @@
 {% block form_widget_simple %}
 {% spaceless %}
     {% if sizing is defined and sizing is not empty %}
-	    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
     {% endif %}
     {{ parent() }}
 {% endspaceless %}
@@ -399,7 +399,9 @@
 {% block choice_widget_collapsed %}
 {% spaceless %}
     {% if add_route is defined and add_route is not same as(false) %}
-    <div class="input-group entity-widget">
+    <div class="input-group entity-widget{% if sizing is defined and sizing is not empty %} input-group-{{ sizing }}{% endif %}">
+    {% elseif sizing is defined and sizing is not empty %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
     {% endif %}
     {% if required and placeholder is none and not placeholder_in_choices %}{% set required = false %}{% endif %}
     {% if not required %}{% set attr = attr|merge({'data-allow-clear': 1}) %}{% endif %}

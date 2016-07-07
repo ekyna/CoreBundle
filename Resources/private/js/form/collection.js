@@ -20,7 +20,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
 
     function collectionUpdatePositions($collection) {
         var selector = '[data-collection="' + $collection.attr('id') + '"]',
-            $list = $collection.find('> ul > li'),
+            $list = $collection.find('.ekyna-collection-child-container').first().find('> .ekyna-collection-child'),
             max = $list.size() - 1;
 
         $list.each(function(index, li) {
@@ -47,8 +47,8 @@ define(['jquery', 'ekyna-form'], function($, Form) {
         e && e.preventDefault();
 
         var $collection = $('#'+selector),
-            list = $collection.find('> ul'),
-            count = list.find('> li').size();
+            list = $collection.find('.ekyna-collection-child-container').first(),
+            count = list.find('> .ekyna-collection-child').size();
 
         var widget = $collection.attr('data-prototype');
 
@@ -61,7 +61,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
         }
         widget = widget.replace(re, count);
         widget = widget.replace(/__id__/g, name[1].replace(re, count));
-        var $element = $('<li></li>').html(widget);
+        var $element = $(widget);
         list.append($element);
 
         var form = Form.create($element);
@@ -86,7 +86,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             }
         }
 
-        var $element = $this.closest('li');
+        var $element = $this.closest('.ekyna-collection-child');
 
         var form = Form.create($element);
         form.save();
@@ -108,7 +108,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
 
         e && e.preventDefault();
 
-        var $element = $this.closest('li');
+        var $element = $this.closest('.ekyna-collection-child');
         if (!$element.is(':first-child')) {
             var $prev = $element.prev();
 
@@ -141,7 +141,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
         e && e.preventDefault();
 
         $this.trigger('ekyna-collection-field-moved-down');
-        var $element = $this.closest('li');
+        var $element = $this.closest('.ekyna-collection-child');
         if (!$element.is(':last-child')) {
             var $next = $element.next();
 

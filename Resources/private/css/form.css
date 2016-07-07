@@ -1,6 +1,12 @@
 /**
  *   Form Layout
  */
+.form-body label.control-label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .form-body label.control-label,
 .form-body div.checkbox > label {
     position: relative;
@@ -311,6 +317,7 @@
 }
 
 .form-body .ekyna-collection-controls button {
+    display: block;
     margin-bottom: 8px;
 }
 
@@ -319,6 +326,7 @@
 }
 
 .form-body .ekyna-collection-controls.controls-inline button {
+    display: inline-block;
     margin-bottom: 0;
     margin-right: 6px;
 }

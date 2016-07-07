@@ -4,6 +4,7 @@ ekyna_core:
         no: Non
         none: Aucun
         undefined: Indéfini
+        unknown: Inconnu
         choose: Choisissez
         enabled: Activé
         disabled: Désactivé
@@ -74,6 +75,8 @@ ekyna_core:
         category: Catégorie
         brand: Marque
         type: Type
+        mode: Mode
+        method: Mode
         status: État
         url: Url
         ip_address: Adresse IP
@@ -84,6 +87,8 @@ ekyna_core:
         message: Message
         pricing: Tarifs
         price: Prix
+        currency: Devise
+        amount: Montant
         promotion: Promotion
         tax: Taxe
         rate: Taux
@@ -190,7 +195,7 @@ ekyna_core:
         captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?
     changefreq:
-        hourly: Toutes les heures 
+        hourly: Toutes les heures
         monthly: Tous les mois
         yearly: Tous les ans
     auth:
@@ -200,4 +205,3 @@ ekyna_core:
         operation_failed: L'application a rencontré une erreur. Veuillez nous excuser pour la gène occasionnée.
     image:
         new: Nouvelle image
-            
