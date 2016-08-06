@@ -312,7 +312,7 @@
     margin-bottom: 0;
 }
 
-.form-body .ekyna-collection-controls {
+/*.form-body .ekyna-collection-controls {
     text-align: right;
 }
 
@@ -333,7 +333,7 @@
 
 .form-body .ekyna-collection-controls.controls-inline button:last-child {
     margin-right: 0;
-}
+}*/
 
 /**
  *  Bootstrap "extension"

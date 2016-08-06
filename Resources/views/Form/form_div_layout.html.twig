@@ -37,9 +37,10 @@
 
 {% block ekyna_collection_widget %}
 {% spaceless %}
-    {% set controls_class = ' ekyna-collection-controls' %}
-    {% if form.vars.button_col >= 3 %}
-        {% set controls_class = controls_class ~ ' controls-inline' %}
+    {% if form.vars.button_col >= 2 %}
+        {% set controls_class = 'btn-group' %}
+    {% else %}
+        {% set controls_class = 'btn-group-vertical' %}
     {% endif %}
     {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
     {% if prototype is defined %}
@@ -60,29 +61,33 @@
         {% if form.vars.allow_delete or form.vars.allow_sort %}
             {# Move up button #}
             {% if form.vars.allow_sort %}{% set controls = controls ~
-                '<button type="button" class="btn btn-default btn-sm" data-collection-role="move-up" ' ~
+                '<button type="button" class="btn btn-default btn-xs" data-collection-role="move-up" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__">' ~
                     '<span class="glyphicon glyphicon-chevron-up"></span>' ~
                 '</button>'
             %}{% endif %}
             {# Remove button #}
             {% if form.vars.allow_delete %}{% set controls = controls ~
-                '<button type="button" class="btn btn-danger btn-sm" data-collection-role="remove" ' ~
+                '<button type="button" class="btn btn-danger btn-xs" data-collection-role="remove" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__"' ~ delete_button_confirm ~ '>' ~
                     '<span class="glyphicon glyphicon-remove"></span>' ~
                 '</button>'
             %}{% endif %}
             {# Move down button #}
             {% if form.vars.allow_sort %}{% set controls = controls ~
-                '<button type="button" class="btn btn-default btn-sm" data-collection-role="move-down" ' ~
+                '<button type="button" class="btn btn-default btn-xs" data-collection-role="move-down" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__">' ~
                     '<span class="glyphicon glyphicon-chevron-down"></span>' ~
                 '</button>'
             %}{% endif %}
             {# Controls column #}
-            {% set controls = '<div class="col-xs-' ~ form.vars.button_col ~ ' ' ~ controls_class ~ '">' ~ controls ~ '</div>' %}
+            {% set controls = '<div class="col-xs-' ~ form.vars.button_col ~ '">' ~
+                '<div class="' ~ controls_class ~ '">' ~ controls ~ '</div>' ~
+            '</div>' %}
         {% endif %}
-        {% set prototype_html = '<li class="ekyna-collection-child"><div class="row">' ~ prototype_html ~ controls ~ '</div></li>' %}
+        {% set prototype_html = '<li class="ekyna-collection-child"><div class="row">' ~
+            prototype_html ~ controls ~
+        '</div></li>' %}
 
         {% set attr = attr|merge({'data-prototype': prototype_html }) %}
         {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
@@ -97,26 +102,28 @@
                             {{ form_errors(field) }}
                         </div>
                         {% if form.vars.allow_delete or form.vars.allow_sort %}
-                        <div class="col-xs-{{ form.vars.button_col }}{{ controls_class }}">
-                            {% if form.vars.allow_sort %}
-                            <button type="button" class="btn btn-default btn-sm" data-collection-role="move-up"
-                                    data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
-                                <span class="glyphicon glyphicon-chevron-up"></span>
-                            </button>
-                            {% endif %}
-                            {% if form.vars.allow_delete %}
-                            <button type="button" class="btn btn-danger btn-sm" data-collection-role="remove"
-                                    data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}"
-                                    {{ delete_button_confirm|raw }}>
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                            {% endif %}
-                            {% if form.vars.allow_sort %}
-                            <button type="button" class="btn btn-default btn-sm" data-collection-role="move-down"
-                                    data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
-                                <span class="glyphicon glyphicon-chevron-down"></span>
-                            </button>
-                            {% endif %}
+                        <div class="col-xs-{{ form.vars.button_col }}">
+                            <div class="{{ controls_class }}">
+                                {% if form.vars.allow_sort %}
+                                <button type="button" class="btn btn-default btn-xs" data-collection-role="move-up"
+                                        data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button>
+                                {% endif %}
+                                {% if form.vars.allow_delete %}
+                                <button type="button" class="btn btn-danger btn-xs" data-collection-role="remove"
+                                        data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}"
+                                        {{ delete_button_confirm|raw }}>
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                                {% endif %}
+                                {% if form.vars.allow_sort %}
+                                <button type="button" class="btn btn-default btn-xs" data-collection-role="move-down"
+                                        data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+                                {% endif %}
+                            </div>
                         </div>
                         {% endif %}
                     </div>
@@ -124,7 +131,7 @@
             {% endfor %}
         </ul>
         {% if form.vars.allow_add %}
-            <button type="button" class="btn btn-primary btn-sm" data-collection-role="add"
+            <button type="button" class="btn btn-primary btn-xs" data-collection-role="add"
                     data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">
                 {{- form.vars.add_button_text|trans({}, translation_domain)|raw -}}
             </button>

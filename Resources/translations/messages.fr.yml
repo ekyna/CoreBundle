@@ -132,6 +132,7 @@ ekyna_core:
         private: Privé
         enabled: Actif
         disabled: Inactif
+        required: Requis
         validated: Validé
         locked: Vérrouillé
         expired: Expiré
