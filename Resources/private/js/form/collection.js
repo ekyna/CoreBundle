@@ -50,7 +50,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             list = $collection.find('.ekyna-collection-child-container').first(),
             count = list.find('> .ekyna-collection-child').size();
 
-        var widget = $collection.attr('data-prototype');
+        var widget = $('#' + $collection.attr('data-prototype')).text();
 
         // Check if an element with this ID already exists.
         // If it does, increase the count by one and try again

@@ -1,0 +1,42 @@
+{% macro collection_controls(form, child_id) %}
+{% spaceless %}
+    {% if child_id is empty %}
+        {% set child_id = '__id__' %}
+    {% endif %}
+
+    {% if form.vars.button_col >= 2 %}
+        {% set controls_class = 'btn-group' %}
+    {% else %}
+        {% set controls_class = 'btn-group-vertical' %}
+    {% endif %}
+
+    {% set delete_button_confirm = '' %}
+    {% if form.vars.delete_button_confirm is not same as(null) %}
+        {% set delete_button_confirm = ' data-confirm="' ~ (form.vars.delete_button_confirm|trans|escape) ~ '"' %}
+    {% endif %}
+
+    {# Move up button #}
+    {% if form.vars.allow_sort %}
+        <button type="button" class="btn btn-default btn-xs" data-collection-role="move-up"
+                data-collection="' ~ form.vars.id ~ '" data-field="{{ child_id }}">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </button>
+    {% endif %}
+
+    {# Remove button #}
+    {% if form.vars.allow_delete %}
+        <button type="button" class="btn btn-danger btn-xs" data-collection-role="remove"
+                data-collection="' ~ form.vars.id ~ '" data-field="{{ child_id }}"{{ delete_button_confirm }}>
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    {% endif %}
+
+    {# Move down button #}
+    {% if form.vars.allow_sort %}
+        <button type="button" class="btn btn-default btn-xs" data-collection-role="move-down"
+                data-collection="' ~ form.vars.id ~ '" data-field="{{ child_id }}">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+    {% endif %}
+{% endspaceless %}
+{% endmacro %}

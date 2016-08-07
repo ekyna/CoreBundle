@@ -301,6 +301,10 @@
  */
 
 /* ekyna collection */
+.form-body .ekyna-collection-prototype {
+    display: none;
+}
+
 .form-body .ekyna-collection li {
     border-bottom: 1px dotted #CCC;
     padding-bottom: 8px;

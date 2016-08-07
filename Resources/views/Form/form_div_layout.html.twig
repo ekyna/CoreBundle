@@ -89,9 +89,10 @@
             prototype_html ~ controls ~
         '</div></li>' %}
 
-        {% set attr = attr|merge({'data-prototype': prototype_html }) %}
+        {% set attr = attr|merge({'data-prototype': form.vars.id ~ '_prototype' }) %}
         {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
     {% endif %}
+    <div class="ekyna-collection-prototype" id="{{ form.vars.id }}_prototype">{{ prototype_html }}</div>
     <div {{ block('widget_container_attributes') }}>
         <ul class="ekyna-collection-child-container list-unstyled">
             {% for field in form %}
