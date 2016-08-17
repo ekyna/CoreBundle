@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Listener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
-use Ekyna\Bundle\AdminBundle\Model\TranslationInterface;
+use Ekyna\Component\Resource\Model\TranslationInterface;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
 use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
