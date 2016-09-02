@@ -1,10 +1,10 @@
 fos_elastica:
     serializer: ~
     clients:
-        default: { host: localhost, port: 9200, logger: false }
+        default: { host: "%elasticsearch.host%", port: "%elasticsearch.port%", logger: false }
     indexes:
         search:
-            index_name: %hostname%
+            index_name: "%elasticsearch.index_name%"
             settings:
                 index:
                     analysis:
