@@ -29,7 +29,7 @@
         </service>
 
         <service id="ekyna_core.entity_search.form_type" class="%ekyna_core.entity_search.form_type.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <!--<argument type="service" id="doctrine.orm.entity_manager" />-->
             <tag name="form.type" />
             <tag name="form.js" selector=".entity-search" path="ekyna-form/entity-search" />
         </service>

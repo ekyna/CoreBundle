@@ -1,4 +1,5 @@
 config:
+    #TODO (in Configuration Provider) urlArgs: '?v=%framework.assets.version%'
     packages:
         -
             name: 'ekyna-form'
