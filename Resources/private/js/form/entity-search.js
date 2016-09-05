@@ -4,11 +4,11 @@ define(['jquery', 'routing'], function($, router) {
     /**
      * Entity search widget
      */
-    $.fn.entitySearchWidget = function(params) {
+    $.fn.entitySearchWidget = function(config) {
 
-        params = $.extend({
+        config = $.extend({
             limit: 8
-        }, params);
+        }, config);
 
         this.each(function() {
 
@@ -19,6 +19,41 @@ define(['jquery', 'routing'], function($, router) {
             var allowClear = $this.data('clear') == 1;
 
             $this.select2({
+                placeholder: 'Rechercher ...',
+                allowClear: allowClear,
+                minimumInputLength: 3,
+                ajax: {
+                    delay: 300,
+                    url: searchUrl,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term, // search term
+                            page: params.page,
+                            limit: config.limit
+                        };
+                    },
+                    processResults: function (data, params) {
+                        console.log(data);
+
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * config.limit) < data.total_count
+                            }
+                        };
+                    },
+                    escapeMarkup: function (markup) { return markup; }
+                }
+            });
+
+            /*$this.select2({
                 placeholder: 'Rechercher ...',
                 minimumInputLength: 0,
                 allowClear: allowClear,
@@ -49,7 +84,7 @@ define(['jquery', 'routing'], function($, router) {
                         });
                     }
                 }
-            });
+            });*/
         });
         return this;
     };

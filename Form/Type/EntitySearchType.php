@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -79,7 +80,7 @@ class EntitySearchType extends AbstractType
      */
     public function getParent()
     {
-        return TextType::class;
+        return ChoiceType::class;
     }
 
     /**
