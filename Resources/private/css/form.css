@@ -305,13 +305,13 @@
     display: none;
 }
 
-.form-body .ekyna-collection li {
+.form-body .ekyna-collection .ekyna-collection-child {
     border-bottom: 1px dotted #CCC;
     padding-bottom: 8px;
     margin-bottom: 8px;
 }
 
-.form-body .ekyna-collection li:last-child {
+.form-body .ekyna-collection .ekyna-collection-child:last-child {
     border-bottom: 0;
     margin-bottom: 0;
 }

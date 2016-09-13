@@ -159,6 +159,12 @@ module.exports = function (grunt, options) {
             cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
             src: ['js/*.js', 'js/form/**'],
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
+        },
+        core_web: {
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public',
+            src: ['**'],
+            dest: 'web/bundles/ekynacore'
         }
     }
 };
