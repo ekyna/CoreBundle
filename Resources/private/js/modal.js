@@ -82,16 +82,14 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             }
 
             var type = contentType(jqXHR);
-            if (type != 'xml') {
-                event = $.Event('ekyna.modal.response');
-                event.modal = that;
-                event.contentType = type;
-                event.content = data;
+            event = $.Event('ekyna.modal.response');
+            event.modal = that;
+            event.contentType = type;
+            event.content = data;
 
-                $(that).trigger(event);
-                if (event.isDefaultPrevented()) {
-                    return that.close();
-                }
+            $(that).trigger(event);
+            if (event.isDefaultPrevented()) {
+                return that.close();
             }
 
             var $xmlData = $(data);
@@ -226,7 +224,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
     };
 
     // Auto modal buttons and links
-    $('body').on('click', 'button[data-modal="true"], a[data-modal="true"], [data-modal="true"] > a', function(e) {
+    $(document).on('click', 'button[data-modal="true"], a[data-modal="true"], [data-modal="true"] > a', function(e) {
         e.preventDefault();
 
         var modal = new EkynaModal();
