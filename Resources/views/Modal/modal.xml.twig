@@ -15,7 +15,9 @@
 {#{% if modal.content is not same as(null) %}#}
     <content type="{{ modal.contentType }}"><![CDATA[
     {%- if modal.contentType == 'form' -%}
-        {% set form = modal.content %}
+        {% if form is not defined %}
+            {% set form = modal.content %}
+        {% endif %}
         {% if modal.vars.form_template is defined %}
             {{ form_start(form) }}
             {% include modal.vars.form_template with modal.vars %}

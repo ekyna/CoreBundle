@@ -1,3 +1,6 @@
+/**
+ * TODO move to https://github.com/makeusabrew/bootbox ?
+ */
 define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
     "use strict";
 
@@ -123,6 +126,9 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
                 // Form content type
                 if (type === 'form') {
+                    // @see https://github.com/select2/select2/issues/600
+                    $(that.dialog.getModal()).removeAttr('tabindex');
+
                     require(['ekyna-form'], function (Form) {
                         that.form = Form.create($html);
                         that.form.init();

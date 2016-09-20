@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 /**
  * Class AbstractConstants
  * @package Ekyna\Bundle\CoreBundle\Model
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 abstract class AbstractConstants implements ConstantsInterface
 {
@@ -30,13 +30,29 @@ abstract class AbstractConstants implements ConstantsInterface
         foreach (static::getConfig() as $constant => $config) {
             $choices[$config[0]] = $constant;
         }
+
         return $choices;
+    }
+
+    /**
+     * Returns the default constant choice.
+     *
+     * @return mixed
+     */
+    public static function getDefaultChoice()
+    {
+        if ($default = reset(static::getConstants())) {
+            return $default;
+        }
+
+        return null;
     }
 
     /**
      * Returns the label for the given constant.
      *
      * @param mixed $constant
+     *
      * @return string
      */
     public static function getLabel($constant)
