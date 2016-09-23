@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  * @author Ivan Molchanov <ivan.molchanov@opensoftdev.ru>
  * @see https://github.com/Sylius/SyliusResourceBundle/blob/master/EventListener/LoadORMMetadataSubscriber.php
  * @author Étienne Dauvergne <contact@ekyna.com>
+ * @todo move to resource bundle.
  */
 class LoadMetadataSubscriber implements EventSubscriber
 {

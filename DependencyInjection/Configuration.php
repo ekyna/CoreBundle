@@ -167,21 +167,28 @@ class Configuration implements ConfigurationInterface
      */
     private function getTinymceDefaultThemes()
     {
-        return array(
-            'advanced' => array(
+        return [
+            'advanced' => [
                 "theme"        => "modern",
-                "plugins"      => array(
+                "plugins"      => [
                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                     "searchreplace wordcount visualblocks visualchars code fullscreen",
                     "insertdatetime media nonbreaking save table contextmenu directionality",
                     "emoticons template paste textcolor",
-                ),
+                ],
                 "toolbar1"     => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify " .
                     "| bullist numlist outdent indent | link image",
                 "toolbar2"     => "print preview media | forecolor backcolor emoticons",
                 "image_advtab" => true,
-            ),
-            'simple'   => array(),
-        );
+            ],
+            'simple'   => [
+                "theme"        => "modern",
+                "plugins"      => [
+                    "autolink link searchreplace wordcount visualblocks ",
+                    "visualchars code fullscreen nonbreaking paste",
+                ],
+                "toolbar1"     => "undo redo | styleselect | bold italic | link",
+            ],
+        ];
     }
 }

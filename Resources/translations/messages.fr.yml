@@ -195,6 +195,7 @@ ekyna_core:
     message:
         captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?
+        no_translations: Aucune traduction configurée
     changefreq:
         hourly: Toutes les heures
         monthly: Tous les mois

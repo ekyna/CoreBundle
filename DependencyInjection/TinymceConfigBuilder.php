@@ -45,6 +45,8 @@ class TinymceConfigBuilder
         }
         $contentCss[] = 'asset[bundles/ekynacore/css/tinymce-content.css]';
 
+        //$themes = $config['tinymce']['theme'];
+
         // Simple theme: same as default theme
         $simpleTheme = [
             'menubar'            => false,
@@ -65,6 +67,9 @@ class TinymceConfigBuilder
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
+        /*if (!array_key_exists('simple', $themes)) {
+            $simpleTheme = array_merge($simpleTheme, $themes['simple']);
+        }*/
 
         // Front theme: for front usage
         $frontTheme = [
@@ -86,6 +91,9 @@ class TinymceConfigBuilder
             'content_css' => $contentCss,
             'autoresize_max_height' => '500',
         ];
+        /*if (!array_key_exists('front', $themes)) {
+            $simpleTheme = array_merge($simpleTheme, $themes['front']);
+        }*/
 
         // Advanced theme with almost all enabled plugins
         $advancedTheme = [
@@ -120,6 +128,9 @@ class TinymceConfigBuilder
             //'images_upload_base_path' => '/some/basepath',
             'images_upload_credentials' => true,
         ];
+        /*if (!array_key_exists('advanced', $themes)) {
+            $simpleTheme = array_merge($simpleTheme, $themes['advanced']);
+        }*/
 
         $styleFormatsMerge = (bool) $config['ui']['tinymce_formats_merge'];
         if (null === $styleFormats = $config['ui']['tinymce_formats']) {
@@ -129,7 +140,7 @@ class TinymceConfigBuilder
         }
 
         $externalPlugins = [];
-        if (!in_array('EkynaMediaBundle', $bundles)) {
+        if (in_array('EkynaMediaBundle', $bundles)) {
             $externalPlugins['filemanager'] = '/bundles/ekynamedia/js/tinymce.plugin.js';
         }
 
