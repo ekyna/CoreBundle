@@ -11,9 +11,6 @@ module.exports = function (grunt, options) {
                         'src/Ekyna/Bundle/CoreBundle/Resources/private/js/ie/respond.min.js',
                         'src/Ekyna/Bundle/CoreBundle/Resources/private/js/ie/excanvas.min.js'
                     ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js': [
-                        'vendor/jms/twig-js/twig.js'
-                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/form.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js'
                     ],
