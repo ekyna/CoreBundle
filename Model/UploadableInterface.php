@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Model;
 
+use Ekyna\Component\Resource\Model\TimestampableInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**

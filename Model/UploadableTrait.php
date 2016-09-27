@@ -3,6 +3,7 @@
 namespace Ekyna\Bundle\CoreBundle\Model;
 
 use Behat\Transliterator\Transliterator;
+use Ekyna\Component\Resource\Model\TimestampableTrait;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
