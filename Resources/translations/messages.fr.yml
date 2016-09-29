@@ -65,6 +65,7 @@ ekyna_core:
         download: Télécharger
         import: Importer
         export: Exporter
+        transform: Transformer
     field:
         name: Nom
         title: Titre

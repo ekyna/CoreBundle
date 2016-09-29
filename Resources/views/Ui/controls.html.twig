@@ -2,13 +2,29 @@
 {% spaceless %}
 <{{ tag }} {{ block('attributes') }}>{{ block('icon') }}{{ label|trans|raw }}</{{ tag }}>
 {% endspaceless %}
-{% endblock %}
+{% endblock button %}
 
 {% block icon %}
 {% spaceless %}
 {% if icon %}<span class="{{ icon }}"></span>{% endif %}
 {% endspaceless %}
 {% endblock icon %}
+
+{% block button_dropdown %}
+{% spaceless %}
+<div class="btn-group">
+    <button type="button" class="btn btn-{{ theme }} btn-{{ size }} dropdown-toggle"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ label|trans|raw }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        {% for action_label, action_path in actions %}
+        <li><a href="{{ action_path }}">{{ action_label|trans|raw }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endspaceless %}
+{% endblock button_dropdown %}
 
 {% block attributes %}
 {% spaceless %}
@@ -33,7 +49,7 @@
     <img src="http://placehold.it/145x96/f7f7f7/6e829b&text={{ 'ekyna_core.image.new'|trans|replace({' ': '+'}) }}" alt="{{ 'ekyna_core.image.new'|trans }}"{% if style|length > 0 %} style="{{ style }}"{% endif %} />
 {% endif %}
 {% endspaceless %}
-{% endblock %}
+{% endblock no_image %}
 
 {% block locale_switcher %}
 {% spaceless %}

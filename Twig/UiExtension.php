@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class UiExtension
  * @package Ekyna\Bundle\CoreBundle\Twig
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
@@ -62,9 +62,9 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         array $config
     ) {
         $this->assetExtension = $assetExtension;
-        $this->requestStack   = $requestStack;
+        $this->requestStack = $requestStack;
         $this->localeProvider = $localeProvider;
-        $this->config         = $config;
+        $this->config = $config;
     }
 
     /**
@@ -82,13 +82,13 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     {
         return [
             new \Twig_SimpleFunction('ui_content_stylesheets', [$this, 'renderContentStylesheets'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_forms_stylesheets',   [$this, 'renderFormsStylesheets'],   ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_fonts_stylesheets',   [$this, 'renderFontsStylesheets'],   ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_forms_stylesheets', [$this, 'renderFormsStylesheets'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_fonts_stylesheets', [$this, 'renderFontsStylesheets'], ['is_safe' => ['html']]),
 
-            new \Twig_SimpleFunction('ui_no_image',        [$this, 'renderNoImage'],        ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_link',            [$this, 'renderLink'],           ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_button',          [$this, 'renderButton'],         ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_google_font',     [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_no_image', [$this, 'renderNoImage'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_link', [$this, 'renderLink'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_button', [$this, 'renderButton'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_google_font', [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_locale_switcher', [$this, 'renderLocaleSwitcher'], ['is_safe' => ['html']]),
         ];
     }
@@ -117,10 +117,12 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     /**
      * {@inheritdoc}
      */
-    public function getTests ()
+    public function getTests()
     {
         return [
-            new \Twig_SimpleTest('form', function ($var) { return $var instanceof FormView; }),
+            new \Twig_SimpleTest('form', function ($var) {
+                return $var instanceof FormView;
+            }),
         ];
     }
 
@@ -181,23 +183,25 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * Renders the "no image" img.
      *
      * @param array $attributes
+     *
      * @return string
      */
     public function renderNoImage(array $attributes = [])
     {
         return $this->controlsTemplate->renderBlock('no_image', [
             'no_image_path' => $this->config['no_image_path'],
-            'attr' => $attributes,
+            'attr'          => $attributes,
         ]);
     }
 
     /**
      * Renders the link.
      *
-     * @param $href
+     * @param        $href
      * @param string $label
-     * @param array $options
-     * @param array $attributes
+     * @param array  $options
+     * @param array  $attributes
+     *
      * @return string
      */
     public function renderLink($href, $label = '', array $options = [], array $attributes = [])
@@ -212,8 +216,9 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * Renders the button.
      *
      * @param string $label
-     * @param array $options
-     * @param array $attributes
+     * @param array  $options
+     * @param array  $attributes
+     *
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -222,7 +227,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         $options = $this->getButtonOptionsResolver()->resolve($options);
 
         $tag = 'button';
-        $classes = ['btn', 'btn-'.$options['theme'], 'btn-'.$options['size']];
+        $classes = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size']];
         $defaultAttributes = [
             'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
         ];
@@ -244,8 +249,8 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         $attributes = array_merge($defaultAttributes, $attributes);
 
         $icon = '';
-        if(0 < strlen($options['icon'])) {
-            $icon = $options['fa_icon'] ? 'fa fa-'.$options['icon'] : 'glyphicon glyphicon-'.$options['icon'];
+        if (0 < strlen($options['icon'])) {
+            $icon = $options['fa_icon'] ? 'fa fa-' . $options['icon'] : 'glyphicon glyphicon-' . $options['icon'];
         }
 
         return $this->controlsTemplate->renderBlock('button', [
@@ -259,7 +264,30 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     /**
      * Renders the locale switcher.
      *
+     * @param string $label
+     * @param array  $actions
+     * @param string $theme
+     * @param string $size
+     *
+     * @return string
+     */
+    public function renderButtonDropdown($label, array $actions, $theme = 'default', $size = 'sm')
+    {
+        // TODO validate actions
+
+        return $this->controlsTemplate->renderBlock('button_dropdown', [
+            'label'   => $label,
+            'theme'   => $theme,
+            'size'    => $size,
+            'actions' => $actions,
+        ]);
+    }
+
+    /**
+     * Renders the locale switcher.
+     *
      * @param array $attributes
+     *
      * @return string
      */
     public function renderLocaleSwitcher($attributes = [])
@@ -276,7 +304,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         return $this->controlsTemplate->renderBlock('locale_switcher', [
             'locales' => $this->config['locales'],
             'request' => $request,
-            'attr' => $attributes,
+            'attr'    => $attributes,
         ]);
     }
 
@@ -284,6 +312,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * Display the language for the given locale.
      *
      * @param string $locale
+     *
      * @return string
      */
     public function getLanguage($locale)
@@ -295,6 +324,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * Display the country name for the given code.
      *
      * @param string $countryCode
+     *
      * @return string
      */
     public function getCountry($countryCode)
@@ -321,15 +351,12 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
                     'path'    => null,
                 ])
                 ->setRequired(['type', 'theme', 'size'])
-
-                ->setAllowedValues('type',  ['link', 'button', 'submit', 'reset'])
+                ->setAllowedValues('type', ['link', 'button', 'submit', 'reset'])
                 ->setAllowedValues('theme', ['default', 'primary', 'success', 'warning', 'danger'])
-                ->setAllowedValues('size',  ['xs', 'sm', 'md', 'lg'])
-
-                ->setAllowedTypes('icon',    ['string', 'null'])
+                ->setAllowedValues('size', ['xs', 'sm', 'md', 'lg'])
+                ->setAllowedTypes('icon', ['string', 'null'])
                 ->setAllowedTypes('fa_icon', 'bool')
-                ->setAllowedTypes('path',    ['string', 'null'])
-            ;
+                ->setAllowedTypes('path', ['string', 'null']);
         }
 
         return $this->buttonOptionsResolver;
