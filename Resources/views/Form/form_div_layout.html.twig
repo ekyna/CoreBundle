@@ -284,7 +284,7 @@
 {% endspaceless %}
 {% endblock datetime_widget %}
 
-{% block choice_widget_options %}
+{#{% block choice_widget_options %}
     {% spaceless %}
         {% for group_label, choice in options %}
             {% if choice is iterable %}
@@ -298,9 +298,9 @@
             {% endif %}
         {% endfor %}
     {% endspaceless %}
-{% endblock choice_widget_options %}
+{% endblock choice_widget_options %}#}
 
-{% block checkbox_row %}
+{#{% block checkbox_row %}
 {% spaceless %}
     {% set style = style|default(bootstrap_get_style()) %}
     {% set col_size = col_size|default(bootstrap_get_col_size()) %}
@@ -357,9 +357,9 @@
 
     {% if style == 'inline' %}&nbsp;{% endif %}
 {% endspaceless %}
-{% endblock checkbox_row %}
+{% endblock checkbox_row %}#}
 
-{% block radio_row %}
+{#{% block radio_row %}
 {% spaceless %}
     {% set class = '' %}
 
@@ -412,7 +412,7 @@
         </div>
     {% endif %}
 {% endspaceless %}
-{% endblock radio_row %}
+{% endblock radio_row %}#}
 
 {% block choice_widget_expanded %}
 {% spaceless %}

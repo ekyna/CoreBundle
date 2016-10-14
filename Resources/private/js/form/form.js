@@ -41,7 +41,10 @@ define(
 
             /* Plugins */
             $(plugins).each(function (i, config) {
-                var $target = that.$elem.find(config.selector);
+                var $target = that.$elem;
+                if (!$target.is(config.selector)) {
+                    $target = that.$elem.find(config.selector);
+                }
                 if ($target.length > 0) {
                     require([config.path], function (plugin) {
                         plugin.init($target);
