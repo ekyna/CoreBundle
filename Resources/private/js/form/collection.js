@@ -18,6 +18,24 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             $(el).on('click', moveDownField, this.moveDownField);
         };
 
+    /*function initializeIndex($collection) {
+        var count = 0,
+            $list = $collection.find('.ekyna-collection-child-container').first().find('> .ekyna-collection-child'),
+            prototypeName = $collection.attr('data-prototype-name'),
+            widget = $('#' + $collection.attr('data-prototype')).text();
+
+        var re = new RegExp(widget.match(/id="(.*?)"/)[1].replace(prototypeName, '(\\d+)'));
+        $list.each(function(i, child) {
+            var match = parseInt($(child).attr('id').match(re)[1]);
+            console.log(match);
+            if (match > count) {
+                count = match;
+            }
+        });
+
+        $collection.data('child-index', count + 1);
+    }*/
+
     function collectionUpdatePositions($collection) {
         var selector = '[data-collection="' + $collection.attr('id') + '"]',
             $list = $collection.find('.ekyna-collection-child-container').first().find('> .ekyna-collection-child'),
@@ -40,30 +58,45 @@ define(['jquery', 'ekyna-form'], function($, Form) {
     }
 
     CollectionAdd.prototype.addField = function (e) {
-        var $this = $(this),
-            selector = $this.attr('data-collection'),
-            prototypeName = $this.attr('data-prototype-name');
-
         e && e.preventDefault();
 
-        var $collection = $('#'+selector),
-            list = $collection.find('.ekyna-collection-child-container').first(),
-            count = list.find('> .ekyna-collection-child').size();
+        var $this = $(this),
+            selector = $this.attr('data-collection'),
+            $collection = $('#'+selector),
+            $list = $collection.find('.ekyna-collection-child-container').first(),
+            prototypeName = $this.attr('data-prototype-name'),
+            widget = $('#' + $collection.attr('data-prototype')).text(),
+            index = $collection.data('child-index');
 
-        var widget = $('#' + $collection.attr('data-prototype')).text();
+        // If child index is not available as a collection data
+        if (index === undefined) {
+            index = -1;
 
-        // Check if an element with this ID already exists.
-        // If it does, increase the count by one and try again
-        var name = widget.match(/id="(.*?)"/);
-        var re = new RegExp(prototypeName, "g");
-        while ($('#' + name[1].replace(re, count)).size() > 0) {
-            count++;
+            // Determine the next index
+            var indexRegex = new RegExp(widget.match(/id="(.*?)"/)[1].replace(prototypeName, '(\\d+)'));
+
+            $list.find('> .ekyna-collection-child').each(function(i, child) {
+                var match = parseInt($(child).attr('id').match(indexRegex)[1]);
+                if (match > index) {
+                    index = match;
+                }
+            });
         }
-        widget = widget.replace(re, count);
-        widget = widget.replace(/__id__/g, name[1].replace(re, count));
-        var $element = $(widget);
-        list.append($element);
 
+        // Stores the current child index
+        index++;
+        $collection.data('child-index', index);
+
+        // Builds the child widget
+        var name = widget.match(/id="(.*?)"/),
+            widgetRegex = new RegExp(prototypeName, "g");
+
+        widget = widget.replace(widgetRegex, index);
+        widget = widget.replace(/__id__/g, name[1].replace(widgetRegex, index));
+        var $element = $(widget);
+        $list.append($element);
+
+        // Initialize the child form
         var form = Form.create($element);
         form.init();
 
