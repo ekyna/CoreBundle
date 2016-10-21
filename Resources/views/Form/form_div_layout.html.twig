@@ -442,6 +442,27 @@
 {% endspaceless %}
 {% endblock choice_widget_collapsed %}
 
+{% block choice_widget_options %}
+{% spaceless %}
+    {% for group_label, choice in options %}
+        {% if choice is iterable %}
+            <optgroup label="{{ choice_translation_domain is defined ? (choice_translation_domain is same as (false) ? group_label : group_label|trans({}, choice_translation_domain)) : group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{ block('choice_widget_options') }}
+            </optgroup>
+        {% else %}
+            {% set id = null %}
+            {% set attr = (attribute(choice, 'attr') is defined) ? choice.attr : [] %}
+            <option value="{{ choice.value }}"
+                    {% if choice is selectedchoice(value) %} selected="selected"{% endif %}
+                    {{ block('widget_container_attributes') }}>
+                {{ choice_translation_domain is defined ? (choice_translation_domain is same as (false) ? choice.label : choice.label|trans({}, choice_translation_domain))|raw : choice.label|trans({}, translation_domain)|raw }}
+            </option>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}
+{% endblock choice_widget_options %}
+
 {% block captcha_widget %}
 {% spaceless %}
     <img src="{{ captcha_code }}" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}" style="display:inline-block;margin-right:20px;" />
