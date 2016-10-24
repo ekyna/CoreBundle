@@ -85,7 +85,7 @@
                 '<div class="' ~ controls_class ~ '">' ~ controls ~ '</div>' ~
             '</div>' %}
         {% endif %}
-        {% set prototype_html = '<li class="ekyna-collection-child"><div class="row">' ~
+        {% set prototype_html = '<li class="ekyna-collection-child" id="' ~ prototype.vars.id ~ '"><div class="row">' ~
             prototype_html ~ controls ~
         '</div></li>' %}
 
@@ -97,7 +97,7 @@
     <div {{ block('widget_container_attributes') }}>
         <ul class="ekyna-collection-child-container list-unstyled">
             {% for field in form %}
-                <li class="ekyna-collection-child">
+                <li class="ekyna-collection-child" id="{{ field.vars.id }}">
                     <div class="row">
                         <div class="col-xs-{{ form.vars.sub_widget_col }} ekyna-collection-child-form">
                             {{ form_widget(field) }}
