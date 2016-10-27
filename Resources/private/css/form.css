@@ -301,43 +301,20 @@
  */
 
 /* ekyna collection */
-.form-body .ekyna-collection-prototype {
+.ekyna-collection-prototype {
     display: none;
 }
 
-.form-body .ekyna-collection .ekyna-collection-child {
+.ekyna-collection .ekyna-collection-child {
     border-bottom: 1px dotted #CCC;
     padding-bottom: 8px;
     margin-bottom: 8px;
 }
 
-.form-body .ekyna-collection .ekyna-collection-child:last-child {
+.ekyna-collection .ekyna-collection-child:last-child {
     border-bottom: 0;
     margin-bottom: 0;
 }
-
-/*.form-body .ekyna-collection-controls {
-    text-align: right;
-}
-
-.form-body .ekyna-collection-controls button {
-    display: block;
-    margin-bottom: 8px;
-}
-
-.form-body .ekyna-collection-controls button:last-child {
-    margin-bottom: 0;
-}
-
-.form-body .ekyna-collection-controls.controls-inline button {
-    display: inline-block;
-    margin-bottom: 0;
-    margin-right: 6px;
-}
-
-.form-body .ekyna-collection-controls.controls-inline button:last-child {
-    margin-right: 0;
-}*/
 
 /**
  *  Bootstrap "extension"

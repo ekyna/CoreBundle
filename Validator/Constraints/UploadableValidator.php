@@ -15,39 +15,40 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UploadableValidator extends ConstraintValidator
 {
     /**
-	 * {@inheritdoc}
-	 */
+     * {@inheritdoc}
+     */
     public function validate($uploadable, Constraint $constraint)
     {
-    	if (! $uploadable instanceof UploadableInterface) {
-    	    throw new UnexpectedTypeException($uploadable, 'Ekyna\Bundle\CoreBundle\Model\UploadableInterface');
-    	}
-    	if (! $constraint instanceof Uploadable) {
-    	    throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Uploadable');
-    	}
+        if (! $uploadable instanceof UploadableInterface) {
+            throw new UnexpectedTypeException($uploadable, 'Ekyna\Bundle\CoreBundle\Model\UploadableInterface');
+        }
+        if (! $constraint instanceof Uploadable) {
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Uploadable');
+        }
 
-		/**
-		 * @var Uploadable          $constraint
-		 * @var UploadableInterface $uploadable
-		 */
-    	if ($uploadable->hasFile() || $uploadable->hasKey()) {
-    	    if (! $uploadable->hasRename()) {
-    	        $this->context->addViolationAt(
-    	            'rename',
-    	            $constraint->nameIsMandatory
-    	        );
-    	    }
-    	} elseif (! $uploadable->hasPath()) {
-            $this->context->addViolationAt(
-                'file',
-                $constraint->fileIsMandatory
-            );
-    	    if ($uploadable->hasRename()) {
-    	        $this->context->addViolationAt(
-    	            'rename',
-    	            $constraint->leaveBlank
-    	        );
-    	    }
-    	}
+        /**
+         * @var Uploadable          $constraint
+         * @var UploadableInterface $uploadable
+         */
+        if ($uploadable->hasFile() || $uploadable->hasKey()) {
+            if (! $uploadable->hasRename()) {
+                $this->context
+                    ->buildViolation($constraint->nameIsMandatory)
+                    ->atPath('rename')
+                    ->addViolation();
+            }
+        } elseif (! $uploadable->hasPath()) {
+            $this->context
+                ->buildViolation($constraint->fileIsMandatory)
+                ->atPath('file')
+                ->addViolation();
+
+            if ($uploadable->hasRename()) {
+                $this->context
+                    ->buildViolation($constraint->leaveBlank)
+                    ->atPath('rename')
+                    ->addViolation();
+            }
+        }
     }
 }

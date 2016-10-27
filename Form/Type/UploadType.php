@@ -25,6 +25,17 @@ class UploadType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('file', Type\FileType::class, [
+            'label'        => 'ekyna_core.field.file',
+            'required'     => false,
+            'sizing'       => 'sm',
+            'admin_helper' => 'FILE_UPLOAD',
+            'attr'         => [
+                'label_col'  => 2,
+                'widget_col' => 10,
+            ],
+        ]);
+
         if ($options['js_upload']) {
             $builder->add('key', Type\HiddenType::class);
         }
@@ -43,25 +54,15 @@ class UploadType extends AbstractType
             ]);
         }
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
-                /** @var \Ekyna\Bundle\CoreBundle\Model\UploadableInterface $uploadable */
-                $uploadable = $event->getData();
+        if ($options['unlink_field']) {
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($options) {
+                    $form = $event->getForm();
+                    /** @var \Ekyna\Bundle\CoreBundle\Model\UploadableInterface $uploadable */
+                    $uploadable = $event->getData();
 
-                if (null !== $uploadable && null !== $uploadable->getPath()) {
-                    $form->add('file', Type\FileType::class, [
-                        'label'        => 'ekyna_core.field.file',
-                        'required'     => false,
-                        'sizing'       => 'sm',
-                        'admin_helper' => 'FILE_UPLOAD',
-                        'attr'         => [
-                            'label_col'  => 2,
-                            'widget_col' => 10,
-                        ],
-                    ]);
-                    if ($options['unlink_field']) {
+                    if (null !== $uploadable && null !== $uploadable->getPath()) {
                         $form->add('unlink', Type\CheckboxType::class, [
                             'label'        => 'ekyna_core.field.unlink',
                             'required'     => false,
@@ -74,20 +75,9 @@ class UploadType extends AbstractType
                             ],
                         ]);
                     }
-                } else {
-                    $form->add('file', Type\FileType::class, [
-                        'label'        => 'ekyna_core.field.file',
-                        'required'     => true,
-                        'sizing'       => 'sm',
-                        'admin_helper' => 'FILE_UPLOAD',
-                        'attr'         => [
-                            'label_col'  => 2,
-                            'widget_col' => 10,
-                        ],
-                    ]);
                 }
-            }
-        );
+            );
+        }
 
         $builder->addModelTransformer(new UploadableToNullTransformer());
     }

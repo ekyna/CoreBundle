@@ -197,7 +197,10 @@ class AddressValidator extends ConstraintValidator
          */
         if (array_key_exists($address->getCountry(), $this->zipRegex)) {
             if (!preg_match("~^" . $this->zipRegex[$address->getCountry()] . "$~i", $address->getPostalCode())) {
-                $this->context->addViolationAt('postalCode', $constraint->invalidPostalCode);
+                $this->context
+                    ->buildViolation($constraint->invalidPostalCode)
+                    ->atPath('postalCode')
+                    ->addViolation();
             }
         }
     }
