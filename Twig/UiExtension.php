@@ -107,16 +107,6 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     /**
      * {@inheritdoc}
      */
-    public function getGlobals()
-    {
-        return [
-            'locales' => $this->config['locales'],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getTests()
     {
         return [
@@ -314,6 +304,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * @param string $locale
      *
      * @return string
+     * @todo useless : use language twig filter
      */
     public function getLanguage($locale)
     {
