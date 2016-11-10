@@ -45,6 +45,7 @@ class TinymceConfigBuilder
         }
         $contentCss[] = 'asset[bundles/ekynacore/css/tinymce-content.css]';
 
+        // TODO Use config themes
         //$themes = $config['tinymce']['theme'];
 
         // Simple theme: same as default theme
@@ -140,7 +141,7 @@ class TinymceConfigBuilder
         }
 
         $externalPlugins = [];
-        if (in_array('EkynaMediaBundle', $bundles)) {
+        if (isset($bundles['EkynaMediaBundle'])) {
             $externalPlugins['filemanager'] = '/bundles/ekynamedia/js/tinymce.plugin.js';
         }
 
