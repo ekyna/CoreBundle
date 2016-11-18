@@ -8,10 +8,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Entity listener resolver
- * 
+ *
  * @author Eric Geloen
- * 
+ *
  * @see https://github.com/doctrine/DoctrineBundle/issues/223#issuecomment-27765882
+ * @todo remove ?
  */
 class EntityListenerResolver extends DefaultEntityListenerResolver implements ContainerAwareInterface
 {

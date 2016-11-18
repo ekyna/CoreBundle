@@ -8,6 +8,8 @@ use Ekyna\Bundle\CoreBundle\Model\AddressInterface;
  * Class AbstractAddress
  * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
+ *
+ * @todo remove (and validation)
  */
 abstract class AbstractAddress implements AddressInterface
 {

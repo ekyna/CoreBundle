@@ -82,7 +82,7 @@ class Uploader implements UploaderInterface
             if ($uploadable->hasFile()) {
                 $file = $uploadable->getFile();
 
-                if (false === $stream = fopen($file->getRealPath(), 'r+')) {
+                if (false === $stream = @fopen($file->getRealPath(), 'r+')) {
                     throw new UploadException(sprintf('Failed to open file "%s".', $file->getRealPath()));
                 }
 

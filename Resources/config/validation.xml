@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
                         http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
+    <!-- TODO remove (move in admin bundle for site address) -->
     <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractAddress">
         <property name="street">
             <constraint name="NotBlank" />
@@ -46,7 +47,7 @@
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\Address" />
     </class>
 
-    <class name="Ekyna\Bundle\CoreBundle\Entity\AbstractUpload">
+    <class name="Ekyna\Bundle\CoreBundle\Model\UploadableInterface">
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\Uploadable" />
         <property name="file">
             <constraint name="File" />
