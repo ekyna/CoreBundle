@@ -8,8 +8,6 @@ use Ekyna\Bundle\CoreBundle\Model;
  * Class AbstractUpload
  * @package Ekyna\Bundle\CoreBundle\Entity
  * @author Étienne Dauvergne <contact@ekyna.com>
- *
- * @todo remove
  */
 class AbstractUpload implements Model\UploadableInterface
 {

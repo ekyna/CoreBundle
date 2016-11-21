@@ -47,7 +47,7 @@
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\Address" />
     </class>
 
-    <class name="Ekyna\Bundle\CoreBundle\Model\UploadableInterface">
+    <class name="Ekyna\Bundle\CoreBundle\Model\AbstractUpload">
         <constraint name="Ekyna\Bundle\CoreBundle\Validator\Constraints\Uploadable" />
         <property name="file">
             <constraint name="File" />
