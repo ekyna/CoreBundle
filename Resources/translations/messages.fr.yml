@@ -55,7 +55,7 @@ ekyna_core:
         remove_and_list: Supprimer <small>et retour à la liste</small>
         unlink: Retirer
         move_up: Remonter
-        move_descendre: Descendre
+        move_down: Descendre
         cancel: Annuler
         save: Enregistrer
         save_and_list: Enregistrer <small>et retour à la liste</small>
