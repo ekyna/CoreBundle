@@ -24,6 +24,7 @@
                 <div id="{{ translationForm.vars.id }}" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
                     {{ form_errors(translationForm) }}
                     {{ form_widget(translationForm) }}
+                    {{ form_help(translationForm) }}
                 </div>
             {% endfor %}
         </div>
