@@ -99,6 +99,7 @@ ekyna_core:
         color: Couleur
         code: Code
         value: Valeur
+        default: Par défaut
         quantity: Quantité
         option: Option
         options: Options
@@ -153,6 +154,7 @@ ekyna_core:
         seo: Référencement
         keywords: Mots clés
         priority: Priorité
+        changefreq: Fréq. de modif.
         changefreq: Fréq. de modif.
         follow: Suivre les liens
         canonical_url: Url canonique

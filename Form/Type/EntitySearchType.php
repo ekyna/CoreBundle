@@ -2,17 +2,10 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ObjectManager;
-//use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-//use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-//use Symfony\Component\Form\Extension\Core\Type\TextType;
-//use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-//use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
-//use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -22,33 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EntitySearchType extends AbstractType
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
-    //protected $om;
-
-    /**
-     * Constructor.
-     *
-     * @param ObjectManager $om
-     */
-    /*public function __construct(ObjectManager $om)
-    {
-        $this->om = $om;
-    }*/
-
-    /**
-     * {@inheritdoc}
-     */
-    /*public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $repository = $this->om->getRepository($options['entity']);
-        $builder
-            ->addModelTransformer(
-                new ObjectToIdentifierTransformer($repository)
-            );
-    }*/
-
     /**
      * {@inheritdoc}
      */
@@ -65,7 +31,7 @@ class EntitySearchType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        // TODO TODO convert options['choice_label'] to javascript options['format_function']...
+        // TODO Convert options['choice_label'] to javascript options['format_function']...
         // TODO Create a choice_loader (DoctrineType) : only current value and submitted value (for validation)
 
         $resolver
