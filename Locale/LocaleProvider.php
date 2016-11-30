@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Locale;
 /**
  * Class LocaleProvider
  * @package Ekyna\Bundle\CoreBundle\Locale
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class LocaleProvider implements LocaleProviderInterface
 {
@@ -24,7 +24,10 @@ class LocaleProvider implements LocaleProviderInterface
      */
     private $availableLocales;
 
+
     /**
+     * Constructor.
+     *
      * @param string $currentLocale
      * @param string $fallbackLocale
      * @param array  $availableLocales

@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class FosHttpCachePass  implements CompilerPassInterface
+class FosHttpCachePass implements CompilerPassInterface
 {
     const FOS_HTTP_TAG_HANDLER_ID = 'fos_http_cache.handler.tag_handler';
 
