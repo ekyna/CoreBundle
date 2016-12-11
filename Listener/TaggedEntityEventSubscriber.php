@@ -8,7 +8,7 @@ use Doctrine\ORM\Events;
 use Ekyna\Component\Resource\Model\TranslationInterface;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvent;
 use Ekyna\Bundle\CoreBundle\Event\HttpCacheEvents;
-use Ekyna\Bundle\CoreBundle\Model\TaggedEntityInterface;
+use Ekyna\Component\Resource\Model\TaggedEntityInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
