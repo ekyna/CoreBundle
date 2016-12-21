@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Class KernelEventSubscriber
  * @package Ekyna\Bundle\CoreBundle\EventListener
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareInterface
 {
@@ -38,7 +38,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
 
     /**
      * Kernel exception event handler.
-     * 
+     *
      * @param GetResponseForExceptionEvent $event
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
@@ -56,10 +56,10 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                     } elseif (is_string($response) && 0 < strlen($response)) {
                         $response = $this->container
                             ->get('security.http_utils')
-                            ->createRedirectResponse($request, $response, 301)
-                        ;
+                            ->createRedirectResponse($request, $response, 301);
                         $event->setResponse($response);
                     }
+
                     return;
                 }
             }
@@ -76,8 +76,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             $request = $event->getRequest();
             $response = $this->container
                 ->get('security.http_utils')
-                ->createRedirectResponse($request, $path)
-            ;
+                ->createRedirectResponse($request, $path);
             $event->setResponse($response);
 
             // Add flash
@@ -85,8 +84,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                 $this->container
                     ->get('session')
                     ->getFlashBag()
-                    ->add($exception->getMessageType(), $message)
-                ;
+                    ->add($exception->getMessageType(), $message);
             }
 
         } elseif ($exception instanceof HttpException) {
@@ -94,7 +92,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             // Don't send log about http exceptions.
             return;
 
-        } elseif(!$this->container->getParameter('kernel.debug')) {
+        } elseif (!$this->container->getParameter('kernel.debug')) {
 
             $template = new TemplateReference('EkynaCoreBundle', 'Exception', 'exception', 'html', 'twig');
             $code = $exception->getCode();
@@ -102,13 +100,13 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             $request = $this->container->get('request_stack')->getMasterRequest();
 
             $content = $this->container->get('twig')->render(
-                (string) $template,
+                (string)$template,
                 [
-                    'status_code' => $code,
-                    'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
-                    'exception' => FlattenException::create($exception),
-                    'request' => $request,
-                    'logger' => null,
+                    'status_code'    => $code,
+                    'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                    'exception'      => FlattenException::create($exception),
+                    'request'        => $request,
+                    'logger'         => null,
                     'currentContent' => null,
                 ]
             );
@@ -124,8 +122,8 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
      */
     public static function getSubscribedEvents()
     {
-    	return [
+        return [
             KernelEvents::EXCEPTION => ['onKernelException', 0],
-    	];
+        ];
     }
 }

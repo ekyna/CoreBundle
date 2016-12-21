@@ -100,11 +100,15 @@ class TagManager
     public function flush()
     {
         if (!empty($this->invalidateTags)) {
-            $this->tagHandler->invalidateTags($this->invalidateTags);
+            foreach (array_chunk($this->invalidateTags, 15) as $tags) {
+                $this->tagHandler->invalidateTags($tags);
+            }
         }
 
         if (!empty($this->responseTags)) {
-            $this->tagHandler->addTags($this->responseTags);
+            foreach (array_chunk($this->responseTags, 15) as $tags) {
+                $this->tagHandler->addTags($tags);
+            }
         }
 
         $this->reset();

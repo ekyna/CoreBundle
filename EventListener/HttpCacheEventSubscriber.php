@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Class HttpCacheEventSubscriber
  * @package Ekyna\Bundle\CoreBundle\EventListener
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class HttpCacheEventSubscriber implements EventSubscriberInterface
 {
@@ -89,10 +89,10 @@ class HttpCacheEventSubscriber implements EventSubscriberInterface
             HttpCacheEvents::TAG_RESPONSE   => ['onTagResponse', 0],
             HttpCacheEvents::INVALIDATE_TAG => ['onInvalidateTag', 0],
 
-            KernelEvents::RESPONSE          => ['onKernelResponse', 0],
+            KernelEvents::RESPONSE => ['onKernelResponse', 0],
 
-            KernelEvents::TERMINATE         => ['onKernelTerminate', 0],
-            ConsoleEvents::TERMINATE        => ['onKernelTerminate', 0],
+            KernelEvents::TERMINATE  => ['onKernelTerminate', 0],
+            ConsoleEvents::TERMINATE => ['onKernelTerminate', 0],
         ];
     }
 }
