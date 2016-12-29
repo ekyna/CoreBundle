@@ -5,12 +5,23 @@ module.exports = {
         'copy:core_libs_fix',
         'copy:core_files'
     ],
+    'cssmin:core': [
+        'cssmin:core_lib',
+        'cssmin:core_content',
+        'cssmin:core_form'
+    ],
+    'build:core_js': [
+        'ts:core',
+        'uglify:core_ts',
+        'uglify:core_js',
+        'clean:core_ts'
+    ],
     'build:core': [
         'clean:core_pre',
         'copy:core',
         'less:core',
         'cssmin:core',
-        'uglify:core',
+        'build:core_js',
         'clean:core_post'
     ]
 };

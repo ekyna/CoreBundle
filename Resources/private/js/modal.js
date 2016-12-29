@@ -65,26 +65,29 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
         load: function(params) {
             params.cache = false;
 
-            var that = this;
-            var xhr = $.ajax(params);
+            var that = this,
+                xhr = $.ajax(params);
+
             xhr.done(function(data, textStatus, jqXHR) {
                 that.handleResponse(data, textStatus, jqXHR);
             });
+
             xhr.fail(function() {
                 console.log('Failed to load modal.');
                 var event = $.Event('ekyna.modal.load_fail');
                 $(that).trigger(event);
             });
+
+            return xhr;
         },
         handleResponse: function(data, textStatus, jqXHR) {
-            var that = this, event;
+            var that = this, type = contentType(jqXHR), event;
 
             if (that.form) {
                 that.form.destroy();
                 that.form = null;
             }
 
-            var type = contentType(jqXHR);
             event = $.Event('ekyna.modal.response');
             event.modal = that;
             event.contentType = type;
@@ -93,6 +96,10 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             $(that).trigger(event);
             if (event.isDefaultPrevented()) {
                 return that.close();
+            }
+
+            if (type != 'xml') {
+                return this;
             }
 
             var $xmlData = $(data);

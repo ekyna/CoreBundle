@@ -1,0 +1,1 @@
+define(["require","exports","backbone","underscore"],function(a,b,c,d){"use strict";return d.extend({},c.Events)});

@@ -52,9 +52,8 @@ config:
             deps: ['jquery']
         'ekyna-modal':
             deps: ['require', 'jquery', 'bootstrap/dialog']
-#            exports: 'EkynaModal'
-#        'ekyna-form':
-#            exports: 'EkynaForm'
+        'ekyna-dispatcher':
+            deps: ['backbone']
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'
@@ -79,6 +78,8 @@ config:
         'ekyna-string': 'bundles/ekynacore/js/string'
         'ekyna-routing': 'bundles/ekynacore/js/router'
         'ekyna-modal': 'bundles/ekynacore/js/modal'
+        'ekyna-ui': 'bundles/ekynacore/js/ui'
+        'ekyna-dispatcher': 'bundles/ekynacore/js/dispatcher'
         'ekyna-form/plugins':
             route: ekyna_core_form_plugins
             params: []
@@ -101,6 +102,7 @@ build:
         - 'ekyna-string'
         - 'ekyna-routing'
         - 'ekyna-modal'
+        - 'ekyna-dispatcher'
         - 'ekyna-form'
     paths:
         'routing_data': 'empty:'

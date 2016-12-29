@@ -1,6 +1,6 @@
 module.exports = function (grunt, options) {
     return {
-        core: {
+        core_js: {
             files: [
                 {
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/js/ie/fix-10.js': [
@@ -26,6 +26,14 @@ module.exports = function (grunt, options) {
                 }
 
             ]
+        },
+        core_ts: {
+            files: [{
+                expand: true,
+                cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
+                src: '**/*.js',
+                dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
+            }]
         }
     }
 };

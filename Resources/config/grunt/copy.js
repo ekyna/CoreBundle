@@ -158,17 +158,35 @@ module.exports = function (grunt, options) {
             src: ['img/**', 'lib/**'],
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
         },
-        core_js: {
-            expand: true,
-            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
-            src: ['js/*.js', 'js/form/**'],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
+        core_less: { // For watch:core_less
+            files: [
+                {
+                    expand: true,
+                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/css',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css'
+                }
+            ]
         },
-        core_web: {
-            expand: true,
-            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public',
-            src: ['**'],
-            dest: 'web/bundles/ekynacore'
+        core_ts: { // For watch:core_ts
+            files: [
+                {
+                    expand: true,
+                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
+                    src: ['**/*.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
+                }
+            ]
+        },
+        core_js: { // For watch:core_js
+            files: [
+                {
+                    expand: true,
+                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private/js',
+                    src: ['**/*.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
+                }
+            ]
         }
     }
 };

@@ -29,8 +29,8 @@ class EkynaCoreExtension extends Extension
             $container->setParameter('ekyna_core.chain_router.routers', $routers);
         }
 
-        if (!in_array('bundles/ekynacore/css/core.css', $config['ui']['stylesheets']['forms'])) {
-            $config['ui']['stylesheets']['forms'][] = 'bundles/ekynacore/css/core.css';
+        if (!in_array('bundles/ekynacore/css/form.css', $config['ui']['stylesheets']['forms'])) {
+            $config['ui']['stylesheets']['forms'][] = 'bundles/ekynacore/css/form.css';
         }
 
         $container->setParameter('ekyna_core.config.ui', $config['ui']);

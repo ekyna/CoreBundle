@@ -1,6 +1,22 @@
 /**
  *   Form Layout
  */
+
+.form-body {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px 15px 0 15px;
+    margin-bottom: 0;
+}
+
+.form-body .form-group {
+    overflow: hidden;
+}
+
+.form-body.form-body-unstyled {
+    border: none;
+    padding: 0;
+}
 .form-body label.control-label {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -26,18 +42,6 @@
     position: relative;
     right: 0;
     margin-left: 2px;
-}
-
-.form-body {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 15px 15px 0 15px;
-    margin-bottom: 0;
-}
-
-.form-body.form-body-unstyled {
-    border: none;
-    padding: 0;
 }
 
 .form-body textarea {

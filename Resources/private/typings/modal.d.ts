@@ -1,3 +1,5 @@
+///<reference path="../../../../../../../typings/globals/jquery/index.d.ts"/>
+
 declare module Ekyna {
     export interface Modal {
         new():Modal;
@@ -13,8 +15,8 @@ declare module Ekyna {
     }
 }
 
-declare var Modal:Ekyna.Modal;
+declare let Modal:Ekyna.Modal;
 
-declare module "ekyna-modal" {
+declare module 'ekyna-modal' {
     export = Modal;
 }
