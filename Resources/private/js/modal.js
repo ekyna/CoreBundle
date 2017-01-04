@@ -136,29 +136,31 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     // @see https://github.com/select2/select2/issues/600
                     $(that.dialog.getModal()).removeAttr('tabindex');
 
-                    require(['ekyna-form'], function (Form) {
-                        that.form = Form.create($html);
-                        that.form.init();
+                    $(that).one('ekyna.modal.shown', function() {
+                        require(['ekyna-form'], function (Form) {
+                            that.form = Form.create($html);
+                            that.form.init();
 
-                        that.form.getElement().on('submit', function(e) {
-                            e.preventDefault();
+                            that.form.getElement().on('submit', function (e) {
+                                e.preventDefault();
 
-                            that.dialog.enableButtons(false);
-                            var submitButton = that.dialog.getButton('submit');
-                            if (submitButton) {
-                                submitButton.spin();
-                            }
+                                that.dialog.enableButtons(false);
+                                var submitButton = that.dialog.getButton('submit');
+                                if (submitButton) {
+                                    submitButton.spin();
+                                }
 
-                            that.form.save();
-                            setTimeout(function () {
-                                that.form.getElement().ajaxSubmit({
-                                    success: function (data, textStatus, jqXHR) {
-                                        that.handleResponse(data, textStatus, jqXHR);
-                                    }
-                                });
-                            }, 100);
+                                that.form.save();
+                                setTimeout(function () {
+                                    that.form.getElement().ajaxSubmit({
+                                        success: function (data, textStatus, jqXHR) {
+                                            that.handleResponse(data, textStatus, jqXHR);
+                                        }
+                                    });
+                                }, 100);
 
-                            return false;
+                                return false;
+                            });
                         });
                     });
                 }
