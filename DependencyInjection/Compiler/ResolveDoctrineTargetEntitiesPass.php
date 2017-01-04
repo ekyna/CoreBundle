@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * @author Paweł Jędrzejewski <pjedrzejewski@sylius.pl>
  * @see https://github.com/Sylius/SyliusResourceBundle/blob/master/DependencyInjection/DoctrineTargetEntitiesResolver.php
  * @author Étienne Dauvergne <contact@ekyna.com>
+ *
+ * @todo Move to ResourceBundle
  */
 class ResolveDoctrineTargetEntitiesPass implements CompilerPassInterface
 {

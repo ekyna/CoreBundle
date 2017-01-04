@@ -10,6 +10,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * Class AbstractBundle
  * @package Ekyna\Bundle\CoreBundle
  * @author Étienne Dauvergne <contact@ekyna.com>
+ *
+ * @todo Move to ResourceBundle
  */
 abstract class AbstractBundle extends Bundle
 {
@@ -21,6 +23,7 @@ abstract class AbstractBundle extends Bundle
         $interfaces = $this->getModelInterfaces();
         if (!empty($interfaces)) {
             $container->addCompilerPass(
+                /** @todo Move to ResourceBundle */
                 new ResolveDoctrineTargetEntitiesPass($interfaces)
             );
         }
