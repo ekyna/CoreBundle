@@ -19,7 +19,7 @@ class FileController extends Controller
      * Download local file.
      *
      * @param Request $request
-     * @return BinaryFileResponse
+     * @return StreamedResponse
      * @throws NotFoundHttpException
      */
     public function downloadAction(Request $request)
@@ -68,6 +68,7 @@ class FileController extends Controller
         // https://www.tinymce.com/docs/advanced/handle-async-image-uploads/
 
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+
         $file = current($request->files->all());
 
         // Check file
@@ -81,17 +82,22 @@ class FileController extends Controller
         }
 
         // Verify extension
-        // TODO check $mimeType = $file->getClientMimeType();
-        $extension = strtolower($file->getClientOriginalExtension());
-        if (!in_array($extension, array("gif", "jpg", "png"))) {
+        $extension = strtolower($file->guessExtension());
+        if (!in_array($extension, array("gif", "jpg", "jpeg", "png"))) {
             throw new \Exception('Invalid extension.');
         }
 
-        // New file name
-        $filename = strtolower(md5(time().uniqid())).'.'.$extension;
+        $filename = $file->getClientOriginalName();
+        if (!preg_match('~([a-zA-Z0-9]{32}\.(gif|png|jpe?g))~', $filename)) {
+            // New file name
+            $filename = strtolower(md5(time().uniqid())).'.'.$extension;
+        }
 
         // Write new file
         $fs = $this->get('local_tinymce_filesystem');
+        if ($fs->has($filename)) {
+            $fs->delete($filename);
+        }
         if (!$fs->writeStream($filename, $stream)) {
             throw new \Exception('Failed to write file.');
         }

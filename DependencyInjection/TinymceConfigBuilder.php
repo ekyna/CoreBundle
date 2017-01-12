@@ -5,7 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 /**
  * Class TinymceConfigBuilder
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class TinymceConfigBuilder
 {
@@ -30,6 +30,7 @@ class TinymceConfigBuilder
      *
      * @param array $config
      * @param array $bundles
+     *
      * @return array
      */
     public function build(array $config, array $bundles)
@@ -50,22 +51,22 @@ class TinymceConfigBuilder
 
         // Simple theme: same as default theme
         $simpleTheme = [
-            'menubar'            => false,
-            'statusbar'          => false,
-            'resize'             => false,
-            'image_advtab'       => true,
-            'table_advtab'       => true,
-            'paste_as_text'      => true,
-            'relative_urls'      => false,
-            'remove_script_host' => true,
-            'entity_encoding'    => 'raw',
+            'menubar'               => false,
+            'statusbar'             => false,
+            'resize'                => false,
+            'image_advtab'          => true,
+            'table_advtab'          => true,
+            'paste_as_text'         => true,
+            'relative_urls'         => false,
+            'remove_script_host'    => true,
+            'entity_encoding'       => 'raw',
             //'toolbar_items_size' => 'small',
-            'plugins' => [
+            'plugins'               => [
                 'advlist lists paste textcolor autoresize nonbreaking hr',
             ],
-            'toolbar1' => 'undo redo removeformat | styleselect | bold italic | forecolor backcolor | '.
-                          'alignleft aligncenter alignright alignjustify | bullist numlist | hr',
-            'content_css' => $contentCss,
+            'toolbar1'              => 'undo redo removeformat | styleselect | bold italic | forecolor backcolor | ' .
+                'alignleft aligncenter alignright alignjustify | bullist numlist | hr',
+            'content_css'           => $contentCss,
             'autoresize_max_height' => '500',
         ];
         /*if (!array_key_exists('simple', $themes)) {
@@ -74,22 +75,22 @@ class TinymceConfigBuilder
 
         // Front theme: for front usage
         $frontTheme = [
-            'menubar'            => false,
-            'statusbar'          => false,
-            'resize'             => false,
-            'image_advtab'       => true,
-            'table_advtab'       => true,
-            'paste_as_text'      => true,
-            'relative_urls'      => false,
-            'remove_script_host' => true,
-            'entity_encoding'    => 'raw',
+            'menubar'               => false,
+            'statusbar'             => false,
+            'resize'                => false,
+            'image_advtab'          => true,
+            'table_advtab'          => true,
+            'paste_as_text'         => true,
+            'relative_urls'         => false,
+            'remove_script_host'    => true,
+            'entity_encoding'       => 'raw',
             //'toolbar_items_size' => 'small',
-            'valid_elements'     => 'p,span,em,strong,br',
-            'plugins' => [
+            'valid_elements'        => 'p,span,em,strong,br',
+            'plugins'               => [
                 'paste autoresize',
             ],
-            'toolbar1' => 'undo redo removeformat | bold italic',
-            'content_css' => $contentCss,
+            'toolbar1'              => 'undo redo removeformat | bold italic',
+            'content_css'           => $contentCss,
             'autoresize_max_height' => '500',
         ];
         /*if (!array_key_exists('front', $themes)) {
@@ -98,42 +99,43 @@ class TinymceConfigBuilder
 
         // Advanced theme with almost all enabled plugins
         $advancedTheme = [
-            'menubar'            => false,
-            'statusbar'          => true,
-            'resize'             => false,
-            'image_advtab'       => true,
-            'table_advtab'       => true,
-            'paste_as_text'      => true,
-            'relative_urls'      => false,
-            'remove_script_host' => true,
-            'entity_encoding'  => 'raw',
-            'image_class_list' => [
+            'menubar'               => false,
+            'statusbar'             => true,
+            'resize'                => false,
+            'image_advtab'          => true,
+            'table_advtab'          => true,
+            'paste_as_text'         => true,
+            'relative_urls'         => false,
+            'remove_script_host'    => true,
+            'entity_encoding'       => 'raw',
+            'image_class_list'      => [
                 ['title' => 'Aucun', 'value' => ''],
                 ['title' => 'Responsive', 'value' => 'img-responsive'],
                 ['title' => 'Flottant à gauche', 'value' => 'img-float-left'],
                 ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
             ],
-            'plugins' => [
+            'plugins'               => [
                 'autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
                 'insertdatetime nonbreaking save table contextmenu directionality',
                 'paste textcolor image media imagetools', // emoticons template
             ],
-            'toolbar1' => 'undo redo removeformat code | styleselect | table link anchor image media',
-            'toolbar2' => 'bold italic underline strikethrough forecolor backcolor | alignleft aligncenter ' .
-                          'alignright alignjustify | bullist numlist outdent indent | hr',
-            'content_css' => $contentCss,
+            'toolbar1'              => 'undo redo removeformat code | styleselect | table link anchor image media',
+            'toolbar2'              => 'bold italic underline strikethrough forecolor backcolor | alignleft aligncenter ' .
+                'alignright alignjustify | bullist numlist outdent indent | hr',
+            'content_css'           => $contentCss,
             'autoresize_max_height' => '500',
 
-            'images_upload_url' => $pathPrefix.'/admin/tinymce/upload',
+            'images_upload_url'         => $pathPrefix . '/admin/tinymce/upload',
             //'images_upload_base_path' => '/some/basepath',
+            'images_reuse_filename'     => true,
             'images_upload_credentials' => true,
         ];
         /*if (!array_key_exists('advanced', $themes)) {
             $simpleTheme = array_merge($simpleTheme, $themes['advanced']);
         }*/
 
-        $styleFormatsMerge = (bool) $config['ui']['tinymce_formats_merge'];
+        $styleFormatsMerge = (bool)$config['ui']['tinymce_formats_merge'];
         if (null === $styleFormats = $config['ui']['tinymce_formats']) {
             $styleFormats = $this->getDefaultFormats();
         } elseif ($styleFormatsMerge) {
@@ -157,10 +159,10 @@ class TinymceConfigBuilder
         }
 
         return [
-            'selector' => '.tinymce',
-            'language' => '%locale%',
+            'selector'    => '.tinymce',
+            'language'    => '%locale%',
             'tinymce_url' => '/bundles/ekynacore/lib/tinymce',
-            'theme' => [
+            'theme'       => [
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,
                 'front'    => $frontTheme,

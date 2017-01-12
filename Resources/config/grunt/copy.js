@@ -122,6 +122,14 @@ module.exports = function (grunt, options) {
                         'tinymce.min.js'
                     ],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinymce'
+                },
+                {
+                    src: 'bower_components/aos/dist/aos.css',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/aos.css'
+                },
+                {
+                    src: 'bower_components/aos/dist/aos.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js'
                 }
             ]
         },

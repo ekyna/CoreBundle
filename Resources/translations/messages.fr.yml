@@ -195,6 +195,8 @@ ekyna_core:
         informations: Informations
         coordinates: Coordonnées
         config: Configuration
+        style: Style
+        animation: Animation
     message:
         captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?

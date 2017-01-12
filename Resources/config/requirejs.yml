@@ -64,6 +64,7 @@ config:
         'moment': 'bundles/ekynacore/lib/moment'
         'tinycolor': 'bundles/ekynacore/lib/tinycolor'
         'select2': 'bundles/ekynacore/lib/select2'
+        'aos': 'bundles/ekynacore/lib/aos'
         'tinymce': 'bundles/ekynacore/lib/tinymce/tinymce.min'
         'tinymce_config':
             route: ekyna_core_tinymce_config
