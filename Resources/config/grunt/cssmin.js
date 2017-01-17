@@ -13,7 +13,8 @@ module.exports = function (grunt, options) {
                 ],
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/jquery-ui.css': [
                     'bower_components/jquery-ui/themes/base/jquery-ui.css',
-                    'bower_components/jquery-ui/themes/smoothness/jquery-ui.css'
+                    'bower_components/jquery-ui/themes/smoothness/jquery-ui.css',
+                    'src/Ekyna/Bundle/CoreBundle/Resources/private/css/jquery-ui.css'
                 ]
             }
         },
