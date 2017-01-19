@@ -323,9 +323,9 @@ class TinymceConfigBuilder
                     [
                         'title' => 'Alignment',
                         'items' => [
-                            ['title' => 'Left aligned text', 'selector' => 'p,div,pre', 'classes' => 'text-left'],
-                            ['title' => 'Center aligned text', 'selector' => 'p,div,pre', 'classes' => 'text-center'],
-                            ['title' => 'Right aligned text', 'selector' => 'p,div,pre', 'classes' => 'text-right'],
+                            ['title' => 'Left aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-left'],
+                            ['title' => 'Center aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-center'],
+                            ['title' => 'Right aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-right'],
                             ['title' => 'Justified text', 'selector' => 'p,div,pre', 'classes' => 'text-justify'],
                             ['title' => 'No wrap text', 'selector' => 'p,div,pre', 'classes' => 'text-nowrap'],
                         ],
@@ -333,9 +333,9 @@ class TinymceConfigBuilder
                     [
                         'title' => 'Transformations',
                         'items' => [
-                            ['title' => 'lowercased text', 'selector' => 'p,h1,h2,h3,h4', 'classes' => 'text-lowercase'],
-                            ['title' => 'UPPERCASED TEXT', 'selector' => 'p,h1,h2,h3,h4', 'classes' => 'text-uppercase'],
-                            ['title' => 'Capitalized Text', 'selector' => 'p,h1,h2,h3,h4', 'classes' => 'text-capitalize'],
+                            ['title' => 'lowercased text', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-lowercase'],
+                            ['title' => 'UPPERCASED TEXT', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-uppercase'],
+                            ['title' => 'Capitalized Text', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-capitalize'],
                         ],
                     ],
                     [
