@@ -12,21 +12,63 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Class ColorPickerType
  * @package Ekyna\Bundle\CoreBundle\Form\Type
  * @author  Étienne Dauvergne <contact@ekyna.com>
- * @see     http://www.jqueryrain.com/?obvgj1Bz
+ * @see     https://itsjavi.com/bootstrap-colorpicker/
  */
 class ColorPickerType extends AbstractType
 {
+    /**
+     * @var array
+     */
+    private $colorsMap;
+
+
+    /**
+     * Constructor.
+     *
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $this->colorsMap = [];
+
+        if (isset($config['colors']) && is_array($config['colors'])) {
+            foreach ($config['colors'] as $value) {
+                $this->colorsMap['#' . $value] = '#' . $value;
+            }
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $pickerOptions = $options['pickerOptions'];
+        $pickerOptions = [
+            'component' => '.input-group-btn',
+        ];
         if (0 < strlen($view->vars['value'])) {
-            $pickerOptions['value'] = $view->vars['value'];
+            $pickerOptions['color'] = $view->vars['value'];
         }
 
-        // TODO colorSelectors [hex => hex]
+        if (!empty($this->colorsMap)) {
+            $pickerOptions['colorSelectors'] = $this->colorsMap;
+        }
+
+        if ($options['doubleSize']) {
+            $pickerOptions['customClass'] = 'colorpicker-2x';
+            $pickerOptions['sliders'] = [
+                'saturation' => [
+                    'maxLeft' => 200,
+                    'maxTop'  => 200,
+                ],
+                'hue'        => [
+                    'maxTop' => 200,
+                ],
+                'alpha'      => [
+                    'maxTop' => 200,
+                ],
+            ];
+        }
 
         $view->vars = array_replace($view->vars, [
             'pickerOptions' => $pickerOptions,
@@ -38,12 +80,11 @@ class ColorPickerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        // @see http://mjolnic.com/bootstrap-colorpicker/
-        $resolver->setDefaults([
-            'pickerOptions' => [
-                'component' => '.input-group-btn',
-            ],
-        ]);
+        $resolver
+            ->setDefaults([
+                'doubleSize' => true,
+            ])
+            ->addAllowedTypes('doubleSize', 'bool');
     }
 
     /**
@@ -55,7 +96,7 @@ class ColorPickerType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

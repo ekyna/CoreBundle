@@ -36,6 +36,7 @@
 
         <service id="ekyna_core.color_picker.form_type"
                  class="Ekyna\Bundle\CoreBundle\Form\Type\ColorPickerType">
+            <argument>%ekyna_core.config.ui%</argument>
             <tag name="form.type" />
             <tag name="form.js" selector=".form-color-picker" path="ekyna-form/color" />
         </service>
