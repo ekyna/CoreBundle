@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
-use Ekyna\Bundle\CoreBundle\Locale\LocaleProviderInterface;
+use Ekyna\Component\Resource\Locale\LocaleProviderInterface;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -42,7 +42,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     private $controlsTemplate;
 
     /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     * @var OptionsResolver
      */
     private $buttonOptionsResolver;
 

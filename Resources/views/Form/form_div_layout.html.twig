@@ -429,7 +429,6 @@
         {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
     {% endif %}
     {% if required and placeholder is none and not placeholder_in_choices %}{% set required = false %}{% endif %}
-    {% if not required %}{% set attr = attr|merge({'data-allow-clear': 1}) %}{% endif %}
     {{ parent() }}
     {% if add_route is defined and add_route is not same as(false) %}
     <span class="input-group-btn">

@@ -16,18 +16,18 @@ define(
         getElement: function() {
             return this.$elem;
         },
-        init: function() {
+        init: function($parent) {
             var that = this;
 
             /* Textarea autosize */
             autosize(that.$elem.find('textarea').not('.tinymce'));
 
             /* Select2 */
-            that.$elem.find('select').not('.no-select2').each(function () {
-                $(this).select2({
-                    allowClear: ($(this).data('allow-clear') == 1)
-                });
-            });
+            var select2options = {};
+            if ($parent && $parent.size()) {
+                select2options.dropdownParent = $parent;
+            }
+            that.$elem.find('.select2').select2(select2options);
 
             /* Submit buttons */
             /*that.$elem.find('button[type="submit"]').on('click', function(e) {

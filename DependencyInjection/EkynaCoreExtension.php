@@ -36,23 +36,6 @@ class EkynaCoreExtension extends Extension
         $container->setParameter('ekyna_core.config.ui', $config['ui']);
         $container->setParameter('ekyna_core.config.cache', $config['cache']);
 
-        /* Inheritance mapping = [
-         *     resource_id => [
-         *         'class' => Class ,
-         *         'repository' => Repository class ,
-         *     ]
-         * ] */
-        if (!$container->hasParameter('ekyna_core.entities')) {
-            $container->setParameter('ekyna_core.entities', []);
-        }
-
-        /* Target entities resolution
-         * [ Interface => Class or class parameter ]
-         */
-        if (!$container->hasParameter('ekyna_core.interfaces')) {
-            $container->setParameter('ekyna_core.interfaces', []);
-        }
-
         $bundles = $container->getParameter('kernel.bundles');
         $tinymceCfgBuilder = new TinymceConfigBuilder($container->getParameter('kernel.environment') == 'dev');
         $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles) ;

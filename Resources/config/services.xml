@@ -62,35 +62,39 @@
         </service>
 
         <!-- Form Extensions -->
-        <service id="ekyna_core.form_type_sizing_extension"
+        <service id="ekyna_core.form.extension.form_sizing"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension">
             <tag name="form.type_extension"
                  extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
-        <service id="ekyna_core.form_type_redirect_extension"
+        <service id="ekyna_core.form.extension.form_redirect"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension">
             <argument type="service" id="request_stack" />
             <tag name="form.type_extension"
                  extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
-
-        <service id="ekyna_core.entity_type_extension"
+        <service id="ekyna_core.form.extension.entity_type"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\EntityTypeExtension">
             <tag name="form.type_extension"
                  extended-type="Symfony\Bridge\Doctrine\Form\Type\EntityType" />
             <tag name="form.js" selector=".entity-widget" path="ekyna-form/entity" />
         </service>
-        <service id="ekyna_core.choice_type_parent_extension"
+        <service id="ekyna_core.form.extension.choice_parent"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\ChoiceTypeParentExtension">
             <tag name="form.type_extension"
                  extended-type="Symfony\Component\Form\Extension\Core\Type\ChoiceType" />
             <tag name="form.js" selector="select[data-parent-choice]" path="ekyna-form/parent-choice" />
         </service>
-        <service id="ekyna_core.datetime_type_extension"
+        <service id="ekyna_core.form.extension.datetime"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
             <tag name="form.type_extension"
                  extended-type="Symfony\Component\Form\Extension\Core\Type\DateTimeType" />
             <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime" />
+        </service>
+        <service id="ekyna_core.form.extension.select2"
+                 class="Ekyna\Bundle\CoreBundle\Form\Extension\Select2Extension">
+            <tag name="form.type_extension"
+                 extended-type="Symfony\Component\Form\Extension\Core\Type\ChoiceType" />
         </service>
 
         <!-- Chain router -->
@@ -111,14 +115,6 @@
         <!-- Redirection -->
         <service id="ekyna_core.redirection.provider_registry"
                  class="Ekyna\Bundle\CoreBundle\Redirection\ProviderRegistry" />
-
-        <!-- Locale -->
-        <service id="ekyna_core.locale_provider.request"
-                 class="Ekyna\Bundle\CoreBundle\Locale\RequestLocaleProvider">
-            <argument>%locale%</argument>
-            <argument>%locales%</argument>
-            <tag name="kernel.event_subscriber" priority="98" />
-        </service>
 
         <!-- Uploaders -->
         <service id="ekyna_core.upload.uploader"
@@ -146,13 +142,6 @@
         </service>
 
         <!-- Doctrine subscribers/listeners -->
-        <service id="ekyna_core.load_orm_metadata.event_subscriber"
-                 class="Ekyna\Bundle\CoreBundle\Listener\LoadMetadataSubscriber"
-                 public="false">
-            <argument>%ekyna_core.entities%</argument>
-            <argument>%ekyna_core.interfaces%</argument>
-            <tag name="doctrine.event_subscriber" />
-        </service>
         <service id="ekyna_core.tagged_entity.event_subscriber"
                  class="Ekyna\Bundle\CoreBundle\Listener\TaggedEntityEventSubscriber"
                  public="false">
@@ -179,7 +168,7 @@
                  class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
             <argument type="service" id="twig.extension.assets" />
             <argument type="service" id="request_stack" />
-            <argument type="service" id="ekyna_core.locale_provider.request" />
+            <argument type="service" id="ekyna_resource.locale.request_provider" />
             <argument>%ekyna_core.config.ui%</argument>
             <tag name="twig.extension" />
         </service>

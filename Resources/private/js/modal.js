@@ -139,7 +139,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     $(that).one('ekyna.modal.shown', function() {
                         require(['ekyna-form'], function (Form) {
                             that.form = Form.create($html);
-                            that.form.init();
+                            that.form.init(that.dialog.getModal());
 
                             that.form.getElement().on('submit', function (e) {
                                 e.preventDefault();
