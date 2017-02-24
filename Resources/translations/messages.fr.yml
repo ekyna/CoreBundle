@@ -200,6 +200,7 @@ ekyna_core:
     message:
         captcha: Veuillez recopier le code de l'image
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?
+        action_confirm: Confirmer l'action
         no_translations: Aucune traduction configurée
     changefreq:
         hourly: Toutes les heures
