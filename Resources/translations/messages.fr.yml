@@ -105,6 +105,7 @@ ekyna_core:
         options: Options
         description: Description
         designation: Désignation
+        recipients: Destinataires
         reference: Référence
         number: Numéro
         content: Contenu
