@@ -13,33 +13,50 @@ define(['jquery', 'routing'], function($, router) {
 
     FormChoiceParentSelector.prototype = {
         defaults: {},
+
         init: function() {
-            this.config = $.extend({}, this.defaults, this.metadata);
-            this.$parent = $('select#' + this.config.field);
-            var t = this;
-            if (this.$parent.length > 0) {
-                this.$parent.bind('change', function() {
-                    t.updateChoices()
-                });
-                var value = parseInt(this.$elem.val());
-                if (!value) {
-                    this.$parent.trigger('change');
+            this.config = $.extend(
+                {field: null, route: null, parameter: 'id'},
+                this.defaults,
+                this.metadata
+            );
+
+            if (this.config.field && this.config.route) {
+                this.$parent = $('select#' + this.config.field);
+
+                var t = this;
+                if (this.$parent.length > 0) {
+                    this.$parent.bind('change', function () {
+                        t.updateChoices()
+                    });
+
+                    var value = parseInt(this.$elem.val());
+                    if (!value) {
+                        this.$parent.trigger('change');
+                    }
                 }
             }
             return this;
         },
+
         updateChoices: function() {
             var $select = this.$elem;
             if (this.$parent.prop('disabled')) {
                 return;
             }
+
             var parentId = parseInt(this.$parent.val());
             if (!parentId) {
                 return;
             }
+
             var $defaultOption = $select.find('option').eq(0);
             $select.empty().append($defaultOption).prop('disabled', true);
-            var xhr = $.get(router.generate(this.config.route, {'id': parentId}));
+
+            var parameters = {};
+            parameters[this.config.parameter] = parentId;
+
+            var xhr = $.get(router.generate(this.config.route, parameters));
             xhr.done(function(data) {
                 if (typeof data.choices !== 'undefined') {
                     if ($(data.choices).length > 0) {

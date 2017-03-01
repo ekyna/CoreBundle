@@ -6,7 +6,9 @@ module.exports = function (grunt, options) {
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/glyphicons.css':
                     'src/Ekyna/Bundle/CoreBundle/Resources/private/less/glyphicons.less',
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/bootstrap.css':
-                    'src/Ekyna/Bundle/CoreBundle/Resources/private/less/bootstrap.less'
+                    'src/Ekyna/Bundle/CoreBundle/Resources/private/less/bootstrap.less',
+                'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/ui.css':
+                    'src/Ekyna/Bundle/CoreBundle/Resources/private/less/ui.less'
             }
         }
     }

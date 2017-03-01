@@ -31,7 +31,10 @@ define(['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal
                             } else {
                                 throw "Unexpected resource data.";
                             }
-                            $select.append($option).select2();
+                            // TODO Needed ? More options
+                            $select.append($option).select2({
+                                selectOnClose: true // For tests ...
+                            });
                         }
                     });
                 });
@@ -68,7 +71,10 @@ define(['jquery', 'ekyna-modal', 'ekyna-form', 'ekyna-table'], function($, Modal
                                             $select.append($option);
                                         }
                                     });
-                                    $select.select2();
+                                    // TODO Needed ? More options
+                                    $select.select2({
+                                        selectOnClose: true // For tests ...
+                                    });
                                     modal.getDialog().close();
                                 }
                             });

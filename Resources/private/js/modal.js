@@ -20,6 +20,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
     var EkynaModal = function() {
         this.dialog = new BootstrapDialog();
         this.form = null;
+        this.shown = false;
 
 
         var that = this;
@@ -32,6 +33,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
         // Handle shown dialog
         that.dialog.onShown(function () {
+            that.shown = true;
+
             var event = $.Event('ekyna.modal.shown');
             event.modal = that;
             $(that).trigger(event);
@@ -39,6 +42,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
         // Handle hide dialog
         that.dialog.onHide(function () {
+            that.shown = false;
+
             var event = $.Event('ekyna.modal.hide');
             event.modal = that;
             $(that).trigger(event);
@@ -79,6 +84,38 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             });
 
             return xhr;
+        },
+        initForm: function($form) {
+            var that = this;
+
+            // @see https://github.com/select2/select2/issues/600
+            $(that.dialog.getModal()).removeAttr('tabindex');
+
+            require(['ekyna-form'], function (Form) {
+                that.form = Form.create($form);
+                that.form.init(that.dialog.getModal());
+
+                that.form.getElement().on('submit', function (e) {
+                    e.preventDefault();
+
+                    that.dialog.enableButtons(false);
+                    var submitButton = that.dialog.getButton('submit');
+                    if (submitButton) {
+                        submitButton.spin();
+                    }
+
+                    that.form.save();
+                    setTimeout(function () {
+                        that.form.getElement().ajaxSubmit({
+                            success: function (data, textStatus, jqXHR) {
+                                that.handleResponse(data, textStatus, jqXHR);
+                            }
+                        });
+                    }, 100);
+
+                    return false;
+                });
+            });
         },
         handleResponse: function(data, textStatus, jqXHR) {
             var that = this, type = contentType(jqXHR), event;
@@ -133,36 +170,13 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
                 // Form content type
                 if (type === 'form') {
-                    // @see https://github.com/select2/select2/issues/600
-                    $(that.dialog.getModal()).removeAttr('tabindex');
-
-                    $(that).one('ekyna.modal.shown', function() {
-                        require(['ekyna-form'], function (Form) {
-                            that.form = Form.create($html);
-                            that.form.init(that.dialog.getModal());
-
-                            that.form.getElement().on('submit', function (e) {
-                                e.preventDefault();
-
-                                that.dialog.enableButtons(false);
-                                var submitButton = that.dialog.getButton('submit');
-                                if (submitButton) {
-                                    submitButton.spin();
-                                }
-
-                                that.form.save();
-                                setTimeout(function () {
-                                    that.form.getElement().ajaxSubmit({
-                                        success: function (data, textStatus, jqXHR) {
-                                            that.handleResponse(data, textStatus, jqXHR);
-                                        }
-                                    });
-                                }, 100);
-
-                                return false;
-                            });
+                    if (that.shown) {
+                        that.initForm($html);
+                    } else {
+                        $(that).one('ekyna.modal.shown', function() {
+                            that.initForm($html);
                         });
-                    });
+                    }
                 }
             } else {
                 // No content => abort

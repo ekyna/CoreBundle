@@ -20,6 +20,7 @@ define(['jquery', 'routing', 'select2'], function($, router) {
             $this.select2({
                 placeholder: 'Rechercher ...',
                 allowClear: $this.data('clear') == 1,
+                selectOnClose: true, // For tests
                 minimumInputLength: 3,
                 templateResult: formatter,
                 //templateSelection: formatter,

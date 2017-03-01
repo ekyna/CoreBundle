@@ -25,11 +25,13 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
     {
         $resolver
             ->setDefaults([
-                'parent_choice_field' => null,
-                'parent_choice_route' => null,
+                'parent_choice_field'     => null,
+                'parent_choice_route'     => null,
+                'parent_choice_parameter' => 'id',
             ])
             ->setAllowedTypes('parent_choice_field', ['string', 'null'])
-            ->setAllowedTypes('parent_choice_route', ['string', 'null']);
+            ->setAllowedTypes('parent_choice_route', ['string', 'null'])
+            ->setAllowedTypes('parent_choice_parameter', 'string');
     }
 
     /**
@@ -46,8 +48,9 @@ class ChoiceTypeParentExtension extends AbstractTypeExtension
 
         if ($fieldDefined && $routeDefined) {
             $view->vars['attr']['data-parent-choice'] = json_encode([
-                'field' => $view->parent->vars['id'] . '_' . $options['parent_choice_field'],
-                'route' => $options['parent_choice_route'],
+                'field'     => $view->parent->vars['id'] . '_' . $options['parent_choice_field'],
+                'route'     => $options['parent_choice_route'],
+                'parameter' => $options['parent_choice_parameter'],
             ]);
         }
     }

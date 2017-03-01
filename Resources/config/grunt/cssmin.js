@@ -11,6 +11,9 @@ module.exports = function (grunt, options) {
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/bootstrap.css': [
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/bootstrap.css'
                 ],
+                'src/Ekyna/Bundle/CoreBundle/Resources/public/css/ui.css': [
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/ui.css'
+                ],
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/jquery-ui.css': [
                     'bower_components/jquery-ui/themes/base/jquery-ui.css',
                     'bower_components/jquery-ui/themes/smoothness/jquery-ui.css',

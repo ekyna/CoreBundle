@@ -17,13 +17,16 @@ define(
             return this.$elem;
         },
         init: function($parent) {
+            //console.log('Form.init()', this.$elem, $parent);
             var that = this;
 
             /* Textarea autosize */
             autosize(that.$elem.find('textarea').not('.tinymce'));
 
             /* Select2 */
-            var select2options = {};
+            var select2options = {
+                selectOnClose: true // For tests
+            };
             if ($parent && $parent.size()) {
                 select2options.dropdownParent = $parent;
             }
@@ -33,9 +36,7 @@ define(
             /*that.$elem.find('button[type="submit"]').on('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-
                 // TODO spin icon
-
                 that.save();
             });*/
 
