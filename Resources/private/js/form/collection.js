@@ -292,6 +292,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
         init: function($element) {
             $element.each(function(index, collection) {
                 collectionUpdatePositions($(collection));
+                $(collection).attr('data-initialized', 1);
             });
         }
     };
