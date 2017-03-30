@@ -197,6 +197,7 @@ ekyna_core:
         coordinates: Coordonnées
         config: Configuration
         style: Style
+        theme: Thème
         animation: Animation
     message:
         captcha: Veuillez recopier le code de l'image

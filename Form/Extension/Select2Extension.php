@@ -22,9 +22,7 @@ class Select2Extension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'select2' => true,
-            ])
+            ->setDefault('select2', true)
             ->setAllowedTypes('select2', ['bool', 'array']);
     }
 
@@ -33,6 +31,10 @@ class Select2Extension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        if (true === $options['expanded']) {
+            return;
+        }
+
         if ($select2 = $options['select2']) {
             FormUtil::addClass($view, 'select2');
 
