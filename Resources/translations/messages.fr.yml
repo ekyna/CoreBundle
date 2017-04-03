@@ -86,6 +86,7 @@ ekyna_core:
         email_address: Adresse email
         subject: Sujet
         message: Message
+        comment: Commentaire
         pricing: Tarifs
         price: Prix
         currency: Devise
