@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -111,7 +110,10 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                 ]
             );
 
-            $report = \Swift_Message::newInstance('Error report', $content, 'text/html');
+            $report = \Swift_Message::newInstance(
+                sprintf('[%s] Error report', $this->container->getParameter('hostname')),
+                $content, 'text/html'
+            );
             $report->setFrom($email)->setTo($email);
             $this->container->get('mailer')->send($report);
         }
