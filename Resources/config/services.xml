@@ -40,6 +40,11 @@
             <tag name="form.type" />
             <tag name="form.js" selector=".form-color-picker" path="ekyna-form/color" />
         </service>
+        <service id="ekyna_core.fa_icon_choice.form_type"
+                 class="Ekyna\Bundle\CoreBundle\Form\Type\FAIconChoiceType">
+            <tag name="form.type" />
+            <tag name="form.js" selector=".fa-icon-choice" path="ekyna-form/fa-icon-choice" />
+        </service>
         <service id="ekyna_core.captcha.form_type"
                  class="Ekyna\Bundle\CoreBundle\Form\Type\CaptchaType">
             <tag name="form.type" />

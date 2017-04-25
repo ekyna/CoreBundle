@@ -29,7 +29,7 @@ class Select2Extension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options)
     {
         if (true === $options['expanded']) {
             return;
@@ -38,16 +38,30 @@ class Select2Extension extends AbstractTypeExtension
         if ($select2 = $options['select2']) {
             FormUtil::addClass($view, 'select2');
 
-            $allowClear = !$options['required'];
-
             if (is_array($select2)) {
-                if (isset($select2['allow-clear'])) {
-                    $allowClear = $select2['allow-clear'];
+                if (!$options['required'] && !isset($select2['allowClear'])) {
+                    $select2['allowClear'] = false;
                 }
-            }
 
-            $view->vars['attr']['data-allow-clear'] = $allowClear ? 1 : 0;
+                foreach ($select2 as $key => $value) {
+                    $view->vars['attr']['data-' . $this->dasherize($key)] = (string)$value;
+                }
+            } elseif (!$options['required']) {
+                $view->vars['attr']['data-allow-clear'] = 1;
+            }
         }
+    }
+
+    /**
+     * Dasherizes the given text.
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    public function dasherize($text)
+    {
+        return trim(strtolower(preg_replace(['/([A-Z])/', '/[-_\s]+/'], ['-$1', '-'], $text)), ' -');
     }
 
     /**
