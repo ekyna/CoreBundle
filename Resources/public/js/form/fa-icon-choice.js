@@ -1,0 +1,1 @@
+define(["jquery","select2"],function(a){"use strict";function b(b){return b.id?a('<span><span class="fa fa-'+b.id+'"></span> '+b.text+"</span>"):b.text}return{init:function(a){a.select2({templateResult:b,templateSelection:b})}}});
