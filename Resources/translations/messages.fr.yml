@@ -66,6 +66,7 @@ ekyna_core:
         import: Importer
         export: Exporter
         transform: Transformer
+        notify: Notifier
     field:
         name: Nom
         title: Titre
