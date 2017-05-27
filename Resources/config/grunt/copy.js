@@ -78,8 +78,8 @@ module.exports = function (grunt, options) {
                 },
                 // Others
                 {
-                    src: 'node_modules/twig/twig.min.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js'
+                    src: 'node_modules/twig/twig.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/twig.js'
                 },
                 {
                     src: 'bower_components/moment/min/moment-with-locales.min.js',
@@ -129,7 +129,7 @@ module.exports = function (grunt, options) {
                 },
                 {
                     src: 'bower_components/aos/dist/aos.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js'
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js' // tmp to minify
                 }
             ]
         },
@@ -137,7 +137,7 @@ module.exports = function (grunt, options) {
             files: [
                 {
                     src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/fileupload.js' // tmp to minify
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js' // tmp to minify
                 },
                 {
                     src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',

@@ -46,6 +46,7 @@ class TinymceConfigBuilder
 
         // Simple theme: same as default theme
         $simpleTheme = [
+            'branding'              => false,
             'menubar'               => false,
             'statusbar'             => false,
             'resize'                => false,
@@ -67,6 +68,7 @@ class TinymceConfigBuilder
 
         // Front theme: for front usage
         $frontTheme = [
+            'branding'              => false,
             'menubar'               => false,
             'statusbar'             => false,
             'resize'                => false,
@@ -91,6 +93,7 @@ class TinymceConfigBuilder
 
         // Advanced theme with almost all enabled plugins
         $advancedTheme = [
+            'branding'              => false,
             'menubar'               => false,
             'statusbar'             => true,
             'resize'                => false,

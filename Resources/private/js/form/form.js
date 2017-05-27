@@ -4,6 +4,7 @@ define(
     "use strict";
 
     $.fn.select2.defaults.set('theme', 'bootstrap');
+    $.fn.select2.defaults.set('width', null);
 
 
     var EkynaForm = function ($elem, options) {
@@ -25,7 +26,7 @@ define(
 
             /* Select2 */
             var select2options = {
-                selectOnClose: true // For tests
+                //selectOnClose: true // For tests
             };
             if ($parent && $parent.size()) {
                 select2options.dropdownParent = $parent;

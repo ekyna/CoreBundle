@@ -15,7 +15,13 @@ module.exports = function (grunt, options) {
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js'
                     ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/fileupload.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/fileupload.js'
+                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js'
+                    ],
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js': [
+                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/twig.js'
+                    ],
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js': [
+                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js'
                     ]
                 },
                 {
@@ -24,7 +30,6 @@ module.exports = function (grunt, options) {
                     src: ['js/*.js', 'js/form/*.js'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
                 }
-
             ]
         },
         core_ts: {

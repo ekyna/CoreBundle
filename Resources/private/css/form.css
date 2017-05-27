@@ -172,6 +172,7 @@
 /**
  *  Select2 Fixes
  */
+/*
 .form-group .select2-container--bootstrap {
     width: 100% !important;
 }
@@ -179,6 +180,7 @@
 .form-group .select2-container--bootstrap .select2-selection {
     font-family: inherit;
 }
+*/
 
 /*.select2-container,
 .select2-drop {
