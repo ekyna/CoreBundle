@@ -9,33 +9,30 @@
         }
     ],
     "keywords": [
-        "symfony2",
+        "symfony",
         "bundle"
     ],
     "homepage": "https://github.com/ekyna/CoreBundle",
-    "license": [
-        "MIT"
-    ],
+    "license": "MIT",
     "require": {
-        "php": ">=5.5.9",
-        "symfony/framework-bundle" : "^3.0",
+        "php": ">=7.0",
+        "symfony/framework-bundle": "^3.0",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/doctrine-cache-bundle": "~1.2",
+        "doctrine/doctrine-cache-bundle": "^1.2",
         "twig/extensions": "^1.3",
-        "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "friendsofsymfony/elastica-bundle": "3.2.*@dev",
+        "friendsofsymfony/jsrouting-bundle": "^2.0",
+        "friendsofsymfony/elastica-bundle": "^3.2",
         "friendsofsymfony/http-cache-bundle": "^1.3",
-        "jms/i18n-routing-bundle": "dev-symfony-cmf",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "a2lix/translation-form-bundle": "dev-master",
-        "knplabs/knp-menu-bundle": "v2.1.1",
-        "braincrafted/bootstrap-bundle": "dev-develop",
+        "knplabs/knp-menu-bundle": "^2.1",
         "gregwar/captcha-bundle": "^2.0",
         "oneup/flysystem-bundle": "^1.3",
         "oneup/uploader-bundle": "^1.6",
-        "ekyna/require-js-bundle": "0.6.x-dev",
-        "ekyna/table-bundle" : "0.6.x-dev"
+        "a2lix/translation-form-bundle": "3.x-dev",
+        "braincrafted/bootstrap-bundle": "dev-develop",
+        "jms/i18n-routing-bundle": "dev-symfony-cmf",
+        "ekyna/require-js-bundle": "0.7.x-dev"
     },
     "repositories": [
         {

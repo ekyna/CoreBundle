@@ -2,7 +2,6 @@
 
 namespace Ekyna\Bundle\CoreBundle\Modal;
 
-use Ekyna\Component\Table\TableView;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -144,7 +143,7 @@ class Modal
     {
         if ($content instanceof FormView) {
             $this->contentType = 'form';
-        } elseif ($content instanceof TableView) {
+        } elseif (class_exists('Ekyna\Component\Table\View\TableView') && is_a($content, 'Ekyna\Component\Table\View\TableView')) {
             $this->contentType = 'table';
         } elseif (is_array($content)) {
             $this->contentType = 'data';
