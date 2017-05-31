@@ -12,7 +12,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * Class IdentifierToObjectTransformer
  * @package Ekyna\Bundle\CoreBundle\Form\DataTransformer
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class IdentifierToObjectTransformer implements DataTransformerInterface
 {
@@ -30,6 +30,7 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
      */
     protected $identifier;
 
+
     /**
      * Constructor.
      *
@@ -46,11 +47,13 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
      * Sets the repository.
      *
      * @param ObjectRepository $repository
-     * @return ObjectToIdentifierTransformer
+     *
+     * @return IdentifierToObjectTransformer
      */
     public function setRepository(ObjectRepository $repository)
     {
         $this->repository = $repository;
+
         return $this;
     }
 
@@ -58,11 +61,13 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
      * Sets the identifier.
      *
      * @param string $identifier
-     * @return ObjectToIdentifierTransformer
+     *
+     * @return IdentifierToObjectTransformer
      */
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
+
         return $this;
     }
 
@@ -123,12 +128,13 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
 
         if (is_array($value)) {
             $identifiers = [];
-            foreach($value as $entity) {
+            foreach ($value as $entity) {
                 if (!$entity instanceof $class) {
                     throw new UnexpectedTypeException($entity, $class);
                 }
                 $identifiers[] = $accessor->getValue($entity, $this->identifier);
             }
+
             return $identifiers;
         } elseif (!$value instanceof $class) {
             throw new UnexpectedTypeException($value, $class);

@@ -78,8 +78,8 @@ module.exports = function (grunt, options) {
                 },
                 // Others
                 {
-                    src: 'node_modules/twig/twig.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/twig.js'
+                    src: 'bower_components/twigjs-bower/twig/twig.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js'
                 },
                 {
                     src: 'bower_components/moment/min/moment-with-locales.min.js',

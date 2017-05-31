@@ -17,9 +17,6 @@ module.exports = function (grunt, options) {
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/fileupload.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js'
                     ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/twig.js'
-                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js'
                     ]

@@ -9,9 +9,9 @@
     margin-bottom: 0;
 }
 
-.form-body .form-group {
+/*.form-body .form-group {
     overflow: hidden;
-}
+}*/
 
 .form-body.form-body-unstyled {
     border: none;
@@ -343,6 +343,16 @@
 .ekyna-collection .ekyna-collection-child:last-child {
     border-bottom: 0;
     margin-bottom: 0;
+}
+
+.ekyna-collection .ekyna-collection-item {
+    border-radius: 4px;
+    border: 1px dashed #ddd;
+    background-color: #f5f5f5;
+}
+
+.ekyna-collection .ekyna-collection-item .ekyna-collection-item {
+    background-color: #ebebeb;
 }
 
 /**

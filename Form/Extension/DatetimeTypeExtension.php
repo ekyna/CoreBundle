@@ -21,6 +21,7 @@ class DatetimeTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        // http://eonasdan.github.io/bootstrap-datetimepicker/Options/
         $pickerOptions = $options['picker_options'];
 
         // Set automatically the language
@@ -50,6 +51,7 @@ class DatetimeTypeExtension extends AbstractTypeExtension
                 'format'         => 'dd/MM/yyyy HH:mm', // TODO localised configurable format
                 'picker_options' => [
                     'widgetPositioning' => ['horizontal' => 'right'],
+                    'allowInputToggle'   => true,
                     'showTodayButton'   => true,
                     'showClear'         => true,
                     'showClose'         => true,

@@ -281,10 +281,8 @@
     {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
     <div class="input-group{{ size_class }} date form-datetime-picker" data-options='{{ picker_options|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-                <span class="fa fa-calendar"></span>
-            </button>
+        <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
         </span>
     </div>
     {% else %}
