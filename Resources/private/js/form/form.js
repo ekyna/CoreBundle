@@ -42,40 +42,52 @@ define(
             });*/
 
             /* Plugins */
-            $(plugins).each(function (i, config) {
+            $.each(plugins, function (selector, paths) {
                 var $target = that.$elem;
-                if (!$target.is(config.selector)) {
-                    $target = that.$elem.find(config.selector);
+                if (!$target.is(selector)) {
+                    $target = that.$elem.find(selector);
                 }
                 if ($target.length > 0) {
-                    require([config.path], function (plugin) {
-                        plugin.init($target);
+                    $.each(paths, function(i, path) {
+                        require([path], function (plugin) {
+                            plugin.init($target);
+                        });
                     });
                 }
             });
         },
         destroy: function() {
             var that = this;
-            $(plugins).each(function (i, config) {
-                var $target = that.$elem.find(config.selector);
+            $.each(plugins, function (selector, paths) {
+                var $target = that.$elem;
+                if (!$target.is(selector)) {
+                    $target = that.$elem.find(selector);
+                }
                 if ($target.length > 0) {
-                    require([config.path], function (plugin) {
-                        if (plugin.hasOwnProperty('destroy')) {
-                            plugin.destroy($target);
-                        }
+                    $.each(paths, function(i, path) {
+                        require([path], function (plugin) {
+                            if (plugin.hasOwnProperty('destroy')) {
+                                plugin.destroy($target);
+                            }
+                        });
                     });
                 }
             });
         },
         save: function() {
             var that = this;
-            $(plugins).each(function (i, config) {
-                var $target = that.$elem.find(config.selector);
+            $.each(plugins, function (selector, paths) {
+                var $target = that.$elem;
+                if (!$target.is(selector)) {
+                    $target = that.$elem.find(selector);
+                }
                 if ($target.length > 0) {
-                    require([config.path], function (plugin) {
-                        if (plugin.hasOwnProperty('save')) {
-                            plugin.save($target);
-                        }
+                    $.each(paths, function(i, path) {
+                        require([path], function (plugin) {
+                            if (plugin.hasOwnProperty('save')) {
+                                plugin.save($target);
+                            }
+                        });
                     });
                 }
             });

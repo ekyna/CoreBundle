@@ -18,10 +18,7 @@ class FormJsPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // TODO configuration / extension parameter
-        $formJs = [[
-            'selector' => '.file-picker',
-            'path'     => 'ekyna-form/file-picker',
-        ]];
+        $formJs = ['.file-picker' => ['ekyna-form/file-picker']];
         $taggedFormServices = $container->findTaggedServiceIds('form.js');
 
         foreach ($taggedFormServices as $service => $tagAttributes) {
@@ -36,10 +33,12 @@ class FormJsPass implements CompilerPassInterface
                         sprintf('The "path" attributes is missing for tag "form.js" of service "%s"', $service)
                     );
                 }
-                $formJs[] = [
-                    'selector' => $attributes['selector'],
-                    'path'     => $attributes['path'],
-                ];
+
+                if (!isset($formJs[$attributes['selector']])) {
+                    $formJs[$attributes['selector']] = [];
+                }
+
+                $formJs[$attributes['selector']][] = $attributes['path'];
             }
         }
 

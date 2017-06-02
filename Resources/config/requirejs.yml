@@ -77,6 +77,7 @@ config:
                 _format: json
 
         'ekyna-string': 'bundles/ekynacore/js/string'
+        'ekyna-number': 'bundles/ekynacore/js/number'
         'ekyna-routing': 'bundles/ekynacore/js/router'
         'ekyna-modal': 'bundles/ekynacore/js/modal'
         'ekyna-ui': 'bundles/ekynacore/js/ui'
@@ -101,6 +102,7 @@ build:
         - 'jquery/form'
         - 'select2'
         - 'ekyna-string'
+        - 'ekyna-number'
         - 'ekyna-routing'
         - 'ekyna-modal'
         - 'ekyna-dispatcher'
