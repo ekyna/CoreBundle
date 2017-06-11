@@ -152,8 +152,8 @@ module.exports = function (grunt, options) {
                     }
                     // jQuery FileUpload
                     if (/jquery\.fileupload/.test(srcpath)) {
-                        content = content.replace(/\.\/vendor\/jquery\.ui\.widget/g, 'jquery-ui/widget');
-                        content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
+                        content = content.replace(/jquery-ui\/ui\/widget/g, 'jquery-ui/widget');
+                        //content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
                     }
 
                     return content;

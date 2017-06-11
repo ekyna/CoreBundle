@@ -144,26 +144,18 @@
 
 {% block form_widget_compound %}
 {% spaceless %}
+    {% if form.parent is same as(null) %}
+        {{ block('global_form_errors') }}
+    {% else %}
     <div {{ block('widget_container_attributes') }}>
-        {% if form.parent is empty %}
-            {{ block('global_form_errors') }}
-        {% endif %}
-        <div class="children">
+    {% endif %}
+        {#<div class="children">#}
         {{ block('form_rows') }}
         {{ form_rest(form) }}
-        </div>
-    </div>
+        {#</div>#}
+    {% if form.parent is not same as(null) %}</div>{% endif %}
 {% endspaceless %}
 {% endblock form_widget_compound %}
-
-{% block form_widget_simple %}
-{% spaceless %}
-    {% if sizing is defined and sizing is not empty %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
-    {% endif %}
-    {{ parent() }}
-{% endspaceless %}
-{% endblock form_widget_simple %}
 
 {% block form_help %}
 {% spaceless %}
@@ -201,8 +193,9 @@
 {% block file_widget %}
 {% spaceless %}
     <div class="file-picker">
-        {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
-        <div class="input-group{{ size_class }}">
+        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
+        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+        <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %}">
             <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
                    {% if form.parent.vars.current_file_name is defined %}
                        data-current="{{ form.parent.vars.current_file_name }}"
@@ -231,18 +224,22 @@
 
 {% block ekyna_upload_widget %}
 {% spaceless %}
+    {{ bootstrap_backup_form_settings() }}
+    {{ bootstrap_set_style('horizontal') }}
+    {{ bootstrap_set_sizing('sm') }}
     <div class="upload-widget">
-        {{ form_row(form.file, {'style': 'horizontal'}) }}
+        {{ form_row(form.file) }}
         {% if form.key is defined %}
             {{ form_row(form.key) }}
         {% endif %}
         {% if form.rename is defined %}
-            {{ form_row(form.rename, {'style': 'horizontal'}) }}
+            {{ form_row(form.rename) }}
         {% endif %}
         {% if form.unlink is defined %}
-            {{ form_row(form.unlink, {'style': 'horizontal'}) }}
+            {{ form_row(form.unlink) }}
         {% endif %}
     </div>
+    {{ bootstrap_restore_form_settings() }}
 {% endspaceless %}
 {% endblock ekyna_upload_widget %}
 
@@ -253,8 +250,9 @@
 {% endspaceless %}
 {% endblock ekyna_entity_search_widget %}
 
-{% block ekyna_color_picker_widget %}
-    <div class="input-group colorpicker-component form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
+{% block ekyna_color_picker_widget %}{% set sizing = sizing|default(bootstrap_get_sizing()) %}
+    {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+    <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} colorpicker-component form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
         {{ block("form_widget_simple") }}
         <span class="input-group-btn">
             <span class="btn btn-default">
@@ -278,27 +276,29 @@
 {% block datetime_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}
-    {% set size_class = sizing is not same as(false) ? ' input-group-' ~ sizing : '' %}
-    <div class="input-group{{ size_class }} date form-datetime-picker" data-options='{{ picker_options|json_encode|raw }}'>
-        {{ block("form_widget_simple") }}
-        <span class="input-group-addon">
-            <span class="fa fa-calendar"></span>
-        </span>
-    </div>
+        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
+        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+        <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} date form-datetime-picker"
+             data-options='{{ picker_options|json_encode|raw }}'>
+            {{ block("form_widget_simple") }}
+            <span class="input-group-addon">
+                <span class="fa fa-calendar"></span>
+            </span>
+        </div>
     {% else %}
-    <div {{ block("widget_container_attributes") }}>
-        {{ date_pattern|replace({
-            "{{ year }}":  form_widget(form.year),
-            "{{ month }}": form_widget(form.month),
-            "{{ day }}":   form_widget(form.day),
-        })|raw }}
+        <div {{ block("widget_container_attributes") }}>
+            {{ date_pattern|replace({
+                "{{ year }}":  form_widget(form.year),
+                "{{ month }}": form_widget(form.month),
+                "{{ day }}":   form_widget(form.day),
+            })|raw }}
 
-        {% set attr = {"size": 10}|merge(attr) %}
-        {% set id = "datepicker_" ~ id %}
-        {% set value = '' %}
-        {% set full_name = "datepicker_" ~ full_name %}
-        {{ block("hidden_widget") }}
-    </div>
+            {% set attr = {"size": 10}|merge(attr) %}
+            {% set id = "datepicker_" ~ id %}
+            {% set value = '' %}
+            {% set full_name = "datepicker_" ~ full_name %}
+            {{ block("hidden_widget") }}
+        </div>
     {% endif %}
 {% endspaceless %}
 {% endblock datetime_widget %}
@@ -313,7 +313,9 @@
 {% block choice_widget_collapsed %}
 {% spaceless %}
     {% if add_route is defined and add_route is not same as(false) %}
-    <div class="input-group entity-widget{% if sizing is defined and sizing is not empty %} input-group-{{ sizing }}{% endif %}">
+        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
+        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+        <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} entity-widget">
     {% elseif sizing is defined and sizing is not empty %}
         {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
     {% endif %}

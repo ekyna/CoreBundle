@@ -28,7 +28,6 @@ class UploadType extends AbstractType
         $builder->add('file', Type\FileType::class, [
             'label'        => 'ekyna_core.field.file',
             'required'     => false,
-            'sizing'       => 'sm',
             'admin_helper' => 'FILE_UPLOAD',
             'attr'         => [
                 'label_col'  => 2,
@@ -44,7 +43,6 @@ class UploadType extends AbstractType
             $builder->add('rename', Type\TextType::class, [
                 'label'        => 'ekyna_core.field.rename',
                 'required'     => $options['required'],
-                'sizing'       => 'sm',
                 'admin_helper' => 'FILE_RENAME',
                 'attr'         => [
                     'class'      => 'file-rename',
@@ -66,7 +64,6 @@ class UploadType extends AbstractType
                         $form->add('unlink', Type\CheckboxType::class, [
                             'label'        => 'ekyna_core.field.unlink',
                             'required'     => false,
-                            'sizing'       => 'sm',
                             'admin_helper' => 'FILE_UNLINK',
                             'attr'         => [
                                 'label_col'         => 2,

@@ -67,11 +67,6 @@
         </service>
 
         <!-- Form Extensions -->
-        <service id="ekyna_core.form.extension.form_sizing"
-                 class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeSizingExtension">
-            <tag name="form.type_extension"
-                 extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
-        </service>
         <service id="ekyna_core.form.extension.form_redirect"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\FormTypeRedirectExtension">
             <argument type="service" id="request_stack" />

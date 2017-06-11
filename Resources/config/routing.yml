@@ -4,9 +4,6 @@ _gregwar_captcha_routing:
 _fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
-#_tinymce_routing:
-#    resource: "@StfalconTinymceBundle/Resources/config/routing.yml"
-
 user_context_hash:
     path: /_fos_user_context_hash
 

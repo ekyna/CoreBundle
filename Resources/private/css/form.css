@@ -9,9 +9,9 @@
     margin-bottom: 0;
 }
 
-/*.form-body .form-group {
-    overflow: hidden;
-}*/
+.form-group-sm {
+    margin-bottom: 10px;
+}
 
 .form-body.form-body-unstyled {
     border: none;
