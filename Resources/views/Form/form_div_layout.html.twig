@@ -245,8 +245,9 @@
 
 {% block ekyna_entity_search_widget %}
 {% spaceless %}
-    {% set attr = attr|merge({'class': 'entity-search' }) %}
-    {{ block('choice_widget') }}
+    {% set attr = attr|merge({'class': 'entity-search form-control' }) %}
+    {% set attr = attr|merge({'data-placeholder': placeholder|trans({}, translation_domain) }) %}
+    {{ block('choice_widget_collapsed') }}
 {% endspaceless %}
 {% endblock ekyna_entity_search_widget %}
 

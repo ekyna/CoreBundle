@@ -20,12 +20,10 @@ class EntityTypeExtension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults([
-                'add_route'        => false,
-                'add_route_params' => [],
-            ])
-            ->setDefined(['add_route', 'add_route_params']);
+        $resolver->setDefaults([
+            'add_route'        => false,
+            'add_route_params' => [],
+        ]);
     }
 
     /**

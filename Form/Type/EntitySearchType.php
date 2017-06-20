@@ -2,11 +2,17 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class EntitySearchType
@@ -16,14 +22,80 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class EntitySearchType extends AbstractType
 {
     /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+
+    /**
+     * Constructor.
+     *
+     * @param Registry            $registry
+     * @param SerializerInterface $serializer
+     */
+    public function __construct(Registry $registry, SerializerInterface $serializer)
+    {
+        $this->registry = $registry;
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $repository = $this->registry->getRepository($options['class']);
+
+        $builder->addViewTransformer(new ObjectToIdentifierTransformer($repository));
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['attr']['data-search'] = $options['search_route'];
-        $view->vars['attr']['data-find']   = $options['find_route'];
-        $view->vars['attr']['data-clear']  = intval($options['allow_clear']);
-        $view->vars['attr']['data-format'] = $options['format_function'];
+        $value = null;
+        $choices = [];
+        if (null !== $entity = $form->getData()) {
+            $choiceLabel = $options['choice_label'];
+            if (is_callable($choiceLabel)) {
+                $label = $choiceLabel($entity);
+            } elseif (is_string($choiceLabel) && 0 < strlen($choiceLabel)) {
+                $accessor = PropertyAccess::createPropertyAccessor();
+                $label = (string)$accessor->getValue($entity, $choiceLabel);
+            } else {
+                $label = (string)$entity;
+            }
+
+            $repository = $this->registry->getRepository($options['class']);
+            $transformer = new ObjectToIdentifierTransformer($repository);
+            $value = $transformer->transform($entity);
+
+            $choices[] = new ChoiceView($entity, $value, $label, [
+                'data-serialized' => $this->serializer->serialize($entity, 'json', ['groups' => ['Search']]),
+            ]);
+        }
+
+        $view->vars['value'] = $value;
+        $view->vars['choices'] = $choices;
+        $view->vars['preferred_choices'] = [];
+        $view->vars['placeholder'] = 'ekyna_core.field.search';
+        $view->vars['multiple'] = false;
+        $view->vars['expanded'] = false;
+
+        $view->vars['attr']['data-config'] = json_encode(array_intersect_key($options, array_flip([
+            'route', 'route_params', 'allow_clear', 'format',
+        ])));
+
+        if (0 < strlen($options['add_route'])) {
+            $view->vars['add_route'] = $options['add_route'];
+            $view->vars['add_route_params'] = $options['add_route_params'];
+        }
     }
 
     /**
@@ -31,40 +103,42 @@ class EntitySearchType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        // TODO Convert options['choice_label'] to javascript options['format_function']...
-        // TODO Create a choice_loader (DoctrineType) : only current value and submitted value (for validation)
-
         $resolver
             ->setDefaults([
-                'search_route' => null,
-                'find_route'   => null,
-                'allow_clear'  => false,
-                'format_function' => null,
-            ])
-            ->setRequired(['search_route', 'find_route'])
-            ->setAllowedTypes('search_route', 'string')
-            ->setAllowedTypes('find_route', 'string')
-            ->setAllowedTypes('allow_clear', 'bool')
-            ->setAllowedTypes('format_function', ['null', 'string'])
-            /*->setNormalizer('format_function', function(Options $options, $value) {
-                if (0 == strlen($value)) {
-                    if (0 < strlen($options['choice_label'])) {
-                        return 'return data.' . $options['choice_label'] . ';';
+                'compound'         => false,
+                'route'            => null,
+                'route_params'     => [],
+                'add_route'        => false,
+                'add_route_params' => [],
+                'choice_label'     => null,
+                'format'           => null,
+                'allow_clear'      => function (Options $options, $value) {
+                    if (!$value) {
+                        return !$options['required'];
                     }
 
-                    throw new InvalidArgumentException("The option 'format_function' must be defined.");
+                    return $value;
+                },
+            ])
+            ->setRequired(['class', 'route'])
+            ->setAllowedTypes('class', 'string')
+            ->setAllowedTypes('route', 'string')
+            ->setAllowedTypes('route_params', 'array')
+            ->setAllowedTypes('allow_clear', 'bool')
+            ->setAllowedTypes('choice_label', ['null', 'string', 'callable'])
+            ->setAllowedTypes('format', ['null', 'string'])
+            ->setNormalizer('format', function (Options $options, $value) {
+                if (!empty($value)) {
+                    return $value;
                 }
 
-                return $value;
-            })*/;
-    }
+                $field = 'choice_label';
+                if (is_string($options['choice_label']) && 0 < strlen($options['choice_label'])) {
+                    $field = $options['choice_label'];
+                }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return EntityType::class;
+                return "if(!data.id)return 'Search'; return data.$field;"; // TODO Camelcase to underscore ?
+            });
     }
 
     /**

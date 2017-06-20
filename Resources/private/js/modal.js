@@ -135,7 +135,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 return that.close();
             }
 
-            if (type != 'xml') {
+            if (type !== 'xml') {
                 return this;
             }
 

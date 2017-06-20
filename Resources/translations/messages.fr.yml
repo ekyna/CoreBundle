@@ -183,6 +183,7 @@ ekyna_core:
         gender: Civilité
         first_name: Prénom
         last_name: Nom
+        birthday: Date de naissance
         address: Adresse
         street: Rue
         supplement: Complément
@@ -201,6 +202,7 @@ ekyna_core:
         style: Style
         theme: Thème
         animation: Animation
+        search: Rechercher
     message:
         captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
@@ -214,7 +216,9 @@ ekyna_core:
         yearly: Tous les ans
     auth:
         allowed_to_switch: Authorisé à switcher
+        super_admin: Super administrateur
         admin: Administrateur
+        user: Utilisateur
     error:
         operation_failed: L'application a rencontré une erreur. Veuillez nous excuser pour la gène occasionnée.
     image:

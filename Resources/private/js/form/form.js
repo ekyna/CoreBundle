@@ -116,7 +116,7 @@ define(
     function showTabs($tabs) {
         $tabs.each(function() {
             var $a = $('a[href="#' + $(this).attr('id') + '"]');
-            if ($a.size() == 1) {
+            if ($a.size() === 1) {
                 $a.tab('show');
             }
         });
