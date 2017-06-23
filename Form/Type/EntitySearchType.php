@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -62,23 +61,11 @@ class EntitySearchType extends AbstractType
         $value = null;
         $choices = [];
         if (null !== $entity = $form->getData()) {
-            $choiceLabel = $options['choice_label'];
-            if (is_callable($choiceLabel)) {
-                $label = $choiceLabel($entity);
-            } elseif (is_string($choiceLabel) && 0 < strlen($choiceLabel)) {
-                $accessor = PropertyAccess::createPropertyAccessor();
-                $label = (string)$accessor->getValue($entity, $choiceLabel);
-            } else {
-                $label = (string)$entity;
-            }
-
             $repository = $this->registry->getRepository($options['class']);
             $transformer = new ObjectToIdentifierTransformer($repository);
             $value = $transformer->transform($entity);
 
-            $choices[] = new ChoiceView($entity, $value, $label, [
-                'data-serialized' => $this->serializer->serialize($entity, 'json', ['groups' => ['Search']]),
-            ]);
+            $choices[] = new ChoiceView($entity, $value, (string)$entity);
         }
 
         $view->vars['value'] = $value;
@@ -89,7 +76,7 @@ class EntitySearchType extends AbstractType
         $view->vars['expanded'] = false;
 
         $view->vars['attr']['data-config'] = json_encode(array_intersect_key($options, array_flip([
-            'route', 'route_params', 'allow_clear', 'format',
+            'route', 'route_params', 'allow_clear',
         ])));
 
         if (0 < strlen($options['add_route'])) {
@@ -110,8 +97,6 @@ class EntitySearchType extends AbstractType
                 'route_params'     => [],
                 'add_route'        => false,
                 'add_route_params' => [],
-                'choice_label'     => null,
-                'format'           => null,
                 'allow_clear'      => function (Options $options, $value) {
                     if (!$value) {
                         return !$options['required'];
@@ -124,21 +109,7 @@ class EntitySearchType extends AbstractType
             ->setAllowedTypes('class', 'string')
             ->setAllowedTypes('route', 'string')
             ->setAllowedTypes('route_params', 'array')
-            ->setAllowedTypes('allow_clear', 'bool')
-            ->setAllowedTypes('choice_label', ['null', 'string', 'callable'])
-            ->setAllowedTypes('format', ['null', 'string'])
-            ->setNormalizer('format', function (Options $options, $value) {
-                if (!empty($value)) {
-                    return $value;
-                }
-
-                $field = 'choice_label';
-                if (is_string($options['choice_label']) && 0 < strlen($options['choice_label'])) {
-                    $field = $options['choice_label'];
-                }
-
-                return "if(!data.id)return 'Search'; return data.$field;"; // TODO Camelcase to underscore ?
-            });
+            ->setAllowedTypes('allow_clear', 'bool');
     }
 
     /**

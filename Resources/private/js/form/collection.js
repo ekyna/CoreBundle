@@ -43,13 +43,13 @@ define(['jquery', 'ekyna-form'], function($, Form) {
 
         $list.each(function(index, li) {
             var $li = $(li);
-            $li.find('[data-collection-role="position"]').first().val(index);
-            if (index == 0) {
+            $li.find(selector+'[data-collection-role="position"]').first().val(index);
+            if (index === 0) {
                 $li.find(selector+moveUpField).prop('disabled', true);
             } else {
                 $li.find(selector+moveUpField).prop('disabled', false);
             }
-            if (index == max) {
+            if (index === max) {
                 $li.find(selector+moveDownField).prop('disabled', true);
             } else {
                 $li.find(selector+moveDownField).prop('disabled', false);
@@ -155,8 +155,8 @@ define(['jquery', 'ekyna-form'], function($, Form) {
 
             $prev.before($element.detach());
 
-            form.init();
-            prevForm.init();
+            form.init($element);
+            prevForm.init($prev);
 
             var $collection = $('#'+selector);
             collectionUpdatePositions($collection);
@@ -188,8 +188,8 @@ define(['jquery', 'ekyna-form'], function($, Form) {
 
             $next.after($element.detach());
 
-            form.init();
-            nextForm.init();
+            form.init($element);
+            nextForm.init($next);
 
             var $collection = $('#'+selector);
             collectionUpdatePositions($collection);
@@ -213,7 +213,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             if (!data) {
                 $this.data('addfield', (data = new CollectionAdd(this)));
             }
-            if (typeof option == 'string') {
+            if (typeof option === 'string') {
                 data[option].call($this);
             }
         });
@@ -227,7 +227,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             if (!data) {
                 $this.data('removefield', (data = new CollectionRemove(this)));
             }
-            if (typeof option == 'string') {
+            if (typeof option === 'string') {
                 data[option].call($this);
             }
         });
@@ -241,7 +241,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             if (!data) {
                 $this.data('moveupfield', (data = new CollectionMoveUp(this)));
             }
-            if (typeof option == 'string') {
+            if (typeof option === 'string') {
                 data[option].call($this);
             }
         });
@@ -255,7 +255,7 @@ define(['jquery', 'ekyna-form'], function($, Form) {
             if (!data) {
                 $this.data('movedownfield', (data = new CollectionMoveDown(this)));
             }
-            if (typeof option == 'string') {
+            if (typeof option === 'string') {
                 data[option].call($this);
             }
         });

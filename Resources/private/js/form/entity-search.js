@@ -5,8 +5,7 @@ define(['jquery', 'routing', 'select2'], function($, router) {
         limit: 10,
         route: null,
         route_params: [],
-        allow_clear: true,
-        format: 'if(!data.id)return \'Search\'; return data.choice_label;'
+        allow_clear: true
     };
 
     /**
@@ -19,20 +18,10 @@ define(['jquery', 'routing', 'select2'], function($, router) {
             var $this = $(this),
                 config = $.extend({}, defaults, $this.data('config'));
 
-            var wrapped = new Function('data', config.format);
-            var formatter = function(data) {
-                if (data.element) {
-                    data = $.extend({}, data, $(data.element).data('serialized'));
-                }
-                return wrapped(data);
-            };
-
             function initSelect2() {
                 $this.select2({
                     allowClear: config.allow_clear,
                     minimumInputLength: 3,
-                    templateResult: formatter,
-                    templateSelection: formatter,
                     ajax: {
                         delay: 300,
                         url: router.generate(config.route, config.route_params),

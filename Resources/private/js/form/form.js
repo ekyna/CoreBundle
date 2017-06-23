@@ -31,7 +31,7 @@ define(
             if ($parent && $parent.size()) {
                 select2options.dropdownParent = $parent;
             }
-            that.$elem.find('.select2').select2(select2options);
+            that.$elem.find('select.select2').select2(select2options);
 
             /* Submit buttons */
             /*that.$elem.find('button[type="submit"]').on('click', function(e) {
@@ -58,6 +58,13 @@ define(
         },
         destroy: function() {
             var that = this;
+
+            /* Destroy textarea autosize */
+            autosize.destroy(that.$elem.find('textarea').not('.tinymce'));
+
+            /* Destroy select2 */
+            that.$elem.find('select.select2').select2('destroy');
+
             $.each(plugins, function (selector, paths) {
                 var $target = that.$elem;
                 if (!$target.is(selector)) {
