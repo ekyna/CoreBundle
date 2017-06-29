@@ -111,7 +111,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             );
 
             $report = \Swift_Message::newInstance(
-                sprintf('[%s] Error report', $this->container->getParameter('hostname')),
+                sprintf('[%s] Error report', $request->getHost()),
                 $content, 'text/html'
             );
             $report->setFrom($email)->setTo($email);
