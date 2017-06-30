@@ -23,8 +23,6 @@ config:
         backbone:
             deps: ['underscore', 'jquery']
             exports: 'Backbone'
-#        handlebars:
-#            exports: 'Handlebars'
         'es6-promise':
             exports: 'Promise'
         'jquery-ui':
@@ -57,7 +55,6 @@ config:
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'
-#        handlebars: 'bundles/ekynacms/lib/handlebars'
         'es6-promise': 'bundles/ekynacore/lib/es6-promise'
         'twig': 'bundles/ekynacore/lib/twig'
         'autosize': 'bundles/ekynacore/lib/autosize'

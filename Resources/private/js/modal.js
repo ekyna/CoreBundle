@@ -208,8 +208,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     return value;
                 });
                 $(buttons).each(function(index, button) {
-                    if (typeof button.action != "function") {
-                        if (button.id == 'close') {
+                    if (typeof button.action !== "function") {
+                        if (button.id === 'close') {
                             button.action = function (dialog) {
                                 dialog.enableButtons(false);
                                 dialog.close();
@@ -222,7 +222,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                                 event.buttonId = button.id;
                                 $(that).trigger(event);
 
-                                if (that.form && button.id == 'submit' && !event.isDefaultPrevented()) {
+                                if (that.form && button.id === 'submit' && !event.isDefaultPrevented()) {
                                     that.form.getElement().submit();
                                 }
                             };
