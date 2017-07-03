@@ -37,6 +37,10 @@ module.exports = function (grunt, options) {
                     src: 'bower_components/jquery-form/jquery.form.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js' // tmp to minify
                 },
+                {
+                    src: 'bower_components/js-cookie/src/js.cookie.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/cookie.js' // tmp to minify
+                },
                 // Jquery Ui
                 {
                     expand: true,

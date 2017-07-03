@@ -23,6 +23,8 @@ config:
         backbone:
             deps: ['underscore', 'jquery']
             exports: 'Backbone'
+        'js-cookie':
+            exports: 'Cookies'
         'es6-promise':
             exports: 'Promise'
         'jquery-ui':
@@ -55,6 +57,7 @@ config:
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'
+        'js-cookie': 'bundles/ekynacore/lib/cookie'
         'es6-promise': 'bundles/ekynacore/lib/es6-promise'
         'twig': 'bundles/ekynacore/lib/twig'
         'autosize': 'bundles/ekynacore/lib/autosize'
@@ -66,13 +69,11 @@ config:
         'tinymce_config':
             route: ekyna_core_tinymce_config
             params: []
-
         'routing': 'bundles/fosjsrouting/js/router'
         'routing_data':
             route: fos_js_routing_js
             params:
                 _format: json
-
         'ekyna-string': 'bundles/ekynacore/js/string'
         'ekyna-number': 'bundles/ekynacore/js/number'
         'ekyna-routing': 'bundles/ekynacore/js/router'
@@ -89,6 +90,7 @@ config:
             'routing': 'routing'
 build:
     include:
+        - 'js-cookie'
         - 'jquery'
         - 'jquery-ui'
         - 'twig'
