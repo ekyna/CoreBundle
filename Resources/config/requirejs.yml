@@ -1,5 +1,4 @@
 config:
-    #TODO (in Configuration Provider) urlArgs: '?v=%framework.assets.version%'
     packages:
         -
             name: 'ekyna-form'
@@ -57,6 +56,7 @@ config:
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'
+        validator: 'bundles/ekynacore/lib/validator'
         'js-cookie': 'bundles/ekynacore/lib/cookie'
         'es6-promise': 'bundles/ekynacore/lib/es6-promise'
         'twig': 'bundles/ekynacore/lib/twig'
@@ -90,7 +90,10 @@ config:
             'routing': 'routing'
 build:
     include:
+        - 'validator'
         - 'js-cookie'
+        - 'es6-promise'
+        - 'autosize'
         - 'jquery'
         - 'jquery-ui'
         - 'twig'
@@ -106,6 +109,7 @@ build:
         - 'ekyna-modal'
         - 'ekyna-dispatcher'
         - 'ekyna-form'
+        - 'ekyna-ui'
     paths:
         'routing_data': 'empty:'
         'tinymce_config': 'empty:'
