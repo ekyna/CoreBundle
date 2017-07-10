@@ -34,7 +34,7 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/qtip.js'
                 },
                 {
-                    src: 'bower_components/jquery-form/jquery.form.js',
+                    src: 'bower_components/jquery-form/src/jquery.form.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js' // tmp to minify
                 },
                 {
