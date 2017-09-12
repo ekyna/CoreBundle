@@ -50,6 +50,7 @@ ekyna_core:
         add_attribute: Ajouter un attribut
         new: Nouveau
         create: Créer
+        duplicate: Dupliquer
         edit: Modifier
         remove: Supprimer
         remove_and_list: Supprimer <small>et retour à la liste</small>
