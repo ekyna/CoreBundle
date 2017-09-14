@@ -8,8 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class Modal
  * @package Ekyna\Bundle\CoreBundle\Modal
- * @author Étienne Dauvergne <contact@ekyna.com>
- * @see http://nakupanda.github.io/bootstrap3-dialog/#available-options
+ * @author  Étienne Dauvergne <contact@ekyna.com>
+ * @see     http://nakupanda.github.io/bootstrap3-dialog/#available-options
  */
 class Modal
 {
@@ -20,10 +20,10 @@ class Modal
     const TYPE_WARNING = 'type-warning';
     const TYPE_DANGER  = 'type-danger';
 
-    const SIZE_NORMAL  = 'size-normal';
-    const SIZE_SMALL   = 'size-small';
-    const SIZE_WIDE    = 'size-wide';    // size-wide is equal to modal-lg
-    const SIZE_LARGE   = 'size-large';
+    const SIZE_NORMAL = 'size-normal';
+    const SIZE_SMALL  = 'size-small';
+    const SIZE_WIDE   = 'size-wide';    // size-wide is equal to modal-lg
+    const SIZE_LARGE  = 'size-large';
 
     /**
      * @var OptionsResolver
@@ -39,6 +39,16 @@ class Modal
      * @var string
      */
     protected $size = self::SIZE_WIDE;
+
+    /**
+     * @var bool
+     */
+    protected $condensed = false;
+
+    /**
+     * @var string
+     */
+    protected $cssClass;
 
     /**
      * @var string
@@ -65,6 +75,7 @@ class Modal
      */
     protected $buttons;
 
+
     /**
      * Constructor.
      *
@@ -79,7 +90,7 @@ class Modal
         $this->setButtons($buttons);
 
         $this->setVars([
-            'form_template' => 'EkynaCoreBundle:Form:default_form_body.html.twig'
+            'form_template' => 'EkynaCoreBundle:Form:default_form_body.html.twig',
         ]);
     }
 
@@ -87,6 +98,7 @@ class Modal
      * Sets the type.
      *
      * @param string $type
+     *
      * @return Modal
      */
     public function setType($type)
@@ -94,6 +106,7 @@ class Modal
         static::validateType($type);
 
         $this->type = $type;
+
         return $this;
     }
 
@@ -101,6 +114,7 @@ class Modal
      * Sets the size.
      *
      * @param string $size
+     *
      * @return Modal
      */
     public function setSize($size)
@@ -108,6 +122,35 @@ class Modal
         static::validateSize($size);
 
         $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Sets whether to add the condensed css class.
+     *
+     * @param bool $condensed
+     *
+     * @return Modal
+     */
+    public function setCondensed($condensed)
+    {
+        $this->condensed = $condensed;
+
+        return $this;
+    }
+
+    /**
+     * Sets the css class.
+     *
+     * @param string $class
+     *
+     * @return Modal
+     */
+    public function setCssClass($class)
+    {
+        $this->cssClass = $class;
+
         return $this;
     }
 
@@ -115,11 +158,13 @@ class Modal
      * Sets the title.
      *
      * @param string $title
+     *
      * @return Modal
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -137,6 +182,7 @@ class Modal
      * Sets the content.
      *
      * @param mixed $content
+     *
      * @return Modal
      */
     public function setContent($content)
@@ -151,6 +197,7 @@ class Modal
             $this->contentType = 'html';
         }
         $this->content = $content;
+
         return $this;
     }
 
@@ -168,11 +215,13 @@ class Modal
      * Sets the vars.
      *
      * @param array $vars
+     *
      * @return Modal
      */
     public function setVars(array $vars)
     {
         $this->vars = $vars;
+
         return $this;
     }
 
@@ -200,6 +249,7 @@ class Modal
      * Sets the buttons.
      *
      * @param array $buttons
+     *
      * @return Modal
      */
     public function setButtons(array $buttons)
@@ -210,6 +260,7 @@ class Modal
             $tmp[] = $resolver->resolve($options);
         }
         $this->buttons = $tmp;
+
         return $this;
     }
 
@@ -217,7 +268,8 @@ class Modal
      * Adds the button.
      *
      * @param array $options
-     * @param bool $prepend
+     * @param bool  $prepend
+     *
      * @return Modal
      */
     public function addButton(array $options, $prepend = false)
@@ -229,6 +281,7 @@ class Modal
         } else {
             array_push($this->buttons, $options);
         }
+
         return $this;
     }
 
@@ -249,9 +302,15 @@ class Modal
      */
     public function getConfig()
     {
+        $classes = explode(' ', $this->cssClass);
+        if ($this->condensed && !in_array('condensed', $classes)) {
+            $classes[] = 'condensed';
+        }
+
         return [
-            'size' => $this->size,
-            'type' => $this->type,
+            'size'     => $this->size,
+            'type'     => $this->type,
+            'cssClass' => implode(' ', $classes),
         ];
     }
 
@@ -274,23 +333,22 @@ class Modal
                     'cssClass' => 'btn-default',
                     'hotkey'   => null,
                 ])
-
-                ->setAllowedTypes('id',       'string')
-                ->setAllowedTypes('icon',     ['null', 'string'])
-                ->setAllowedTypes('label',    'string')
-                ->setAllowedTypes('action',   ['null', 'string'])
+                ->setAllowedTypes('id', 'string')
+                ->setAllowedTypes('icon', ['null', 'string'])
+                ->setAllowedTypes('label', 'string')
+                ->setAllowedTypes('action', ['null', 'string'])
                 ->setAllowedTypes('autospin', ['null', 'bool'])
                 ->setAllowedTypes('cssClass', 'string')
-                ->setAllowedTypes('hotkey',   ['null', 'int'])
-
+                ->setAllowedTypes('hotkey', ['null', 'int'])
                 ->setAllowedValues('action', function ($value) {
                     if (null === $value) {
                         return true;
                     }
+
                     return preg_match('~^function\s?\((dialog)?\)\s?\{[^}]+\}$~', $value);
-                })
-            ;
+                });
         }
+
         return static::$buttonOptionsResolver;
     }
 
@@ -298,7 +356,8 @@ class Modal
      * Validates the modal type.
      *
      * @param string $type
-     * @param bool $throwException
+     * @param bool   $throwException
+     *
      * @return bool
      * @throws \InvalidArgumentException
      */
@@ -326,7 +385,8 @@ class Modal
      * Validates the modal size.
      *
      * @param string $size
-     * @param bool $throwException
+     * @param bool   $throwException
+     *
      * @return bool
      * @throws \InvalidArgumentException
      */

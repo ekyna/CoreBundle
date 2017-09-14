@@ -197,6 +197,10 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             if (config.size) {
                 that.dialog.setSize(config.size);
             }
+            if (0 < config.cssClass.length) {
+                that.dialog.setCssClass(config.cssClass);
+
+            }
 
             // Buttons
             var $buttons = $xmlData.find('buttons');

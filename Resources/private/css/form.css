@@ -389,6 +389,13 @@
     padding-top: 15px;
 }
 
+/**
+ * Modal (yeah it should not be there ...)
+ */
+.modal.condensed .modal-body {
+    padding: 0;
+}
+
 /* Responsive */
 @media ( max-width: 767px) {
     .form-body label.radio {
