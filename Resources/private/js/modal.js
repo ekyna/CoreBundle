@@ -170,13 +170,18 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
                 // Form content type
                 if (type === 'form') {
-                    if (that.shown) {
-                        that.initForm($html);
-                    } else {
-                        $(that).one('ekyna.modal.shown', function() {
-                            that.initForm($html);
-                        });
-                    }
+                    $html.each(function() {
+                        var $form = $(this);
+                        if ($form.is('form')) {
+                            if (that.shown) {
+                                that.initForm($form);
+                            } else {
+                                $(that).one('ekyna.modal.shown', function() {
+                                    that.initForm($form);
+                                });
+                            }
+                        }
+                    });
                 }
             } else {
                 // No content => abort
