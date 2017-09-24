@@ -88,6 +88,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
             new \Twig_SimpleFunction('ui_no_image', [$this, 'renderNoImage'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_link', [$this, 'renderLink'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_button', [$this, 'renderButton'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('ui_button_dropdown', [$this, 'renderButtonDropdown'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_google_font', [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_locale_switcher', [$this, 'renderLocaleSwitcher'], ['is_safe' => ['html']]),
         ];
@@ -258,18 +259,20 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * @param array  $actions
      * @param string $theme
      * @param string $size
+     * @param bool   $right
      *
      * @return string
      */
-    public function renderButtonDropdown($label, array $actions, $theme = 'default', $size = 'sm')
+    public function renderButtonDropdown($label, array $actions, $theme = 'default', $size = 'sm', $right = false)
     {
-        // TODO validate actions
+        // TODO validate actions : label => path
 
         return $this->controlsTemplate->renderBlock('button_dropdown', [
             'label'   => $label,
             'theme'   => $theme,
             'size'    => $size,
             'actions' => $actions,
+            'right'   => $right,
         ]);
     }
 

@@ -17,7 +17,7 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ label|trans|raw }} <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu{% if right %} dropdown-menu-right{% endif %}">
         {% for action_label, action_path in actions %}
         <li><a href="{{ action_path }}">{{ action_label|trans|raw }}</a></li>
         {% endfor %}
