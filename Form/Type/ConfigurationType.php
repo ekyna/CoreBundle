@@ -42,11 +42,18 @@ class ConfigurationType extends AbstractType
             ->setDefaults([
                 'label'       => 'ekyna_core.field.config',
                 'definition'  => null,
+                'root'        => 'config',
                 'constraints' => function (Options $options) {
-                    return [new Configuration($options['definition'])];
+                    return [
+                        new Configuration([
+                            'definition' => $options['definition'],
+                            'root'       => $options['root'],
+                        ]),
+                    ];
                 },
             ])
-            ->setAllowedTypes('definition', Node\ArrayNode::class);
+            ->setAllowedTypes('definition', Node\ArrayNode::class)
+            ->setAllowedTypes('root', 'string');
     }
 
     /**
@@ -127,16 +134,17 @@ class ConfigurationType extends AbstractType
 
     private function addEnumNodeType(FormBuilderInterface $builder, Node\EnumNode $node)
     {
-        $values = $node->getValues();
+        $choices = $node->getValues();
 
-        $choices = array_combine(array_map(function ($value) {
+        /*$choices = array_combine(array_map(function ($value) {
             return ucfirst($value);
-        }, $values), $values);
+        }, $choices), $choices);*/
 
         $options = [
             'label'    => $this->getNodeLabel($node),
             'required' => $node->isRequired(),
             'choices'  => $choices,
+            'select2'  => false,
         ];
 
         if (null !== $default = $node->getDefaultValue()) {

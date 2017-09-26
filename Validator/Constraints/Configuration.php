@@ -16,6 +16,11 @@ class Configuration extends Constraint
      */
     public $definition;
 
+    /**
+     * @var string
+     */
+    public $root = 'config';
+
 
     /**
      * {@inheritdoc}

@@ -24,7 +24,7 @@ class ConfigurationValidator extends ConstraintValidator
         $processor = new Processor();
 
         try {
-            $processor->process($constraint->definition, $value);
+            $processor->process($constraint->definition, [$constraint->root => $value]);
         } catch (ExceptionInterface $e) {
             $this
                 ->context

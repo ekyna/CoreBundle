@@ -1,6 +1,6 @@
 {% block button %}
 {% spaceless %}
-<{{ tag }} {{ block('attributes') }}>{{ block('icon') }}{{ label|trans|raw }}</{{ tag }}>
+<{{ tag }} {{ block('attributes') }}>{{ block('icon') }}{% if label is not empty %}{{ label|trans|raw }}{% endif %}</{{ tag }}>
 {% endspaceless %}
 {% endblock button %}
 

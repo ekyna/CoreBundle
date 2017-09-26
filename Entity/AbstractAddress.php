@@ -129,7 +129,7 @@ abstract class AbstractAddress implements AddressInterface
     }
 
     /**
-     * Returns the country.
+     * Returns the country code.
      *
      * @return string
      */
