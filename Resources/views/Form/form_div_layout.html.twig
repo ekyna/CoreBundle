@@ -18,6 +18,13 @@
     {% else %}
         {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn btn-'~button_class|default('default'))|trim }) %}
     {% endif %}
+    {% set sizing = sizing|default(bootstrap_get_sizing()) %}
+    {% if attr.sizing is defined and attr.sizing is not empty %}
+        {% set sizing = attr.sizing %}
+    {% endif %}
+    {% if sizing in ['sm', 'lg'] %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn-' ~ sizing)|trim }) %}
+    {% endif %}
     {% if as_link is defined and as_link == true %}
         <a {{ block('button_attributes') }}>{% if attr.icon is defined and attr.icon != '' %}{{ icon(attr.icon) }}{% endif %}{{ label|trans({}, translation_domain)|raw }}</a>
     {% else %}
