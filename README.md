@@ -1,18 +1,12 @@
 CoreBundle
 ==========
 
-Provides various utilities.
-- Doctrine entity listener resolver.
-- Cmf chain router and dynamic router registration.
-- Text, Intl and Html twig extensions.
+Third party bundles and components common configuration.
 
-## Instation
+## Installation
+
 TODO
 
 ## Configuration
-TODO
 
-## TODO
-- Fix default bootstrap less files
-- TimestampableInterface auto mapping
-- Check translations validation : Valid (cascade) in .xml files.
+TODO

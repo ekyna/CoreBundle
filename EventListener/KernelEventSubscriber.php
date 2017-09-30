@@ -27,6 +27,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
      */
     private $container;
 
+
     /**
      * {@inheritdoc}
      */
@@ -93,29 +94,46 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
 
         } elseif (!$this->container->getParameter('kernel.debug')) {
 
-            $template = new TemplateReference('EkynaCoreBundle', 'Exception', 'exception', 'html', 'twig');
-            $code = $exception->getCode();
-            $email = $this->container->getParameter('error_report_mail');
-            $request = $this->container->get('request_stack')->getMasterRequest();
+            $this->sendExceptionReport(FlattenException::create($exception));
 
-            $content = $this->container->get('twig')->render(
-                (string)$template,
-                [
-                    'status_code'    => $code,
-                    'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
-                    'exception'      => FlattenException::create($exception),
-                    'request'        => $request,
-                    'logger'         => null,
-                    'currentContent' => null,
-                ]
-            );
+        }
+    }
 
-            $report = \Swift_Message::newInstance(
-                sprintf('[%s] Error report', $request->getHost()),
-                $content, 'text/html'
-            );
-            $report->setFrom($email)->setTo($email);
-            $this->container->get('mailer')->send($report);
+    /**
+     * Kernel terminate event handler.
+     * - Sends the report about uncaught exception.
+     */
+    public function sendExceptionReport(FlattenException $exception)
+    {
+        if (!$this->container->has('swiftmailer.mailer.report_mailer')) {
+            return;
+        }
+
+        $mailer = $this->container->get('swiftmailer.mailer.report_mailer');
+
+        $template = new TemplateReference('EkynaCoreBundle', 'Exception', 'exception', 'html', 'twig');
+        $code = $exception->getCode();
+        $email = $this->container->getParameter('error_report_mail');
+        $request = $this->container->get('request_stack')->getMasterRequest();
+
+        $subject = sprintf('[%s] Error report', $request->getHost());
+        $content = $this->container->get('twig')->render((string)$template, [
+            'status_code'    => $code,
+            'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+            'exception'      => $exception,
+            'request'        => $request,
+            'logger'         => null,
+            'currentContent' => null,
+        ]);
+
+        $report = new \Swift_Message($subject, $content, 'text/html');
+        $report->setFrom($email)->setTo($email);
+
+        try {
+            $mailer->send($report);
+        } catch (\Swift_TransportException $e) {
+            // In case transport has bad configuration.
+            $stop = true;
         }
     }
 
