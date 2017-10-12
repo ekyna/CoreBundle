@@ -1,4 +1,4 @@
-///<reference path="../../../../../../../typings/globals/backbone-global/index.d.ts"/>
+/// <reference path="../../../../../../typings/index.d.ts"/>
 
 declare let Dispatcher:Backbone.Events;
 

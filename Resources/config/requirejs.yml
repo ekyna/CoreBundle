@@ -16,6 +16,10 @@ config:
             name: 'bootstrap'
             location: 'bundles/ekynacore/lib/bootstrap'
             main: 'bootstrap'
+        -
+            name: 'gsap'
+            location: 'bundles/ekynacore/lib/gsap'
+            main: 'TweenLite'
     shim:
         underscore:
             exports: '_'
@@ -53,6 +57,14 @@ config:
             deps: ['require', 'jquery', 'bootstrap/dialog']
         'ekyna-dispatcher':
             deps: ['backbone']
+        'gsap/TimelineLite':
+            deps: ['plugins.CSSPlugin', 'easing.Ease']
+        'gsap/TimelineMax':
+            deps: ['plugins.CSSPlugin', 'easing.Ease']
+#        'gsap/TweenLite':
+#            deps: ['plugins.CSSPlugin']
+#        'gsap/TweenMax':
+#            deps: ['plugins.CSSPlugin']
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'
@@ -86,6 +98,12 @@ config:
     map:
         '*':
             'routing': 'ekyna-routing'
+            'TimelineLite': 'gsap/TimelineLite'
+            'TimelineMax': 'gsap/TimelineMax'
+            'TweenLite': 'gsap/TweenLite'
+            'TweenMax': 'gsap/TweenMax'
+            'plugins.CSSPlugin': 'gsap/plugins/CSSPlugin'
+            'easing.Ease': 'gsap/easing/EasePack'
         'ekyna-routing':
             'routing': 'routing'
 build:

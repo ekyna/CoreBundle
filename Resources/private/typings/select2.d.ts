@@ -1,5 +1,7 @@
-declare let Select2:Object;
+/// <reference path="../../../../../../typings/index.d.ts"/>
 
-declare module "select2" {
-    export = Select2;
+interface Select2Plugin {
+    defaults: {
+        set(key:string, value:any)
+    }
 }

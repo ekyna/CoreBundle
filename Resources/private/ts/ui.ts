@@ -1,4 +1,4 @@
-/// <reference path="../../../../../../../typings/index.d.ts" />
+/// <reference path="../../../../../../typings/index.d.ts" />
 
 import * as jQuery from 'jquery';
 
@@ -35,7 +35,7 @@ import * as jQuery from 'jquery';
             };
         } else if (action == 'on' || action == undefined) {
             run = function($element:JQuery) {
-                if ($element.css('position') == 'static') {
+                if ('static' === <string>$element.css('position')) {
                     $element.css('position', 'relative');
                 }
 

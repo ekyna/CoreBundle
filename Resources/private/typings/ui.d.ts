@@ -1,8 +1,12 @@
-///<reference path="../../../../../../../typings/globals/jquery/index.d.ts"/>
+///<reference path="../../../../../../typings/index.d.ts"/>
+
+interface LoadingSpinner {
+    (): JQuery;
+    (action: string): JQuery;
+}
 
 interface JQuery {
-    loadingSpinner(): JQuery;
-    loadingSpinner(action: string): JQuery;
+    loadingSpinner: LoadingSpinner;
 }
 
 declare let jQLS:JQuery;

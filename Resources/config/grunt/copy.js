@@ -84,6 +84,16 @@ module.exports = function (grunt, options) {
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/img'
                 },
+                // Gsap
+                {
+                    expand: true,
+                    cwd: 'bower_components/gsap/src/minified',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/gsap',
+                    rename: function(dest, src) {
+                        return dest + '/' + src.replace(/\.min\.js/, '.js');
+                    }
+                },
                 // Others
                 {
                     src: 'bower_components/twigjs-bower/twig/twig.min.js',

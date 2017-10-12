@@ -1,4 +1,4 @@
-///<reference path="../../../../../../../typings/globals/jquery/index.d.ts"/>
+///<reference path="../../../../../../typings/index.d.ts"/>
 
 declare module Ekyna {
     export interface Modal {
