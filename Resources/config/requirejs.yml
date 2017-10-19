@@ -61,10 +61,6 @@ config:
             deps: ['plugins.CSSPlugin', 'easing.Ease']
         'gsap/TimelineMax':
             deps: ['plugins.CSSPlugin', 'easing.Ease']
-#        'gsap/TweenLite':
-#            deps: ['plugins.CSSPlugin']
-#        'gsap/TweenMax':
-#            deps: ['plugins.CSSPlugin']
     paths:
         underscore: 'bundles/ekynacore/lib/underscore'
         backbone: 'bundles/ekynacore/lib/backbone'

@@ -47,7 +47,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if ($target.length > 0) {
+                if (0 < $target.size()) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             plugin.init($target);
@@ -70,7 +70,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if ($target.length > 0) {
+                if (0 < $target.size()) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             if (plugin.hasOwnProperty('destroy')) {
@@ -88,7 +88,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if ($target.length > 0) {
+                if (0 < $target.size()) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             if (plugin.hasOwnProperty('save')) {
