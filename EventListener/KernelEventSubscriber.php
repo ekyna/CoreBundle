@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class KernelEventSubscriber
@@ -56,14 +57,19 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                     } elseif (is_string($response) && 0 < strlen($response)) {
                         $response = $this->container
                             ->get('security.http_utils')
-                            ->createRedirectResponse($request, $response, 301);
+                            ->createRedirectResponse($request, $response, Response::HTTP_MOVED_PERMANENTLY);
                         $event->setResponse($response);
                     }
 
                     return;
                 }
             }
+        } elseif ($exception instanceof AccessDeniedException) {
+            if ($event->getRequest()->isXmlHttpRequest()) {
+                $event->setResponse(new Response('', Response::HTTP_FORBIDDEN));
 
+                return;
+            }
         } elseif ($exception instanceof RedirectException) {
 
             // Check path
@@ -102,6 +108,8 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
     /**
      * Kernel terminate event handler.
      * - Sends the report about uncaught exception.
+     *
+     * @param FlattenException $exception
      */
     public function sendExceptionReport(FlattenException $exception)
     {
@@ -133,7 +141,6 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             $mailer->send($report);
         } catch (\Swift_TransportException $e) {
             // In case transport has bad configuration.
-            $stop = true;
         }
     }
 
@@ -143,7 +150,8 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::EXCEPTION => ['onKernelException', 0],
+            // Just before \Symfony\Component\Security\Http\Firewall\ExceptionListener::onKernelException
+            KernelEvents::EXCEPTION => ['onKernelException', 1],
         ];
     }
 }

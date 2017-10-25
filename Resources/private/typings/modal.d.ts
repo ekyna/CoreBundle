@@ -6,6 +6,7 @@ declare module Ekyna {
         load(settings:JQueryAjaxSettings): JQueryXHR
         handleResponse(xmlData:string): Modal
         close():Modal
+        getDialog(): BootstrapDialog
     }
 
     export interface ModalResponseEvent extends JQueryEventObject {

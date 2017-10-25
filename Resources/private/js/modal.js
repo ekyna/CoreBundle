@@ -132,7 +132,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             $(that).trigger(event);
             if (event.isDefaultPrevented()) {
-                return that.close();
+                return that;
             }
 
             if (type !== 'xml') {

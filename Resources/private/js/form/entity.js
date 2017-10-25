@@ -16,11 +16,11 @@ define(['jquery', 'ekyna-modal', 'ekyna-table', 'select2'], function($, Modal, T
                     var modal = new Modal();
                     modal.load({url: $addButton.data('path')});
 
-                    $(modal).on('ekyna.modal.response', function (e) {
-                        if (e.contentType === 'json') {
-                            e.preventDefault();
+                    $(modal).on('ekyna.modal.response', function (modalEvent) {
+                        if (modalEvent.contentType === 'json') {
+                            modalEvent.preventDefault();
 
-                            var data = e.content,
+                            var data = modalEvent.content,
                                 $option = $('<option />');
                             $option.prop('value', data.id);
                             $option.prop('selected', true);
@@ -40,6 +40,8 @@ define(['jquery', 'ekyna-modal', 'ekyna-table', 'select2'], function($, Modal, T
                             $select.find('option').prop('selected', false);
                             // TODO attach data when response will be the serialized entity
                             $select.append($option).trigger('change');
+
+                            modalEvent.modal.close();
                         }
                     });
                 });
