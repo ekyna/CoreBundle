@@ -158,6 +158,17 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     return that.close();
                 }
 
+                // Auto modal buttons and links
+                that.dialog
+                    .getModalBody()
+                    .one('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
+                        e.preventDefault();
+
+                        that.load({url: $(e.currentTarget).attr('href')});
+
+                        return false;
+                    });
+
                 // Html content type
                 var $html = $(content);
                 event.content = $html;
@@ -196,15 +207,14 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             // Type and Size
             var config = JSON.parse($xmlData.find('config').text());
-            if (config.type) {
+            if (typeof config.type !== 'undefined') {
                 that.dialog.setType(config.type);
             }
-            if (config.size) {
+            if (typeof config.size !== 'undefined') {
                 that.dialog.setSize(config.size);
             }
-            if (0 < config.cssClass.length) {
+            if (typeof config.cssClass !== 'undefined') {
                 that.dialog.setCssClass(config.cssClass);
-
             }
 
             // Buttons
@@ -262,11 +272,11 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
     };
 
     // Auto modal buttons and links
-    $(document).on('click', 'button[data-modal="true"], a[data-modal="true"], [data-modal="true"] > a', function(e) {
+    $(document).on('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
         e.preventDefault();
 
         var modal = new EkynaModal();
-        modal.load({url: $(this).attr('href')});
+        modal.load({url: $(e.currentTarget).attr('href')});
 
         return false;
     });
