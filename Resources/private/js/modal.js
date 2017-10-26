@@ -63,6 +63,18 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             event.modal = that;
             $(that).trigger(event);
         });
+
+        // Auto modal buttons and links
+        that.dialog
+            .realize()
+            .getModalBody()
+            .one('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
+                e.preventDefault();
+
+                that.load({url: $(e.currentTarget).attr('href')});
+
+                return false;
+            });
     };
 
     EkynaModal.prototype = {
@@ -157,17 +169,6 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     $(that).trigger(event);
                     return that.close();
                 }
-
-                // Auto modal buttons and links
-                that.dialog
-                    .getModalBody()
-                    .one('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
-                        e.preventDefault();
-
-                        that.load({url: $(e.currentTarget).attr('href')});
-
-                        return false;
-                    });
 
                 // Html content type
                 var $html = $(content);
