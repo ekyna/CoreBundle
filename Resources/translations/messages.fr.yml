@@ -205,6 +205,7 @@ ekyna_core:
         theme: Thème
         animation: Animation
         search: Rechercher
+        visible: Visible
     message:
         captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
