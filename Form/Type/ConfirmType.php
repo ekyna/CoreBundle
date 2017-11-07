@@ -70,7 +70,7 @@ class ConfirmType extends AbstractType
         $resolver
             ->setDefaults([
                 'message'      => 'ekyna_core.message.remove_confirm',
-                'submit_label' => 'ekyna_core.button.remove',
+                'submit_label' => 'ekyna_core.button.confirm',
                 'submit_class' => 'danger',
                 'submit_icon'  => 'remove',
                 'cancel_path'  => null,
