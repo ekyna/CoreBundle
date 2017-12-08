@@ -2,7 +2,9 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
+use Ekyna\Bundle\CoreBundle\Entity\Upload;
 use Ekyna\Bundle\CoreBundle\Form\DataTransformer\UploadableToNullTransformer;
+use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -116,7 +118,7 @@ class UploadType extends AbstractType
         $resolver
             ->setDefaults([
                 'label'          => 'ekyna_core.field.file',
-                'data_class'     => 'Ekyna\Bundle\CoreBundle\Entity\AbstractUpload',
+                'data_class'     => UploadableInterface::class,
                 'file_path'      => 'path',
                 'rename_field'   => true,
                 'unlink_field'   => false,

@@ -2,7 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Listener;
 
-use Ekyna\Bundle\CoreBundle\Entity\AbstractUpload;
+use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
 use Ekyna\Bundle\CoreBundle\Uploader\UploaderInterface;
 
 /**
@@ -29,9 +29,9 @@ class UploadListener
     /**
      * Pre persist event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function prePersist(AbstractUpload $upload)
+    public function prePersist(UploadableInterface $upload)
     {
         $this->uploader->prepare($upload);
     }
@@ -39,9 +39,9 @@ class UploadListener
     /**
      * Post persist event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function postPersist(AbstractUpload $upload)
+    public function postPersist(UploadableInterface $upload)
     {
         $this->uploader->upload($upload);
     }
@@ -49,9 +49,9 @@ class UploadListener
     /**
      * Pre update event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function preUpdate(AbstractUpload $upload)
+    public function preUpdate(UploadableInterface $upload)
     {
         $this->uploader->prepare($upload);
     }
@@ -59,9 +59,9 @@ class UploadListener
     /**
      * Post update event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function postUpdate(AbstractUpload $upload)
+    public function postUpdate(UploadableInterface $upload)
     {
         $this->uploader->upload($upload);
     }
@@ -69,9 +69,9 @@ class UploadListener
     /**
      * Pre remove event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function preRemove(AbstractUpload $upload)
+    public function preRemove(UploadableInterface $upload)
     {
         $upload->setOldPath($upload->getPath());
     }
@@ -79,9 +79,9 @@ class UploadListener
     /**
      * Post remove event handler.
      *
-     * @param AbstractUpload $upload
+     * @param UploadableInterface $upload
      */
-    public function postRemove(AbstractUpload $upload)
+    public function postRemove(UploadableInterface $upload)
     {
         $this->uploader->remove($upload);
     }

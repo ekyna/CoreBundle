@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Interface UploadableInterface
  * @package Ekyna\Bundle\CoreBundle\Model
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 interface UploadableInterface extends TimestampableInterface
 {
@@ -16,7 +16,8 @@ interface UploadableInterface extends TimestampableInterface
      * Sets the key.
      *
      * @param string $key
-     * @return UploadableTrait
+     *
+     * @return $this|UploadableInterface
      */
     public function setKey($key);
 
@@ -38,7 +39,8 @@ interface UploadableInterface extends TimestampableInterface
      * Set file
      *
      * @param File $file
-     * @return UploadableInterface|$this
+     *
+     * @return $this|UploadableInterface
      */
     public function setFile(File $file = null);
 
@@ -60,7 +62,8 @@ interface UploadableInterface extends TimestampableInterface
      * Sets the size.
      *
      * @param int $size
-     * @return UploadableInterface|$this
+     *
+     * @return $this|UploadableInterface
      */
     public function setSize($size);
 
@@ -75,7 +78,8 @@ interface UploadableInterface extends TimestampableInterface
      * Set path.
      *
      * @param string $path
-     * @return UploadableInterface|$this
+     *
+     * @return $this|UploadableInterface
      */
     public function setPath($path);
 
@@ -97,7 +101,8 @@ interface UploadableInterface extends TimestampableInterface
      * Set old path.
      *
      * @param string $oldPath
-     * @return UploadableInterface|$this
+     *
+     * @return $this|UploadableInterface
      */
     public function setOldPath($oldPath);
 
@@ -140,7 +145,8 @@ interface UploadableInterface extends TimestampableInterface
      * Set rename.
      *
      * @param string $rename
-     * @return UploadableInterface|$this
+     *
+     * @return $this|UploadableInterface
      */
     public function setRename($rename);
 
@@ -162,7 +168,8 @@ interface UploadableInterface extends TimestampableInterface
      * Sets whether the uploadable should be unlinked from subject.
      *
      * @param boolean $unlink
-     * @return UploadableTrait
+     *
+     * @return $this|UploadableInterface
      */
     public function setUnlink($unlink);
 
