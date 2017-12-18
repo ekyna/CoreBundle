@@ -2,7 +2,6 @@
 
 namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
-use Ekyna\Bundle\CoreBundle\Entity\Upload;
 use Ekyna\Bundle\CoreBundle\Form\DataTransformer\UploadableToNullTransformer;
 use Ekyna\Bundle\CoreBundle\Model\UploadableInterface;
 use Symfony\Component\Form\AbstractType;

@@ -311,6 +311,31 @@
 {% endspaceless %}
 {% endblock datetime_widget %}
 
+{% block date_widget %}
+{% spaceless %}
+    {% if widget == 'single_text' %}
+        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
+        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+        <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} date form-datetime-picker"
+             data-options='{{ picker_options|json_encode|raw }}'>
+            {{ block("form_widget_simple") }}
+            <span class="input-group-addon">
+                <span class="fa fa-calendar"></span>
+            </span>
+        </div>
+    {% else %}
+        {% set attr = attr|merge({ 'class': 'bootstrap-date' }) %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw }}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock date_widget %}
+
 {% block choice_widget_expanded %}
 {% spaceless %}
     {% set attr = attr|merge({ 'class': 'form-choices ' ~ (attr.class|default(''))|trim }) %}

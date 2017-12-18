@@ -93,6 +93,12 @@
                  extended-type="Symfony\Component\Form\Extension\Core\Type\DateTimeType"/>
             <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime"/>
         </service>
+        <service id="ekyna_core.form.extension.date"
+                 class="Ekyna\Bundle\CoreBundle\Form\Extension\DateTypeExtension">
+            <tag name="form.type_extension"
+                 extended-type="Symfony\Component\Form\Extension\Core\Type\DateType"/>
+            <tag name="form.js" selector=".form-datetime-picker" path="ekyna-form/datetime"/>
+        </service>
         <service id="ekyna_core.form.extension.select2"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\Select2Extension">
             <tag name="form.type_extension"
