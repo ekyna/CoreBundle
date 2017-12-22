@@ -113,11 +113,11 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
      */
     public function sendExceptionReport(FlattenException $exception)
     {
-        if (!$this->container->has('swiftmailer.mailer.report_mailer')) {
+        if (!$this->container->has('swiftmailer.mailer.report')) {
             return;
         }
 
-        $mailer = $this->container->get('swiftmailer.mailer.report_mailer');
+        $mailer = $this->container->get('swiftmailer.mailer.report');
 
         $template = new TemplateReference('EkynaCoreBundle', 'Exception', 'exception', 'html', 'twig');
         $code = $exception->getCode();
