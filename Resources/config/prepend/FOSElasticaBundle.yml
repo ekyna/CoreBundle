@@ -1,7 +1,11 @@
 fos_elastica:
     serializer: ~
     clients:
-        default: { host: "%elasticsearch.host%", port: "%elasticsearch.port%", logger: false }
+        default:
+            host: "%elasticsearch.host%"
+            port: "%elasticsearch.port%"
+            retryOnConflict: 2
+            logger: false
     indexes:
         search:
             index_name: "%elasticsearch.index_name%_%kernel.environment%"

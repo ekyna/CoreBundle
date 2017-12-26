@@ -128,18 +128,25 @@ interface UploadableInterface extends TimestampableInterface
     public function shouldBeRenamed();
 
     /**
-     * Guess file extension.
+     * Guesses file extension.
      *
      * @return string
      */
     public function guessExtension();
 
     /**
-     * Guess file name.
+     * Guesses file name.
      *
      * @return string
      */
     public function guessFilename();
+
+    /**
+     * Returns the file name.
+     *
+     * @return string
+     */
+    public function getFilename();
 
     /**
      * Set rename.
