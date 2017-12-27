@@ -17,6 +17,9 @@ ekyna_core:
         restart: Recommencer
         reset: Réinitialiser
         reset_and_list: Réinitialiser <small>et retour à la liste</small>
+        refresh: Râfraichir
+        reload: Recharger
+        update: Mettre à jour
         finish: Terminer
         validate: Valider
         complete: Compléter
