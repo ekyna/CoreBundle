@@ -1,5 +1,3 @@
-///<reference path="../../../../../../typings/index.d.ts"/>
-
 declare module Ekyna {
     export interface Form {
         new($elem: JQuery, options?: object): Form

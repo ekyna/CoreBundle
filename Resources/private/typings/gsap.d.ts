@@ -1,5 +1,3 @@
-///<reference path="../../../../../../typings/index.d.ts"/>
-
 declare module 'gsap/TweenLite' {
     export = gsap.TweenLite;
 }

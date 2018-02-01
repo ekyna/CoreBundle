@@ -1,5 +1,3 @@
-///<reference path="../../../../../../typings/index.d.ts"/>
-
 interface LoadingSpinner {
     (): JQuery;
     (action: string): JQuery;

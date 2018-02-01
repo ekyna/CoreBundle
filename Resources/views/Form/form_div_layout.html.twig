@@ -151,7 +151,7 @@
 
 {% block form_widget_compound %}
 {% spaceless %}
-    {% if form.parent is same as(null) %}
+    {% if form.parent is empty %}
         {{ block('global_form_errors') }}
     {% else %}
     <div {{ block('widget_container_attributes') }}>
