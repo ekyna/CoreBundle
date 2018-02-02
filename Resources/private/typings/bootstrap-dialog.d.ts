@@ -11,6 +11,8 @@ interface BootstrapDialogButtonOptions {
     action?: Function
 }
 
+type BootstrapDialogEventCallback = (dialog:BootstrapDialog) => any;
+
 interface BootstrapDialog {
     /**
      * Opens the dialog.
@@ -107,6 +109,34 @@ interface BootstrapDialog {
      * @returns {BootstrapDialog}
      */
     realize():BootstrapDialog
+
+    /**
+     * Set handler for modal event 'show.bs.modal'.
+     * @param {BootstrapDialogEventCallback} callback
+     * @returns {BootstrapDialog}
+     */
+    onShow(callback: BootstrapDialogEventCallback):BootstrapDialog
+
+    /**
+     * Set handler for modal event 'shown.bs.modal'.
+     * @param {BootstrapDialogEventCallback} callback
+     * @returns {BootstrapDialog}
+     */
+    onShown(callback: BootstrapDialogEventCallback):BootstrapDialog
+
+    /**
+     * Set handler for modal event 'shown.bs.modal'.
+     * @param {BootstrapDialogEventCallback} callback
+     * @returns {BootstrapDialog}
+     */
+    onHide(callback: BootstrapDialogEventCallback):BootstrapDialog
+
+    /**
+     * Set handler for modal event 'hidden.bs.modal'.
+     * @param {BootstrapDialogEventCallback} callback
+     * @returns {BootstrapDialog}
+     */
+    onHidden(callback: BootstrapDialogEventCallback):BootstrapDialog
 }
 
 declare let BSD:BootstrapDialog;
