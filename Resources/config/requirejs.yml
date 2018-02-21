@@ -73,6 +73,7 @@ config:
         'tinycolor': 'bundles/ekynacore/lib/tinycolor'
         'select2': 'bundles/ekynacore/lib/select2'
         'aos': 'bundles/ekynacore/lib/aos'
+        'chart': 'bundles/ekynacore/lib/chart'
         'tinymce': 'bundles/ekynacore/lib/tinymce/tinymce.min'
         'tinymce_config':
             route: ekyna_core_tinymce_config

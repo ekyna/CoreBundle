@@ -212,7 +212,7 @@ ekyna_core:
     message:
         captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
-            Voir la <a href="http://fontawesome.io/icons/" target="_blank">liste complète des icônes</a>.
+            Voir la <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">liste complète des icônes</a>.
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?
         action_confirm: Confirmer l'action
         no_translations: Aucune traduction configurée

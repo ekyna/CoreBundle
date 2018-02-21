@@ -20,6 +20,9 @@ module.exports = function (grunt, options) {
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js'
                     ],
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/chart.js': [
+                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/chart.js'
+                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/cookie.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/cookie.js'
                     ],

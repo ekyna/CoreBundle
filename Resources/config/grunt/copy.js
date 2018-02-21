@@ -148,6 +148,10 @@ module.exports = function (grunt, options) {
                 {
                     src: 'bower_components/aos/dist/aos.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js' // tmp to minify
+                },
+                {
+                    src: 'bower_components/chart.js/dist/Chart.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/chart.js'
                 }
             ]
         },
