@@ -303,14 +303,12 @@ class Modal
     public function getConfig()
     {
         $classes = explode(' ', $this->cssClass);
-        if ($this->condensed && !in_array('condensed', $classes)) {
-            $classes[] = 'condensed';
-        }
 
         return [
-            'size'     => $this->size,
-            'type'     => $this->type,
-            'cssClass' => implode(' ', $classes),
+            'size'      => $this->size,
+            'type'      => $this->type,
+            'cssClass'  => implode(' ', $classes),
+            'condensed' => $this->condensed,
         ];
     }
 

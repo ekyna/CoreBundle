@@ -4,19 +4,6 @@
 define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
     "use strict";
 
-    function contentType(jqXHR) {
-        var type = 'html',
-            header = jqXHR.getResponseHeader('content-type');
-
-        if (/json/.test(header)) {
-            type = 'json';
-        } else if (/xml/.test(header)) {
-            type = 'xml';
-        }
-
-        return type;
-    }
-
     var EkynaModal = function() {
         this.dialog = new BootstrapDialog();
         this.form = null;
@@ -128,8 +115,22 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 });
             });
         },
+        getContentType: function(jqXHR) {
+            var type = 'html',
+                header = jqXHR.getResponseHeader('content-type');
+
+            if (/json/.test(header)) {
+                type = 'json';
+            } else if (/xml/.test(header)) {
+                type = 'xml';
+            }
+
+            return type;
+        },
         handleResponse: function(data, textStatus, jqXHR) {
-            var that = this, type = contentType(jqXHR), event;
+            var that = this,
+                type = this.getContentType(jqXHR),
+                event;
 
             if (that.form) {
                 that.form.destroy();
@@ -140,6 +141,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             event.modal = that;
             event.contentType = type;
             event.content = data;
+            event.jqXHR = jqXHR;
 
             $(that).trigger(event);
             if (event.isDefaultPrevented()) {
@@ -154,7 +156,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             // Content
             var $content = $xmlData.find('content');
-            if ($content.size() > 0) {
+            if ($content.length > 0) {
                 type = $content.attr('type');
                 event = $.Event('ekyna.modal.content');
                 event.modal = that;
@@ -201,25 +203,13 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             // Title
             var $title = $xmlData.find('title');
-            if ($title.size() > 0) {
+            if (1 === $title.length) {
                 that.dialog.setTitle($title.text());
-            }
-
-            // Type and Size
-            var config = JSON.parse($xmlData.find('config').text());
-            if (typeof config.type !== 'undefined') {
-                that.dialog.setType(config.type);
-            }
-            if (typeof config.size !== 'undefined') {
-                that.dialog.setSize(config.size);
-            }
-            if (typeof config.cssClass !== 'undefined') {
-                that.dialog.setCssClass(config.cssClass);
             }
 
             // Buttons
             var $buttons = $xmlData.find('buttons');
-            if ($buttons.size() > 0) {
+            if (1 === $buttons.length) {
                 var buttons = JSON.parse($buttons.text(), function (key, value) {
                     if (value && (typeof value === 'string') && value.indexOf("function") === 0) {
                         return new Function('return ' + value)();
@@ -253,9 +243,29 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 that.dialog.setButtons([]);
             }
 
+            // Type and Size
+            var config = JSON.parse($xmlData.find('config').text());
+            if (typeof config.type !== 'undefined') {
+                that.dialog.setType(config.type);
+            }
+            if (typeof config.size !== 'undefined') {
+                that.dialog.setSize(config.size);
+            }
+            if (typeof config.cssClass !== 'undefined') {
+                that.dialog.setCssClass(config.cssClass);
+            }
+
             // Handle open/shown dialog
             if (!that.dialog.isOpened()) {
                 that.dialog.open();
+            }
+
+            if (typeof config.condensed !== 'undefined') {
+                if (config.condensed) {
+                    that.dialog.getModal().addClass('condensed');
+                } else {
+                    that.dialog.getModal().removeClass('condensed');
+                }
             }
 
             return this;

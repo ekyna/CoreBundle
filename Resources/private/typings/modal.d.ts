@@ -2,7 +2,8 @@ declare module Ekyna {
     export interface Modal {
         new():Modal;
         load(settings:JQueryAjaxSettings): JQueryXHR
-        handleResponse(xmlData:string): Modal
+        getContentType(jqXHR:JQueryXHR): string
+        handleResponse(data:any, textStatus:string, jqXHR:JQueryXHR): Modal
         close():Modal
         getDialog(): BootstrapDialog
     }
@@ -11,6 +12,7 @@ declare module Ekyna {
         modal:Modal
         contentType:string
         content:any
+        jqXHR: JQueryXHR
     }
 }
 

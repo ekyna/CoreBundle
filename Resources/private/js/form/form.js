@@ -9,6 +9,7 @@ define(
 
     var EkynaForm = function ($elem, options) {
         this.$elem = $($elem);
+        this.$elem.data('form', this);
         this.options = options;
     };
 
@@ -28,7 +29,7 @@ define(
             var select2options = {
                 //selectOnClose: true // For tests
             };
-            if ($parent && $parent.size()) {
+            if ($parent && 1 === $parent.length) {
                 select2options.dropdownParent = $parent;
             }
             that.$elem.find('select.select2').select2(select2options);
@@ -47,7 +48,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if (0 < $target.size()) {
+                if (0 < $target.length) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             plugin.init($target);
@@ -70,7 +71,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if (0 < $target.size()) {
+                if (0 < $target.length) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             if (plugin.hasOwnProperty('destroy')) {
@@ -88,7 +89,7 @@ define(
                 if (!$target.is(selector)) {
                     $target = that.$elem.find(selector);
                 }
-                if (0 < $target.size()) {
+                if (0 < $target.length) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
                             if (plugin.hasOwnProperty('save')) {
@@ -108,7 +109,7 @@ define(
      */
     $(".form-with-tabs input, .form-with-tabs textarea, .form-with-tabs select").on('invalid', function(event) {
         var $tabs = $(event.target).eq(0).parents('.tab-pane');
-        if ($tabs.size()) {
+        if ($tabs.length) {
             showTabs($tabs);
             return;
         }
@@ -116,14 +117,14 @@ define(
     });
 
     var $errorFields = $('form .has-error');
-    if ($errorFields.size()) {
+    if ($errorFields.length) {
         showTabs($errorFields.eq(0).parents('.tab-pane'));
     }
 
     function showTabs($tabs) {
         $tabs.each(function() {
             var $a = $('a[href="#' + $(this).attr('id') + '"]');
-            if ($a.size() === 1) {
+            if ($a.length === 1) {
                 $a.tab('show');
             }
         });
