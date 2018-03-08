@@ -9,7 +9,6 @@ define(
 
     var EkynaForm = function ($elem, options) {
         this.$elem = $($elem);
-        this.$elem.data('form', this);
         this.options = options;
     };
 
@@ -20,10 +19,9 @@ define(
         },
         init: function($parent) {
             //console.log('Form.init()', this.$elem, $parent);
-            var that = this;
 
             /* Textarea autosize */
-            autosize(that.$elem.find('textarea').not('.tinymce'));
+            autosize(this.$elem.find('textarea').not('.tinymce'));
 
             /* Select2 */
             var select2options = {
@@ -32,7 +30,7 @@ define(
             if ($parent && 1 === $parent.length) {
                 select2options.dropdownParent = $parent;
             }
-            that.$elem.find('select.select2').select2(select2options);
+            this.$elem.find('select.select2').select2(select2options);
 
             /* Submit buttons */
             /*that.$elem.find('button[type="submit"]').on('click', function(e) {
@@ -43,6 +41,7 @@ define(
             });*/
 
             /* Plugins */
+            var that = this;
             $.each(plugins, function (selector, paths) {
                 var $target = that.$elem;
                 if (!$target.is(selector)) {
@@ -56,16 +55,18 @@ define(
                     });
                 }
             });
+
+            this.$elem.data('form', this);
         },
         destroy: function() {
-            var that = this;
 
             /* Destroy textarea autosize */
-            autosize.destroy(that.$elem.find('textarea').not('.tinymce'));
+            autosize.destroy(this.$elem.find('textarea').not('.tinymce'));
 
             /* Destroy select2 */
-            that.$elem.find('select.select2').select2('destroy');
+            this.$elem.find('select.select2').select2('destroy');
 
+            var that = this;
             $.each(plugins, function (selector, paths) {
                 var $target = that.$elem;
                 if (!$target.is(selector)) {

@@ -1,27 +1,28 @@
-/**
- * TODO move to https://github.com/makeusabrew/bootbox ?
- */
 define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
     "use strict";
+
+    var triggerSelector = 'button[data-modal], a[data-modal], [data-modal] > a';
 
     var EkynaModal = function() {
         this.dialog = new BootstrapDialog();
         this.form = null;
         this.shown = false;
 
+        var that = this,
+            $that = $(this);
 
-        var that = this;
         // Handle shown dialog
-        that.dialog.onShow(function () {
+        this.dialog.onShow(function () {
             var event = $.Event('ekyna.modal.show');
             event.modal = that;
-            $(that).trigger(event);
+            $that.trigger(event);
 
             // Auto modal buttons and links
             that.dialog
                 .getModalBody()
-                .on('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
+                .on('click', triggerSelector, function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
 
                     that.load({url: $(e.currentTarget).attr('href')});
 
@@ -30,21 +31,21 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
         });
 
         // Handle shown dialog
-        that.dialog.onShown(function () {
+        this.dialog.onShown(function () {
             that.shown = true;
 
             var event = $.Event('ekyna.modal.shown');
             event.modal = that;
-            $(that).trigger(event);
+            $that.trigger(event);
         });
 
         // Handle hide dialog
-        that.dialog.onHide(function () {
+        this.dialog.onHide(function () {
             that.shown = false;
 
             var event = $.Event('ekyna.modal.hide');
             event.modal = that;
-            $(that).trigger(event);
+            $that.trigger(event);
             if (event.isDefaultPrevented()) {
                 return false;
             }
@@ -56,10 +57,10 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
         });
 
         // Handle hide dialog
-        that.dialog.onHidden(function () {
+        this.dialog.onHidden(function () {
             var event = $.Event('ekyna.modal.hidden');
             event.modal = that;
-            $(that).trigger(event);
+            $that.trigger(event);
         });
     };
 
@@ -71,8 +72,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             var that = this,
                 xhr = $.ajax(params);
 
-            xhr.done(function(data, textStatus, jqXHR) {
-                that.handleResponse(data, textStatus, jqXHR);
+            xhr.done(function(data, status, jqXHR) {
+                that.handleResponse(data, status, jqXHR);
             });
 
             xhr.fail(function() {
@@ -87,7 +88,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             var that = this;
 
             // @see https://github.com/select2/select2/issues/600
-            $(that.dialog.getModal()).removeAttr('tabindex');
+            $(this.dialog.getModal()).removeAttr('tabindex');
 
             require(['ekyna-form'], function (Form) {
                 that.form = Form.create($form);
@@ -105,8 +106,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     that.form.save();
                     setTimeout(function () {
                         that.form.getElement().ajaxSubmit({
-                            success: function (data, textStatus, jqXHR) {
-                                that.handleResponse(data, textStatus, jqXHR);
+                            success: function (data, status, jqXHR) {
+                                that.handleResponse(data, status, jqXHR);
                             }
                         });
                     }, 100);
@@ -127,25 +128,26 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             return type;
         },
-        handleResponse: function(data, textStatus, jqXHR) {
+        handleResponse: function(data, status, jqXHR) {
             var that = this,
+                $that = $(this),
                 type = this.getContentType(jqXHR),
                 event;
 
-            if (that.form) {
-                that.form.destroy();
-                that.form = null;
+            if (this.form) {
+                this.form.destroy();
+                this.form = null;
             }
 
             event = $.Event('ekyna.modal.response');
-            event.modal = that;
+            event.modal = this;
             event.contentType = type;
             event.content = data;
             event.jqXHR = jqXHR;
 
-            $(that).trigger(event);
+            $that.trigger(event);
             if (event.isDefaultPrevented()) {
-                return that;
+                return this;
             }
 
             if (type !== 'xml') {
@@ -159,7 +161,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             if ($content.length > 0) {
                 type = $content.attr('type');
                 event = $.Event('ekyna.modal.content');
-                event.modal = that;
+                event.modal = this;
                 event.contentType = type;
 
                 var content = $content.text();
@@ -167,19 +169,42 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 // Data content type
                 if (type === 'data') {
                     event.content = JSON.parse(content);
-                    $(that).trigger(event);
-                    return that.close();
+                    $that.trigger(event);
+
+                    if (event.isDefaultPrevented()) {
+                        return this;
+                    }
+
+                    // Load url
+                    if (event.content.load_url) {
+                        this.load({
+                            url: event.content.load_url,
+                            method: 'GET'
+                        });
+
+                        return this;
+                    }
+
+                    // Redirect url
+                    if (event.content.redirect_url) {
+                        window.location.href = event.content.redirect_url;
+
+                        return this;
+                    }
+
+                    // (default) Close modal
+                    return this.close();
                 }
 
                 // Html content type
                 var $html = $(content);
                 event.content = $html;
-                $(that).trigger(event);
+                $that.trigger(event);
                 if (event.isDefaultPrevented()) {
-                    return that.close();
+                    return this.close();
                 }
 
-                that.dialog.setMessage($html);
+                this.dialog.setMessage($html);
 
                 // Form content type
                 if (type === 'form') {
@@ -189,7 +214,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                             if (that.shown) {
                                 that.initForm($form);
                             } else {
-                                $(that).one('ekyna.modal.shown', function() {
+                                $that.one('ekyna.modal.shown', function() {
                                     that.initForm($form);
                                 });
                             }
@@ -204,7 +229,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             // Title
             var $title = $xmlData.find('title');
             if (1 === $title.length) {
-                that.dialog.setTitle($title.text());
+                this.dialog.setTitle($title.text());
             }
 
             // Buttons
@@ -229,7 +254,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                                 var event = $.Event('ekyna.modal.button_click');
                                 event.modal = that;
                                 event.buttonId = button.id;
-                                $(that).trigger(event);
+                                $that.trigger(event);
 
                                 if (that.form && button.id === 'submit' && !event.isDefaultPrevented()) {
                                     that.form.getElement().submit();
@@ -238,33 +263,33 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                         }
                     }
                 });
-                that.dialog.setButtons(buttons);
+                this.dialog.setButtons(buttons);
             } else {
-                that.dialog.setButtons([]);
+                this.dialog.setButtons([]);
             }
 
             // Type and Size
             var config = JSON.parse($xmlData.find('config').text());
             if (typeof config.type !== 'undefined') {
-                that.dialog.setType(config.type);
+                this.dialog.setType(config.type);
             }
             if (typeof config.size !== 'undefined') {
-                that.dialog.setSize(config.size);
+                this.dialog.setSize(config.size);
             }
             if (typeof config.cssClass !== 'undefined') {
-                that.dialog.setCssClass(config.cssClass);
+                this.dialog.setCssClass(config.cssClass);
             }
 
             // Handle open/shown dialog
-            if (!that.dialog.isOpened()) {
-                that.dialog.open();
+            if (!this.dialog.isOpened()) {
+                this.dialog.open();
             }
 
             if (typeof config.condensed !== 'undefined') {
                 if (config.condensed) {
-                    that.dialog.getModal().addClass('condensed');
+                    this.dialog.getModal().addClass('condensed');
                 } else {
-                    that.dialog.getModal().removeClass('condensed');
+                    this.dialog.getModal().removeClass('condensed');
                 }
             }
 
@@ -282,7 +307,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
     };
 
     // Auto modal buttons and links
-    $(document).on('click', 'button[data-modal], a[data-modal], [data-modal] > a', function(e) {
+    $(document).on('click', triggerSelector, function(e) {
         e.preventDefault();
 
         var modal = new EkynaModal();
