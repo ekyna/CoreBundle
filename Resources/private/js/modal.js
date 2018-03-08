@@ -139,6 +139,27 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 this.form = null;
             }
 
+            function redirectOrReload(data) {
+                // Load url
+                if (data.hasOwnProperty('load_url') && data.load_url) {
+                    that.load({
+                        url: data.load_url,
+                        method: 'GET'
+                    });
+
+                    return true;
+                }
+
+                // Redirect url
+                if (data.hasOwnProperty('redirect_url') && data.redirect_url) {
+                    window.location.href = data.redirect_url;
+
+                    return true;
+                }
+
+                return false;
+            }
+
             event = $.Event('ekyna.modal.response');
             event.modal = this;
             event.contentType = type;
@@ -146,7 +167,13 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             event.jqXHR = jqXHR;
 
             $that.trigger(event);
+
             if (event.isDefaultPrevented()) {
+                return this;
+            }
+
+            // Redirect or reload
+            if (type === 'json' && redirectOrReload(event.content)) {
                 return this;
             }
 
@@ -175,20 +202,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                         return this;
                     }
 
-                    // Load url
-                    if (event.content.load_url) {
-                        this.load({
-                            url: event.content.load_url,
-                            method: 'GET'
-                        });
-
-                        return this;
-                    }
-
-                    // Redirect url
-                    if (event.content.redirect_url) {
-                        window.location.href = event.content.redirect_url;
-
+                    // Redirect or reload
+                    if (redirectOrReload(event.content)) {
                         return this;
                     }
 
