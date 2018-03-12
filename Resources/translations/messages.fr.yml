@@ -209,6 +209,9 @@ ekyna_core:
         animation: Animation
         search: Rechercher
         visible: Visible
+        height: Hauteur
+        width: Largeur
+        depth: Profondeur
     message:
         captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
