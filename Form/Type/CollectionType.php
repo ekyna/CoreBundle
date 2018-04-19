@@ -6,6 +6,7 @@ use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -20,6 +21,14 @@ class CollectionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $allowNormalizer = function(Options $options, $value) {
+            if ($options['disabled']) {
+                return false;
+            }
+
+            return $value;
+        };
+
         $resolver
             ->setDefaults([
                 'error_bubbling'        => false,
@@ -34,7 +43,10 @@ class CollectionType extends AbstractType
                 'button_col'            => 1,
             ])
             ->setAllowedTypes('allow_sort', 'bool')
-            ->setAllowedTypes('delete_button_confirm', ['null', 'string']);
+            ->setAllowedTypes('delete_button_confirm', ['null', 'string'])
+            ->setNormalizer('allow_add', $allowNormalizer)
+            ->setNormalizer('allow_delete', $allowNormalizer)
+            ->setNormalizer('allow_sort', $allowNormalizer);
     }
 
     /**

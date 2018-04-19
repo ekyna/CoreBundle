@@ -23,11 +23,11 @@ class FormUtil
     {
         $attributes = $view->vars['attr'];
 
-        $classes = isset($attributes['class']) ? $attributes['class'] : '';
-        if (false === strpos($classes, $class)) {
-            $classes = trim($classes . ' ' . $class);
+        $classes = isset($attributes['class']) ? explode(' ', $attributes['class']) : [];
+        if (!in_array($class, $classes, true)) {
+            $classes[] = $class;
         }
-        $attributes['class'] = $classes;
+        $attributes['class'] = implode(' ', $classes);
 
         $view->vars['attr'] = $attributes;
     }

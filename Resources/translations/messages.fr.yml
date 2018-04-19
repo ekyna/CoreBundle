@@ -62,6 +62,7 @@ ekyna_core:
         move_down: Descendre
         cancel: Annuler
         save: Enregistrer
+        search: Rechercher
         save_and_list: Enregistrer <small>et retour à la liste</small>
         execute: Exécuter
         apply: Appliquer

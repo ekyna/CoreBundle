@@ -51,11 +51,6 @@
                  class="Ekyna\Bundle\CoreBundle\Form\Type\CaptchaType">
             <tag name="form.type"/>
         </service>
-        <service id="ekyna_core.address.form_type"
-                 class="Ekyna\Bundle\CoreBundle\Form\Type\AddressType">
-            <argument type="service" id="request_stack"/>
-            <tag name="form.type"/>
-        </service>
         <service id="ekyna_core.upload.form_type"
                  class="Ekyna\Bundle\CoreBundle\Form\Type\UploadType">
             <tag name="form.type"/>
