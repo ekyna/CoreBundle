@@ -50,6 +50,7 @@ define(
                 if (0 < $target.length) {
                     $.each(paths, function(i, path) {
                         require([path], function (plugin) {
+                            //console.log('Form.plugin.init', path, $target);
                             plugin.init($target);
                         });
                     });
@@ -59,7 +60,6 @@ define(
             this.$elem.data('form', this);
         },
         destroy: function() {
-
             /* Destroy textarea autosize */
             autosize.destroy(this.$elem.find('textarea').not('.tinymce'));
 
