@@ -13,10 +13,11 @@
     margin-bottom: 10px;
 }
 
-.form-body.form-body-unstylled {
+.form-body.borderless {
     border: none;
     padding: 0;
 }
+
 .form-body label.control-label {
     text-overflow: ellipsis;
     white-space: nowrap;
