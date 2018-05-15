@@ -387,7 +387,25 @@
 
 {% block captcha_widget %}
 {% spaceless %}
-    <img src="{{ captcha_code }}" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}" style="display:inline-block;margin-right:20px;" />
-    {{ form_widget(form, {'attr': {'style': 'max-width:' ~ captcha_width ~ 'px;display:inline-block;'}}) }}
+    {% if is_human %}
+        -
+    {% else %}
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" style="padding:0 0 0 6px">
+                <img id="{{ image_id }}" src="{{ captcha_code }}" alt="" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}">
+            </span>
+            {{ form_widget(form) }}
+            {% if reload -%}
+                <span class="input-group-btn">
+                <a class="btn btn-default" href="javascript:reload_{{ image_id }}();">
+                    <i class="fa fa-refresh"></i>
+                </a>
+            </span>
+            {%- endif %}
+        </div>
+        {% if reload -%}
+        <script type="text/javascript">function reload_{{ image_id }}() { var img = document.getElementById('{{ image_id }}'); img.src = '{{ captcha_code }}?n=' + (new Date()).getTime();}</script>
+        {%- endif %}
+    {% endif %}
 {% endspaceless %}
 {% endblock captcha_widget %}
