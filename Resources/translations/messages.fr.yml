@@ -24,6 +24,7 @@ ekyna_core:
         validate: Valider
         complete: Compléter
         confirm: Confirmer
+        display: Afficher
         play: Démarrer
         pause: Pause
         resume: Reprendre
