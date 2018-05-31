@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -26,7 +27,7 @@ class EntitySearchType extends AbstractType
     private $registry;
 
     /**
-     * @var SerializerInterface
+     * @var SerializerInterface|NormalizerInterface
      */
     private $serializer;
 
@@ -65,7 +66,9 @@ class EntitySearchType extends AbstractType
             $transformer = new ObjectToIdentifierTransformer($repository);
             $value = $transformer->transform($entity);
 
-            $choices[] = new ChoiceView($entity, $value, (string)$entity);
+            $choices[] = new ChoiceView($entity, $value, (string)$entity, [
+                'data-entity' => $this->serializer->normalize($entity, 'json', ['groups' => ['Search']])
+            ]);
         }
 
         $view->vars['value'] = $value;

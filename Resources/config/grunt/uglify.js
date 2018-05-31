@@ -14,6 +14,9 @@ module.exports = function (grunt, options) {
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/form.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js'
                     ],
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/intl.js': [
+                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/intl/intl.js'
+                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/fileupload.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js'
                     ],

@@ -22,6 +22,17 @@ class UtilsExtension extends \Twig_Extension
             new \Twig_SimpleFilter('pluralize', [$this, 'pluralize']),
             new \Twig_SimpleFilter('base64_inline_file', [$this, 'base64InlineFile']),
             new \Twig_SimpleFilter('base64_inline_data', [$this, 'base64InlineData']),
+            new \Twig_SimpleFilter('unset', [$this, 'unset']),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFunctions()
+    {
+        return [
+            new \Twig_SimpleFunction('unset', [$this, 'unset']),
         ];
     }
 
@@ -73,8 +84,8 @@ class UtilsExtension extends \Twig_Extension
      * Encodes and inlines the given binary data.
      *
      * @param string|resource $data
-     * @param string $mimeType
-     * @param array  $parameters
+     * @param string          $mimeType
+     * @param array           $parameters
      *
      * @return string
      */
@@ -93,10 +104,13 @@ class UtilsExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
+     * Unsets the gieven array's key.
+     *
+     * @param array  $array
+     * @param string $key
      */
-    public function getName()
+    public function unset(array $array, $key)
     {
-        return 'ekyna_core_utils';
+        unset($array[$key]);
     }
 }

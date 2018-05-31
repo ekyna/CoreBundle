@@ -38,7 +38,7 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js' // tmp to minify
                 },
                 {
-                    src: 'bower_components/js-cookie/src/js.cookie.js',
+                    src: 'node_modules/js-cookie/src/js.cookie.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/cookie.js' // tmp to minify
                 },
                 {
@@ -95,6 +95,12 @@ module.exports = function (grunt, options) {
                     }
                 },
                 // Others
+                {
+                    expand: true,
+                    cwd: 'node_modules/intl/locale-data/jsonp',
+                    src: ['en.js', 'fr.js', 'de.js', 'es.js', 'pt.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/locales'
+                },
                 {
                     src: 'bower_components/twigjs-bower/twig/twig.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js'
@@ -155,30 +161,33 @@ module.exports = function (grunt, options) {
                 }
             ]
         },
-        core_libs_fix: {
-            files: [
-                {
-                    src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js' // tmp to minify
-                },
-                {
-                    src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js'
-                }
-            ],
+        core_intl: {
+            src: 'node_modules/intl/lib/core.js',
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/intl/intl.js', // tmp to minify
             options: {
-                process: function (content, srcpath) {
-                    // Bootstrap Dialog
-                    if (/bootstrap-dialog/.test(srcpath)) {
-                        content = content.replace('"bootstrap-dialog",', '');
-                    }
-                    // jQuery FileUpload
-                    if (/jquery\.fileupload/.test(srcpath)) {
-                        content = content.replace(/jquery-ui\/ui\/widget/g, 'jquery-ui/widget');
-                        //content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
-                    }
-
-                    return content;
+                process: function (content) {
+                    return "define([], function () {\n" +
+                        content.replace('module.exports = Intl;', 'window.Intl = Intl;') +
+                    "\nreturn Intl;\n});";
+                }
+            }
+        },
+        core_bootstrap: {
+            src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js',
+            options: {
+                process: function (content) {
+                    return content.replace('"bootstrap-dialog",', '');
+                }
+            }
+        },
+        core_fileupload: {
+            src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js', // tmp to minify
+            options: {
+                process: function (content) {
+                    return content.replace(/jquery-ui\/ui\/widget/g, 'jquery-ui/widget');
+                    //content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
                 }
             }
         },

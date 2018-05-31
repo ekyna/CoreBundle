@@ -2,7 +2,9 @@ module.exports = {
     'copy:core': [
         'copy:core_fonts',
         'copy:core_libs',
-        'copy:core_libs_fix',
+        'copy:core_intl',
+        'copy:core_fileupload',
+        'copy:core_bootstrap',
         'copy:core_files'
     ],
     'cssmin:core': [

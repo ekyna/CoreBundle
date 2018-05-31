@@ -1,131 +1,137 @@
 config:
     packages:
         -
-            name: 'ekyna-form'
-            location: 'bundles/ekynacore/js/form'
-            main: 'form'
+            name: ekyna-form
+            location: bundles/ekynacore/js/form
+            main: form
         -
-            name: 'jquery'
-            location: 'bundles/ekynacore/lib/jquery'
-            main: 'jquery'
+            name: jquery
+            location: bundles/ekynacore/lib/jquery
+            main: jquery
         -
-            name: 'jquery-ui'
-            location: 'bundles/ekynacore/lib/jquery-ui'
-            main: 'core'
+            name: jquery-ui
+            location: bundles/ekynacore/lib/jquery-ui
+            main: core
         -
-            name: 'bootstrap'
-            location: 'bundles/ekynacore/lib/bootstrap'
-            main: 'bootstrap'
+            name: bootstrap
+            location: bundles/ekynacore/lib/bootstrap
+            main: bootstrap
         -
-            name: 'gsap'
-            location: 'bundles/ekynacore/lib/gsap'
-            main: 'TweenLite'
+            name: intl
+            location: bundles/ekynacore/lib/intl
+            main: intl
+        -
+            name: gsap
+            location: bundles/ekynacore/lib/gsap
+            main: TweenLite
     shim:
+        intl/intl:
+            exports: IntlPolyfill
         underscore:
-            exports: '_'
+            exports: _
         backbone:
             deps: ['underscore', 'jquery']
-            exports: 'Backbone'
-        'js-cookie':
-            exports: 'Cookies'
-        'es6-promise':
-            exports: 'Promise'
-        'jquery-ui':
+            exports: Backbone
+        js-cookie:
+            exports: Cookies
+        es6-promise:
+            exports: Promise
+        jquery-ui:
             deps: ['jquery']
-        'jquery/qtip':
+        jquery/qtip:
             deps: ['jquery']
-        'jquery/match-height':
+        jquery/match-height:
             deps: ['jquery']
-        'twig':
-            exports: 'Twig'
-        'routing':
-            exports: 'Routing'
-        'bootstrap/bootstrap':
+        twig:
+            exports: Twig
+        routing:
+            exports: Routing
+        bootstrap/bootstrap:
             deps: ['jquery']
-        'bootstrap/dialog':
+        bootstrap/dialog:
             deps: ['jquery', 'bootstrap']
             exports: 'BootstrapDialog'
-        'bootstrap/colorpicker':
+        bootstrap/colorpicker:
             deps: ['jquery', 'bootstrap']
-        'bootstrap/hover-dropdown':
+        bootstrap/hover-dropdown:
             deps: ['jquery']
-        'autosize':
+        autosize:
             deps: ['jquery']
-        'select2':
+        select2:
             deps: ['jquery']
-        'ekyna-modal':
+        ekyna-modal:
             deps: ['require', 'jquery', 'bootstrap/dialog']
-        'ekyna-dispatcher':
+        ekyna-dispatcher:
             deps: ['backbone']
-        'gsap/TimelineLite':
+        gsap/TimelineLite:
             deps: ['plugins.CSSPlugin', 'easing.Ease']
-        'gsap/TimelineMax':
+        gsap/TimelineMax:
             deps: ['plugins.CSSPlugin', 'easing.Ease']
     paths:
-        underscore: 'bundles/ekynacore/lib/underscore'
-        backbone: 'bundles/ekynacore/lib/backbone'
-        validator: 'bundles/ekynacore/lib/validator'
-        'js-cookie': 'bundles/ekynacore/lib/cookie'
-        'es6-promise': 'bundles/ekynacore/lib/es6-promise'
-        'twig': 'bundles/ekynacore/lib/twig'
-        'autosize': 'bundles/ekynacore/lib/autosize'
-        'moment': 'bundles/ekynacore/lib/moment'
-        'tinycolor': 'bundles/ekynacore/lib/tinycolor'
-        'select2': 'bundles/ekynacore/lib/select2'
-        'aos': 'bundles/ekynacore/lib/aos'
-        'chart': 'bundles/ekynacore/lib/chart'
-        'tinymce': 'bundles/ekynacore/lib/tinymce/tinymce.min'
-        'tinymce_config':
+        underscore: bundles/ekynacore/lib/underscore
+        backbone: bundles/ekynacore/lib/backbone
+        validator: bundles/ekynacore/lib/validator
+        js-cookie: bundles/ekynacore/lib/cookie
+        es6-promise: bundles/ekynacore/lib/es6-promise
+        twig: bundles/ekynacore/lib/twig
+        autosize: bundles/ekynacore/lib/autosize
+        moment: bundles/ekynacore/lib/moment
+        tinycolor: bundles/ekynacore/lib/tinycolor
+        select2: bundles/ekynacore/lib/select2
+        aos: bundles/ekynacore/lib/aos
+        chart: bundles/ekynacore/lib/chart
+        tinymce: bundles/ekynacore/lib/tinymce/tinymce.min
+        tinymce_config:
             route: ekyna_core_tinymce_config
             params: []
-        'routing': 'bundles/fosjsrouting/js/router'
-        'routing_data':
+        routing: bundles/fosjsrouting/js/router
+        routing_data:
             route: fos_js_routing_js
             params:
                 _format: json
-        'ekyna-string': 'bundles/ekynacore/js/string'
-        'ekyna-number': 'bundles/ekynacore/js/number'
-        'ekyna-routing': 'bundles/ekynacore/js/router'
-        'ekyna-modal': 'bundles/ekynacore/js/modal'
-        'ekyna-ui': 'bundles/ekynacore/js/ui'
-        'ekyna-dispatcher': 'bundles/ekynacore/js/dispatcher'
-        'ekyna-form/plugins':
+        ekyna-string: bundles/ekynacore/js/string
+        ekyna-number: bundles/ekynacore/js/number
+        ekyna-routing: bundles/ekynacore/js/router
+        ekyna-modal: bundles/ekynacore/js/modal
+        ekyna-ui: bundles/ekynacore/js/ui
+        ekyna-dispatcher: bundles/ekynacore/js/dispatcher
+        ekyna-form/plugins:
             route: ekyna_core_form_plugins
             params: []
     map:
         '*':
-            'routing': 'ekyna-routing'
-            'TimelineLite': 'gsap/TimelineLite'
-            'TimelineMax': 'gsap/TimelineMax'
-            'TweenLite': 'gsap/TweenLite'
-            'TweenMax': 'gsap/TweenMax'
-            'plugins.CSSPlugin': 'gsap/plugins/CSSPlugin'
-            'easing.Ease': 'gsap/easing/EasePack'
-        'ekyna-routing':
-            'routing': 'routing'
+            routing: ekyna-routing
+            TimelineLite: gsap/TimelineLite
+            TimelineMax: gsap/TimelineMax
+            TweenLite: gsap/TweenLite
+            TweenMax: gsap/TweenMax
+            plugins.CSSPlugin: gsap/plugins/CSSPlugin
+            easing.Ease: gsap/easing/EasePack
+        ekyna-routing:
+            routing: routing
 build:
     include:
-        - 'validator'
-        - 'js-cookie'
-        - 'es6-promise'
-        - 'autosize'
-        - 'jquery'
-#        - 'jquery-ui'
-#        - 'twig'
-        - 'routing'
-#        - 'bootstrap'
-#        - 'bootstrap/hover-dropdown'
-#        - 'bootstrap/dialog'
-#        - 'jquery/form'
-#        - 'select2'
-        - 'ekyna-string'
-        - 'ekyna-number'
-        - 'ekyna-routing'
-#        - 'ekyna-modal'
-        - 'ekyna-dispatcher'
-#        - 'ekyna-form/form'
-        - 'ekyna-ui'
+        - validator
+        - js-cookie
+        - es6-promise
+        - autosize
+        - jquery
+#        - jquery-ui
+#        - twig
+        - routing
+#        - bootstrap
+#        - bootstrap/hover-dropdown
+#        - bootstrap/dialog
+#        - jquery/form
+#        - select2
+        - ekyna-string
+        - ekyna-number
+        - ekyna-routing
+#        - ekyna-modal
+        - ekyna-dispatcher
+#        - ekyna-form/form
+        - ekyna-ui
     paths:
-        'routing_data': 'empty:'
-        'tinymce_config': 'empty:'
-        'ekyna-form/plugins': 'empty:'
+        routing_data: 'empty:'
+        tinymce_config: 'empty:'
+        ekyna-form/plugins: 'empty:'
