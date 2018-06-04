@@ -116,21 +116,21 @@
 
 	// Escape regex special caracters/
 	_str.prototype.escapeRegExp = function() {
-	    if (this.length == 0) return this;
+	    if (this.length === 0) return this;
 	    return this.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
 	};
 
 	// Titleize
 	_str.prototype.titleize = function() {
-		if (this.length == 0) return this;
+		if (this.length === 0) return this;
 		return this.toLowerCase().replace(/(?:^|\s|-)\S/g, function(c){ return c.toUpperCase(); });
 	};
 
 	// Capitalize
 	_str.prototype.capitalize = function() {
-		if (this.length == 0) return this;
+		if (this.length === 0) return this;
 	    return this.charAt(0).toUpperCase() + this.slice(1);
-	},
+	};
 
 	// Camelize
 	_str.prototype.camelize = function() {
@@ -168,7 +168,7 @@
 	// Extract file extension
 	_str.prototype.fileExtension = function () {
 		var a = this.split('.');
-		if (a.length == 1 || (a[0] = '' && a.length == 2)) {
+		if (a.length === 1 || (a[0] = '' && a.length === 2)) {
 			return '';
 		}
 		return a.pop().toLowerCase();
