@@ -205,6 +205,14 @@
             <argument type="service" id="translator"/>
         </service>
 
+        <!-- Swift mailer IMAP copy plugin -->
+        <service id="ekyna_core.swiftmailer.imap_copy_plugin"
+                 class="Ekyna\Bundle\CoreBundle\Service\SwiftMailer\ImapCopyPlugin">
+            <argument type="service" id="logger"/>
+            <argument type="collection"/> <!-- Replaced by DI extension -->
+            <!-- (tag) Added by DI extension -->
+        </service>
+
     </services>
 
 </container>

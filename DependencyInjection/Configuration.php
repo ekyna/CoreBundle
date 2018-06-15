@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->getUiNode())
                 ->append($this->getRouterNode())
                 ->append($this->getCacheNode())
-                //->append($this->getTinymceNode())
+                ->append($this->getSwiftMailerNode())
             ->end()
         ;
 
@@ -65,7 +65,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('routers_by_id')
                     ->useAttributeAsKey('id')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                     ->defaultValue(['router.default' => 1024])
                 ->end()
             ->end()
@@ -103,23 +103,23 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('contents')
                             ->treatNullLike([])
                             ->defaultValue(['bundles/ekynacore/css/content.css'])  // TODO Remove value and file
-                            ->prototype('scalar')->cannotBeEmpty()->end()
+                            ->scalarPrototype()->cannotBeEmpty()->end()
                         ->end()
                         ->arrayNode('forms')
                             ->treatNullLike([])
                             ->defaultValue([])
-                            ->prototype('scalar')->cannotBeEmpty()->end()
+                            ->scalarPrototype()->cannotBeEmpty()->end()
                         ->end()
                         ->arrayNode('fonts')
                             ->treatNullLike([])
                             ->defaultValue([])
-                            ->prototype('scalar')->cannotBeEmpty()->end()
+                            ->scalarPrototype()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                 ->end()
                 ->arrayNode('colors')
                     ->useAttributeAsKey('name')
-                    ->prototype('scalar')
+                    ->scalarPrototype()
                         ->cannotBeEmpty()
                         ->validate()
                             ->ifTrue(function($value) {
@@ -135,81 +135,36 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    private function getTinymceNode()
+    private function getSwiftMailerNode()
     {
         $builder = new TreeBuilder();
-        $node = $builder->root('tinymce');
+        $node = $builder->root('swiftmailer');
 
         $node
             ->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('theme')
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->useAttributeAsKey('name')
-                        ->prototype('variable')->end()
-                    ->end()
-                    // Add default theme if it doesn't set
-                    ->defaultValue($this->getTinymceDefaultThemes())
-                ->end()
-                // Configure custom TinyMCE buttons
-                ->arrayNode('tinymce_buttons')
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->addDefaultsIfNotSet()
-                        ->children()
-                            ->scalarNode('text')->defaultNull()->end()
-                            ->scalarNode('title')->defaultNull()->end()
-                            ->scalarNode('image')->defaultNull()->end()
-                            ->scalarNode('icon')->defaultNull()->end()
+                ->arrayNode('imap_copy')
+                    ->canBeDisabled()
+                    ->children()
+                        ->scalarNode('mailbox')
+                            ->info('Like "{imap.example.org:993/imap/ssl}/INBOX.Sent", see imap_open() function.')
+                            ->cannotBeEmpty()
                         ->end()
-                    ->end()
-                ->end()
-                // Configure external TinyMCE plugins
-                ->arrayNode('external_plugins')
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->addDefaultsIfNotSet()
-                        ->children()
-                            ->scalarNode('url')->isRequired()->end()
+                        ->scalarNode('user')
+                            ->cannotBeEmpty()
                         ->end()
+                        ->scalarNode('password')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('folder')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->booleanNode('enabled')->end()
                     ->end()
                 ->end()
             ->end()
         ;
 
         return $node;
-    }
-
-    /**
-     * Get default configuration of the each instance of editor
-     *
-     * @return array
-     */
-    private function getTinymceDefaultThemes()
-    {
-        return [
-            'advanced' => [
-                "theme"        => "modern",
-                "plugins"      => [
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime media nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor",
-                ],
-                "toolbar1"     => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify " .
-                    "| bullist numlist outdent indent | link image",
-                "toolbar2"     => "print preview media | forecolor backcolor emoticons",
-                "image_advtab" => true,
-            ],
-            'simple'   => [
-                "theme"        => "modern",
-                "plugins"      => [
-                    "autolink link searchreplace wordcount visualblocks ",
-                    "visualchars code fullscreen nonbreaking paste",
-                ],
-                "toolbar1"     => "undo redo | styleselect | bold italic | link",
-            ],
-        ];
     }
 }

@@ -35,6 +35,7 @@ class EkynaCoreExtension extends Extension
 
         $container->setParameter('ekyna_core.config.ui', $config['ui']);
         $container->setParameter('ekyna_core.config.cache', $config['cache']);
+        $container->setParameter('ekyna_core.config.cache', $config['cache']);
 
         $bundles = $container->getParameter('kernel.bundles');
         $tinymceCfgBuilder = new TinymceConfigBuilder($container->getParameter('kernel.environment') == 'dev');
@@ -42,6 +43,14 @@ class EkynaCoreExtension extends Extension
 
         $container->setParameter('ekyna_core.config.tinymce', $tinymceConfig);
         $container->setParameter('ekyna_core.config.tinymce_themes', array_keys($tinymceConfig['theme']));
+
+        if (!empty($imapCopy = $config['swiftmailer']['imap_copy'])) {
+            $container
+                ->getDefinition('ekyna_core.swiftmailer.imap_copy_plugin')
+                ->setArgument(1, $imapCopy)
+                ->addTag('swiftmailer.default.plugin')
+                ->addTag('kernel.event_subscriber');
+        }
     }
 
     /**
