@@ -135,7 +135,7 @@ module.exports = function (grunt, options) {
                 },
                 {
                     expand: true,
-                    cwd: 'bower_components/tinymce',
+                    cwd: 'node_modules/tinymce',
                     src: [
                         'plugins/**/*.min.js',
                         'plugins/**/*.css',
