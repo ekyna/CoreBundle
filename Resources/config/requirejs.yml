@@ -89,6 +89,7 @@ config:
             route: fos_js_routing_js
             params:
                 _format: json
+        ekyna-core: bundles/ekynacore/js/core
         ekyna-string: bundles/ekynacore/js/string
         ekyna-number: bundles/ekynacore/js/number
         ekyna-routing: bundles/ekynacore/js/router
@@ -117,20 +118,22 @@ build:
         - autosize
         - jquery
 #        - jquery-ui
-#        - twig
-        - routing
-#        - bootstrap
-#        - bootstrap/hover-dropdown
-#        - bootstrap/dialog
 #        - jquery/form
 #        - select2
+        - routing
+        - bootstrap
+#        - bootstrap/hover-dropdown
+        - bootstrap/dialog
+#        - aos
+#        - twig
         - ekyna-string
         - ekyna-number
         - ekyna-routing
-#        - ekyna-modal
+        - ekyna-modal
         - ekyna-dispatcher
-#        - ekyna-form/form
         - ekyna-ui
+#        - ekyna-form/form
+        - ekyna-core
     paths:
         routing_data: 'empty:'
         tinymce_config: 'empty:'
