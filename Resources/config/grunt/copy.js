@@ -156,7 +156,7 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js' // tmp to minify
                 },
                 {
-                    src: 'bower_components/chart.js/dist/Chart.js',
+                    src: 'node_modules/chart.js/dist/Chart.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/chart.js'
                 }
             ]
