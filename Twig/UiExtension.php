@@ -322,7 +322,7 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      *
      * @return string
      */
-    private function buildStylesheetTag($path)
+    public function buildStylesheetTag($path)
     {
         return '<link href="' . $this->assetExtension->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
     }
