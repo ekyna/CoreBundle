@@ -5,7 +5,6 @@ namespace Ekyna\Bundle\CoreBundle\Twig;
 use Ekyna\Component\Resource\Locale\LocaleProviderInterface;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,11 +19,6 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * @var AssetExtension
      */
     private $assetExtension;
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
 
     /**
      * @var LocaleProviderInterface
@@ -51,18 +45,15 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
      * Constructor.
      *
      * @param AssetExtension          $assetExtension
-     * @param RequestStack            $requestStack
      * @param LocaleProviderInterface $localeProvider
      * @param array                   $config
      */
     public function __construct(
         AssetExtension $assetExtension,
-        RequestStack $requestStack,
         LocaleProviderInterface $localeProvider,
         array $config
     ) {
         $this->assetExtension = $assetExtension;
-        $this->requestStack = $requestStack;
         $this->localeProvider = $localeProvider;
         $this->config = $config;
     }
@@ -90,7 +81,6 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
             new \Twig_SimpleFunction('ui_button', [$this, 'renderButton'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_button_dropdown', [$this, 'renderButtonDropdown'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('ui_google_font', [$this, 'renderGoogleFontLink'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('ui_locale_switcher', [$this, 'renderLocaleSwitcher'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -115,11 +105,6 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
                 return $var instanceof FormView;
             }),
         ];
-    }
-
-    public function buildStylesheetTag($path)
-    {
-        return '<link href="' . $this->assetExtension->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
     }
 
     /**
@@ -277,37 +262,11 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     }
 
     /**
-     * Renders the locale switcher.
-     *
-     * @param array $attributes
-     *
-     * @return string
-     */
-    public function renderLocaleSwitcher($attributes = [])
-    {
-        // TODO Check if this is a (esi) sub request, as this must never be used in a esi fragment.
-        if (null === $request = $this->requestStack->getCurrentRequest()) {
-            return '';
-        }
-
-        if (!array_key_exists('class', $attributes)) {
-            $attributes['class'] = 'list-inline locale-switcher';
-        }
-
-        return $this->controlsTemplate->renderBlock('locale_switcher', [
-            'locales' => $this->config['locales'],
-            'request' => $request,
-            'attr'    => $attributes,
-        ]);
-    }
-
-    /**
      * Display the language for the given locale.
      *
      * @param string $locale
      *
      * @return string
-     * @todo useless : use language twig filter
      */
     public function getLanguage($locale)
     {
@@ -354,6 +313,18 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
         }
 
         return $this->buttonOptionsResolver;
+    }
+
+    /**
+     * Builds a stylesheet tag.
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    private function buildStylesheetTag($path)
+    {
+        return '<link href="' . $this->assetExtension->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
     }
 
     /**

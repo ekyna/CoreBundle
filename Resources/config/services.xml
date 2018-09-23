@@ -171,7 +171,6 @@
         <service id="ekyna_core.twig.ui_extension"
                  class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
             <argument type="service" id="twig.extension.assets"/>
-            <argument type="service" id="request_stack"/>
             <argument type="service" id="ekyna_resource.locale.request_provider"/>
             <argument>%ekyna_core.config.ui%</argument>
             <tag name="twig.extension"/>
