@@ -8,22 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class Controller
  * @package Ekyna\Bundle\CoreBundle\Controller
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class Controller extends BaseController
 {
-    /**
-     * Checks if the attributes are granted against the current authentication token and optionally supplied object.
-     *
-     * @param mixed $attributes
-     * @param mixed $object
-     * @return bool
-     */
-    protected function isGranted($attributes, $object = null)
-    {
-        return $this->get('security.authorization_checker')->isGranted($attributes, $object);
-    }
-
     /**
      * Returns the router.
      *
@@ -89,6 +77,7 @@ class Controller extends BaseController
      *
      * @param string $message
      * @param string $type (info|success|warning|danger)
+     *
      * @throws \InvalidArgumentException
      */
     protected function addFlash($message, $type = 'info')
@@ -96,14 +85,16 @@ class Controller extends BaseController
         if (!in_array($type, ['info', 'success', 'warning', 'danger'])) {
             throw new \InvalidArgumentException(sprintf('Invalid flash type "%s".', $type));
         }
-        $this->getFlashBag()->add($type, $message);
+
+        parent::addFlash($type, $message);
     }
 
     /**
      * Redirect to the referer.
      *
      * @param string $defaultPath
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     protected function redirectToReferer($defaultPath)
     {
@@ -112,6 +103,7 @@ class Controller extends BaseController
                 return $this->redirect($referer);
             }
         }
+
         return $this->redirect($defaultPath);
     }
 
@@ -119,8 +111,9 @@ class Controller extends BaseController
      * Adds http cache tags and sets the shared max age.
      *
      * @param Response $response
-     * @param array $tags
-     * @param int $smaxage
+     * @param array    $tags
+     * @param int      $smaxage
+     *
      * @return Response;
      */
     protected function configureSharedCache(Response $response, array $tags = [], $smaxage = null)
@@ -132,6 +125,7 @@ class Controller extends BaseController
         if (0 >= $smaxage) {
             $smaxage = $this->container->getParameter('ekyna_core.config.cache')['default_smaxage'];
         }
+
         return $response->setSharedMaxAge($smaxage);
     }
 }

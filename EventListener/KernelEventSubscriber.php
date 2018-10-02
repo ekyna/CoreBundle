@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -45,10 +46,9 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
+        $request = $event->getRequest();
 
         if ($exception instanceof NotFoundHttpException) {
-
-            $request = $event->getRequest();
             $registry = $this->container->get('ekyna_core.redirection.provider_registry');
             foreach ($registry->getProviders() as $provider) {
                 if ($provider->supports($request) && false !== $response = $provider->redirect($request)) {
@@ -65,7 +65,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                 }
             }
         } elseif ($exception instanceof AccessDeniedException) {
-            if ($event->getRequest()->isXmlHttpRequest()) {
+            if ($request->isXmlHttpRequest()) {
                 $event->setResponse(new Response('', Response::HTTP_FORBIDDEN));
 
                 return;
@@ -79,7 +79,6 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             }
 
             // Build the response
-            $request = $event->getRequest();
             $response = $this->container
                 ->get('security.http_utils')
                 ->createRedirectResponse($request, $path);
@@ -100,7 +99,7 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
 
         } elseif (!$this->container->getParameter('kernel.debug')) {
 
-            $this->sendExceptionReport(FlattenException::create($exception));
+            $this->sendExceptionReport(FlattenException::create($exception), $request);
 
         }
     }
@@ -110,8 +109,9 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
      * - Sends the report about uncaught exception.
      *
      * @param FlattenException $exception
+     * @param Request          $request
      */
-    public function sendExceptionReport(FlattenException $exception)
+    public function sendExceptionReport(FlattenException $exception, Request $request)
     {
         if (!$this->container->has('swiftmailer.mailer.report')) {
             return;
@@ -122,7 +122,6 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
         $template = new TemplateReference('EkynaCoreBundle', 'Exception', 'exception', 'html', 'twig');
         $code = $exception->getCode();
         $email = $this->container->getParameter('error_report_mail');
-        $request = $this->container->get('request_stack')->getMasterRequest();
 
         $subject = sprintf('[%s] Error report', $request->getHost());
         $content = $this->container->get('twig')->render((string)$template, [
