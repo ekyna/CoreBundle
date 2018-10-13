@@ -212,6 +212,7 @@ ekyna_core:
         height: Hauteur
         width: Largeur
         depth: Profondeur
+        total: Total
     message:
         captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
