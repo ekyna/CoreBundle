@@ -1,7 +1,7 @@
 define(['jquery', 'json!tinymce_config', 'tinymce'], function($, config) {
     "use strict";
 
-    if (typeof tinymce == 'undefined') {
+    if (typeof tinymce === 'undefined') {
         throw 'Tinymce is not available.';
     }
 

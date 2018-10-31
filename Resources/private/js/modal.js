@@ -236,6 +236,9 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                         }
                     });
                 }
+
+                // Updated content event
+                $that.trigger($.Event('ekyna.modal.updated'));
             } else {
                 // No content => abort
                 return this;
