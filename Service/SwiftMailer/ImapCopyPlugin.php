@@ -75,7 +75,9 @@ class ImapCopyPlugin implements \Swift_Events_SendListener, EventSubscriberInter
             return;
         }
 
-        if (!@imap_append($mailbox, $this->config['mailbox'].$this->config['folder'], $message->toString(), '\Seen')) {
+        $folder = mb_convert_encoding($this->config['folder'], "UTF7-IMAP", "UTF-8");
+
+        if (!@imap_append($mailbox, $this->config['mailbox'].$folder, $message->toString(), '\Seen')) {
             $this->logger->error("IMAP message copy failed: "  . imap_last_error());
         }
     }
