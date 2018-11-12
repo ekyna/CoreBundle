@@ -127,7 +127,7 @@ build:
 #        - aos
 #        - twig
         - ekyna-string
-        - ekyna-number
+        - ekyna-polyfill
         - ekyna-routing
         - ekyna-modal
         - ekyna-dispatcher
