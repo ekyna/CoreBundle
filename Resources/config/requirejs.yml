@@ -91,7 +91,7 @@ config:
                 _format: json
         ekyna-core: bundles/ekynacore/js/core
         ekyna-string: bundles/ekynacore/js/string
-        ekyna-number: bundles/ekynacore/js/number
+        ekyna-polyfill: bundles/ekynacore/js/polyfill
         ekyna-routing: bundles/ekynacore/js/router
         ekyna-modal: bundles/ekynacore/js/modal
         ekyna-ui: bundles/ekynacore/js/ui

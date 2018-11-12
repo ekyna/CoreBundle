@@ -1,4 +1,3 @@
-/// TODO rename to polyfill.js
 define(['require'], function(require) {
 
     Math.fRound = function(number, precision) {
@@ -9,7 +8,7 @@ define(['require'], function(require) {
     var defaultLocale = (navigator.language || navigator.browserLanguage).split('-')[0] || 'en';
 
     // Available locales are en, fr, de, es and pt
-    /** @see src/Ekyna/Bundle/CoreBundle/Resources/config/grunt/copy.js:110 */
+    /** @see src/Ekyna/Bundle/CoreBundle/Resources/config/grunt/copy.js:101 */
     if (-1 === ['en', 'fr', 'de', 'es', 'pt'].indexOf(defaultLocale)) {
         defaultLocale = 'en';
     }
@@ -42,7 +41,7 @@ define(['require'], function(require) {
             try {
                 number.toLocaleString("i");
             } catch (e) {
-                return e instanceof RangeError;
+                return e.name === "RangeError";
             }
             return false;
         }
@@ -52,21 +51,33 @@ define(['require'], function(require) {
         }
 
         if (toLocaleStringSupportsOptions()) {
-            Number.prototype.formatPrice = function (currency, locale) {
+            Number.prototype.localizedCurrency = function (currency, locale) {
                 return this.toLocaleString(locale || defaultLocale, {style: "currency", currency: currency || 'USD'});
             };
+            Number.prototype.localizedNumber = function (style, locale) {
+                return this.toLocaleString(locale || defaultLocale, {style: style || "decimal"});
+            };
         } else if (testSupportToLocaleString()) {
-            Number.prototype.formatPrice = function (currency, locale) {
+            Number.prototype.localizedCurrency = function (currency, locale) {
                 return this.toLocaleString(locale || defaultLocale) + '&nbsp;' + currency;
             };
+            Number.prototype.localizedNumber = function (style, locale) {
+                return this.toLocaleString(locale || defaultLocale);
+            };
         } else if (Number.hasOwnProperty('toLocaleString')) {
-            Number.prototype.formatPrice = function (currency) {
+            Number.prototype.localizedCurrency = function (currency) {
                 return this.toLocaleString() + '&nbsp;' + currency;
             };
+            Number.prototype.localizedNumber = function () {
+                return this.toLocaleString();
+            };
         } else {
-            Number.prototype.formatPrice = function (currency) {
+            Number.prototype.localizedCurrency = function (currency) {
                 return this.toFixed(2) + '&nbsp;' + currency;
-            }
+            };
+            Number.prototype.localizedNumber = function () {
+                return this.toFixed(2);
+            };
         }
     }
 
