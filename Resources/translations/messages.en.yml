@@ -1,0 +1,235 @@
+ekyna_core:
+    value:
+        yes: Yes
+        no: No
+        none: None
+        undefined: Undefined
+        unknown: Unknown
+        choose: Choose
+        enabled: Enabled
+        disabled: Disabled
+    button:
+        previous: Previous
+        next: Next
+        previous_step: Previous step
+        next_step: Next step
+        start: Start
+        restart: Restart
+        reset: Reset
+        reset_and_list: Reset <small>and back to the list</small>
+        refresh: Refresh
+        reload: Reload
+        update: Update
+        finish: Finish
+        validate: Validate
+        complete: Complete
+        confirm: Confirm
+        display: Display
+        play: Play
+        pause: Pause
+        resume: Resume
+        stop: Stop
+        lock: Lock
+        unlock: Unlock
+        enable: Enable
+        disable: Disable
+        close: Close
+        open: Open
+        login: Sign in
+        logout: Sign out
+        manage: Manage
+        back: Back
+        back_to_show: Back to detail
+        back_to_list: Back to list
+        show_front: Show on website
+        list: List
+        show: Detail
+        content_show: Show content
+        content_edit: Edit the content
+        content: Content
+        browse: Browse
+        select: Select
+        add: Add
+        add_parameter: Add a paramètre
+        add_attribute: Add an attribute
+        new: New
+        create: Create
+        duplicate: Duplicate
+        edit: Edit
+        remove: Remove
+        remove_and_list: Remove <small>and back to the list</small>
+        unlink: Unlink
+        move_up: Move up
+        move_down: Move down
+        cancel: Cancel
+        save: Save
+        search: Search
+        save_and_list: Save <small>and back to the list</small>
+        execute: Execute
+        apply: Apply
+        filter: Filter
+        send: Send
+        download: Download
+        import: Import
+        export: Export
+        transform: Transform
+        notify: Notify
+    field:
+        name: Name
+        title: Title
+        subtitle: Sub-Titre
+        breadcrumb: Breadcrumb
+        parent: Parent
+        root: Root
+        category: Category
+        brand: Brand
+        type: Type
+        mode: Mode
+        method: Method
+        status: Status
+        url: Url
+        ip_address: IP address
+        website: Website
+        email: Email
+        email_address: Email address
+        subject: Subject
+        message: Message
+        comment: Comment
+        pricing: Pricing
+        price: Price
+        currency: Currency
+        amount: Amount
+        promotion: Promotion
+        tax: Tax
+        rate: Rate
+        rating: Rating
+        weight: Weight
+        size: Size
+        color: Color
+        code: Code
+        default: By default
+        quantity: Quantity
+        option: Option
+        options: Options
+        description: Description
+        designation: Designation
+        recipients: Recipients
+        reference: Reference
+        number: Number
+        content: Content
+        translations: Translations
+        summary: Summary
+        logo: Logo
+        image: Image
+        images: Images
+        photo: Photo
+        photos: Photos
+        media: Media
+        medias: Medias
+        icon: Icon
+        video: Video
+        videos: Videos
+        date: Date
+        from_date: From
+        to_date: To
+        start_date: Start date
+        end_date: End date
+        created_at: Created at
+        updated_at: Updated at
+        published_at: Published at
+        expires_at: Expires at
+        started_at: Started at
+        completed_at: Completed at
+        private: Private
+        enabled: Enabled
+        disabled: Disabled
+        required: Required
+        validated: Validated
+        locked: Locked
+        expired: Expired
+        duration: Duration
+        feed: Feed
+        format: Format
+        charset: Charset
+        document: Document
+        file: File
+        rename: Rename
+        choose_file: Choose a file
+        unlink: Remove file association
+        import: Import
+        export: Export
+        path: Path
+        alt: Alt
+        seo: SEO
+        keywords: Keywords
+        priority: Priority
+        changefreq: Change freq.
+        follow: Follow links
+        canonical_url: Canonical URL
+        index: Index
+        route: Route
+        tag: Tag
+        tags: Tags
+        parameters: Parameters
+        attributes: Attributes
+        key: Key
+        value: Value
+        login: Login
+        password: Password
+        verify: Checking
+        remember_me: Remember me
+        username: Username
+        author: Author
+        user: User
+        group: Group
+        roles: Roles
+        company: Company
+        identity: Identity
+        gender: Gender
+        first_name: First name
+        last_name: Last name
+        birthday: Birthday
+        address: Address
+        street: Street
+        supplement: Complement
+        postal_code: Postal code
+        city: City
+        province: Province
+        state: State
+        country: Country
+        locale: Locale
+        phone: Phone
+        mobile: Mobile
+        general: General
+        informations: Information
+        coordinates: Coordinates
+        config: Configuration
+        style: Style
+        theme: Theme
+        animation: Animation
+        search: Search
+        visible: Visible
+        height: Height
+        width: Width
+        depth: Depth
+        total: Total
+    message:
+        captcha: Please copy the image code
+        fa_icon_cheatsheet: |
+            See the <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">complete icons list</a>.
+        remove_confirm: Are you sure you want to delete this item ?
+        action_confirm: Confirm action ?
+        no_translations: No translation configured
+    changefreq:
+        hourly: Every hour
+        monthly: Every month
+        yearly: Every year
+    auth:
+        allowed_to_switch: Allowed to
+        super_admin: Super admin
+        admin: Admin
+        user: User
+    error:
+        operation_failed: The application encountered an error. We apologize for the inconvenience.
+    image:
+        new: New image
