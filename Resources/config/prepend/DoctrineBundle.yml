@@ -1,4 +1,7 @@
 doctrine:
+    dbal:
+        types:
+            encrypted_json: Ekyna\Bundle\CoreBundle\Doctrine\Type\EncryptedJsonType
     orm:
         entity_managers:
             default:
@@ -8,8 +11,8 @@ doctrine:
 #                        enabled: true
                 dql:
                     datetime_functions:
-                        month: Ekyna\Bundle\CoreBundle\Dql\Month
-                        year: Ekyna\Bundle\CoreBundle\Dql\Year
-                        day: Ekyna\Bundle\CoreBundle\Dql\Day
-                        rand: Ekyna\Bundle\CoreBundle\Dql\Rand
-                        unix_timestamp: Ekyna\Bundle\CoreBundle\Dql\UnixTimestamp
+                        month: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Month
+                        year: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Year
+                        day: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Day
+                        rand: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Rand
+                        unix_timestamp: Ekyna\Bundle\CoreBundle\Doctrine\Dql\UnixTimestamp

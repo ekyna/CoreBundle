@@ -1,3 +1,3 @@
 twig:
     form_themes:
-        - 'EkynaCoreBundle:Form:form_div_layout.html.twig'
+        - '@EkynaCore/Form/form_div_layout.html.twig'

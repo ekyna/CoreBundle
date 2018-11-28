@@ -18,12 +18,4 @@ class FormExtension extends \Twig_Extension
             new \Twig_SimpleFunction('form_help', null, array('node_class' => 'Symfony\Bridge\Twig\Node\SearchAndRenderBlockNode', 'is_safe' => array('html'))),
         );
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ekyna_core_form';
-    }
 }

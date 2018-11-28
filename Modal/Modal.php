@@ -90,7 +90,7 @@ class Modal
         $this->setButtons($buttons);
 
         $this->setVars([
-            'form_template' => 'EkynaCoreBundle:Form:default_form_body.html.twig',
+            'form_template' => '@EkynaCore/Form/default_form_body.html.twig',
         ]);
     }
 

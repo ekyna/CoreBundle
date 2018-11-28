@@ -212,6 +212,19 @@
             <!-- (tag) Added by DI extension -->
         </service>
 
+        <!-- Halite encryptor -->
+        <service id="ekyna_core.encryptor.halite"
+                 class="Ekyna\Bundle\CoreBundle\Service\Encryptor\HaliteEncryptor">
+            <argument>%kernel.data_dir%/encryption/halite.key</argument>
+        </service>
+
+        <!-- Encryptor doctrine listener -->
+        <service id="ekyna_core.doctrine.event_listener.encryptor"
+                 class="Ekyna\Bundle\CoreBundle\Doctrine\EventListener\EncryptorListener">
+            <argument type="service" id="ekyna_core.encryptor.halite"/>
+            <tag name="doctrine.event_listener" event="getEncryptor"/>
+        </service>
+
     </services>
 
 </container>

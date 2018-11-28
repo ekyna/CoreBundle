@@ -1,7 +1,7 @@
-{% extends 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' %}
+{% extends '@BraincraftedBootstrap/Menu/bootstrap.html.twig' %}
 
 {% block list %}
-    {% import 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' as macros %}
+    {% import '@BraincraftedBootstrap/Menu/bootstrap.html.twig' as macros %}
     {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
         {% set listAttributes = listAttributes|merge({'class': listAttributes.class|default('')|trim}) %}
 
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block dropdownElement %}
-    {% import 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig' as macros %}
+    {% import '@BraincraftedBootstrap/Menu/bootstrap.html.twig' as macros %}
     {% spaceless %}
         {% set labelAttributes = item.labelAttributes %}
         {% set labelAttributes = labelAttributes|merge({'class': (labelAttributes.class|default('') ~ ' dropdown-toggle')|trim}) %}

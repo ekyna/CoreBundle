@@ -326,12 +326,4 @@ class UiExtension extends \Twig_Extension implements \Twig_Extension_InitRuntime
     {
         return '<link href="' . $this->assetExtension->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ekyna_core_ui';
-    }
 }

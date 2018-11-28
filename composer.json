@@ -15,7 +15,7 @@
     "homepage": "https://github.com/ekyna/CoreBundle",
     "license": "MIT",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.2",
         "symfony/framework-bundle": "^3.0",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
@@ -33,6 +33,7 @@
         "a2lix/translation-form-bundle": "3.x-dev",
         "braincrafted/bootstrap-bundle": "dev-form-sizing",
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
+        "paragonie/halite": "^4",
         "ekyna/require-js-bundle": "0.7.x-dev"
     },
     "repositories": [

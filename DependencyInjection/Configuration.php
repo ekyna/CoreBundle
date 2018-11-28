@@ -82,7 +82,7 @@ class Configuration implements ConfigurationInterface
         $node
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('controls_template')->defaultValue('EkynaCoreBundle:Ui:controls.html.twig')->end()
+                ->scalarNode('controls_template')->defaultValue('@EkynaCore/Ui/controls.html.twig')->end()
                 ->scalarNode('no_image_path')->defaultValue('/bundles/ekynacore/img/new-image.gif')->end()
                 ->variableNode('locales')->defaultValue('%locales%')->end()
                 ->arrayNode('tinymce')

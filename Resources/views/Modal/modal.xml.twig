@@ -15,7 +15,7 @@
 {#{% if modal.content is not same as(null) %}#}
     <content type="{{ modal.contentType }}"><![CDATA[
     {%- if modal.contentType == 'form' -%}
-        {% include "EkynaCoreBundle:Ui:flashes.html.twig" %}
+        {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {% if form is not defined %}
             {% set form = modal.content %}
         {% endif %}
@@ -27,12 +27,12 @@
             {{ form(modal.content) }}
         {% endif %}
     {%- elseif modal.contentType == 'table' -%}
-        {% include "EkynaCoreBundle:Ui:flashes.html.twig" %}
+        {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {{ ekyna_table_render(modal.content) }}
     {%- elseif modal.contentType == 'data' -%}
         {{ modal.content|json_encode|raw }}
     {%- else -%}
-        {% include "EkynaCoreBundle:Ui:flashes.html.twig" %}
+        {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {{ modal.content|raw }}
     {%- endif -%}
     ]]></content>
