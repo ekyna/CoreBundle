@@ -102,11 +102,11 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/locales'
                 },
                 {
-                    src: 'bower_components/twigjs-bower/twig/twig.min.js',
+                    src: 'node_modules/twig/twig.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/twig.js'
                 },
                 {
-                    src: 'bower_components/moment/min/moment-with-locales.min.js',
+                    src: 'node_modules/moment/min/moment-with-locales.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/moment.js'
                 },
                 {
