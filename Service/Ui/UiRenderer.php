@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Service\Ui;
 
+use Ekyna\Bundle\CoreBundle\Model\UiButton;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -134,15 +135,21 @@ class UiRenderer
     /**
      * Renders the button.
      *
-     * @param string $label
-     * @param array  $options
-     * @param array  $attributes
+     * @param UiButton|string $label
+     * @param array           $options
+     * @param array           $attributes
      *
      * @return string
      * @throws \InvalidArgumentException
      */
     public function renderButton($label = '', array $options = [], array $attributes = [])
     {
+        if ($label instanceof UiButton) {
+            $options = $label->getOptions();
+            $attributes = $label->getAttributes();
+            $label = $label->getLabel();
+        }
+
         $options = $this->getButtonOptionsResolver()->resolve($options);
 
         $tag = 'button';
