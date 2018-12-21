@@ -11,26 +11,11 @@ module.exports = function (grunt, options) {
                         'src/Ekyna/Bundle/CoreBundle/Resources/private/js/ie/respond.min.js',
                         'src/Ekyna/Bundle/CoreBundle/Resources/private/js/ie/excanvas.min.js'
                     ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/form.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js'
-                    ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/intl.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/intl/intl.js'
-                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/fileupload.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js'
                     ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js'
-                    ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/chart.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/chart.js'
-                    ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/cookie.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/cookie.js'
-                    ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/validator.js': [
-                        'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/validator.js'
+                        'node_modules/js-cookie/src/js.cookie.js'
                     ]
                 },
                 {
@@ -38,16 +23,20 @@ module.exports = function (grunt, options) {
                     cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
                     src: ['js/*.js', 'js/form/*.js'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
+                },
+                {
+                    expand: true,
+                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery-ui',
+                    src: ['**/*.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery-ui'
                 }
             ]
         },
         core_ts: {
-            files: [{
-                expand: true,
-                cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
-                src: '**/*.js',
-                dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
-            }]
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
+            src: '**/*.js',
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
         }
     }
 };

@@ -2,8 +2,8 @@ module.exports = {
     'copy:core': [
         'copy:core_fonts',
         'copy:core_libs',
-        'copy:core_intl',
         'copy:core_fileupload',
+        'copy:core_contextmenu',
         'copy:core_bootstrap',
         'copy:core_files'
     ],

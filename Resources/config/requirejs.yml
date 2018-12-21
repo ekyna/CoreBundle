@@ -117,22 +117,15 @@ build:
         - es6-promise
         - autosize
         - jquery
-#        - jquery-ui
-#        - jquery/form
-#        - select2
         - routing
         - bootstrap
-#        - bootstrap/hover-dropdown
         - bootstrap/dialog
-#        - aos
-#        - twig
         - ekyna-string
         - ekyna-polyfill
         - ekyna-routing
         - ekyna-modal
         - ekyna-dispatcher
         - ekyna-ui
-#        - ekyna-form/form
         - ekyna-core
     paths:
         routing_data: 'empty:'

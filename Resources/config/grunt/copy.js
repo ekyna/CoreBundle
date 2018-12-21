@@ -5,14 +5,14 @@ module.exports = function (grunt, options) {
                 // Fontawesome
                 {
                     expand: true,
-                    cwd: 'bower_components/font-awesome/fonts',
+                    cwd: 'node_modules/font-awesome/fonts',
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
                 },
                 // Glyphicons
                 {
                     expand: true,
-                    cwd: 'bower_components/bootstrap/dist/fonts',
+                    cwd: 'node_modules/bootstrap/dist/fonts',
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/fonts'
                 }
@@ -22,72 +22,70 @@ module.exports = function (grunt, options) {
             files: [
                 // Jquery
                 {
-                    src: 'bower_components/jquery/dist/jquery.min.js',
+                    src: 'node_modules/jquery/dist/jquery.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/jquery.js'
                 },
                 {
-                    src: 'bower_components/matchHeight/dist/jquery.matchHeight-min.js',
+                    src: 'node_modules/jquery-match-height/dist/jquery.matchHeight-min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/match-height.js'
                 },
                 {
-                    src: 'bower_components/qtip2/jquery.qtip.min.js',
+                    src: 'node_modules/qtip2/dist/jquery.qtip.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/qtip.js'
                 },
                 {
-                    src: 'bower_components/jquery-form/src/jquery.form.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery/form.js' // tmp to minify
+                    src: 'node_modules/jquery-form/dist/jquery.form.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/form.js'
                 },
                 {
-                    src: 'node_modules/js-cookie/src/js.cookie.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/cookie.js' // tmp to minify
-                },
-                {
-                    src: 'bower_components/validator-js/validator.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/validator.js' // tmp to minify
+                    src: 'node_modules/validator/validator.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/validator.js'
                 },
                 // Jquery Ui
                 {
                     expand: true,
-                    cwd: 'bower_components/jquery-ui/ui/minified',
-                    src: ['*.js'],
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery-ui',
-                    rename: function(dest, src) {
-                        return dest + '/' + src.replace(/\.min\.js/, '.js');
-                    }
+                    cwd: 'node_modules/jquery-ui/ui',
+                    src: ['*.js', 'widgets/*.js', 'effects/*.js'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/jquery-ui'
                 },
                 {
                     expand: true,
-                    cwd: 'bower_components/jquery-ui/themes/smoothness/images',
+                    cwd: 'node_modules/jquery-ui-themes/themes/smoothness/images',
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/images'
                 },
                 // Bootstrap
                 {
-                    src: 'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                    src: 'node_modules/bootstrap/dist/js/bootstrap.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/bootstrap.js'
                 },
                 {
-                    src: 'bower_components/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js',
+                    src: 'node_modules/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/hover-dropdown.js'
                 },
                 {
-                    src: 'bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+                    src: 'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/colorpicker.js'
                 },
                 {
-                    src: 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/datetimepicker.js'
-                },
-                {
                     expand: true,
-                    cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img',
+                    cwd: 'node_modules/bootstrap-colorpicker/dist/img',
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/img'
+                },
+                {
+                    src: 'node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/datetimepicker.js'
+                },
+                // Fontawesome
+                {
+                    src: 'node_modules/font-awesome/css/font-awesome.min.css',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/fontawesome.css'
                 },
                 // Gsap
                 {
                     expand: true,
-                    cwd: 'bower_components/gsap/src/minified',
+                    cwd: 'node_modules/gsap/src/minified',
                     src: ['**'],
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/gsap',
                     rename: function(dest, src) {
@@ -110,27 +108,27 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/moment.js'
                 },
                 {
-                    src: 'bower_components/autosize/dist/autosize.min.js',
+                    src: 'node_modules/autosize/dist/autosize.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/autosize.js'
                 },
                 {
-                    src: 'bower_components/select2/dist/js/select2.min.js',
+                    src: 'node_modules/select2/dist/js/select2.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/select2.js'
                 },
                 {
-                    src: 'bower_components/tinycolor/dist/tinycolor-min.js',
+                    src: 'node_modules/tinycolor2/dist/tinycolor-min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinycolor.js'
                 },
                 {
-                    src: 'bower_components/es6-promise/es6-promise.min.js',
+                    src: 'node_modules/es6-promise/dist/es6-promise.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/es6-promise.js'
                 },
                 {
-                    src: 'bower_components/backbone/backbone-min.js',
+                    src: 'node_modules/backbone/backbone-min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/backbone.js'
                 },
                 {
-                    src: 'bower_components/underscore/underscore-min.js',
+                    src: 'node_modules/underscore/underscore-min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/underscore.js'
                 },
                 {
@@ -148,32 +146,25 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/tinymce'
                 },
                 {
-                    src: 'bower_components/aos/dist/aos.css',
+                    src: 'node_modules/aos/dist/aos.css',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/aos.css'
                 },
                 {
-                    src: 'bower_components/aos/dist/aos.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/aos.js' // tmp to minify
+                    src: 'node_modules/aos/dist/aos.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/aos.js'
                 },
                 {
-                    src: 'node_modules/chart.js/dist/Chart.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/chart.js'
+                    src: 'node_modules/chart.js/dist/Chart.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/chart.js'
+                },
+                {
+                    src: 'node_modules/intl/dist/Intl.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/intl.js'
                 }
             ]
         },
-        core_intl: {
-            src: 'node_modules/intl/lib/core.js',
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/intl/intl.js', // tmp to minify
-            options: {
-                process: function (content) {
-                    return "define([], function () {\n" +
-                        content.replace('module.exports = Intl;', 'window.Intl = Intl;') +
-                    "\nreturn Intl;\n});";
-                }
-            }
-        },
         core_bootstrap: {
-            src: 'bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
+            src: 'node_modules/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/dialog.js',
             options: {
                 process: function (content) {
@@ -182,12 +173,24 @@ module.exports = function (grunt, options) {
             }
         },
         core_fileupload: {
-            src: 'bower_components/blueimp-file-upload/js/jquery.fileupload.js',
+            src: 'node_modules/blueimp-file-upload/js/jquery.fileupload.js',
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js', // tmp to minify
             options: {
                 process: function (content) {
                     return content.replace(/jquery-ui\/ui\/widget/g, 'jquery-ui/widget');
-                    //content = content.replace(/jquery\.ui\.widget/g, 'jquery-ui/widget');
+                }
+            }
+        },
+        core_contextmenu: {
+            src: 'node_modules/ui-contextmenu/jquery.ui-contextmenu.min.js',
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery-ui/widgets/contextmenu.js',
+            options: {
+                process: function (content, srcpath) {
+                    if (/jquery\.ui-contextmenu/.test(srcpath)) {
+                        content = content.replace(/jquery-ui\/menu/g, 'jquery-ui/widgets/menu');
+                    }
+
+                    return content;
                 }
             }
         },
@@ -198,34 +201,22 @@ module.exports = function (grunt, options) {
             dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
         },
         core_less: { // For watch:core_less
-            files: [
-                {
-                    expand: true,
-                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/css',
-                    src: ['**'],
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css'
-                }
-            ]
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/css',
+            src: ['**'],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/css'
         },
         core_ts: { // For watch:core_ts
-            files: [
-                {
-                    expand: true,
-                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
-                    src: ['**/*.js'],
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
-                }
-            ]
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/js',
+            src: ['**/*.js'],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
         },
         core_js: { // For watch:core_js
-            files: [
-                {
-                    expand: true,
-                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private/js',
-                    src: ['**/*.js'],
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
-                }
-            ]
+            expand: true,
+            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private/js',
+            src: ['**/*.js'],
+            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/js'
         }
     }
 };
