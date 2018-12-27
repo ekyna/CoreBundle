@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\AutoExpireFlashBag;
@@ -38,15 +39,12 @@ class FormController extends Controller
     {
         $this->preserveFlashes($request);
 
-        $response = new Response(
-            json_encode($this->container->getParameter('ekyna_core.form_js'))
-        );
+        $response = new JsonResponse($this->container->getParameter('ekyna_core.form_js'));
 
         $response
             ->setPublic()
-            ->setMaxAge(3600 * 6)
-            ->setSharedMaxAge(3600 * 6)
-            ->headers->add(['Content-Type' => 'application/json']);
+            ->setMaxAge(3600 * 24 * 30)
+            ->setSharedMaxAge(3600 * 24 * 30);;
 
         return $response;
     }
@@ -62,23 +60,21 @@ class FormController extends Controller
     {
         $this->preserveFlashes($request);
 
-        $config = $this->buildTinymceConfig();
-
-        $response = new Response($config);
-        $response->headers->add(['Content-Type' => 'application/json']);
-
-        $expires = new \DateTime();
-        $expires->modify('+7 days');
+        $response = new JsonResponse($this->buildTinymceConfig());
 
         $response
             ->setPublic()
-            ->setExpires($expires)
-            ->setMaxAge(3600 * 24 * 7)
-            ->setSharedMaxAge(3600 * 24 * 7);
+            ->setMaxAge(3600 * 24 * 30)
+            ->setSharedMaxAge(3600 * 24 * 30);
 
         return $response;
     }
 
+    /**
+     * Builds the tinymce config.
+     *
+     * @return string
+     */
     private function buildTinymceConfig()
     {
         $config = $this->getParameter('ekyna_core.config.tinymce');
@@ -147,17 +143,6 @@ class FormController extends Controller
             }
         }
 
-        /*if (0 < strlen($theme) && array_key_exists($theme, $config['theme'])) {
-            $config = $config['theme'][$theme];
-        }*/
-
-        //if ($jsonEncode) {
-            $config = preg_replace(
-                '/"file_browser_callback":"([^"]+)"\s*/', 'file_browser_callback:$1',
-                json_encode($config)
-            );
-        //}
-
         return $config;
     }
 
@@ -191,13 +176,20 @@ class FormController extends Controller
         return $inputUrl;
     }
 
+    /**
+     * Returns the asset package url.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
     protected function getUrl($url)
     {
         return $this->get('assets.packages')->getUrl($url);
     }
 
     /**
-     * Kepp flashes in the session.
+     * Keep flashes in the session.
      *
      * @param Request $request
      */

@@ -84,11 +84,8 @@ config:
         tinymce_config:
             route: ekyna_core_tinymce_config
             params: []
-        routing: bundles/fosjsrouting/js/router
-        routing_data:
-            route: fos_js_routing_js
-            params:
-                _format: json
+        router: bundles/fosjsrouting/js/router.min
+        routes: js/fos_js_routes.json
         ekyna-core: bundles/ekynacore/js/core
         ekyna-string: bundles/ekynacore/js/string
         ekyna-polyfill: bundles/ekynacore/js/polyfill
@@ -108,8 +105,6 @@ config:
             TweenMax: gsap/TweenMax
             plugins.CSSPlugin: gsap/plugins/CSSPlugin
             easing.Ease: gsap/easing/EasePack
-        ekyna-routing:
-            routing: routing
 build:
     include:
         - validator
@@ -117,7 +112,7 @@ build:
         - es6-promise
         - autosize
         - jquery
-        - routing
+        - router
         - bootstrap
         - bootstrap/dialog
         - ekyna-string
@@ -128,6 +123,5 @@ build:
         - ekyna-ui
         - ekyna-core
     paths:
-        routing_data: 'empty:'
         tinymce_config: 'empty:'
         ekyna-form/plugins: 'empty:'

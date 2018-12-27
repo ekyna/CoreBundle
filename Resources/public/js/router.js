@@ -1,1 +1,1 @@
-define(["jquery","routing","json!routing_data"],function(a,b,c){return c.prefix=(a("html").attr("lang")||"en")+"__RG__",fos.Router.setData(c),b});
+define(["jquery","router","json!routes"],function(a,b,c){return c.prefix=(a("html").attr("lang")||"en")+"__RG__",b.setRoutingData(c),b});
