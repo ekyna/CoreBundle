@@ -4,8 +4,7 @@ module.exports = {
         'copy:core_libs',
         'copy:core_fileupload',
         'copy:core_contextmenu',
-        'copy:core_bootstrap',
-        'copy:core_files'
+        'copy:core_bootstrap'
     ],
     'cssmin:core': [
         'cssmin:core_lib',
@@ -21,6 +20,7 @@ module.exports = {
     'build:core': [
         'clean:core_pre',
         'copy:core',
+        'imagemin:core',
         'less:core',
         'cssmin:core',
         'build:core_js',

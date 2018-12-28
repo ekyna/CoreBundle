@@ -2,209 +2,196 @@
 
 {% extends '@BraincraftedBootstrap/Form/bootstrap.html.twig' %}
 
-{% block form_actions_row %}
+{%- block form_actions_row -%}
     <div class="form-footer">
-        {{ block('button_row')  }}
+        {{- block('button_row')  -}}
     </div>
-{% endblock %}
+{%- endblock -%}
 
-{% block button_widget %}
-{% spaceless %}
-    {% if label is empty and label is not same as(false) %}
-        {% set label = name|humanize %}
-    {% endif %}
-    {% if type is defined and type == 'submit' %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn btn-'~button_class|default('primary'))|trim }) %}
-    {% else %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn btn-'~button_class|default('default'))|trim }) %}
-    {% endif %}
-    {% set sizing = sizing|default(bootstrap_get_sizing()) %}
-    {% if attr.sizing is defined and attr.sizing is not empty %}
-        {% set sizing = attr.sizing %}
-    {% endif %}
-    {% if sizing in ['sm', 'lg'] %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn-' ~ sizing)|trim }) %}
-    {% endif %}
-    {% if as_link is defined and as_link == true %}
+{%- block button_widget -%}
+    {%- if label is empty and label is not same as(false) -%}
+        {%- set label = name|humanize -%}
+    {%- endif -%}
+    {%- if type is defined and type == 'submit' -%}
+        {%- set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn btn-'~button_class|default('primary'))|trim }) -%}
+    {%- else -%}
+        {%- set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn btn-'~button_class|default('default'))|trim }) -%}
+    {%- endif -%}
+    {%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+    {%- if attr.sizing is defined and attr.sizing is not empty -%}
+        {%- set sizing = attr.sizing -%}
+    {%- endif -%}
+    {%- if sizing in ['sm', 'lg'] -%}
+        {%- set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn-' ~ sizing)|trim }) -%}
+    {%- endif -%}
+    {%- if as_link is defined and as_link == true -%}
         <a {{ block('button_attributes') }}>{% if attr.icon is defined and attr.icon != '' %}{{ icon(attr.icon) }}{% endif %}{{ label|trans({}, translation_domain)|raw }}</a>
-    {% else %}
+    {%- else -%}
         <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{% if attr.icon is defined and attr.icon != '' %}{{ icon(attr.icon) }}{% endif %}{{ label|trans({}, translation_domain)|raw }}</button>
-    {% endif %}
-{% endspaceless %}
-{% endblock button_widget %}
+    {%- endif -%}
+{%- endblock button_widget -%}
 
-{% block collection_widget %}
-{% spaceless %}
-    {% if prototype is defined %}
-        {% set attr = attr|merge({'class': 'collection-container' }) %}
-    {% endif %}
-    {{ parent() }}
-{% endspaceless %}
-{% endblock collection_widget %}
+{%- block collection_widget -%}
+    {%- if prototype is defined -%}
+        {%- set attr = attr|merge({'class': 'collection-container' }) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock collection_widget -%}
 
-{% block ekyna_collection_widget %}
-{% spaceless %}
-    {% if form.vars.button_col >= 2 %}
-        {% set controls_class = 'btn-group' %}
-    {% else %}
-        {% set controls_class = 'btn-group-vertical' %}
-    {% endif %}
-    {% set attr = attr|merge({'class': 'ekyna-collection' }) %}
-    {% if prototype is defined %}
-        {% set prototype_vars = {} %}
-        {% if style is defined %}
-            {% set prototype_vars = prototype_vars|merge({'style': style}) %}
-        {% endif %}
-        {% set prototype_html =
+{%- block ekyna_collection_widget -%}
+    {%- if form.vars.button_col >= 2 -%}
+        {%- set controls_class = 'btn-group' -%}
+    {%- else -%}
+        {%- set controls_class = 'btn-group-vertical' -%}
+    {%- endif -%}
+    {%- set attr = attr|merge({'class': 'ekyna-collection' }) -%}
+    {%- if prototype is defined -%}
+        {%- set prototype_vars = {} -%}
+        {%- if style is defined -%}
+            {%- set prototype_vars = prototype_vars|merge({'style': style}) -%}
+        {%- endif -%}
+        {%- set prototype_html =
             '<div class="col-xs-' ~ form.vars.sub_widget_col ~ ' ekyna-collection-child-form">' ~
                 form_widget(prototype, prototype_vars) ~
             '</div>'
-        %}
-        {% set controls = '' %}
-        {% set delete_button_confirm = '' %}
-        {% if form.vars.delete_button_confirm is not same as(null) %}
-            {% set delete_button_confirm = ' data-confirm="' ~ (form.vars.delete_button_confirm|trans|escape) ~ '"' %}
-        {% endif %}
-        {% if form.vars.allow_delete or form.vars.allow_sort %}
+        -%}
+        {%- set controls = '' -%}
+        {%- set delete_button_confirm = '' -%}
+        {%- if form.vars.delete_button_confirm is not same as(null) -%}
+            {%- set delete_button_confirm = ' data-confirm="' ~ (form.vars.delete_button_confirm|trans|escape) ~ '"' -%}
+        {%- endif -%}
+        {%- if form.vars.allow_delete or form.vars.allow_sort -%}
             {# Move up button #}
-            {% if form.vars.allow_sort %}{% set controls = controls ~
+            {%- if form.vars.allow_sort %}{% set controls = controls ~
                 '<button type="button" class="btn btn-default btn-xs" data-collection-role="move-up" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__">' ~
                     '<span class="glyphicon glyphicon-chevron-up"></span>' ~
                 '</button>'
-            %}{% endif %}
+            %}{% endif -%}
             {# Remove button #}
-            {% if form.vars.allow_delete %}{% set controls = controls ~
+            {%- if form.vars.allow_delete %}{% set controls = controls ~
                 '<button type="button" class="btn btn-danger btn-xs" data-collection-role="remove" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__"' ~ delete_button_confirm ~ '>' ~
                     '<span class="glyphicon glyphicon-remove"></span>' ~
                 '</button>'
-            %}{% endif %}
+            %}{%- endif -%}
             {# Move down button #}
-            {% if form.vars.allow_sort %}{% set controls = controls ~
+            {%- if form.vars.allow_sort %}{% set controls = controls ~
                 '<button type="button" class="btn btn-default btn-xs" data-collection-role="move-down" ' ~
                         'data-collection="' ~ form.vars.id ~ '" data-field="__id__">' ~
                     '<span class="glyphicon glyphicon-chevron-down"></span>' ~
                 '</button>'
-            %}{% endif %}
+            %}{%- endif -%}
             {# Controls column #}
-            {% set controls = '<div class="col-xs-' ~ form.vars.button_col ~ '">' ~
+            {%- set controls = '<div class="col-xs-' ~ form.vars.button_col ~ '">' ~
                 '<div class="' ~ controls_class ~ '">' ~ controls ~ '</div>' ~
-            '</div>' %}
-        {% endif %}
-        {% set prototype_html = '<li class="ekyna-collection-child" id="' ~ prototype.vars.id ~ '"><div class="row">' ~
+            '</div>' -%}
+        {%- endif -%}
+        {%- set prototype_html = '<li class="ekyna-collection-child" id="' ~ prototype.vars.id ~ '"><div class="row">' ~
             prototype_html ~ controls ~
-        '</div></li>' %}
+        '</div></li>' -%}
 
-        {% set attr = attr|merge({'data-prototype': form.vars.id ~ '_prototype' }) %}
-        {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
+        {%- set attr = attr|merge({'data-prototype': form.vars.id ~ '_prototype' }) -%}
+        {%- set attr = attr|merge({'data-prototype-name': prototype_name }) -%}
 
         <div class="ekyna-collection-prototype" id="{{ form.vars.id }}_prototype">{{ prototype_html }}</div>
-    {% endif %}
+    {%- endif -%}
     <div {{ block('widget_container_attributes') }}>
         <ul class="ekyna-collection-child-container list-unstyled">
-            {% for field in form %}
+            {%- for field in form -%}
                 <li class="ekyna-collection-child" id="{{ field.vars.id }}">
                     <div class="row">
                         <div class="col-xs-{{ form.vars.sub_widget_col }} ekyna-collection-child-form">
-                            {{ form_widget(field) }}
-                            {{ form_errors(field) }}
+                            {{- form_widget(field) -}}
+                            {{- form_errors(field) -}}
                         </div>
-                        {% if form.vars.allow_delete or form.vars.allow_sort %}
+                        {%- if form.vars.allow_delete or form.vars.allow_sort -%}
                         <div class="col-xs-{{ form.vars.button_col }}">
                             <div class="{{ controls_class }}">
-                                {% if form.vars.allow_sort %}
+                                {%- if form.vars.allow_sort -%}
                                 <button type="button" class="btn btn-default btn-xs" data-collection-role="move-up"
                                         data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </button>
-                                {% endif %}
-                                {% if form.vars.allow_delete %}
+                                {%- endif -%}
+                                {%- if form.vars.allow_delete -%}
                                 <button type="button" class="btn btn-danger btn-xs" data-collection-role="remove"
                                         data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}"
                                         {{ delete_button_confirm|raw }}>
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
-                                {% endif %}
-                                {% if form.vars.allow_sort %}
+                                {%- endif -%}
+                                {%- if form.vars.allow_sort -%}
                                 <button type="button" class="btn btn-default btn-xs" data-collection-role="move-down"
                                         data-collection="{{ form.vars.id }}" data-field="{{ field.vars.id }}">
                                     <span class="glyphicon glyphicon-chevron-down"></span>
                                 </button>
-                                {% endif %}
+                                {%- endif -%}
                             </div>
                         </div>
-                        {% endif %}
+                        {%- endif -%}
                     </div>
                 </li>
-            {% endfor %}
+            {%- endfor -%}
         </ul>
-        {% if form.vars.allow_add %}
+        {%- if form.vars.allow_add -%}
             <button type="button" class="btn btn-primary btn-xs" data-collection-role="add"
                     data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">
                 {{- form.vars.add_button_text|trans({}, translation_domain)|raw -}}
             </button>
-        {% endif %}
+        {%- endif -%}
     </div>
-{% endspaceless %}
-{% endblock ekyna_collection_widget %}
+{%- endblock ekyna_collection_widget -%}
 
-{% block form_widget_compound %}
-{% spaceless %}
-    {% if form.parent is null %}
-        {{ block('global_form_errors') }}
-    {% else %}
+{%- block form_widget_compound -%}
+    {%- if form.parent is null -%}
+        {{- block('global_form_errors') -}}
+    {%- else -%}
     <div {{ block('widget_container_attributes') }}>
-    {% endif %}
-        {{ block('form_rows') }}
-        {{ form_rest(form) }}
-    {% if form.parent is not null %}</div>{% endif %}
-{% endspaceless %}
-{% endblock form_widget_compound %}
+    {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    {%- if form.parent is not null %}</div>{% endif -%}
+{%- endblock form_widget_compound -%}
 
-{% block form_help %}
-{% spaceless %}
-    {% if attr.help_text is defined and attr.help_text is not empty %}
-        {% set help_text = attr.help_text %}
-    {% endif %}
-    {% set help_text = help_text|default('') %}
-    {% if help_text is not empty %}
+{%- block form_help -%}
+    {%- if attr.help_text is defined and attr.help_text is not empty -%}
+        {%- set help_text = attr.help_text -%}
+    {%- endif -%}
+    {%- set help_text = help_text|default('') -%}
+    {%- if help_text is not empty -%}
         <span class="help-block">{{ help_text|trans({}, translation_domain)|raw }}</span>
-    {% endif %}
-{% endspaceless %}
-{% endblock form_help %}
+    {%- endif -%}
+{%- endblock form_help -%}
 
-{% block form_errors %}
-{% spaceless %}
-    {% set global_errors = global_errors|default(false) %}
-    {#{% set style = style|default(bootstrap_get_style()) %}
+{%- block form_errors -%}
+    {%- set global_errors = global_errors|default(false) -%}
+    {#{%- set style = style|default(bootstrap_get_style()) -%}
 
-    {% if attr.style is defined and attr.style is not empty %}
-        {% set style = attr.style %}
-    {% endif %}#}
+    {%- if attr.style is defined and attr.style is not empty -%}
+        {%- set style = attr.style -%}
+    {%- endif -%}#}
 
-    {% if errors|length > 0 %}
-    <div class="{% if global_errors %}alert alert-danger{% else %}has-error{% endif %}">
+    {%- if errors|length > 0 -%}
+    <div class="{%- if global_errors %}alert alert-danger{% else %}has-error{% endif %}">
         <ul{% if not global_errors %} class=" help-block"{% endif %}>
-            {% for error in errors %}
+            {%- for error in errors -%}
                 <li>{{ error.message }}</li>
-            {% endfor %}
+            {%- endfor -%}
         </ul>
     </div>
-    {% endif %}
-{% endspaceless %}
-{% endblock form_errors %}
+    {%- endif -%}
+{%- endblock form_errors -%}
 
-{% block file_widget %}
-{% spaceless %}
+{%- block file_widget -%}
     <div class="file-picker">
-        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
-        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+        {%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+        {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
         <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %}">
             <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
-                   {% if form.parent.vars.current_file_name is defined %}
+                   {%- if form.parent.vars.current_file_name is defined -%}
                        data-current="{{ form.parent.vars.current_file_name }}"
-                   {% endif %}
+                   {%- endif -%}
                    placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" data-role="clear">
@@ -215,174 +202,180 @@
                 </button>
             </span>
         </div>
-        {% if form.parent.key is defined %}
+        {%- if form.parent.key is defined -%}
         <div class="progress" id="{{ form.vars.id ~ '_progress' }}" style="display:none;height:8px;margin:4px 0 0 0;">
             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0">
                 <span class="sr-only">0%</span>
             </div>
         </div>
-        {% endif %}
+        {%- endif -%}
         <input type="file"{% if form.parent.key is defined %} data-url="{{ oneup_uploader_endpoint('local_tmp') }}"{% endif %} {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
     </div>
-{% endspaceless %}
-{% endblock file_widget %}
+{%- endblock file_widget -%}
 
-{% block ekyna_upload_widget %}
-{% spaceless %}
-    {{ bootstrap_backup_form_settings() }}
-    {{ bootstrap_set_style('horizontal') }}
-    {{ bootstrap_set_sizing('sm') }}
+{%- block ekyna_upload_widget -%}
+    {{- bootstrap_backup_form_settings() -}}
+    {{- bootstrap_set_style('horizontal') -}}
+    {{- bootstrap_set_sizing('sm') -}}
     <div class="upload-widget">
-        {{ form_row(form.file) }}
-        {% if form.key is defined %}
+        {{- form_row(form.file) -}}
+        {%- if form.key is defined -%}
             {{ form_row(form.key) }}
-        {% endif %}
-        {% if form.rename is defined %}
+        {%- endif -%}
+        {%- if form.rename is defined -%}
             {{ form_row(form.rename) }}
-        {% endif %}
-        {% if form.unlink is defined %}
+        {%- endif -%}
+        {%- if form.unlink is defined -%}
             {{ form_row(form.unlink) }}
-        {% endif %}
+        {%- endif -%}
     </div>
-    {{ bootstrap_restore_form_settings() }}
-{% endspaceless %}
-{% endblock ekyna_upload_widget %}
+    {{- bootstrap_restore_form_settings() -}}
+{%- endblock ekyna_upload_widget -%}
 
-{% block ekyna_entity_search_widget %}
-{% spaceless %}
-    {% set attr = attr|merge({'class': 'entity-search form-control' }) %}
-    {% set attr = attr|merge({'data-placeholder': placeholder|trans({}, translation_domain) }) %}
-    {{ block('choice_widget_collapsed') }}
-{% endspaceless %}
-{% endblock ekyna_entity_search_widget %}
+{%- block ekyna_entity_search_widget -%}
+    {%- set attr = attr|merge({'class': 'entity-search form-control' }) -%}
+    {%- set attr = attr|merge({'data-placeholder': placeholder|trans({}, translation_domain) }) -%}
+    {{- block('choice_widget_collapsed') -}}
+{%- endblock ekyna_entity_search_widget -%}
 
-{% block ekyna_color_picker_widget %}{% set sizing = sizing|default(bootstrap_get_sizing()) %}
-    {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+{%- block ekyna_color_picker_widget %}{% set sizing = sizing|default(bootstrap_get_sizing()) -%}
+    {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
     <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} colorpicker-component form-color-picker" data-options='{{ pickerOptions|json_encode|raw }}'>
-        {{ block("form_widget_simple") }}
+        {{- block("form_widget_simple") -}}
         <span class="input-group-btn">
             <span class="btn btn-default">
                 <span class="fa fa-tint"></span>
             </span>
         </span>
     </div>
-{% endblock ekyna_color_picker_widget %}
+{%- endblock ekyna_color_picker_widget -%}
 
-{% block ekyna_key_value_widget %}
+{%- block ekyna_key_value_widget -%}
     <div class="row">
         <div class="col-md-6">
-            {{ form_row(form.key, {'label_col': 4, 'widget_col': 8}) }}
+            {{- form_row(form.key, {'label_col': 4, 'widget_col': 8}) -}}
         </div>
         <div class="col-md-6">
-            {{ form_row(form.value, {'label_col': 4, 'widget_col': 8}) }}
+            {{- form_row(form.value, {'label_col': 4, 'widget_col': 8}) -}}
         </div>
     </div>
-{% endblock ekyna_key_value_widget %}
+{%- endblock ekyna_key_value_widget -%}
 
-{% block datetime_widget %}
-{% spaceless %}
-    {% if widget == "single_text" %}
-        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
-        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+{%- block ekyna_phone_number_widget -%}
+{%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+{%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
+{%- set attr = attr|merge({class: (attr.class|default('') ~ ' input-group input-group-' ~ sizing)|trim}) -%}
+<div {{ block('widget_container_attributes') }}>
+    <div class="input-group-btn dropdown">
+        {{- form_widget(form.country) -}}
+        <button type="button" class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="country-flag"></span>
+            <span class="country-dial"></span>
+            <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu">
+            <p>Test</p>
+        </div>
+    </div>
+    {{- form_widget(form.number) -}}
+</div>
+{%- endblock ekyna_phone_number_widget -%}
+
+{%- block datetime_widget -%}
+    {%- if widget == "single_text" -%}
+        {%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+        {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
         <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} date form-datetime-picker"
              data-options='{{ picker_options|json_encode|raw }}'>
-            {{ block("form_widget_simple") }}
+            {{- block("form_widget_simple") }}
             <span class="input-group-addon">
                 <span class="fa fa-calendar"></span>
             </span>
         </div>
-    {% else %}
+    {%- else -%}
         <div {{ block("widget_container_attributes") }}>
-            {{ date_pattern|replace({
+            {{- date_pattern|replace({
                 "{{ year }}":  form_widget(form.year),
                 "{{ month }}": form_widget(form.month),
                 "{{ day }}":   form_widget(form.day),
-            })|raw }}
+            })|raw -}}
 
-            {% set attr = {"size": 10}|merge(attr) %}
-            {% set id = "datepicker_" ~ id %}
-            {% set value = '' %}
-            {% set full_name = "datepicker_" ~ full_name %}
-            {{ block("hidden_widget") }}
+            {%- set attr = {"size": 10}|merge(attr) -%}
+            {%- set id = "datepicker_" ~ id -%}
+            {%- set value = '' -%}
+            {%- set full_name = "datepicker_" ~ full_name -%}
+            {{- block("hidden_widget") -}}
         </div>
-    {% endif %}
-{% endspaceless %}
-{% endblock datetime_widget %}
+    {%- endif -%}
+{%- endblock datetime_widget -%}
 
-{% block date_widget %}
-{% spaceless %}
-    {% if widget == 'single_text' %}
-        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
-        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+        {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
         <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} date form-datetime-picker"
              data-options='{{ picker_options|json_encode|raw }}'>
-            {{ block("form_widget_simple") }}
+            {{- block("form_widget_simple") -}}
             <span class="input-group-addon">
                 <span class="fa fa-calendar"></span>
             </span>
         </div>
-    {% else %}
-        {% set attr = attr|merge({ 'class': 'bootstrap-date' }) %}
+    {%- else -%}
+        {%- set attr = attr|merge({ 'class': 'bootstrap-date' }) -%}
         <div {{ block('widget_container_attributes') }}>
-            {{ date_pattern|replace({
+            {{- date_pattern|replace({
                 '{{ year }}':  form_widget(form.year),
                 '{{ month }}': form_widget(form.month),
                 '{{ day }}':   form_widget(form.day),
-            })|raw }}
+            })|raw -}}
         </div>
-    {% endif %}
-{% endspaceless %}
-{% endblock date_widget %}
+    {%- endif -%}
+{%- endblock date_widget -%}
 
-{% block choice_widget_expanded %}
-{% spaceless %}
-    {% set attr = attr|merge({ 'class': 'form-choices ' ~ (attr.class|default(''))|trim }) %}
-    {{ parent() }}
-{% endspaceless %}
-{% endblock choice_widget_expanded %}
+{%- block choice_widget_expanded -%}
+    {%- set attr = attr|merge({ 'class': 'form-choices ' ~ (attr.class|default(''))|trim }) -%}
+    {{- parent() -}}
+{%- endblock choice_widget_expanded -%}
 
-{% block choice_widget_collapsed %}
-{% spaceless %}
-    {% if add_route is defined and add_route is not same as(false) %}
-        {% set sizing = sizing|default(bootstrap_get_sizing()) %}
-        {% if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif %}
+{%- block choice_widget_collapsed -%}
+    {%- if add_route is defined and add_route is not same as(false) -%}
+        {%- set sizing = sizing|default(bootstrap_get_sizing()) -%}
+        {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
         <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %} entity-widget">
-    {% elseif sizing is defined and sizing is not empty %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) %}
-    {% endif %}
-    {{ parent() }}
-    {% if add_route is defined and add_route is not same as(false) %}
+    {%- elseif sizing is defined and sizing is not empty -%}
+        {%- set attr = attr|merge({ 'class': (attr.class|default('') ~ ' input-' ~ sizing)|trim }) -%}
+    {%- endif -%}
+    {{- parent() -}}
+    {%- if add_route is defined and add_route is not same as(false) -%}
     <span class="input-group-btn">
         <button class="btn btn-default new-resource" type="button" data-path="{{ path(add_route, add_route_params) }}">
             <span class="fa fa-plus"></span>
         </button>
     </span>
     </div>
-    {% endif %}
-{% endspaceless %}
-{% endblock choice_widget_collapsed %}
+    {%- endif -%}
+{%- endblock choice_widget_collapsed -%}
 
-{% block captcha_widget %}
-{% spaceless %}
-    {% if is_human %}
+{%- block captcha_widget -%}
+    {%- if is_human -%}
         -
-    {% else %}
+    {%- else -%}
         <div class="input-group input-group-lg">
             <span class="input-group-addon" style="padding:0 0 0 6px">
                 <img id="{{ image_id }}" src="{{ captcha_code }}" alt="" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}">
             </span>
-            {{ form_widget(form) }}
-            {% if reload -%}
+            {{- form_widget(form) -}}
+            {%- if reload -%}
                 <span class="input-group-btn">
                 <a class="btn btn-default" href="javascript:reload_{{ image_id }}();">
                     <i class="fa fa-refresh"></i>
                 </a>
             </span>
-            {%- endif %}
+            {%- endif -%}
         </div>
-        {% if reload -%}
+        {%- if reload -%}
         <script type="text/javascript">function reload_{{ image_id }}() { var img = document.getElementById('{{ image_id }}'); img.src = '{{ captcha_code }}?n=' + (new Date()).getTime();}</script>
-        {%- endif %}
-    {% endif %}
-{% endspaceless %}
-{% endblock captcha_widget %}
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock captcha_widget -%}

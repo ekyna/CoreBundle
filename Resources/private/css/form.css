@@ -330,8 +330,6 @@
 /**
  *  Collections
  */
-
-/* ekyna collection */
 .ekyna-collection-prototype {
     display: none;
 }
@@ -357,6 +355,64 @@
 
 .ekyna-collection .ekyna-collection-item .ekyna-collection-item {
     background-color: #ebebeb;
+}
+
+/**
+ *  Phone number form
+ */
+.phone-number button {
+    padding: 5px 6px 6px 6px;
+}
+
+.phone-number button > span {
+    vertical-align: middle;
+}
+
+.phone-number button > span.country-flag {
+    margin-right: 4px;
+}
+
+.phone-number span.country-dial {
+    color: #999;
+    margin-right: 4px;
+}
+
+.phone-number .dropdown-menu {
+    padding: 0;
+    margin: 0;
+}
+
+.phone-number .dropdown-menu > div {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 280px;
+}
+
+.phone-number ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.phone-number ul > li {
+    padding: 5px 10px;
+    cursor: pointer;
+    line-height: 18px;
+}
+
+.phone-number ul > li:hover {
+    background-color: #e6e6e6;
+}
+
+.phone-number ul > li.active {
+    background-color: #337ab7;
+    color: #fff;
+}
+
+.phone-number ul > li > span {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 6px;
 }
 
 /**

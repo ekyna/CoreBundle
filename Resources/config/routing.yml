@@ -15,15 +15,23 @@ ekyna_core_tinymce_config:
     path: /js/tinymce-config.json
     defaults: { _controller: "EkynaCoreBundle:Form:tinymce" }
 
+ekyna_core_countries:
+    path: /{_locale}/js/countries.json
+    defaults: { _controller: "EkynaCoreBundle:Form:countries" }
+    requirements:
+        key: '[a-z]{2}'
+    options: { i18n: false }
+
 ekyna_core_download:
     path: /download/file/{key}
     defaults: { _controller: "EkynaCoreBundle:File:download" }
     methods: [GET]
     requirements:
         key: '[a-z0-9-\./]+'
-    options: { expose: true }
+    options: { i18n: false, expose: true }
 
 ekyna_core_tiymce_upload:
     path: /admin/tinymce/upload
     defaults: { _controller: "EkynaCoreBundle:File:tinymceUpload" }
     methods: [POST]
+    options: { i18n: false }

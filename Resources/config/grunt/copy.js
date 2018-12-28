@@ -160,6 +160,12 @@ module.exports = function (grunt, options) {
                 {
                     src: 'node_modules/intl/dist/Intl.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/intl/intl.js'
+                },
+                {
+                    expand: true,
+                    cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private/lib',
+                    src: ['**'],
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib'
                 }
             ]
         },
@@ -193,12 +199,6 @@ module.exports = function (grunt, options) {
                     return content;
                 }
             }
-        },
-        core_files: {
-            expand: true,
-            cwd: 'src/Ekyna/Bundle/CoreBundle/Resources/private',
-            src: ['img/**', 'lib/**'],
-            dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public'
         },
         core_less: { // For watch:core_less
             expand: true,

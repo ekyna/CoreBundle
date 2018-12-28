@@ -1,6 +1,7 @@
 doctrine:
     dbal:
         types:
+            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
             encrypted_json: Ekyna\Bundle\CoreBundle\Doctrine\Type\EncryptedJsonType
     orm:
         entity_managers:

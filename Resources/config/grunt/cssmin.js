@@ -11,6 +11,9 @@ module.exports = function (grunt, options) {
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/ui.css': [
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/ui.css'
                 ],
+                'src/Ekyna/Bundle/CoreBundle/Resources/public/css/flags.css': [
+                    'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/flags.css'
+                ],
                 'src/Ekyna/Bundle/CoreBundle/Resources/public/css/jquery-ui.css': [
                     'node_modules/jquery-ui-themes/themes/smoothness/jquery-ui.css',
                     'src/Ekyna/Bundle/CoreBundle/Resources/private/css/jquery-ui.css'

@@ -2,10 +2,14 @@
 
 namespace Ekyna\Bundle\CoreBundle\Controller;
 
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\AutoExpireFlashBag;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Class FormController
@@ -14,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\AutoExpireFlashBag;
  */
 class FormController extends Controller
 {
-    private $locales = array(
+    private $locales = [
         'bn' => 'bn_BD',
         'bg' => 'bg_BG',
         'cn' => 'zh_CN',
@@ -25,8 +29,8 @@ class FormController extends Controller
         'sl' => 'sl_SI',
         'tr' => 'tr_TR',
         'tw' => 'zh_TW',
-        'uk' => 'uk_UA'
-    );
+        'uk' => 'uk_UA',
+    ];
 
     /**
      * Returns the form plugins configuration.
@@ -61,6 +65,57 @@ class FormController extends Controller
         $this->preserveFlashes($request);
 
         $response = new JsonResponse($this->buildTinymceConfig());
+
+        $response
+            ->setPublic()
+            ->setMaxAge(3600 * 24 * 30)
+            ->setSharedMaxAge(3600 * 24 * 30);
+
+        return $response;
+    }
+
+    /**
+     * Returns the countries configuration.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function countriesAction(Request $request)
+    {
+        $this->preserveFlashes($request);
+
+        $locale = $request->getLocale();
+
+        $countries = Intl::getRegionBundle()->getCountryNames($locale);
+        $util = PhoneNumberUtil::getInstance();
+
+        $config = [];
+        foreach ($countries as $code => $name) {
+            if (0 == $dial = $util->getCountryCodeForRegion($code)) {
+                continue;
+            }
+
+            $fixed = $mobile = null;
+            if ($example = $util->getExampleNumberForType($code, PhoneNumberType::FIXED_LINE)) {
+                $fixed = $util->format($example, PhoneNumberFormat::NATIONAL);
+            }
+            if ($example = $util->getExampleNumberForType($code, PhoneNumberType::MOBILE)) {
+                $mobile = $util->format($example, PhoneNumberFormat::NATIONAL);
+            }
+
+            $config[$code] = [
+                'name'   => $name,
+                'dial'   => $dial,
+                'fixed'  => $fixed,
+                'mobile' => $mobile,
+            ];
+        }
+
+        // TODO Cache by locale
+        // TODO Sort countries by name
+
+        $response = new JsonResponse($config);
 
         $response
             ->setPublic()

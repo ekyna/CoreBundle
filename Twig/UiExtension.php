@@ -3,8 +3,8 @@
 namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Ekyna\Bundle\CoreBundle\Service\Ui\UiRenderer;
-use Ekyna\Component\Resource\Locale\LocaleProviderInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
 
 /**
@@ -20,21 +20,26 @@ class UiExtension extends \Twig_Extension
     private $uiRenderer;
 
     /**
-     * @var LocaleProviderInterface
+     * @var RequestStack
      */
-    private $localeProvider;
+    private $requestStack;
+
+    /**
+     * @var string
+     */
+    private $inLocale;
 
 
     /**
      * Constructor.
      *
-     * @param UiRenderer              $uiRenderer
-     * @param LocaleProviderInterface $localeProvider
+     * @param UiRenderer   $uiRenderer
+     * @param RequestStack $requestStack
      */
-    public function __construct(UiRenderer $uiRenderer, LocaleProviderInterface $localeProvider)
+    public function __construct(UiRenderer $uiRenderer, RequestStack $requestStack)
     {
         $this->uiRenderer = $uiRenderer;
-        $this->localeProvider = $localeProvider;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -61,7 +66,7 @@ class UiExtension extends \Twig_Extension
             new \Twig_SimpleFunction(
                 'ui_no_image',
                 [$this->uiRenderer, 'renderNoImage'],
-                ['is_safe' => ['html'], ]
+                ['is_safe' => ['html'],]
             ),
             new \Twig_SimpleFunction(
                 'ui_link',
@@ -113,7 +118,7 @@ class UiExtension extends \Twig_Extension
      */
     public function getLanguage($locale)
     {
-        return \Locale::getDisplayLanguage($locale, $this->localeProvider->getCurrentLocale());
+        return \Locale::getDisplayLanguage($locale, $this->getInLocale());
     }
 
     /**
@@ -125,6 +130,24 @@ class UiExtension extends \Twig_Extension
      */
     public function getCountry($countryCode)
     {
-        return Intl::getRegionBundle()->getCountryName($countryCode, $this->localeProvider->getCurrentLocale());
+        return Intl::getRegionBundle()->getCountryName($countryCode, $this->getInLocale());
+    }
+
+    /**
+     * Returns the current locale.
+     *
+     * @return string
+     */
+    private function getInLocale()
+    {
+        if ($this->inLocale) {
+            return $this->inLocale;
+        }
+
+        if ($request = $this->requestStack->getMasterRequest()) {
+            return $this->inLocale = $request->getLocale();
+        }
+
+        return $this->inLocale = \Locale::getDefault();
     }
 }

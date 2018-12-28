@@ -58,6 +58,12 @@
             <tag name="form.type"/>
             <tag name="form.js" selector=".tinymce" path="ekyna-form/tinymce"/>
         </service>
+        <service id="ekyna_core.phone_number.form_type"
+                 class="Ekyna\Bundle\CoreBundle\Form\Type\PhoneNumberType">
+            <argument type="service" id="ekyna_core.geo.user_country_guesser"/>
+            <tag name="form.type"/>
+            <tag name="form.js" selector=".phone-number" path="ekyna-form/phone-number"/>
+        </service>
 
         <!-- Form Extensions -->
         <service id="ekyna_core.form.extension.form_redirect"
@@ -178,7 +184,7 @@
         <service id="ekyna_core.twig.ui_extension"
                  class="Ekyna\Bundle\CoreBundle\Twig\UiExtension">
             <argument type="service" id="ekyna_core.ui.renderer"/>
-            <argument type="service" id="ekyna_resource.locale.request_provider"/>
+            <argument type="service" id="request_stack"/>
             <tag name="twig.extension"/>
         </service>
         <service id="twig.extension.text"
@@ -229,6 +235,13 @@
                  class="Ekyna\Bundle\CoreBundle\Doctrine\EventListener\EncryptorListener">
             <argument type="service" id="ekyna_core.encryptor.halite"/>
             <tag name="doctrine.event_listener" event="getEncryptor"/>
+        </service>
+
+        <!-- Geo user country gusser -->
+        <service id="ekyna_core.geo.user_country_guesser"
+                 class="Ekyna\Bundle\CoreBundle\Service\Geo\UserCountryGuesser">
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
+            <argument>%kernel.debug%</argument>
         </service>
 
     </services>

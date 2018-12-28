@@ -35,7 +35,8 @@
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
         "paragonie/halite": "^4",
         "ozdemirburak/iris": "^1.2",
-        "ekyna/require-js-bundle": "0.7.x-dev"
+        "ekyna/require-js-bundle": "0.7.x-dev",
+        "misd/phone-number-bundle": "2.0.x-dev"
     },
     "repositories": [
         {
