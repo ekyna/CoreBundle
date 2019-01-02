@@ -122,6 +122,3 @@ build:
         - ekyna-dispatcher
         - ekyna-ui
         - ekyna-core
-    paths:
-        tinymce_config: 'empty:'
-        ekyna-form/plugins: 'empty:'

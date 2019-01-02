@@ -21,6 +21,19 @@ class ConfirmType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('confirm', Type\CheckboxType::class, [
+            'label'       => $options['message'],
+            'attr'        => ['align_with_widget' => true],
+            'required'    => true,
+            'constraints' => [
+                new Constraints\IsTrue(),
+            ],
+        ]);
+
+        if (!$options['buttons']) {
+            return;
+        }
+
         $buttons = [
             'submit' => [
                 'type'    => Type\SubmitType::class,
@@ -48,18 +61,9 @@ class ConfirmType extends AbstractType
             ];
         }
 
-        $builder
-            ->add('confirm', Type\CheckboxType::class, [
-                'label'       => $options['message'],
-                'attr'        => ['align_with_widget' => true],
-                'required'    => true,
-                'constraints' => [
-                    new Constraints\IsTrue(),
-                ],
-            ])
-            ->add('actions', FormActionsType::class, [
-                'buttons' => $buttons,
-            ]);
+        $builder->add('actions', FormActionsType::class, [
+            'buttons' => $buttons,
+        ]);
     }
 
     /**
@@ -74,8 +78,10 @@ class ConfirmType extends AbstractType
                 'submit_class' => 'danger',
                 'submit_icon'  => 'remove',
                 'cancel_path'  => null,
+                'buttons'      => true,
             ])
             ->setAllowedTypes('message', 'string')
+            ->setAllowedTypes('buttons', 'bool')
             ->setAllowedTypes('submit_label', 'string')
             ->setAllowedTypes('submit_class', 'string')
             ->setAllowedTypes('submit_icon', ['string', 'null'])
