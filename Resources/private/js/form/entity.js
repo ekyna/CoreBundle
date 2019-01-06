@@ -26,8 +26,8 @@ define(['jquery', 'ekyna-modal', 'ekyna-table', 'select2'], function($, Modal, T
                             $option.prop('selected', true);
                             if (data.choice_label !== undefined) {
                                 $option.html(data.choice_label);
-                            } else if (data.name !== undefined) {
-                                $option.html(data.name);
+                            } else if (data.text !== undefined) {
+                                $option.html(data.text);
                             } else if(data.title !== undefined) {
                                 $option.html(data.title);
                             } else {
@@ -70,8 +70,8 @@ define(['jquery', 'ekyna-modal', 'ekyna-table', 'select2'], function($, Modal, T
                                             $option.prop('selected', true);
                                             if (element.choice_label !== undefined) {
                                                 $option.html(element.choice_label);
-                                            } else if (element.name !== undefined) {
-                                                $option.html(element.name);
+                                            } else if (element.text !== undefined) {
+                                                $option.html(element.text);
                                             } else if (element.title !== undefined) {
                                                 $option.html(element.title);
                                             } else {

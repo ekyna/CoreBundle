@@ -4,6 +4,8 @@ namespace Ekyna\Bundle\CoreBundle\Form\Type;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ekyna\Bundle\CoreBundle\Form\DataTransformer\ObjectToIdentifierTransformer;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
+use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,6 +13,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -51,7 +54,15 @@ class EntitySearchType extends AbstractType
     {
         $repository = $this->registry->getRepository($options['class']);
 
-        $builder->addViewTransformer(new ObjectToIdentifierTransformer($repository));
+        $builder->addViewTransformer(
+            new ObjectToIdentifierTransformer($repository, $options['identifier'], $options['multiple'])
+        );
+
+        if ($options['multiple']) {
+            $builder
+                ->addViewTransformer(new CollectionToArrayTransformer(), true)
+                ->addEventSubscriber(new MergeDoctrineCollectionListener());
+        }
     }
 
     /**
@@ -59,28 +70,47 @@ class EntitySearchType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $value = null;
-        $choices = [];
-        if (null !== $entity = $form->getData()) {
-            $repository = $this->registry->getRepository($options['class']);
-            $transformer = new ObjectToIdentifierTransformer($repository);
-            $value = $transformer->transform($entity);
+        $repository = $this->registry->getRepository($options['class']);
 
-            $choices[] = new ChoiceView($entity, $value, (string)$entity, [
-                'data-entity' => $this->serializer->normalize($entity, 'json', ['groups' => ['Search']])
-            ]);
+        $identifier = $options['identifier'];
+
+        $transformer = new ObjectToIdentifierTransformer($repository, $identifier, $options['multiple']);
+        $value = $transformer->transform($data = $form->getData());
+
+        $choices = [];
+        if (!empty($data)) {
+            $accessor = PropertyAccess::createPropertyAccessor();
+            $createChoice = function ($entity) use ($accessor, $identifier) {
+                return new ChoiceView($entity, $accessor->getValue($entity, $identifier), (string)$entity, [
+                    'data-entity' => $this->serializer->normalize($entity, 'json', ['groups' => ['Search']]),
+                ]);
+            };
+            if ($options['multiple']) {
+                foreach ($data as $entity) {
+                    $choices[] = $createChoice($entity);
+                }
+            } else {
+                $choices[] = $createChoice($data);
+            }
         }
 
         $view->vars['value'] = $value;
         $view->vars['choices'] = $choices;
         $view->vars['preferred_choices'] = [];
         $view->vars['placeholder'] = 'ekyna_core.field.search';
-        $view->vars['multiple'] = false;
+        $view->vars['multiple'] = $options['multiple'];
         $view->vars['expanded'] = false;
 
         $view->vars['attr']['data-config'] = json_encode(array_intersect_key($options, array_flip([
-            'route', 'route_params', 'allow_clear',
+            'route',
+            'route_params',
+            'allow_clear',
         ])));
+
+
+        if ($options['multiple']) {
+            $view->vars['full_name'] .= '[]';
+        }
 
         if (0 < strlen($options['add_route'])) {
             $view->vars['add_route'] = $options['add_route'];
@@ -95,7 +125,9 @@ class EntitySearchType extends AbstractType
     {
         $resolver
             ->setDefaults([
+                'identifier'       => 'id',
                 'compound'         => false,
+                'multiple'         => false,
                 'route'            => null,
                 'route_params'     => [],
                 'add_route'        => false,
@@ -110,6 +142,7 @@ class EntitySearchType extends AbstractType
             ])
             ->setRequired(['class', 'route'])
             ->setAllowedTypes('class', 'string')
+            ->setAllowedTypes('identifier', 'string')
             ->setAllowedTypes('route', 'string')
             ->setAllowedTypes('route_params', 'array')
             ->setAllowedTypes('allow_clear', 'bool');
