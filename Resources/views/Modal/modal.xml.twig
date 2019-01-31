@@ -24,7 +24,7 @@
             {% include modal.vars.form_template with modal.vars %}
             {{ form_end(form) }}
         {% else %}
-            {{ form(modal.content) }}
+            {{ form(form) }}
         {% endif %}
     {%- elseif modal.contentType == 'table' -%}
         {% include '@EkynaCore/Ui/flashes.html.twig' %}
@@ -34,6 +34,9 @@
     {%- else -%}
         {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {{ modal.content|raw }}
+    {%- endif -%}
+    {%- if modal.vars.extra_content is defined -%}
+        {{ modal.vars.extra_content|raw }}
     {%- endif -%}
     ]]></content>
 {#{% endif %}#}

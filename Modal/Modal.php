@@ -13,6 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Modal
 {
+    const CONTENT_HTML  = 'html';
+    const CONTENT_FORM  = 'form';
+    const CONTENT_TABLE = 'table';
+    const CONTENT_DATA  = 'data';
+
     const TYPE_DEFAULT = 'type-default';
     const TYPE_INFO    = 'type-info';
     const TYPE_PRIMARY = 'type-primary';
@@ -90,7 +95,7 @@ class Modal
         $this->setButtons($buttons);
 
         $this->setVars([
-            'form_template' => '@EkynaCore/Form/default_form_body.html.twig',
+            'form_template' => '@EkynaCore/Modal/form.html.twig',
         ]);
     }
 
@@ -188,14 +193,18 @@ class Modal
     public function setContent($content)
     {
         if ($content instanceof FormView) {
-            $this->contentType = 'form';
-        } elseif (class_exists('Ekyna\Component\Table\View\TableView') && is_a($content, 'Ekyna\Component\Table\View\TableView')) {
-            $this->contentType = 'table';
+            $this->contentType = self::CONTENT_FORM;
+        } elseif (
+            class_exists('Ekyna\Component\Table\View\TableView') &&
+            is_a($content, 'Ekyna\Component\Table\View\TableView')
+        ) {
+            $this->contentType = self::CONTENT_TABLE;
         } elseif (is_array($content)) {
-            $this->contentType = 'data';
+            $this->contentType = self::CONTENT_DATA;
         } else {
-            $this->contentType = 'html';
+            $this->contentType = self::CONTENT_HTML;
         }
+
         $this->content = $content;
 
         return $this;

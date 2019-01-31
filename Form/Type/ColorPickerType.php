@@ -19,22 +19,18 @@ class ColorPickerType extends AbstractType
     /**
      * @var array
      */
-    private $colorsMap;
+    private $colorsMap = [];
 
 
     /**
      * Constructor.
      *
-     * @param array $config
+     * @param array $colors
      */
-    public function __construct(array $config)
+    public function __construct(array $colors = [])
     {
-        $this->colorsMap = [];
-
-        if (isset($config['colors']) && is_array($config['colors'])) {
-            foreach ($config['colors'] as $value) {
-                $this->colorsMap['#' . $value] = '#' . $value;
-            }
+        foreach ($colors as $color) {
+            $this->colorsMap['#' . $color] = '#' . $color;
         }
     }
 

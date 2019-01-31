@@ -112,20 +112,14 @@ class Controller extends BaseController
      *
      * @param Response $response
      * @param array    $tags
-     * @param int      $smaxage
+     * @param int      $sMaxAge
      *
      * @return Response;
      */
-    protected function configureSharedCache(Response $response, array $tags = [], $smaxage = null)
+    protected function configureSharedCache(Response $response, array $tags = [], $sMaxAge = null)
     {
-        if (!empty($tags)) {
-            $this->get('ekyna_core.cache.tag_manager')->addTags($tags);
-        }
-        $smaxage = intval($smaxage);
-        if (0 >= $smaxage) {
-            $smaxage = $this->container->getParameter('ekyna_core.config.cache')['default_smaxage'];
-        }
-
-        return $response->setSharedMaxAge($smaxage);
+        return $this
+            ->get('ekyna_core.cache.tag_manager')
+            ->configureResponse($response, $tags, $sMaxAge);
     }
 }

@@ -21,7 +21,6 @@ class EkynaCoreBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new Pass\FosHttpCachePass());
         $container->addCompilerPass(new Pass\RedirectionProviderPass());
         $container->addCompilerPass(new Pass\SetRouterPass());
         $container->addCompilerPass(new Pass\FormJsPass());

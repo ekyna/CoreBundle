@@ -119,7 +119,7 @@
         <!-- Http cache -->
         <service id="ekyna_core.cache.tag_manager"
                  class="Ekyna\Bundle\CoreBundle\Cache\TagManager">
-            <argument>%ekyna_core.config.cache%</argument>
+            <argument type="collection"/><!-- Replace by DI extension -->
         </service>
 
         <!-- Redirection -->
@@ -202,12 +202,13 @@
             <tag name="knp_menu.voter" request="true"/>
         </service>
 
-        <!-- Boostrap modal -->
+        <!-- Modal -->
         <service id="ekyna_core.modal"
                  class="Ekyna\Bundle\CoreBundle\Modal\Renderer">
             <argument id="twig" type="service"/>
             <argument id="translator" type="service"/>
-            <argument>%kernel.charset%</argument>
+            <argument id="event_dispatcher" type="service"/>
+            <argument type="collection"/><!-- Replaced by DI extension -->
         </service>
 
         <!-- Flash helper -->

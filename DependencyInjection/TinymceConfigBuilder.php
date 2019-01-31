@@ -20,7 +20,7 @@ class TinymceConfigBuilder
      *
      * @param bool $isDevEnv
      */
-    public function __construct($isDevEnv)
+    public function __construct(bool $isDevEnv)
     {
         $this->isDevEnv = $isDevEnv;
     }

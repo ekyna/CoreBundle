@@ -10,7 +10,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * Class RegisterRoutersPass
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler
  * @author Étienne Dauvergne <contact@ekyna.com>
- * @see Symfony\Cmf\Component\Routing\DependencyInjection\Compiler\RegisterRoutersPass
+ *
+ * @see \Symfony\Cmf\Component\Routing\DependencyInjection\Compiler\RegisterRoutersPass
  */
 class RegisterRoutersPass implements CompilerPassInterface
 {
