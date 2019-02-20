@@ -30,7 +30,7 @@
         "gregwar/captcha-bundle": "^2.0",
         "oneup/flysystem-bundle": "^3.0",
         "oneup/uploader-bundle": "^2.1",
-        "a2lix/translation-form-bundle": "3.x-dev",
+        "a2lix/translation-form-bundle": "^3.0",
         "braincrafted/bootstrap-bundle": "dev-form-sizing",
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
         "paragonie/halite": "^4",

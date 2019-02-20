@@ -56,7 +56,7 @@ class FaIconsCommand extends ContainerAwareCommand
      */
     private function gatherIconsNames()
     {
-        $path = $this->root . '/bower_components/font-awesome/less/icons.less';
+        $path = $this->root . '/node_modules/font-awesome/less/icons.less';
 
         $handle = fopen($path, 'r');
         if (!$handle) {
