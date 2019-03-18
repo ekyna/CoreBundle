@@ -214,7 +214,6 @@ ekyna_core:
         depth: Profondeur
         total: Total
     message:
-        captcha: Veuillez recopier le code de l'image
         fa_icon_cheatsheet: |
             Voir la <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">liste complète des icônes</a>.
         remove_confirm: Êtes-vous sûr de vouloir supprimer cet élément ?

@@ -27,7 +27,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "gedmo/doctrine-extensions": "v2.4.31",
         "knplabs/knp-menu-bundle": "^2.2",
-        "gregwar/captcha-bundle": "^2.0",
+        "excelwebzone/recaptcha-bundle": "^1.5",
         "oneup/flysystem-bundle": "^3.0",
         "oneup/uploader-bundle": "^2.1",
         "a2lix/translation-form-bundle": "^3.0",

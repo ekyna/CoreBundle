@@ -84,11 +84,6 @@
                  extended-type="Symfony\Component\Form\Extension\Core\Type\ChoiceType"/>
             <tag name="form.js" selector="select[data-parent-choice]" path="ekyna-form/parent-choice"/>
         </service>
-        <service id="ekyna_core.form.extension.captcha"
-                 class="Ekyna\Bundle\CoreBundle\Form\Extension\CaptchaTypeExtension">
-            <tag name="form.type_extension"
-                 extended-type="Gregwar\CaptchaBundle\Type\CaptchaType"/>
-        </service>
         <service id="ekyna_core.form.extension.datetime"
                  class="Ekyna\Bundle\CoreBundle\Form\Extension\DatetimeTypeExtension">
             <tag name="form.type_extension"
