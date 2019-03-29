@@ -102,6 +102,8 @@ class PhoneNumberType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         FormUtil::addClass($view, 'phone-number');
+        FormUtil::addClass($view['country'], 'country');
+        FormUtil::addClass($view['number'], 'number');
 
         $view->vars['attr']['data-type'] = $options['type'] === Types::MOBILE ? 'mobile' : 'fixed';
 

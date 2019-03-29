@@ -45,7 +45,6 @@ class CountryFlagsCommand extends Command
 
         $less = ".country-flag {\n";
         $less .= "    background: url('/bundles/ekynacore/img/flags.png') no-repeat 0 0 scroll;\n\n";
-        $less .= "    box-shadow: 0 1px 2px 0 #cfcfcf;\n\n";
         $less .= "    display: inline-block;\n";
         $less .= "    height: 15px;\n";
         $less .= "    width: 21px;\n";

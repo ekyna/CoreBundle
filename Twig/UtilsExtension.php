@@ -4,6 +4,7 @@ namespace Ekyna\Bundle\CoreBundle\Twig;
 
 use Doctrine\Common\Inflector\Inflector;
 use Ekyna\Bundle\CoreBundle\Util\Truncator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * UtilsExtension
@@ -13,7 +14,28 @@ use Ekyna\Bundle\CoreBundle\Util\Truncator;
 class UtilsExtension extends \Twig_Extension
 {
     /**
-     * {@inheritdoc}
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var string
+     */
+    private $previousLocale;
+
+
+    /**
+     * Constructor.
+     *
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getFilters()
     {
@@ -27,12 +49,14 @@ class UtilsExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getFunctions()
     {
         return [
             new \Twig_SimpleFunction('unset', [$this, 'unset']),
+            new \Twig_SimpleFunction('trans_set_locale', [$this, 'translatorSetLocale']),
+            new \Twig_SimpleFunction('trans_revert_locale', [$this, 'translatorRevertLocale']),
         ];
     }
 
@@ -104,7 +128,7 @@ class UtilsExtension extends \Twig_Extension
     }
 
     /**
-     * Unsets the gieven array's key.
+     * Unsets the given array's key.
      *
      * @param array  $array
      * @param string $key
@@ -112,5 +136,33 @@ class UtilsExtension extends \Twig_Extension
     public function unset(array $array, $key)
     {
         unset($array[$key]);
+    }
+
+    /**
+     * Sets the translator locator.
+     *
+     * @param string $locale
+     */
+    public function translatorSetLocale(string $locale)
+    {
+        if (is_null($this->previousLocale)) {
+            $this->previousLocale = $this->translator->getLocale();
+        }
+
+        $this->translator->setLocale($locale);
+    }
+
+    /**
+     * Reverts the translator locale.
+     */
+    public function translatorRevertLocale()
+    {
+        if (is_null($this->previousLocale)) {
+            return;
+        }
+
+        $this->translator->setLocale($this->previousLocale);
+
+        $this->previousLocale = null;
     }
 }

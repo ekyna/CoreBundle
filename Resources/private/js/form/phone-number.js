@@ -89,6 +89,8 @@ define(['jquery', 'ekyna-string'], function($) {
 
         this.$dropdown.on('shown.bs.dropdown', $.proxy(this.scrollToSelected, this));
 
+        this.$country.on('change', $.proxy(this.countryChangeHandler, this));
+
         if (this.$form.data('watch')) {
             this.$watch = $('#' + this.$form.data('watch'));
             if (this.$watch.length) {
@@ -105,6 +107,14 @@ define(['jquery', 'ekyna-string'], function($) {
     PhoneNumberWidget.prototype.disableListHandlers = function () {
         this.$dropdown.off('click', 'li', this.onListClick);
         this.$dropdown.off('keydown', this.onListKeydown);
+    };
+
+    PhoneNumberWidget.prototype.countryChangeHandler = function () {
+        if (!this.$country.val()) {
+            return;
+        }
+
+        this.selectCountry(this.$dropdown.find('li[data-code="' + this.$country.val() + '"]'));
     };
 
     PhoneNumberWidget.prototype.watchChangeHandler = function () {
@@ -201,6 +211,10 @@ define(['jquery', 'ekyna-string'], function($) {
             return;
         }
 
+        if (this.$current === $li) {
+            return;
+        }
+
         if (this.$current) {
             this.$current.removeClass('active');
             this.$flag.removeClass(String(this.$current.data('code')).toLowerCase());
@@ -212,7 +226,9 @@ define(['jquery', 'ekyna-string'], function($) {
         this.$current.addClass('active');
 
         var code = String(this.$current.data('code'));
-        this.$country.val(code);
+        if (code !== this.$country.val()) {
+            this.$country.val(code);
+        }
         this.$flag.addClass(code.toLowerCase());
         this.$dial.text('+' + this.$current.data('dial'));
 

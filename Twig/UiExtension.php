@@ -94,6 +94,8 @@ class UiExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFilter('language', [$this, 'getLanguage']),
             new \Twig_SimpleFilter('country', [$this, 'getCountry']),
+            new \Twig_SimpleFilter('currency_name', [$this, 'getCurrencyName']),
+            new \Twig_SimpleFilter('currency_symbol', [$this, 'getCurrencySymbol']),
         ];
     }
 
@@ -110,27 +112,55 @@ class UiExtension extends \Twig_Extension
     }
 
     /**
-     * Display the language for the given locale.
+     * Returns the language for the given locale.
      *
      * @param string $locale
+     * @param string $displayLocale
      *
      * @return string
      */
-    public function getLanguage($locale)
+    public function getLanguage($locale, $displayLocale = null)
     {
-        return \Locale::getDisplayLanguage($locale, $this->getInLocale());
+        return \Locale::getDisplayLanguage($locale, $displayLocale ?? $this->getInLocale());
     }
 
     /**
-     * Display the country name for the given code.
+     * Returns the country name for the given code.
      *
-     * @param string $countryCode
+     * @param string $code
+     * @param string $displayLocale
      *
      * @return string
      */
-    public function getCountry($countryCode)
+    public function getCountry($code, $displayLocale = null)
     {
-        return Intl::getRegionBundle()->getCountryName($countryCode, $this->getInLocale());
+        return Intl::getRegionBundle()->getCountryName($code, $displayLocale ?? $this->getInLocale());
+    }
+
+    /**
+     * Returns the currency name for the given code.
+     *
+     * @param string $code
+     * @param string $displayLocale
+     *
+     * @return string
+     */
+    public function getCurrencyName($code, $displayLocale = null)
+    {
+        return Intl::getCurrencyBundle()->getCurrencyName($code, $displayLocale ?? $this->getInLocale());
+    }
+
+    /**
+     * Returns the currency symbol for the given code.
+     *
+     * @param string $code
+     * @param string $displayLocale
+     *
+     * @return string
+     */
+    public function getCurrencySymbol($code, $displayLocale = null)
+    {
+        return Intl::getCurrencyBundle()->getCurrencySymbol($code, $displayLocale ?? $this->getInLocale());
     }
 
     /**
