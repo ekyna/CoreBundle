@@ -234,11 +234,10 @@
             <tag name="doctrine.event_listener" event="getEncryptor"/>
         </service>
 
-        <!-- Geo user country gusser -->
+        <!-- Geo user country guesser -->
         <service id="ekyna_core.geo.user_country_guesser"
                  class="Ekyna\Bundle\CoreBundle\Service\Geo\UserCountryGuesser">
             <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
-            <argument>%kernel.debug%</argument>
         </service>
 
     </services>

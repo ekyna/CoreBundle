@@ -21,11 +21,6 @@ class UserCountryGuesser
     private $requestStack;
 
     /**
-     * @var bool
-     */
-    private $debug;
-
-    /**
      * @var Client
      */
     private $client;
@@ -40,12 +35,10 @@ class UserCountryGuesser
      * Constructor.
      *
      * @param RequestStack $requestStack
-     * @param bool $debug
      */
-    public function __construct(RequestStack $requestStack, bool $debug)
+    public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->debug = $debug;
         $this->results = [];
     }
 
@@ -56,7 +49,7 @@ class UserCountryGuesser
      *
      * @return string|null
      */
-    public function getUserCountry(string $default = null)
+    public function getUserCountry(string $default = 'US')
     {
         if (null === $request = $this->requestStack->getMasterRequest()) {
             return $default;
@@ -90,11 +83,7 @@ class UserCountryGuesser
         }
 
         if ('ZZ' === $code = $result[1]) {
-            if ($this->debug) {
-                $code = 'US';
-            } else {
-                $code = $default;
-            }
+            $code = $default;
         }
 
         return $this->results[$ip] = $code;

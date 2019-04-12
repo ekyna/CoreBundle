@@ -1,6 +1,7 @@
 define(['jquery', 'ekyna-string'], function($) {
     "use strict";
 
+    // Same in src/Ekyna/Bundle/CommerceBundle/Resources/private/ts/commerce.ts
     if (0 === $('link#core-flags-stylesheet').length) {
         var stylesheet = document.createElement('link');
         stylesheet.id = 'core-flags-stylesheet';
@@ -95,6 +96,7 @@ define(['jquery', 'ekyna-string'], function($) {
             this.$watch = $('#' + this.$form.data('watch'));
             if (this.$watch.length) {
                 this.$watch.on('change', $.proxy(this.watchChangeHandler, this));
+                this.watchChangeHandler();
             }
         }
     };
