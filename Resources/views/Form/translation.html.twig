@@ -4,27 +4,25 @@
         {{ form_errors(form) }}
         {% if tabbed %}
         <ul class="translations-locales nav nav-tabs">
-            {% for translationForm in form %}
-                {% set locale = translationForm.vars.name %}
+            {% for child in form %}
+                {% set locale = child.vars.name %}
                 <li {% if app.request.locale == locale %}class="active"{% endif %}>
-                    <a href="#{{ translationForm.vars.id }}" data-toggle="tab">
+                    <a href="#{{ child.vars.id }}_tab" data-toggle="tab">
                         {{ locale|language|capitalize }}
                         {% if form.vars.default_locale == locale %}[Default]{% endif %}
-                        {% if translationForm.vars.required %}*{% endif %}
+                        {% if child.vars.required %}*{% endif %}
                     </a>
                 </li>
             {% endfor %}
         </ul>
         {% endif %}
         <div class="translations-fields{% if tabbed %} tab-content{% endif %}">
-            {% for translationForm in form %}
-                {% set locale = translationForm.vars.name %}
-                {% for translationField in translationForm %}
-                {% endfor %}
-                <div id="{{ translationForm.vars.id }}" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
-                    {{ form_errors(translationForm) }}
-                    {{ form_widget(translationForm) }}
-                    {{ form_help(translationForm) }}
+            {% for child in form %}
+                {% set locale = child.vars.name %}
+                <div id="{{ child.vars.id }}_tab" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    {{ form_help(child) }}
                 </div>
             {% endfor %}
         </div>

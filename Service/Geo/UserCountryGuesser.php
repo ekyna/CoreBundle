@@ -63,9 +63,13 @@ class UserCountryGuesser
             return $this->results[$ip];
         }
 
+        $client = $this->getClient();
+
         try {
-            $response = $this->getClient()->request('GET', 'https://ip2c.org/', [
-                'query' => ['ip' => $ip]
+            $response = $client->request('GET', 'https://ip2c.org/', [
+                'query'           => ['ip' => $ip],
+                'stream'          => true,
+                'timeout'         => 0.3,
             ]);
         } catch (GuzzleException $e) {
             return $default;
