@@ -14,7 +14,9 @@ ekyna_core_tinymce_config:
 
 ekyna_core_countries:
     path: /{_locale}/js/countries.json
-    defaults: { _controller: "EkynaCoreBundle:Form:countries" }
+    defaults:
+        _controller: "EkynaCoreBundle:Form:countries"
+        _locale: "%locale%"
     requirements:
         key: '[a-z]{2}'
     options: { i18n: false }

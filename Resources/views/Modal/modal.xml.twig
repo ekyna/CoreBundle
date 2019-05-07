@@ -35,7 +35,7 @@
         {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {{ modal.content|raw }}
     {%- endif -%}
-    {%- if modal.vars.extra_content is defined -%}
+    {%- if modal.vars.extra_content is defined and modal.vars.extra_content is not empty -%}
         {{ modal.vars.extra_content|raw }}
     {%- endif -%}
     ]]></content>

@@ -42,6 +42,10 @@ class FormJsPass implements CompilerPassInterface
             }
         }
 
+        foreach ($formJs as &$paths) {
+            $paths = array_unique($paths);
+        }
+
         $container->setParameter('ekyna_core.form_js', $formJs);
     }
 }
