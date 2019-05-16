@@ -78,6 +78,7 @@ ekyna_core:
         name: Name
         title: Title
         subtitle: Sub-Titre
+        label: Label
         breadcrumb: Breadcrumb
         parent: Parent
         root: Root

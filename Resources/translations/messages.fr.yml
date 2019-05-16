@@ -78,6 +78,7 @@ ekyna_core:
         name: Nom
         title: Titre
         subtitle: Sous-Titre
+        label: Libellé
         breadcrumb: Fil d'ariane
         parent: Parent
         root: Racine
