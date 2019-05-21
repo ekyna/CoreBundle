@@ -44,7 +44,7 @@
     {%- else -%}
         {%- set controls_class = 'btn-group-vertical' -%}
     {%- endif -%}
-    {%- set attr = attr|merge({'class': 'ekyna-collection' }) -%}
+    {%- set attr = attr|merge({'class': ('ekyna-collection ' ~ attr.class|default(''))|trim }) -%}
     {%- if prototype is defined -%}
         {%- set prototype_vars = {} -%}
         {%- if style is defined -%}
