@@ -26,6 +26,11 @@ class EkynaCoreExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        $env = $container->getParameter('kernel.environment');
+        if (in_array($env, ['dev', 'test'], true)) {
+            $loader->load('services_dev_test.xml');
+        }
+
         // Routers
         /* @see \Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RegisterRoutersPass */
         $routers = (array) $config['chain_router']['routers_by_id'];
@@ -35,7 +40,7 @@ class EkynaCoreExtension extends Extension
 
         // Tinymce
         $bundles = $container->getParameter('kernel.bundles');
-        $tinymceCfgBuilder = new TinymceConfigBuilder($container->getParameter('kernel.environment') == 'dev');
+        $tinymceCfgBuilder = new TinymceConfigBuilder($env === 'dev');
         $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles) ;
 
         $container->setParameter('ekyna_core.config.tinymce', $tinymceConfig);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ekyna\Bundle\CoreBundle\Dql;
+namespace Ekyna\Bundle\CoreBundle\Doctrine\Dql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode,
     Doctrine\ORM\Query\Lexer,
@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode,
 
 /**
  * Class UnixTimestamp
- * @package Ekyna\Bundle\CoreBundle\Dql
+ * @package Ekyna\Bundle\CoreBundle\Doctrine\Dql
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
 class UnixTimestamp extends FunctionNode
