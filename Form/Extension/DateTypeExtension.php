@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -49,14 +50,17 @@ class DateTypeExtension extends AbstractTypeExtension
             ->setDefaults([
                 'widget'         => 'single_text',
                 'format'         => 'dd/MM/yyyy', // TODO localised configurable format
-                'picker_options' => [
+                'picker_options' => [],
+            ])
+            ->setNormalizer('picker_options', function(Options $options, $value) {
+                return array_replace_recursive([
                     'widgetPositioning' => ['horizontal' => 'right'],
                     'allowInputToggle'   => true,
                     'showTodayButton'   => true,
                     'showClear'         => true,
                     'showClose'         => true,
-                ],
-            ]);
+                ], (array) $value);
+            });
     }
 
     /**

@@ -1,50 +1,72 @@
 define(['jquery', 'ekyna-string'], function($) {
     "use strict";
 
-    /**
-     * File picker widget
-     */
+    function FilePicker($element) {
+        $element.data('FilePicker', this);
+
+        this.$element = $element;
+        this.$file = $element.find('input:file');
+        this.$text = $element.find('input:text');
+
+        this.current = this.$text.data('current') || null;
+
+        this.$file.on('change', $.proxy(this.onFileChange, this));
+        this.$text.on('click', $.proxy(this.onTextClick, this));
+
+        $element.find('button[data-role="pick"]').on('click', $.proxy(this.onPickClick, this));
+        $element.find('button[data-role="clear"]').on('click', $.proxy(this.onClearClick, this));
+    }
+
+    FilePicker.prototype.onFileChange = function() {
+        var val = this.$file.val();
+
+        if (0 < val.length) {
+            this.$text.val(val.fileName());
+        } else {
+            this.$text.val(this.current);
+        }
+
+        this.$element.trigger($.Event('ekyna.upload.change'));
+
+        return false;
+    };
+
+    FilePicker.prototype.onTextClick = function(e) {
+        e.preventDefault();
+
+        this.$file.trigger('click');
+
+        return false;
+    };
+
+    FilePicker.prototype.onPickClick = function(e) {
+        e.preventDefault();
+
+        this.$file.trigger('click');
+
+        return false;
+    };
+
+    FilePicker.prototype.onClearClick = function(e) {
+        e.preventDefault();
+
+        if (this.$file.files) {
+            this.$file.files = [];
+        }
+
+        this.$text.val(this.current);
+        this.$file.val(null).trigger('change');
+
+        this.$element.trigger($.Event('ekyna.upload.clear'));
+
+        return false;
+    };
+
     $.fn.filePickerWidget = function() {
-
         this.each(function() {
-            var $this = $(this);
-            var $file = $this.find('input:file');
-            var $text = $this.find('input:text');
-            var current = $text.data('current') || null;
-            var $pickButton = $this.find('button[data-role="pick"]');
-            var $clearButton = $this.find('button[data-role="clear"]');
-
-            $pickButton.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                $file.trigger('click');
-            });
-
-            $clearButton.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                if ($file.files) {
-                    $file.files = [];
-                }
-                $text.val(current);
-                $file.val(null).trigger('change');
-
-                $this.trigger(jQuery.Event('ekyna.upload.clear'));
-            }).trigger('click');
-
-            $text.unbind('click').bind('click', function(e) {
-                e.preventDefault();
-                $file.trigger('click');
-            });
-
-            $file.unbind('change').bind('change', function() {
-                var val = $file.val();
-                if (0 < val.length) {
-                    $text.val(val.fileName());
-                } else {
-                    $text.val(current);
-                }
-
-                $this.trigger(jQuery.Event('ekyna.upload.change'));
-            });
+            if (undefined === $(this).data('FilePicker')) {
+                new FilePicker($(this));
+            }
         });
 
         return this;

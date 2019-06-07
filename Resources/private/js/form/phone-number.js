@@ -50,7 +50,7 @@ define(['jquery', 'ekyna-string'], function($) {
             ul = document.createElement('ul');
 
         this.$dropdown.find('> .dropdown-menu').empty().append(div);
-        div.append(ul);
+        div.appendChild(ul);
 
         $.each(data, function(code, conf) {
             var li = document.createElement('li'),
@@ -65,19 +65,19 @@ define(['jquery', 'ekyna-string'], function($) {
             li.setAttribute('data-mobile', conf['mobile']);
 
             flag.classList.add('country-flag', code.toLowerCase());
-            li.append(flag);
+            li.appendChild(flag);
 
             name.classList.add('country-name');
             name.innerText = conf['name'];
-            li.append(name);
+            li.appendChild(name);
 
             if (0 < conf['dial']) {
                 dial.classList.add('country-dial');
                 dial.innerText = '+' + conf['dial'];
-                li.append(dial);
+                li.appendChild(dial);
             }
 
-            ul.append(li);
+            ul.appendChild(li);
         });
 
         this.$list = $(div);
