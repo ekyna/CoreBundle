@@ -49,7 +49,7 @@ class UserCountryGuesser
      *
      * @return string|null
      */
-    public function getUserCountry(string $default = 'US')
+    public function getUserCountry(string $default = 'US'): ?string
     {
         if (null === $request = $this->requestStack->getMasterRequest()) {
             return $default;
@@ -67,9 +67,9 @@ class UserCountryGuesser
 
         try {
             $response = $client->request('GET', 'https://ip2c.org/', [
-                'query'           => ['ip' => $ip],
-                'stream'          => true,
-                'timeout'         => 0.3,
+                'query'   => ['ip' => $ip],
+                'stream'  => true,
+                'timeout' => 0.3,
             ]);
         } catch (GuzzleException $e) {
             return $default;
@@ -86,7 +86,8 @@ class UserCountryGuesser
             return $default;
         }
 
-        if ('ZZ' === $code = $result[1]) {
+        $code = $result[1];
+        if (in_array($code, ['EU', 'ZZ'], true)) {
             $code = $default;
         }
 
@@ -101,7 +102,7 @@ class UserCountryGuesser
      *
      * @return Client
      */
-    private function getClient()
+    private function getClient(): Client
     {
         if ($this->client) {
             return $this->client;
