@@ -3,7 +3,8 @@
 
 {% if request is not same as(null) %}
 <p>
-    [request] {{ request.pathInfo }}
+    [request] {{ request.pathInfo }}<br>
+    [user] {{ request.user }}
 </p>
 {% endif %}
 

@@ -13,9 +13,6 @@ module.exports = function (grunt, options) {
                     ],
                     'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/jquery/fileupload.js': [
                         'src/Ekyna/Bundle/CoreBundle/Resources/public/tmp/lib/jquery/fileupload.js'
-                    ],
-                    'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/cookie.js': [
-                        'node_modules/js-cookie/src/js.cookie.js'
                     ]
                 },
                 {
