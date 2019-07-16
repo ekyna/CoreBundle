@@ -19,13 +19,13 @@
         {% if form is not defined %}
             {% set form = modal.content %}
         {% endif %}
+        {{ form_start(form) }}
         {% if modal.vars.form_template is defined %}
-            {{ form_start(form) }}
             {% include modal.vars.form_template with modal.vars %}
-            {{ form_end(form) }}
         {% else %}
-            {{ form(form) }}
+            {% include '@EkynaCore/Modal/form.html.twig' %}
         {% endif %}
+        {{ form_end(form) }}
     {%- elseif modal.contentType == 'table' -%}
         {% include '@EkynaCore/Ui/flashes.html.twig' %}
         {{ ekyna_table_render(modal.content) }}
