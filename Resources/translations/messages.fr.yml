@@ -8,6 +8,7 @@ ekyna_core:
         choose: Choisissez
         enabled: Activé
         disabled: Désactivé
+        no_item: Aucun element configuré
     button:
         previous: Précédente
         next: Suivante
