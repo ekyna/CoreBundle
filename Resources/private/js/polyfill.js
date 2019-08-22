@@ -59,21 +59,21 @@ define(['require'], function(require) {
             };
         } else if (testSupportToLocaleString()) {
             Number.prototype.localizedCurrency = function (currency, locale) {
-                return this.toLocaleString(locale || defaultLocale) + '&nbsp;' + currency;
+                return this.toLocaleString(locale || defaultLocale) + ' ' + currency;
             };
             Number.prototype.localizedNumber = function (style, locale) {
                 return this.toLocaleString(locale || defaultLocale);
             };
         } else if (Number.hasOwnProperty('toLocaleString')) {
             Number.prototype.localizedCurrency = function (currency) {
-                return this.toLocaleString() + '&nbsp;' + currency;
+                return this.toLocaleString() + ' ' + currency;
             };
             Number.prototype.localizedNumber = function () {
                 return this.toLocaleString();
             };
         } else {
             Number.prototype.localizedCurrency = function (currency) {
-                return this.toFixed(2) + '&nbsp;' + currency;
+                return this.toFixed(2) + ' ' + currency;
             };
             Number.prototype.localizedNumber = function () {
                 return this.toFixed(2);

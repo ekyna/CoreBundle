@@ -149,7 +149,7 @@ class UtilsExtension extends \Twig_Extension
             $this->previousLocale = $this->translator->getLocale();
         }
 
-        $this->translator->setLocale($locale);
+        $this->translator->setLocale(strtolower($locale));
     }
 
     /**
