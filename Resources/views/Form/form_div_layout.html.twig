@@ -189,9 +189,9 @@
         {%- if attr.sizing is defined and attr.sizing is not empty %}{% set sizing = attr.sizing %}{% endif -%}
         <div class="input-group{% if sizing in ['sm', 'lg'] %} input-group-{{ sizing }}{% endif %}">
             <input type="text" class="form-control" value="{{ value }}" readonly="readonly"
-                   {%- if form.parent.vars.current_file_name is defined -%}
+                   {%- if form.parent.vars.current_file_name is defined %}
                        data-current="{{ form.parent.vars.current_file_name }}"
-                   {%- endif -%}
+                   {%- endif %}
                    placeholder="{{ 'ekyna_core.field.choose_file'|trans }}" />
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" data-role="clear">

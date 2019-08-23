@@ -50,16 +50,20 @@ define(['jquery', 'ekyna-string'], function($) {
     FilePicker.prototype.onClearClick = function(e) {
         e.preventDefault();
 
+        this.clear();
+
+        this.$element.trigger($.Event('ekyna.upload.clear'));
+
+        return false;
+    };
+
+    FilePicker.prototype.clear = function() {
         if (this.$file.files) {
             this.$file.files = [];
         }
 
         this.$text.val(this.current);
         this.$file.val(null).trigger('change');
-
-        this.$element.trigger($.Event('ekyna.upload.clear'));
-
-        return false;
     };
 
     $.fn.filePickerWidget = function() {
