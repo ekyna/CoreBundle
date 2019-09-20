@@ -77,6 +77,10 @@ module.exports = function (grunt, options) {
                     src: 'node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/datetimepicker.js'
                 },
+                {
+                    src: 'node_modules/bootstrap-notify/bootstrap-notify.min.js',
+                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/bootstrap/notify.js'
+                },
                 // Fontawesome
                 {
                     src: 'node_modules/font-awesome/css/font-awesome.min.css',
