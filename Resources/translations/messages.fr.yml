@@ -68,6 +68,7 @@ ekyna_core:
         save_and_list: Enregistrer <small>et retour à la liste</small>
         execute: Exécuter
         apply: Appliquer
+        recalculate: Recalculer
         filter: Filtrer
         send: Envoyer
         download: Télécharger
