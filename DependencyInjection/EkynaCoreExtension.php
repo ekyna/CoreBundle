@@ -2,16 +2,15 @@
 
 namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Class EkynaCoreExtension
  * @package Ekyna\Bundle\CoreBundle\DependencyInjection
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class EkynaCoreExtension extends Extension
 {
@@ -23,7 +22,7 @@ class EkynaCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
         $env = $container->getParameter('kernel.environment');
@@ -33,7 +32,7 @@ class EkynaCoreExtension extends Extension
 
         // Routers
         /* @see \Ekyna\Bundle\CoreBundle\DependencyInjection\Compiler\RegisterRoutersPass */
-        $routers = (array) $config['chain_router']['routers_by_id'];
+        $routers = (array)$config['chain_router']['routers_by_id'];
         if (!empty($routers)) {
             $container->setParameter('ekyna_core.chain_router.routers', $routers);
         }
@@ -41,7 +40,7 @@ class EkynaCoreExtension extends Extension
         // Tinymce
         $bundles = $container->getParameter('kernel.bundles');
         $tinymceCfgBuilder = new TinymceConfigBuilder($env === 'dev');
-        $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles) ;
+        $tinymceConfig = $tinymceCfgBuilder->build($config, $bundles);
 
         $container->setParameter('ekyna_core.config.tinymce', $tinymceConfig);
         $container->setParameter('ekyna_core.config.tinymce_themes', array_keys($tinymceConfig['theme']));
@@ -71,25 +70,48 @@ class EkynaCoreExtension extends Extension
                 ->addTag('kernel.event_subscriber');
         }
 
-        // Http cache
-        $container
+        $this->configureHttpCache($config, $container);
+    }
+
+    /**
+     * Configure the http cache tag manager.
+     *
+     * @param array            $config
+     * @param ContainerBuilder $container
+     */
+    private function configureHttpCache(array $config, ContainerBuilder $container): void
+    {
+        $definition = $container
             ->getDefinition('ekyna_core.cache.tag_manager')
             ->replaceArgument(0, $config['cache']);
 
-        if ($config['cache']['enable'] && $container->hasDefinition('fos_http_cache.handler.tag_handler')) {
-            $container
-                ->getDefinition('ekyna_core.cache.tag_manager')
-                ->addMethodCall(
-                    'setTagHandler',
-                    [new Reference('fos_http_cache.handler.tag_handler', ContainerInterface::NULL_ON_INVALID_REFERENCE)]
-                );
+        if (!$config['cache']['enable']) {
+            return;
         }
+
+        if (!$container->hasDefinition('fos_http_cache.handler.tag_handler')) {
+            return;
+        }
+
+        if (!$container->hasDefinition('fos_http_cache.http.symfony_response_tagger')) {
+            return;
+        }
+
+        $definition
+            ->addMethodCall(
+                'setCacheManager',
+                [new Reference('fos_http_cache.cache_manager')]
+            )
+            ->addMethodCall(
+                'setResponseTagger',
+                [new Reference('fos_http_cache.http.symfony_response_tagger')]
+            );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         parent::prepend($container);
 
@@ -100,9 +122,9 @@ class EkynaCoreExtension extends Extension
         if ($config['cache']['enable'] && array_key_exists('FOSHttpCacheBundle', $bundles)) {
             $container->prependExtensionConfig('fos_http_cache', [
                 'proxy_client' => [
-                    'default' =>  'varnish',
+                    'default' => 'varnish',
                     'varnish' => [
-                        'servers' =>  "%reverse_proxy.host%:%reverse_proxy.port%",
+                        'servers'  => "%reverse_proxy.host%:%reverse_proxy.port%",
                         'base_url' => "%hostname%:%reverse_proxy.port%",
                     ],
                 ],

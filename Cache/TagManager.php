@@ -2,7 +2,8 @@
 
 namespace Ekyna\Bundle\CoreBundle\Cache;
 
-use FOS\HttpCacheBundle\Handler\TagHandler;
+use FOS\HttpCache\ResponseTagger;
+use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,9 +19,14 @@ class TagManager
     protected $config;
 
     /**
-     * @var TagHandler
+     * @var CacheManager
      */
-    protected $tagHandler;
+    protected $cacheManager;
+
+    /**
+     * @var ResponseTagger
+     */
+    protected $responseTagger;
 
     /**
      * @var array
@@ -55,11 +61,25 @@ class TagManager
     /**
      * Sets the tag handler.
      *
-     * @param TagHandler $tagHandler
+     * @param CacheManager $manager
      */
-    public function setTagHandler(TagHandler $tagHandler = null)
+    public function setCacheManager(CacheManager $manager = null)
     {
-        $this->tagHandler = $tagHandler;
+        $this->cacheManager = $manager;
+    }
+
+    /**
+     * Sets the responseTagger.
+     *
+     * @param ResponseTagger $tagger
+     *
+     * @return TagManager
+     */
+    public function setResponseTagger(ResponseTagger $tagger = null): TagManager
+    {
+        $this->responseTagger = $tagger;
+
+        return $this;
     }
 
     /**
@@ -140,13 +160,13 @@ class TagManager
 
         if (!empty($this->invalidateTags)) {
             foreach (array_chunk($this->invalidateTags, 15) as $tags) {
-                $this->tagHandler->invalidateTags($tags);
+                $this->cacheManager->invalidateTags($tags);
             }
         }
 
         if (!empty($this->responseTags)) {
             foreach (array_chunk($this->responseTags, 15) as $tags) {
-                $this->tagHandler->addTags($tags);
+                $this->responseTagger->addTags($tags);
             }
         }
 
@@ -193,6 +213,6 @@ class TagManager
      */
     private function isEnabled()
     {
-        return $this->config['enable'] && null !== $this->tagHandler;
+        return $this->config['enable'] && $this->cacheManager && $this->responseTagger;
     }
 }
