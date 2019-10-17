@@ -8,8 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class KeyValueCollectionType
@@ -27,23 +27,24 @@ class KeyValueCollectionType extends AbstractType
     {
         $builder->addModelTransformer(new HashToKeyValueArrayTransformer($options['use_container_object']));
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $e) {
-                $input = $e->getData();
-                if (null === $input) {
-                    return;
-                }
-                $output = [];
-                foreach ($input as $key => $value) {
-                    $output[] = [
-                        'key'   => $key,
-                        'value' => $value,
-                    ];
-                }
-                $e->setData($output);
-            }, 1
-        );
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $e) {
+            $input = $e->getData();
+
+            if (null === $input) {
+                return;
+            }
+
+            $output = [];
+
+            foreach ($input as $key => $value) {
+                $output[] = [
+                    'key'   => $key,
+                    'value' => $value,
+                ];
+            }
+
+            $e->setData($output);
+        }, 1);
     }
 
     /**
@@ -56,11 +57,15 @@ class KeyValueCollectionType extends AbstractType
                 'entry_type'           => KeyValueType::class,
                 'entry_options'        => function (Options $options) {
                     return [
+                        'key_type'      => $options['key_type'],
+                        'key_options'   => $options['key_options'],
                         'value_type'    => $options['value_type'],
                         'value_options' => $options['value_options'],
                         'allowed_keys'  => $options['allowed_keys'],
                     ];
                 },
+                'key_type'             => TextType::class,
+                'key_options'          => [],
                 'value_type'           => TextType::class,
                 'value_options'        => [],
                 'allowed_keys'         => null,

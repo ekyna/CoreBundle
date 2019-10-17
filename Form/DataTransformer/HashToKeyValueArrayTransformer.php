@@ -9,9 +9,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 /**
  * Class HashToKeyValueArrayTransformer
  * @package Ekyna\Bundle\CoreBundle\Form\DataTransformer
- * @author Bart van den Burg <bart@burgov.nl>
- * @see https://github.com/Burgov/KeyValueFormBundle/blob/master/Form/DataTransformer/HashToKeyValueArrayTransformer.php
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Bart van den Burg <bart@burgov.nl>
+ * @see     https://github.com/Burgov/KeyValueFormBundle/blob/master/Form/DataTransformer/HashToKeyValueArrayTransformer.php
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 class HashToKeyValueArrayTransformer implements DataTransformerInterface
 {
@@ -19,6 +19,7 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
      * @var bool
      */
     private $useContainerObject;
+
 
     /**
      * @param bool $useContainerObject Whether to return a KeyValueContainer object or simply an array
@@ -33,6 +34,7 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
      * instead it is done in the forms PRE_SET_DATA listener
      *
      * @param KeyValueContainer|array $value
+     *
      * @return KeyValueContainer|array
      */
     public function transform($value)
@@ -42,8 +44,10 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
 
     /**
      * @param array $value
+     *
      * @return KeyValueContainer|array
-     * @throws \Symfony\Component\Form\Exception\TransformationFailedException
+     *
+     * @throws TransformationFailedException
      */
     public function reverseTransform($value)
     {
@@ -53,9 +57,11 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
             if (['key', 'value'] != array_keys($data)) {
                 throw new TransformationFailedException();
             }
+
             if (array_key_exists($data['key'], $return)) {
                 throw new TransformationFailedException('Duplicate key detected');
             }
+
             $return[$data['key']] = $data['value'];
         }
 

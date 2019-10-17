@@ -217,6 +217,8 @@ ekyna_core:
         depth: Profondeur
         total: Total
         barcode: Code barre
+        separator: Séparateur
+        enclosure: Délimiteur
     message:
         fa_icon_cheatsheet: |
             Voir la <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">liste complète des icônes</a>.

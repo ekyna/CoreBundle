@@ -24,16 +24,16 @@ class KeyValueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (null === $options['allowed_keys']) {
-            $builder->add('key', TextType::class, [
+            $builder->add('key', TextType::class, array_replace([
                 'label' => 'ekyna_core.field.key',
-            ]);
+            ], $options['key_options']));
         } else {
-            $builder->add('key', ChoiceType::class, [
-                'label'            => 'ekyna_core.field.key',
-                'choice_list'      => $options['allowed_keys'],
-                'choices_as_value' => true,
-            ]);
+            $builder->add('key', ChoiceType::class, array_replace([
+                'label'   => 'ekyna_core.field.key',
+                'choices' => array_combine($options['allowed_keys'], $options['allowed_keys']),
+            ], $options['key_options']));
         }
+
         $builder->add('value', $options['value_type'], $options['value_options']);
     }
 
@@ -48,10 +48,14 @@ class KeyValueType extends AbstractType
 
         $resolver
             ->setDefaults([
+                'key_type'      => TextType::class,
+                'key_options'   => [],
                 'value_type'    => TextType::class,
                 'value_options' => $valueOptionsDefaults,
                 'allowed_keys'  => null,
             ])
+            ->setAllowedTypes('key_type', 'string')
+            ->setAllowedTypes('key_options', 'array')
             ->setAllowedTypes('value_type', 'string')
             ->setAllowedTypes('value_options', 'array')
             ->setAllowedTypes('allowed_keys', ['null', 'array'])
