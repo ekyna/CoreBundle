@@ -79,8 +79,8 @@ class UiExtension extends \Twig_Extension
                 ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
-                'ui_button_dropdown',
-                [$this->uiRenderer, 'renderButtonDropdown'],
+                'ui_dropdown',
+                [$this->uiRenderer, 'renderDropdown'],
                 ['is_safe' => ['html']]
             ),
         ];

@@ -38,6 +38,11 @@ class UiRenderer
      */
     private $buttonOptionsResolver;
 
+    /**
+     * @var OptionsResolver
+     */
+    private $dropdownOptionsResolver;
+
 
     /**
      * Constructor.
@@ -142,12 +147,14 @@ class UiRenderer
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function renderButton($label = '', array $options = [], array $attributes = [])
+    public function renderButton($label = '', array $options = [], array $attributes = []): string
     {
         if ($label instanceof UiButton) {
             $options = $label->getOptions();
             $attributes = $label->getAttributes();
             $label = $label->getLabel();
+        } else {
+            $label = (string) $label;
         }
 
         $options = $this->getButtonOptionsResolver()->resolve($options);
@@ -175,8 +182,8 @@ class UiRenderer
         $attributes = array_merge($defaultAttributes, $attributes);
 
         $icon = '';
-        if (0 < strlen($options['icon'])) {
-            $icon = $options['fa_icon'] ? 'fa fa-' . $options['icon'] : 'glyphicon glyphicon-' . $options['icon'];
+        if (!empty($options['icon'])) {
+            $icon = ($options['fa_icon'] ? 'fa fa-' : 'glyphicon glyphicon-') . $options['icon'];
         }
 
         return $this->getTemplate()->renderBlock('button', [
@@ -188,27 +195,46 @@ class UiRenderer
     }
 
     /**
-     * Renders the locale switcher.
+     * Renders the dropdown.
      *
-     * @param string $label
-     * @param array  $actions
-     * @param string $theme
-     * @param string $size
-     * @param bool   $right
+     * @param array $actions
+     * @param array $options
+     * @param array $attributes
      *
      * @return string
      */
-    public function renderButtonDropdown($label, array $actions, $theme = 'default', $size = 'sm', $right = false)
-    {
+    public function renderDropdown(
+        array $actions,
+        array $options = [],
+        array $attributes = []
+    ): string {
+        $options = $this->getDropdownOptionsResolver()->resolve($options);
+
+        $classes = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size'], 'dropdown-toggle'];
+        unset($options['theme'], $options['size']);
+
+        if (array_key_exists('class', $attributes)) {
+            array_push($classes, ...explode(' ', $attributes['class']));
+            unset($attributes['class']);
+        }
+        $attributes = array_replace($attributes, [
+            'aria-expanded' => 'false',
+            'aria-haspopup' => 'true',
+            'class'         => implode(' ', $classes),
+            'data-toggle'   => 'dropdown',
+            'type'          => 'button',
+        ]);
+
+        if (!empty($options['icon'])) {
+            $options['icon'] = ($options['fa_icon'] ? 'fa fa-' : 'glyphicon glyphicon-') . $options['icon'];
+        }
+
         // TODO validate actions : label => path
 
-        return $this->getTemplate()->renderBlock('button_dropdown', [
-            'label'   => $label,
-            'theme'   => $theme,
-            'size'    => $size,
+        return $this->getTemplate()->renderBlock('dropdown', array_replace($options, [
+            'attr'    => $attributes,
             'actions' => $actions,
-            'right'   => $right,
-        ]);
+        ]));
     }
 
     /**
@@ -243,7 +269,7 @@ class UiRenderer
                 ])
                 ->setRequired(['type', 'theme', 'size'])
                 ->setAllowedValues('type', ['link', 'button', 'submit', 'reset'])
-                ->setAllowedValues('theme', ['default', 'primary', 'success', 'warning', 'danger'])
+                ->setAllowedtypes('theme', 'string')
                 ->setAllowedValues('size', ['xs', 'sm', 'md', 'lg'])
                 ->setAllowedTypes('icon', ['string', 'null'])
                 ->setAllowedTypes('fa_icon', 'bool')
@@ -254,9 +280,39 @@ class UiRenderer
     }
 
     /**
+     * Returns the dropdown options resolver.
+     *
+     * @return OptionsResolver
+     */
+    private function getDropdownOptionsResolver()
+    {
+        if (null === $this->dropdownOptionsResolver) {
+            $this->dropdownOptionsResolver = new OptionsResolver();
+            $this->dropdownOptionsResolver
+                ->setDefaults([
+                    'label'   => null,
+                    'theme'   => 'default',
+                    'size'    => 'sm',
+                    'icon'    => null,
+                    'fa_icon' => false,
+                    'right'   => false,
+                ])
+                ->setRequired(['theme', 'size'])
+                ->setAllowedTypes('label', ['null', 'string'])
+                ->setAllowedTypes('theme', 'string')
+                ->setAllowedValues('size', ['xs', 'sm', 'md', 'lg'])
+                ->setAllowedTypes('icon', ['string', 'null'])
+                ->setAllowedTypes('fa_icon', 'bool')
+                ->setAllowedTypes('right', 'bool');
+        }
+
+        return $this->dropdownOptionsResolver;
+    }
+
+    /**
      * Returns the controls template.
      *
-     * @return \Twig_TemplateWrapper
+     * @return \Twig\TemplateWrapper
      */
     private function getTemplate()
     {

@@ -1,8 +1,14 @@
 {% block button %}
 {% spaceless %}
-<{{ tag }} {{ block('attributes') }}>{{ block('icon') }}{% if label is not empty %}{{ label|trans|raw }}{% endif %}</{{ tag }}>
+<{{ tag }} {{ block('attributes') }}>{{ block('icon') }} {{ block('label') }}</{{ tag }}>
 {% endspaceless %}
 {% endblock button %}
+
+{% block label %}
+{% spaceless %}
+{% if label %}{{ label|trans|raw }}{% endif %}
+{% endspaceless %}
+{% endblock label %}
 
 {% block icon %}
 {% spaceless %}
@@ -10,21 +16,20 @@
 {% endspaceless %}
 {% endblock icon %}
 
-{% block button_dropdown %}
+{% block dropdown %}
 {% spaceless %}
 <div class="btn-group">
-    <button type="button" class="btn btn-{{ theme }} btn-{{ size }} dropdown-toggle"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{ label|trans|raw }} <span class="caret"></span>
+    <button {{ block('attributes') }}>
+        {{ block('icon') }} {{ block('label') }} <span class="caret"></span>
     </button>
     <ul class="dropdown-menu{% if right %} dropdown-menu-right{% endif %}">
-        {% for action_label, action_path in actions %}
+        {% for action_label, action_path in actions -%}
         <li><a href="{{ action_path }}">{{ action_label|trans|raw }}</a></li>
-        {% endfor %}
+        {%- endfor %}
     </ul>
 </div>
 {% endspaceless %}
-{% endblock button_dropdown %}
+{% endblock dropdown %}
 
 {% block attributes %}
 {% spaceless %}
