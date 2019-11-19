@@ -76,6 +76,7 @@ ekyna_core:
         export: Exporter
         transform: Transformer
         notify: Notifier
+        map: Carte
     field:
         name: Nom
         title: Titre
