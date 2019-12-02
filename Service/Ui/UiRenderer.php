@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\Service\Ui;
 
+use Ekyna\Bundle\CoreBundle\Model\FAIcons;
 use Ekyna\Bundle\CoreBundle\Model\UiButton;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -52,7 +53,7 @@ class UiRenderer
      */
     public function __construct(\Twig_Environment $twig, array $config)
     {
-        $this->twig = $twig;
+        $this->twig   = $twig;
         $this->config = $config;
     }
 
@@ -150,17 +151,17 @@ class UiRenderer
     public function renderButton($label = '', array $options = [], array $attributes = []): string
     {
         if ($label instanceof UiButton) {
-            $options = $label->getOptions();
+            $options    = $label->getOptions();
             $attributes = $label->getAttributes();
-            $label = $label->getLabel();
+            $label      = $label->getLabel();
         } else {
-            $label = (string) $label;
+            $label = (string)$label;
         }
 
         $options = $this->getButtonOptionsResolver()->resolve($options);
 
-        $tag = 'button';
-        $classes = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size']];
+        $tag               = 'button';
+        $classes           = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size']];
         $defaultAttributes = [
             'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
         ];
@@ -168,7 +169,7 @@ class UiRenderer
             if (0 == strlen($options['path'])) {
                 throw new \InvalidArgumentException('"path" option must be defined for "link" button type.');
             }
-            $tag = 'a';
+            $tag                       = 'a';
             $defaultAttributes['href'] = $options['path'];
         } else {
             $defaultAttributes['type'] = $options['type'];
@@ -179,7 +180,7 @@ class UiRenderer
             unset($attributes['class']);
         }
         $defaultAttributes['class'] = implode(' ', $classes);
-        $attributes = array_merge($defaultAttributes, $attributes);
+        $attributes                 = array_merge($defaultAttributes, $attributes);
 
         $icon = '';
         if (!empty($options['icon'])) {
@@ -235,6 +236,23 @@ class UiRenderer
             'attr'    => $attributes,
             'actions' => $actions,
         ]));
+    }
+
+    /**
+     * Renders a font awesome icon.
+     *
+     * @param string $icon
+     * @param string $classes
+     *
+     * @return string|null
+     */
+    public function renderFaIcon(string $icon = null, string $classes = null): ?string
+    {
+        if (is_null($icon) || !FAIcons::isValid($icon, false)) {
+            return null;
+        }
+
+        return sprintf('<i class="fa fa-%s %s"></i>', $icon, $classes);
     }
 
     /**

@@ -5,13 +5,16 @@ namespace Ekyna\Bundle\CoreBundle\Twig;
 use Doctrine\Common\Inflector\Inflector;
 use Ekyna\Bundle\CoreBundle\Util\Truncator;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * UtilsExtension
  *
  * @author Étienne Dauvergne <contact@ekyna.com>
  */
-class UtilsExtension extends \Twig_Extension
+class UtilsExtension extends AbstractExtension
 {
     /**
      * @var TranslatorInterface
@@ -40,11 +43,11 @@ class UtilsExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('truncate_html', [$this, 'truncateHtml'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('pluralize', [$this, 'pluralize']),
-            new \Twig_SimpleFilter('base64_inline_file', [$this, 'base64InlineFile']),
-            new \Twig_SimpleFilter('base64_inline_data', [$this, 'base64InlineData']),
-            new \Twig_SimpleFilter('unset', [$this, 'unset']),
+            new TwigFilter('truncate_html', [$this, 'truncateHtml'], ['is_safe' => ['html']]),
+            new TwigFilter('pluralize', [$this, 'pluralize']),
+            new TwigFilter('base64_inline_file', [$this, 'base64InlineFile']),
+            new TwigFilter('base64_inline_data', [$this, 'base64InlineData']),
+            new TwigFilter('unset', [$this, 'unset']),
         ];
     }
 
@@ -54,9 +57,9 @@ class UtilsExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('unset', [$this, 'unset']),
-            new \Twig_SimpleFunction('trans_set_locale', [$this, 'translatorSetLocale']),
-            new \Twig_SimpleFunction('trans_revert_locale', [$this, 'translatorRevertLocale']),
+            new TwigFunction('unset', [$this, 'unset']),
+            new TwigFunction('trans_set_locale', [$this, 'translatorSetLocale']),
+            new TwigFunction('trans_revert_locale', [$this, 'translatorRevertLocale']),
         ];
     }
 
@@ -69,7 +72,7 @@ class UtilsExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function truncateHtml($html, $limit, $endChar = '&hellip;')
+    public function truncateHtml(string $html, int $limit, string $endChar = '&hellip;')
     {
         return (new Truncator($html))->truncate($limit, $endChar);
     }
@@ -81,7 +84,7 @@ class UtilsExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function pluralize($string)
+    public function pluralize(string $string)
     {
         return Inflector::pluralize($string);
     }
@@ -95,7 +98,7 @@ class UtilsExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function base64InlineFile($path, $mimeType, array $parameters = [])
+    public function base64InlineFile(string $path, string $mimeType, array $parameters = [])
     {
         if (file_exists($path)) {
             return $this->base64InlineData(file_get_contents($path), $mimeType, $parameters);
@@ -113,7 +116,7 @@ class UtilsExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function base64InlineData($data, $mimeType, array $parameters = [])
+    public function base64InlineData($data, string $mimeType, array $parameters = [])
     {
         $output = 'data:' . $mimeType;
         foreach ($parameters as $name => $value) {
@@ -133,7 +136,7 @@ class UtilsExtension extends \Twig_Extension
      * @param array  $array
      * @param string $key
      */
-    public function unset(array $array, $key)
+    public function unset(array $array, string $key)
     {
         unset($array[$key]);
     }
