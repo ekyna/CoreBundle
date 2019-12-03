@@ -72,8 +72,12 @@ class UtilsExtension extends AbstractExtension
      *
      * @return string
      */
-    public function truncateHtml(string $html, int $limit, string $endChar = '&hellip;')
+    public function truncateHtml(string $html = null, int $limit = 128, string $endChar = '&hellip;')
     {
+        if (empty($html)) {
+            return '';
+        }
+
         return (new Truncator($html))->truncate($limit, $endChar);
     }
 
@@ -84,8 +88,12 @@ class UtilsExtension extends AbstractExtension
      *
      * @return string
      */
-    public function pluralize(string $string)
+    public function pluralize(string $string = null)
     {
+        if (empty($string)) {
+            return '';
+        }
+
         return Inflector::pluralize($string);
     }
 
