@@ -193,6 +193,7 @@ ekyna_core:
         first_name: First name
         last_name: Last name
         birthday: Birthday
+        newsletter: Newsletter
         address: Address
         street: Street
         supplement: Complement
