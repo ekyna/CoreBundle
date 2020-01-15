@@ -105,6 +105,7 @@ class PhoneNumberType extends AbstractType
         FormUtil::addClass($view['country'], 'country');
         FormUtil::addClass($view['number'], 'number');
 
+        $view->vars['attr']['name'] = $view->vars['full_name'];
         $view->vars['attr']['data-type'] = $options['type'] === Types::MOBILE ? 'mobile' : 'fixed';
 
         if (!empty($options['country_field']) && isset($view->parent->children[$options['country_field']])) {
