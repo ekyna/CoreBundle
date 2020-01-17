@@ -12,8 +12,13 @@ doctrine:
 #                        enabled: true
                 dql:
                     datetime_functions:
-                        month: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Month
-                        year: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Year
-                        day: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Day
-                        rand: Ekyna\Bundle\CoreBundle\Doctrine\Dql\Rand
-                        unix_timestamp: Ekyna\Bundle\CoreBundle\Doctrine\Dql\UnixTimestamp
+                        month: DoctrineExtensions\Query\Mysql\Month
+                        year: DoctrineExtensions\Query\Mysql\Year
+                        day: DoctrineExtensions\Query\Mysql\Day
+                        dayofweek: DoctrineExtensions\Query\Mysql\DayOfWeek
+                        dayofyear: DoctrineExtensions\Query\Mysql\DayOfYear
+                        unix_timestamp: DoctrineExtensions\Query\Mysql\UnixTimestamp
+                    numeric_functions:
+                        rand: DoctrineExtensions\Query\Mysql\Rand
+                    string_functions:
+                        ifnull: DoctrineExtensions\Query\Mysql\IfNull
