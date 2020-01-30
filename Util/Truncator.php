@@ -31,15 +31,28 @@ class Truncator
 
 
     /**
+     * Creates a new truncator.
+     *
+     * @param string $html
+     * @param string $encoding
+     *
+     * @return Truncator
+     */
+    public static function create(string $html, string $encoding = 'UTF-8'): Truncator
+    {
+        return new self($html, $encoding);
+    }
+
+    /**
      * Constructor.
      *
      * @param string $html
      * @param string $encoding
      */
-    public function __construct($html, $encoding = 'UTF-8')
+    public function __construct(string $html, string $encoding = 'UTF-8')
     {
         $this->charCount = 0;
-        $this->encoding = $encoding;
+        $this->encoding  = $encoding;
 
         $html = '<div>' . mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8') . '</div>';
 
@@ -55,7 +68,7 @@ class Truncator
      *
      * @return string
      */
-    public function truncate($limit, $endChar = '&hellip;')
+    public function truncate(int $limit, string $endChar = '&hellip;'): string
     {
         $this->newDiv = new \DOMDocument();
         $this->searchEnd($this->tempDiv->documentElement, $this->newDiv, $limit, $endChar);
@@ -74,7 +87,7 @@ class Truncator
      *
      * @return bool
      */
-    private function searchEnd(\DOMNode $parseDiv, \DOMNode $newParent, $limit, $endChar)
+    private function searchEnd(\DOMNode $parseDiv, \DOMNode $newParent, int $limit, string $endChar): bool
     {
         foreach ($parseDiv->childNodes as $ele) {
             if ($ele->nodeType != 3) {
@@ -96,7 +109,7 @@ class Truncator
             }
 
             if (mb_strlen($ele->nodeValue, $this->encoding) + $this->charCount >= $limit) {
-                $newEle = $this->newDiv->importNode($ele);
+                $newEle            = $this->newDiv->importNode($ele);
                 $newEle->nodeValue =
                     substr($newEle->nodeValue, 0, strpos($newEle->nodeValue, ' ', $limit - $this->charCount))
                     . html_entity_decode($endChar);
@@ -118,7 +131,7 @@ class Truncator
      *
      * @param \DOMNode $node
      */
-    private function deleteChildren(\DOMNode $node)
+    private function deleteChildren(\DOMNode $node): void
     {
         while (isset($node->firstChild)) {
             $this->deleteChildren($node->firstChild);

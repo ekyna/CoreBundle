@@ -1,9 +1,9 @@
-define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, BootstrapDialog) {
+define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, BootstrapDialog) {
     "use strict";
 
     var triggerSelector = 'button[data-modal], a[data-modal], [data-modal] > a';
 
-    var EkynaModal = function() {
+    var EkynaModal = function () {
         this.dialog = new BootstrapDialog();
         this.form = null;
         this.shown = false;
@@ -20,7 +20,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
             // Auto modal buttons and links
             that.dialog
                 .getModalBody()
-                .on('click', triggerSelector, function(e) {
+                .on('click', triggerSelector, function (e) {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -66,17 +66,17 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
     EkynaModal.prototype = {
         constructor: EkynaModal,
-        load: function(params) {
+        load: function (params) {
             params.cache = false;
 
             var that = this,
                 xhr = $.ajax(params);
 
-            xhr.done(function(data, status, jqXHR) {
+            xhr.done(function (data, status, jqXHR) {
                 that.handleResponse(data, status, jqXHR);
             });
 
-            xhr.fail(function() {
+            xhr.fail(function () {
                 console.log('Failed to load modal.');
                 var event = $.Event('ekyna.modal.load_fail');
                 $(that).trigger(event);
@@ -84,7 +84,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             return xhr;
         },
-        initForm: function($form) {
+        initForm: function ($form) {
             var that = this;
 
             // @see https://github.com/select2/select2/issues/600
@@ -94,29 +94,52 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                 that.form = Form.create($form);
                 that.form.init(that.dialog.getModal());
 
-                that.form.getElement().on('submit', function (e) {
-                    e.preventDefault();
-
+                var submitForm = function ($button) {
+                    var $form = that.form.getElement(), data = {};
                     that.dialog.enableButtons(false);
-                    var submitButton = that.dialog.getButton('submit');
-                    if (submitButton) {
-                        submitButton.spin();
+
+                    $button = $button || $form.find('button[type=submit]').eq(0);
+
+                    // .icon-spin class from bootstrap/dialog
+                    $button.find('span, i').removeClass().addClass('glyphicon glyphicon-asterisk icon-spin');
+
+                    if ($button.attr('name') && $button.attr('value')) {
+                        data[$button.attr('name')] = $button.attr('value');
                     }
+
+                    $form.find('button').prop('disabled', true);
 
                     that.form.save();
                     setTimeout(function () {
                         that.form.getElement().ajaxSubmit({
+                            data: data,
                             success: function (data, status, jqXHR) {
                                 that.handleResponse(data, status, jqXHR);
                             }
                         });
                     }, 100);
+                };
 
-                    return false;
-                });
+                that.form.getElement()
+                    .on('mouseup', 'button[type=submit]', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        submitForm($(e.target));
+
+                        return false;
+                    })
+                    .on('submit', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        submitForm();
+
+                        return false;
+                    });
             });
         },
-        getContentType: function(jqXHR) {
+        getContentType: function (jqXHR) {
             var type = 'html',
                 header = jqXHR.getResponseHeader('content-type');
 
@@ -128,7 +151,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             return type;
         },
-        handleResponse: function(data, status, jqXHR) {
+        handleResponse: function (data, status, jqXHR) {
             var that = this,
                 $that = $(this),
                 type = this.getContentType(jqXHR),
@@ -223,13 +246,13 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
                 // Form content type
                 if (type === 'form') {
-                    $html.each(function() {
+                    $html.each(function () {
                         var $form = $(this);
                         if ($form.is('form')) {
                             if (that.shown) {
                                 that.initForm($form);
                             } else {
-                                $that.one('ekyna.modal.shown', function() {
+                                $that.one('ekyna.modal.shown', function () {
                                     that.initForm($form);
                                 });
                             }
@@ -259,7 +282,7 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
                     }
                     return value;
                 });
-                $(buttons).each(function(index, button) {
+                $(buttons).each(function (index, button) {
                     if (typeof button.action !== "function") {
                         if (button.id === 'close') {
                             button.action = function (dialog) {
@@ -313,19 +336,19 @@ define(['require', 'jquery', 'bootstrap/dialog'], function(require, $, Bootstrap
 
             return this;
         },
-        close: function() {
+        close: function () {
             if (this.dialog.isOpened()) {
                 this.dialog.close();
             }
             return this;
         },
-        getDialog: function() {
+        getDialog: function () {
             return this.dialog;
         }
     };
 
     // Auto modal buttons and links
-    $(document).on('click', triggerSelector, function(e) {
+    $(document).on('click', triggerSelector, function (e) {
         e.preventDefault();
 
         var modal = new EkynaModal();
