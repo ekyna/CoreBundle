@@ -3,6 +3,7 @@ ekyna_core:
         yes: Yes
         no: No
         none: None
+        all: All
         undefined: Undefined
         unknown: Unknown
         choose: Choose
@@ -134,6 +135,9 @@ ekyna_core:
         video: Video
         videos: Videos
         date: Date
+        year: Year
+        month: Month
+        day: Day
         from_date: From
         to_date: To
         start_date: Start date

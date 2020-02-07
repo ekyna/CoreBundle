@@ -88,6 +88,7 @@ config:
         ekyna-polyfill: bundles/ekynacore/js/polyfill
         ekyna-routing: bundles/ekynacore/js/router
         ekyna-modal: bundles/ekynacore/js/modal
+        ekyna-clipboard-copy: bundles/ekynacore/js/clipboard-copy
         ekyna-ui: bundles/ekynacore/js/ui
         ekyna-dispatcher: bundles/ekynacore/js/dispatcher
         ekyna-form/plugins:
