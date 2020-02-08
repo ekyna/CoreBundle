@@ -780,12 +780,20 @@ final class FAIcons extends AbstractConstants
         'wpexplorer' => ['Wpexplorer'],
         'meetup' => ['Meetup'],
     ];
-    
+
     /**
      * @inheritDoc
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         return static::$config;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getTheme(string $constant): ?string
+    {
+        return null;
     }
 }

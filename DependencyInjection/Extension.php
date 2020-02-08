@@ -2,6 +2,7 @@
 
 namespace Ekyna\Bundle\CoreBundle\DependencyInjection;
 
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Finder\Finder;
@@ -31,10 +32,12 @@ abstract class Extension extends BaseExtension implements PrependExtensionInterf
             foreach ($finder->in($this->getConfigurationDirectory() . '/prepend')->files()->name('*.yml') as $file) {
                 $bundle = $file->getBasename('.yml');
                 if (array_key_exists($bundle, $bundles)) {
-                    $configs = Yaml::parse(file_get_contents($file->getRealPath()));
+                    $path = $file->getRealPath();
+                    $configs = Yaml::parse(file_get_contents($path));
                     if (!is_array($configs)) {
-                        throw new \RuntimeException('Failed to parse ' . $file->getRealPath());
+                        throw new \RuntimeException('Failed to parse ' . $path);
                     }
+                    $container->addResource(new FileResource($path));
                     foreach ($configs as $key => $config) {
                         $container->prependExtensionConfig($key, $config);
                     }
