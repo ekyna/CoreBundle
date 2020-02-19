@@ -22,9 +22,9 @@ class UtilsExtension extends AbstractExtension
     private $translator;
 
     /**
-     * @var string
+     * @var string[]
      */
-    private $previousLocale;
+    private $localeStack = [];
 
 
     /**
@@ -156,9 +156,7 @@ class UtilsExtension extends AbstractExtension
      */
     public function translatorSetLocale(string $locale)
     {
-        if (is_null($this->previousLocale)) {
-            $this->previousLocale = $this->translator->getLocale();
-        }
+        array_push($this->localeStack, $this->translator->getLocale());
 
         $this->translator->setLocale(strtolower($locale));
     }
@@ -168,12 +166,10 @@ class UtilsExtension extends AbstractExtension
      */
     public function translatorRevertLocale()
     {
-        if (is_null($this->previousLocale)) {
+        if (null === $locale = array_pop($this->localeStack)) {
             return;
         }
 
-        $this->translator->setLocale($this->previousLocale);
-
-        $this->previousLocale = null;
+        $this->translator->setLocale($locale);
     }
 }

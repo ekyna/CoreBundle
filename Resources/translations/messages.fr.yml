@@ -210,7 +210,7 @@ ekyna_core:
         phone: Téléphone
         mobile: Mobile
         general: Général
-        informations: Informations
+        information: Informations
         coordinates: Coordonnées
         config: Configuration
         style: Style

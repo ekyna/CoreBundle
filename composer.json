@@ -34,7 +34,7 @@
         "braincrafted/bootstrap-bundle": "dev-form-sizing",
         "jms/i18n-routing-bundle": "dev-symfony-cmf",
         "paragonie/halite": "^4",
-        "ozdemirburak/iris": "^1.2",
+        "ozdemirburak/iris": "^2.0",
         "ekyna/require-js-bundle": "0.7.x-dev",
         "misd/phone-number-bundle": "2.0.x-dev",
         "beberlei/doctrineextensions": "^1.2"
