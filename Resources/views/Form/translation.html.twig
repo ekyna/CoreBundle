@@ -7,7 +7,7 @@
             {% for child in form -%}
                 {% set locale = child.vars.name -%}
                 <li {% if app.request.locale == locale %}class="active"{% endif %}>
-                    <a href="#{{ child.vars.id }}_tab" data-toggle="tab" id="{{ child.vars.id }}">
+                    <a href="#{{ child.vars.id }}_content" data-toggle="tab" id="{{ child.vars.id }}_tab">
                         {{- locale|language|capitalize -}}
                         {%- if form.vars.default_locale == locale %} [Default]{% endif -%}
                         {%- if child.vars.required %} *{% endif -%}
@@ -19,7 +19,7 @@
         <div class="translations-fields{% if tabbed %} tab-content{% endif %}">
             {% for child in form -%}
                 {% set locale = child.vars.name -%}
-                <div id="{{ child.vars.id }}_tab" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
+                <div id="{{ child.vars.id }}_content" {% if tabbed %}class="tab-pane{% if app.request.locale == locale %} active{% endif %}"{% endif %}>
                     {{- form_errors(child) -}}
                     {{- form_widget(child) -}}
                     {{- form_help(child) -}}
