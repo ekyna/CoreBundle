@@ -26,6 +26,7 @@ ekyna_core:
         validate: Validate
         complete: Complete
         confirm: Confirm
+        generate: Generate
         display: Display
         play: Play
         pause: Pause
