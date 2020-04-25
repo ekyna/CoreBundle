@@ -95,16 +95,26 @@ define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, Bootstra
                 that.form.init(that.dialog.getModal());
 
                 var submitForm = function ($button) {
+                    if (!that.form.getElement().get(0).reportValidity()) {
+                        return;
+                    }
+
                     var $form = that.form.getElement(), data = {};
                     that.dialog.enableButtons(false);
 
                     $button = $button || $form.find('button[type=submit]').eq(0);
 
                     // .icon-spin class from bootstrap/dialog
-                    $button.find('span, i').removeClass().addClass('glyphicon glyphicon-asterisk icon-spin');
-
-                    if ($button.attr('name') && $button.attr('value')) {
-                        data[$button.attr('name')] = $button.attr('value');
+                    if (1 === $button.length) {
+                        $button.find('span, i').removeClass().addClass('glyphicon glyphicon-asterisk icon-spin');
+                        if ($button.attr('name') && $button.attr('value')) {
+                            data[$button.attr('name')] = $button.attr('value');
+                        }
+                    } else {
+                        var button = that.dialog.getButton('submit');
+                        if (button) {
+                            button.toggleSpin(true);
+                        }
                     }
 
                     $form.find('button').prop('disabled', true);
@@ -121,6 +131,18 @@ define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, Bootstra
                 };
 
                 that.form.getElement()
+                    .on('keyup', 'input, select', function (e) {
+                        if ((e.keyCode ? e.keyCode : e.which) !== 13) {
+                            return;
+                        }
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        submitForm();
+
+                        return false;
+                    })
                     .on('mouseup', 'button[type=submit]', function (e) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -156,6 +178,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, Bootstra
                 $that = $(this),
                 type = this.getContentType(jqXHR),
                 event;
+
+            this.submitButton = null;
 
             if (this.form) {
                 this.form.destroy();
@@ -291,15 +315,25 @@ define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, Bootstra
                             };
                         } else {
                             button.action = function (dialog) {
-                                dialog.enableButtons(false);
                                 var event = $.Event('ekyna.modal.button_click');
                                 event.modal = that;
                                 event.buttonId = button.id;
                                 $that.trigger(event);
 
-                                if (that.form && button.id === 'submit' && !event.isDefaultPrevented()) {
-                                    that.form.getElement().submit();
+                                if (event.isDefaultPrevented()) {
+                                    return;
                                 }
+
+                                if (button.id !== 'submit') {
+                                    return;
+                                }
+
+                                if (that.form) {
+                                    that.form.getElement().trigger('submit');
+                                    return;
+                                }
+
+                                dialog.enableButtons(false);
                             };
                         }
                     }
