@@ -393,6 +393,9 @@ class TinymceConfigBuilder
                     ['title' => 'Warning', 'selector' => 'a', 'classes' => 'btn btn-warning'],
                     ['title' => 'Danger', 'selector' => 'a', 'classes' => 'btn btn-danger'],
                     ['title' => 'Link', 'selector' => 'a', 'classes' => 'btn btn-link'],
+                    ['title' => 'Large', 'selector' => 'a', 'classes' => 'btn btn-lg'],
+                    ['title' => 'Small', 'selector' => 'a', 'classes' => 'btn btn-sm'],
+                    ['title' => 'Extra small', 'selector' => 'a', 'classes' => 'btn btn-xs'],
                 ],
             ],
             [

@@ -36,7 +36,7 @@
         "paragonie/halite": "^4",
         "ozdemirburak/iris": "^2.0",
         "ekyna/require-js-bundle": "0.7.x-dev",
-        "misd/phone-number-bundle": "2.0.x-dev",
+        "odolbeau/phone-number-bundle": "^3.1",
         "beberlei/doctrineextensions": "^1.2"
     },
     "repositories": [

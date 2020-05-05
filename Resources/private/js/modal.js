@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, BootstrapDialog) {
+define(['require', 'jquery', 'bootstrap/dialog', 'ekyna-polyfill'], function (require, $, BootstrapDialog) {
     "use strict";
 
     var triggerSelector = 'button[data-modal], a[data-modal], [data-modal] > a';
@@ -95,7 +95,8 @@ define(['require', 'jquery', 'bootstrap/dialog'], function (require, $, Bootstra
                 that.form.init(that.dialog.getModal());
 
                 var submitForm = function ($button) {
-                    if (!that.form.getElement().get(0).reportValidity()) {
+                    var formDom = that.form.getElement().get(0);
+                    if (formDom.reportValidity && !formDom.reportValidity()) {
                         return;
                     }
 
