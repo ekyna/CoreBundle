@@ -112,10 +112,6 @@ module.exports = function (grunt, options) {
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/moment.js'
                 },
                 {
-                    src: 'node_modules/autosize/dist/autosize.min.js',
-                    dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/autosize.js'
-                },
-                {
                     src: 'node_modules/select2/dist/js/select2.min.js',
                     dest: 'src/Ekyna/Bundle/CoreBundle/Resources/public/lib/select2.js'
                 },

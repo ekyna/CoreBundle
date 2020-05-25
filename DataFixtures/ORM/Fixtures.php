@@ -2,7 +2,10 @@
 
 namespace Ekyna\Bundle\CoreBundle\DataFixtures\ORM;
 
+use Faker\Generator;
+use InvalidArgumentException;
 use libphonenumber\PhoneNumberUtil;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -13,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final class Fixtures
 {
     /**
-     * @var \Faker\Generator[]
+     * @var Generator[]
      */
     static private $fakers;
 
@@ -28,9 +31,9 @@ final class Fixtures
      *
      * @param string $locale
      *
-     * @return \Faker\Generator
+     * @return Generator
      */
-    public static function getFaker(string $locale = \Faker\Factory::DEFAULT_LOCALE): \Faker\Generator
+    public static function getFaker(string $locale = \Faker\Factory::DEFAULT_LOCALE): Generator
     {
         if (isset(self::$fakers[$locale])) {
             return self::$fakers[$locale];
@@ -63,14 +66,14 @@ final class Fixtures
     public static function uploadFile($source): UploadedFile
     {
         if (!is_file($source)) {
-            throw new \InvalidArgumentException(sprintf('Source file %s not found.', $source));
+            throw new InvalidArgumentException(sprintf('Source file %s not found.', $source));
         }
 
         $fileName = pathinfo($source, PATHINFO_BASENAME);
         $target = sys_get_temp_dir() . '/' . uniqid() . '.' . pathinfo($source, PATHINFO_EXTENSION);
 
         if (!copy($source, $target)) {
-            throw new \RuntimeException(sprintf('Failed to copy %s file.', $fileName));
+            throw new RuntimeException(sprintf('Failed to copy %s file.', $fileName));
         }
 
         return new UploadedFile($target, $fileName, null, null, null, true); // Last arg fakes the upload test

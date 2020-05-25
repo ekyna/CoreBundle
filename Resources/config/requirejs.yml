@@ -53,8 +53,6 @@ config:
             deps: ['jquery', 'bootstrap']
         bootstrap/hover-dropdown:
             deps: ['jquery']
-        autosize:
-            deps: ['jquery']
         select2:
             deps: ['jquery']
         ekyna-modal:
@@ -71,7 +69,6 @@ config:
         validator: bundles/ekynacore/lib/validator
         es6-promise: bundles/ekynacore/lib/es6-promise
         twig: bundles/ekynacore/lib/twig
-        autosize: bundles/ekynacore/lib/autosize
         moment: bundles/ekynacore/lib/moment
         tinycolor: bundles/ekynacore/lib/tinycolor
         select2: bundles/ekynacore/lib/select2
@@ -107,7 +104,6 @@ build:
     include:
         - validator
         - es6-promise
-        - autosize
         - jquery
         - router
         - bootstrap

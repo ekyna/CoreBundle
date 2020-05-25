@@ -24,26 +24,24 @@
     overflow: hidden;
 }
 
-.form-body label.control-label,
-.form-body div.checkbox > label {
+label.control-label,
+div.checkbox > label {
     position: relative;
 }
 
-.form-body label.control-label.required:after,
-.form-body div.checkbox > label.required:after {
+label.control-label.required:after,
+div.checkbox > label.required:after {
+    content: "*";
+    color: #d9534f;
+    margin-left: 2px;
+}
+
+.form-horizontal label.control-label.required:after {
+    margin-left: 0;
     width: 9px;
     position: absolute;
     top: 9px;
     right: 5px;
-    content: "*";
-    color: #d9534f;
-}
-
-.form-body div.checkbox > label.required:after {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin-left: 2px;
 }
 
 .form-body textarea {

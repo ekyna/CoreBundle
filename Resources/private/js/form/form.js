@@ -1,11 +1,22 @@
 define(
-    ['require', 'jquery', 'json!ekyna-form/plugins', 'autosize', 'select2', 'jquery/form'],
-    function(require, $, plugins, autosize) {
+    ['require', 'jquery', 'json!ekyna-form/plugins', 'select2', 'jquery/form'],
+    function(require, $, plugins) {
     "use strict";
 
     $.fn.select2.defaults.set('theme', 'bootstrap');
     $.fn.select2.defaults.set('width', null);
 
+    // Textarea auto resize
+    document.querySelectorAll('textarea:not(.tinymce)').forEach(function (element) {
+        element.style.boxSizing = 'border-box';
+        element.style.resize = 'none';
+
+        var offset = element.offsetHeight - element.clientHeight;
+        element.addEventListener('input', function (event) {
+            event.target.style.height = 'auto';
+            event.target.style.height = event.target.scrollHeight + offset + 'px';
+        });
+    });
 
     var EkynaForm = function ($elem, options) {
         this.$elem = $($elem);
@@ -19,9 +30,6 @@ define(
         },
         init: function($parent) {
             //console.log('Form.init()', this.$elem, $parent);
-
-            /* Textarea autosize */
-            autosize(this.$elem.find('textarea').not('.tinymce'));
 
             /* Select2 */
             var select2options = {
@@ -60,9 +68,6 @@ define(
             this.$elem.data('form', this);
         },
         destroy: function() {
-            /* Destroy textarea autosize */
-            autosize.destroy(this.$elem.find('textarea').not('.tinymce'));
-
             /* Destroy select2 */
             this.$elem.find('select.select2').select2('destroy');
 
