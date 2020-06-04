@@ -43,6 +43,7 @@ class UtilsExtension extends AbstractExtension
     public function getFilters()
     {
         return [
+            new TwigFilter('paragraph_to_break', [$this, 'paragraphToBreak'], ['is_safe' => ['html']]),
             new TwigFilter('truncate_html', [$this, 'truncateHtml'], ['is_safe' => ['html']]),
             new TwigFilter('pluralize', [$this, 'pluralize']),
             new TwigFilter('base64_inline_file', [$this, 'base64InlineFile']),
@@ -61,6 +62,18 @@ class UtilsExtension extends AbstractExtension
             new TwigFunction('trans_set_locale', [$this, 'translatorSetLocale']),
             new TwigFunction('trans_revert_locale', [$this, 'translatorRevertLocale']),
         ];
+    }
+
+    /**
+     *  Replaces paragraphs by line breaks.
+     *
+     * @param string $html
+     *
+     * @return string
+     */
+    public function paragraphToBreak(string $html): string
+    {
+        return strip_tags(strtr($html, ['</p>' => '<br>']), '<br>');
     }
 
     /**

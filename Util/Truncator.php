@@ -72,9 +72,8 @@ class Truncator
     {
         $this->newDiv = new \DOMDocument();
         $this->searchEnd($this->tempDiv->documentElement, $this->newDiv, $limit, $endChar);
-        $newHtml = $this->newDiv->saveHTML();
 
-        return $newHtml;
+        return $this->newDiv->saveHTML();
     }
 
     /**
@@ -110,9 +109,9 @@ class Truncator
 
             if (mb_strlen($ele->nodeValue, $this->encoding) + $this->charCount >= $limit) {
                 $newEle            = $this->newDiv->importNode($ele);
-                $newEle->nodeValue =
-                    substr($newEle->nodeValue, 0, strpos($newEle->nodeValue, ' ', $limit - $this->charCount))
-                    . html_entity_decode($endChar);
+                $pos               = mb_strpos($newEle->nodeValue, ' ', $limit - $this->charCount);
+                $newEle->nodeValue = mb_substr($newEle->nodeValue, 0, $pos) . html_entity_decode($endChar);
+
                 $newParent->appendChild($newEle);
 
                 return true;
