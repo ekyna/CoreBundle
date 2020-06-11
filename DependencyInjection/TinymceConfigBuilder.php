@@ -58,10 +58,11 @@ class TinymceConfigBuilder
             'entity_encoding'       => 'raw',
             //'toolbar_items_size' => 'small',
             'plugins'               => [
-                'advlist lists paste textcolor autoresize nonbreaking hr',
+                'advlist lists paste textcolor autoresize autolink link nonbreaking hr',
             ],
-            'toolbar1'              => 'undo redo removeformat | styleselect | bold italic | forecolor backcolor | ' .
-                'alignleft aligncenter alignright alignjustify | bullist numlist | hr',
+            'toolbar1'              =>
+                'undo redo removeformat | styleselect | bold italic underline strikethrough | link | ' .
+                'forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | hr',
             'content_css'           => $contentCss,
             'autoresize_max_height' => '500',
         ];
@@ -91,11 +92,11 @@ class TinymceConfigBuilder
             $simpleTheme = array_merge($simpleTheme, $themes['front']);
         }*/
 
-        // Advanced theme with almost all enabled plugins
-        $advancedTheme = [
+        // Light theme: for admin small field usage
+        $lightTheme = [
             'branding'              => false,
             'menubar'               => false,
-            'statusbar'             => true,
+            'statusbar'             => false,
             'resize'                => false,
             'image_advtab'          => true,
             'table_advtab'          => true,
@@ -103,24 +104,53 @@ class TinymceConfigBuilder
             'relative_urls'         => false,
             'remove_script_host'    => true,
             'entity_encoding'       => 'raw',
-            'image_class_list'      => [
+            'valid_elements'        => 'p[style],span[style],em[style],strong[style],a[href|target|style],br[style]',
+            'valid_styles'          => [
+                '*' => 'color,background-color',
+            ],
+            'plugins'               => [
+                'autoresize autolink link paste textcolor',
+            ],
+            'toolbar1'              =>
+                'undo redo removeformat | bold italic underline strikethrough | link | forecolor backcolor',
+            'content_css'           => $contentCss,
+            'autoresize_max_height' => '300',
+        ];
+        /*if (!array_key_exists('light', $themes)) {
+            $lightTheme = array_merge($lightTheme, $themes['light']);
+        }*/
+
+        // Advanced theme with almost all enabled plugins
+        $advancedTheme = [
+            'branding'                  => false,
+            'menubar'                   => false,
+            'statusbar'                 => true,
+            'resize'                    => false,
+            'image_advtab'              => true,
+            'table_advtab'              => true,
+            'paste_as_text'             => true,
+            'relative_urls'             => false,
+            'remove_script_host'        => true,
+            'entity_encoding'           => 'raw',
+            'image_class_list'          => [
                 ['title' => 'Aucun', 'value' => ''],
                 ['title' => 'Responsive', 'value' => 'img-responsive'],
                 ['title' => 'Flottant à gauche', 'value' => 'img-float-left'],
                 ['title' => 'Flottant à droite', 'value' => 'img-float-right'],
             ],
-            'plugins'               => [
-                'autoresize advlist anchor autolink lists link charmap print preview hr anchor pagebreak',
+            'plugins'                   => [
+                'autoresize advlist anchor autolink lists link charmap print preview hr pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
                 'insertdatetime nonbreaking save table contextmenu directionality',
                 'paste textcolor image media imagetools', // emoticons template
             ],
-            'toolbar1'              => 'undo redo removeformat code visualblocks | styleselect | table link anchor image media',
-            'toolbar2'              => 'bold italic underline strikethrough forecolor backcolor | alignleft aligncenter ' .
+            'toolbar1'                  =>
+                'undo redo removeformat code visualblocks | styleselect | table link anchor image media',
+            'toolbar2'                  =>
+                'bold italic underline strikethrough forecolor backcolor | alignleft aligncenter ' .
                 'alignright alignjustify | bullist numlist outdent indent | hr',
-            'content_css'           => $contentCss,
-            'autoresize_max_height' => '500',
-
+            'content_css'               => $contentCss,
+            'autoresize_max_height'     => '500',
             'images_upload_url'         => ($this->isDevEnv ? '/app_dev.php' : '') . '/admin/tinymce/upload',
             //'images_upload_base_path' => '/some/basepath',
             'images_reuse_filename'     => true,
@@ -134,7 +164,7 @@ class TinymceConfigBuilder
                 $colorMap[] = $hex;
                 $colorMap[] = $name;
             }
-            $simpleTheme['textcolor_map'] = $colorMap;
+            $simpleTheme['textcolor_map']   = $colorMap;
             $advancedTheme['textcolor_map'] = $colorMap;
         }
 
@@ -154,7 +184,7 @@ class TinymceConfigBuilder
             $this->mergeFormats($styleFormats, $customFormats);
         }
         if (is_array($styleFormats) && !empty($styleFormats)) {
-            $simpleTheme['style_formats'] = $styleFormats;
+            $simpleTheme['style_formats']   = $styleFormats;
             $advancedTheme['style_formats'] = $styleFormats;
         }
 
@@ -174,6 +204,7 @@ class TinymceConfigBuilder
             'theme'       => [
                 'simple'   => $simpleTheme,
                 'advanced' => $advancedTheme,
+                'light'    => $lightTheme,
                 'front'    => $frontTheme,
             ],
         ];
@@ -302,7 +333,11 @@ class TinymceConfigBuilder
                             ['title' => 'Lead paragraph', 'block' => 'p', 'classes' => 'lead'],
                             ['title' => 'Page header', 'block' => 'div', 'classes' => 'page-header', 'wrapper' => true],
                             ['title' => 'Block quote', 'format' => 'blockquote'],
-                            ['title' => 'Blockquote reverse', 'block' => 'blockquote', 'classes' => 'blockquote-reverse'],
+                            [
+                                'title'   => 'Blockquote reverse',
+                                'block'   => 'blockquote',
+                                'classes' => 'blockquote-reverse',
+                            ],
                             ['title' => 'Layer', 'format' => 'div'],
                             ['title' => 'Pre formatted', 'format' => 'pre'],
                             ['title' => 'Address', 'format' => 'address', 'wrapper' => true],
@@ -326,9 +361,21 @@ class TinymceConfigBuilder
                     [
                         'title' => 'Alignment',
                         'items' => [
-                            ['title' => 'Left aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-left'],
-                            ['title' => 'Center aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-center'],
-                            ['title' => 'Right aligned text', 'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6', 'classes' => 'text-right'],
+                            [
+                                'title'    => 'Left aligned text',
+                                'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-left',
+                            ],
+                            [
+                                'title'    => 'Center aligned text',
+                                'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-center',
+                            ],
+                            [
+                                'title'    => 'Right aligned text',
+                                'selector' => 'p,div,pre,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-right',
+                            ],
                             ['title' => 'Justified text', 'selector' => 'p,div,pre', 'classes' => 'text-justify'],
                             ['title' => 'No wrap text', 'selector' => 'p,div,pre', 'classes' => 'text-nowrap'],
                         ],
@@ -336,9 +383,21 @@ class TinymceConfigBuilder
                     [
                         'title' => 'Transformations',
                         'items' => [
-                            ['title' => 'lowercased text', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-lowercase'],
-                            ['title' => 'UPPERCASED TEXT', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-uppercase'],
-                            ['title' => 'Capitalized Text', 'selector' => 'p,h1,h2,h3,h4,h5,h6', 'classes' => 'text-capitalize'],
+                            [
+                                'title'    => 'lowercased text',
+                                'selector' => 'p,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-lowercase',
+                            ],
+                            [
+                                'title'    => 'UPPERCASED TEXT',
+                                'selector' => 'p,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-uppercase',
+                            ],
+                            [
+                                'title'    => 'Capitalized Text',
+                                'selector' => 'p,h1,h2,h3,h4,h5,h6',
+                                'classes'  => 'text-capitalize',
+                            ],
                         ],
                     ],
                     [

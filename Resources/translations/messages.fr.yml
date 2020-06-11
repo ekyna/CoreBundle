@@ -4,6 +4,7 @@ ekyna_core:
         no: Non
         none: Aucun
         all: Tous
+        and: et
         undefined: Indéfini
         unknown: Inconnu
         choose: Choisissez

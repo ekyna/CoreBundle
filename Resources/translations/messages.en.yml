@@ -4,6 +4,7 @@ ekyna_core:
         no: No
         none: None
         all: All
+        and: and
         undefined: Undefined
         unknown: Unknown
         choose: Choose
