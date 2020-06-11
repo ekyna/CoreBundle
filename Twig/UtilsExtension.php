@@ -71,8 +71,12 @@ class UtilsExtension extends AbstractExtension
      *
      * @return string
      */
-    public function paragraphToBreak(string $html): string
+    public function paragraphToBreak(string $html = null): string
     {
+        if (empty($html)) {
+            return '';
+        }
+
         return strip_tags(strtr($html, ['</p>' => '<br><br>']), '<br><a><span><em><strong>');
     }
 
