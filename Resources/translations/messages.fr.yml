@@ -75,6 +75,7 @@ ekyna_core:
         filter: Filtrer
         send: Envoyer
         download: Télécharger
+        archive: Archiver
         import: Importer
         export: Exporter
         transform: Transformer
