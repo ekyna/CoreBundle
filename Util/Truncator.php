@@ -107,9 +107,10 @@ class Truncator
                 }
             }
 
-            if (mb_strlen($ele->nodeValue, $this->encoding) + $this->charCount >= $limit) {
+            $length = mb_strlen($ele->nodeValue, $this->encoding);
+            if ($length + $this->charCount >= $limit) {
                 $newEle            = $this->newDiv->importNode($ele);
-                $pos               = mb_strpos($newEle->nodeValue, ' ', $limit - $this->charCount);
+                $pos               = mb_strrpos($newEle->nodeValue, ' ', $limit - $this->charCount - $length);
                 $newEle->nodeValue = mb_substr($newEle->nodeValue, 0, $pos) . html_entity_decode($endChar);
 
                 $newParent->appendChild($newEle);
