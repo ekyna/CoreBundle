@@ -229,6 +229,8 @@ ekyna_core:
         separator: Séparateur
         enclosure: Délimiteur
         columns: Colonnes
+        host: Hôte
+        event: Évènement
     message:
         fa_icon_cheatsheet: |
             Voir la <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">liste complète des icônes</a>.
