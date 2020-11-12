@@ -100,6 +100,12 @@ define(['require', 'jquery', 'bootstrap/dialog', 'ekyna-polyfill'], function (re
                         return;
                     }
 
+                    if (formDom.hasOwnProperty('_submitted') && formDom._submitted) {
+                        return;
+                    }
+
+                    formDom._submitted = true;
+
                     var $form = that.form.getElement(), data = {};
                     that.dialog.enableButtons(false);
 
@@ -126,6 +132,9 @@ define(['require', 'jquery', 'bootstrap/dialog', 'ekyna-polyfill'], function (re
                             data: data,
                             success: function (data, status, jqXHR) {
                                 that.handleResponse(data, status, jqXHR);
+                            },
+                            error: function() {
+                                formDom._submitted = false;
                             }
                         });
                     }, 100);

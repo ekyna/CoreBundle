@@ -30,6 +30,35 @@ class Modal
     const SIZE_WIDE   = 'size-wide';    // size-wide is equal to modal-lg
     const SIZE_LARGE  = 'size-large';
 
+    public const BTN_SUBMIT = [
+        'id'       => 'submit',
+        'label'    => 'ekyna_core.button.apply',
+        'icon'     => 'glyphicon glyphicon-ok',
+        'cssClass' => 'btn-success',
+        'autospin' => true,
+    ];
+
+    public const BTN_CONFIRM = [
+        'id'       => 'submit',
+        'label'    => 'ekyna_core.button.confirm',
+        'icon'     => 'glyphicon glyphicon-remove',
+        'cssClass' => 'btn-danger',
+    ];
+
+    public const BTN_CANCEL = [
+        'id'       => 'close',
+        'label'    => 'ekyna_core.button.cancel',
+        'icon'     => 'glyphicon glyphicon-remove',
+        'cssClass' => 'btn-default',
+    ];
+
+    public const BTN_CLOSE = [
+        'id'       => 'close',
+        'label'    => 'ekyna_core.button.close',
+        'icon'     => 'glyphicon glyphicon-remove',
+        'cssClass' => 'btn-default',
+    ];
+
     /**
      * @var OptionsResolver
      */
@@ -290,6 +319,22 @@ class Modal
         } else {
             array_push($this->buttons, $options);
         }
+
+        return $this;
+    }
+
+    /**
+     * Removes the button by its id.
+     *
+     * @param string $id
+     *
+     * @return $this
+     */
+    public function removeButton(string $id): Modal
+    {
+        $this->buttons = array_filter($this->buttons, function(array $button) use ($id) {
+            return $button['id'] !== $id;
+        });
 
         return $this;
     }
