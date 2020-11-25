@@ -5,19 +5,29 @@ namespace Ekyna\Bundle\CoreBundle\Service\Ui;
 use Ekyna\Bundle\CoreBundle\Model\FAIcons;
 use Ekyna\Bundle\CoreBundle\Model\UiButton;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
+use Twig\Extension\RuntimeExtensionInterface;
+use Twig\TemplateWrapper;
 
 /**
  * Class UiRenderer
  * @package Ekyna\Bundle\CoreBundle\Service\Ui
  * @author  Etienne Dauvergne <contact@ekyna.com>
  */
-class UiRenderer
+class UiRenderer implements RuntimeExtensionInterface
 {
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     private $twig;
+
+    /**
+     * @var Packages
+     */
+    private $packages;
 
     /**
      * @var array
@@ -27,10 +37,15 @@ class UiRenderer
     /**
      * @var AssetExtension
      */
-    private $asset;
+    private $assetExtension;
 
     /**
-     * @var \Twig_TemplateWrapper
+     * @var HttpFoundationExtension
+     */
+    private $httpExtension;
+
+    /**
+     * @var TemplateWrapper
      */
     private $template;
 
@@ -48,12 +63,14 @@ class UiRenderer
     /**
      * Constructor.
      *
-     * @param \Twig_Environment $twig
-     * @param array             $config
+     * @param Environment $twig
+     * @param Packages    $packages
+     * @param array       $config
      */
-    public function __construct(\Twig_Environment $twig, array $config)
+    public function __construct(Environment $twig, Packages $packages, array $config)
     {
-        $this->twig   = $twig;
+        $this->twig = $twig;
+        $this->packages = $packages;
         $this->config = $config;
     }
 
@@ -62,7 +79,7 @@ class UiRenderer
      *
      * @return string
      */
-    public function renderContentStylesheets()
+    public function renderContentStylesheets(): string
     {
         $output = '';
 
@@ -74,11 +91,49 @@ class UiRenderer
     }
 
     /**
+     * Builds a stylesheet tag.
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    public function buildStylesheetTag(string $path): string
+    {
+        return '<link href="' . $this->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
+    }
+
+    /**
+     * Returns the asset url.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    private function getAssetUrl(string $path): string
+    {
+        return $this->getHttpExtension()->generateAbsoluteUrl(
+            $this->getAssetExtension()->getAssetUrl($path)
+        );
+    }
+
+    /**
+     * Renders the assets base url attribute.
+     *
+     * @return string
+     */
+    public function renderAssetsBaseUrl(): string
+    {
+        $url = substr($this->getAssetUrl('fake.css'), 0, -9);
+
+        return ' data-asset-base-url="' . $url . '"';
+    }
+
+    /**
      * Renders the forms stylesheets links.
      *
      * @return string
      */
-    public function renderFormsStylesheets()
+    public function renderFormsStylesheets(): string
     {
         $output = '';
 
@@ -94,7 +149,7 @@ class UiRenderer
      *
      * @return string
      */
-    public function renderFontsStylesheets()
+    public function renderFontsStylesheets(): string
     {
         $output = '';
 
@@ -112,12 +167,29 @@ class UiRenderer
      *
      * @return string
      */
-    public function renderNoImage(array $attributes = [])
+    public function renderNoImage(array $attributes = []): string
     {
-        return $this->getTemplate()->renderBlock('no_image', [
-            'no_image_path' => $this->config['no_image_path'],
-            'attr'          => $attributes,
-        ]);
+        return $this->getTemplate()->renderBlock(
+            'no_image',
+            [
+                'no_image_path' => $this->getAssetUrl($this->config['no_image_path']),
+                'attr'          => $attributes,
+            ]
+        );
+    }
+
+    /**
+     * Returns the controls template.
+     *
+     * @return TemplateWrapper
+     */
+    private function getTemplate(): TemplateWrapper
+    {
+        if ($this->template) {
+            return $this->template;
+        }
+
+        return $this->template = $this->twig->load($this->config['controls_template']);
     }
 
     /**
@@ -130,7 +202,7 @@ class UiRenderer
      *
      * @return string
      */
-    public function renderLink($href, $label = '', array $options = [], array $attributes = [])
+    public function renderLink($href, $label = '', array $options = [], array $attributes = []): string
     {
         $options['type'] = 'link';
         $options['path'] = $href;
@@ -151,17 +223,17 @@ class UiRenderer
     public function renderButton($label = '', array $options = [], array $attributes = []): string
     {
         if ($label instanceof UiButton) {
-            $options    = $label->getOptions();
+            $options = $label->getOptions();
             $attributes = $label->getAttributes();
-            $label      = $label->getLabel();
+            $label = $label->getLabel();
         } else {
             $label = (string)$label;
         }
 
         $options = $this->getButtonOptionsResolver()->resolve($options);
 
-        $tag               = 'button';
-        $classes           = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size']];
+        $tag = 'button';
+        $classes = ['btn', 'btn-' . $options['theme'], 'btn-' . $options['size']];
         $defaultAttributes = [
             'class' => sprintf('btn btn-%s btn-%s', $options['theme'], $options['size']),
         ];
@@ -169,7 +241,7 @@ class UiRenderer
             if (0 == strlen($options['path'])) {
                 throw new \InvalidArgumentException('"path" option must be defined for "link" button type.');
             }
-            $tag                       = 'a';
+            $tag = 'a';
             $defaultAttributes['href'] = $options['path'];
         } else {
             $defaultAttributes['type'] = $options['type'];
@@ -180,19 +252,54 @@ class UiRenderer
             unset($attributes['class']);
         }
         $defaultAttributes['class'] = implode(' ', $classes);
-        $attributes                 = array_merge($defaultAttributes, $attributes);
+        $attributes = array_merge($defaultAttributes, $attributes);
 
         $icon = '';
         if (!empty($options['icon'])) {
             $icon = ($options['fa_icon'] ? 'fa fa-' : 'glyphicon glyphicon-') . $options['icon'];
         }
 
-        return $this->getTemplate()->renderBlock('button', [
-            'tag'   => $tag,
-            'attr'  => $attributes,
-            'label' => $label,
-            'icon'  => $icon,
-        ]);
+        return $this->getTemplate()->renderBlock(
+            'button',
+            [
+                'tag'   => $tag,
+                'attr'  => $attributes,
+                'label' => $label,
+                'icon'  => $icon,
+            ]
+        );
+    }
+
+    /**
+     * Returns the button options resolver.
+     *
+     * @return OptionsResolver
+     */
+    private function getButtonOptionsResolver(): OptionsResolver
+    {
+        if (null === $this->buttonOptionsResolver) {
+            $this->buttonOptionsResolver = new OptionsResolver();
+            $this->buttonOptionsResolver
+                ->setDefaults(
+                    [
+                        'type'    => 'button',
+                        'theme'   => 'default',
+                        'size'    => 'sm',
+                        'icon'    => null,
+                        'fa_icon' => false,
+                        'path'    => null,
+                    ]
+                )
+                ->setRequired(['type', 'theme', 'size'])
+                ->setAllowedValues('type', ['link', 'button', 'submit', 'reset'])
+                ->setAllowedtypes('theme', 'string')
+                ->setAllowedValues('size', ['xs', 'sm', 'md', 'lg'])
+                ->setAllowedTypes('icon', ['string', 'null'])
+                ->setAllowedTypes('fa_icon', 'bool')
+                ->setAllowedTypes('path', ['string', 'null']);
+        }
+
+        return $this->buttonOptionsResolver;
     }
 
     /**
@@ -218,13 +325,16 @@ class UiRenderer
             array_push($classes, ...explode(' ', $attributes['class']));
             unset($attributes['class']);
         }
-        $attributes = array_replace($attributes, [
-            'aria-expanded' => 'false',
-            'aria-haspopup' => 'true',
-            'class'         => implode(' ', $classes),
-            'data-toggle'   => 'dropdown',
-            'type'          => 'button',
-        ]);
+        $attributes = array_replace(
+            $attributes,
+            [
+                'aria-expanded' => 'false',
+                'aria-haspopup' => 'true',
+                'class'         => implode(' ', $classes),
+                'data-toggle'   => 'dropdown',
+                'type'          => 'button',
+            ]
+        );
 
         if (!empty($options['icon'])) {
             $options['icon'] = ($options['fa_icon'] ? 'fa fa-' : 'glyphicon glyphicon-') . $options['icon'];
@@ -232,69 +342,16 @@ class UiRenderer
 
         // TODO validate actions : label => path
 
-        return $this->getTemplate()->renderBlock('dropdown', array_replace($options, [
-            'attr'    => $attributes,
-            'actions' => $actions,
-        ]));
-    }
-
-    /**
-     * Renders a font awesome icon.
-     *
-     * @param string $icon
-     * @param string $classes
-     *
-     * @return string|null
-     */
-    public function renderFaIcon(string $icon = null, string $classes = null): ?string
-    {
-        if (is_null($icon) || !FAIcons::isValid($icon, false)) {
-            return null;
-        }
-
-        return sprintf('<i class="fa fa-%s %s"></i>', $icon, $classes);
-    }
-
-    /**
-     * Builds a stylesheet tag.
-     *
-     * @param $path
-     *
-     * @return string
-     */
-    public function buildStylesheetTag(string $path)
-    {
-        return '<link href="' . $this->getAssetUrl($path) . '" rel="stylesheet" type="text/css">' . "\n";
-    }
-
-    /**
-     * Returns the button options resolver.
-     *
-     * @return OptionsResolver
-     */
-    private function getButtonOptionsResolver()
-    {
-        if (null === $this->buttonOptionsResolver) {
-            $this->buttonOptionsResolver = new OptionsResolver();
-            $this->buttonOptionsResolver
-                ->setDefaults([
-                    'type'    => 'button',
-                    'theme'   => 'default',
-                    'size'    => 'sm',
-                    'icon'    => null,
-                    'fa_icon' => false,
-                    'path'    => null,
-                ])
-                ->setRequired(['type', 'theme', 'size'])
-                ->setAllowedValues('type', ['link', 'button', 'submit', 'reset'])
-                ->setAllowedtypes('theme', 'string')
-                ->setAllowedValues('size', ['xs', 'sm', 'md', 'lg'])
-                ->setAllowedTypes('icon', ['string', 'null'])
-                ->setAllowedTypes('fa_icon', 'bool')
-                ->setAllowedTypes('path', ['string', 'null']);
-        }
-
-        return $this->buttonOptionsResolver;
+        return $this->getTemplate()->renderBlock(
+            'dropdown',
+            array_replace(
+                $options,
+                [
+                    'attr'    => $attributes,
+                    'actions' => $actions,
+                ]
+            )
+        );
     }
 
     /**
@@ -302,19 +359,21 @@ class UiRenderer
      *
      * @return OptionsResolver
      */
-    private function getDropdownOptionsResolver()
+    private function getDropdownOptionsResolver(): OptionsResolver
     {
         if (null === $this->dropdownOptionsResolver) {
             $this->dropdownOptionsResolver = new OptionsResolver();
             $this->dropdownOptionsResolver
-                ->setDefaults([
-                    'label'   => null,
-                    'theme'   => 'default',
-                    'size'    => 'sm',
-                    'icon'    => null,
-                    'fa_icon' => false,
-                    'right'   => false,
-                ])
+                ->setDefaults(
+                    [
+                        'label'   => null,
+                        'theme'   => 'default',
+                        'size'    => 'sm',
+                        'icon'    => null,
+                        'fa_icon' => false,
+                        'right'   => false,
+                    ]
+                )
                 ->setRequired(['theme', 'size'])
                 ->setAllowedTypes('label', ['null', 'string'])
                 ->setAllowedTypes('theme', 'string')
@@ -328,32 +387,49 @@ class UiRenderer
     }
 
     /**
-     * Returns the controls template.
+     * Renders a font awesome icon.
      *
-     * @return \Twig\TemplateWrapper
+     * @param string|null $icon
+     * @param string|null $classes
+     *
+     * @return string|null
      */
-    private function getTemplate()
+    public function renderFaIcon(string $icon = null, string $classes = null): ?string
     {
-        if ($this->template) {
-            return $this->template;
+        if (is_null($icon) || !FAIcons::isValid($icon, false)) {
+            return null;
         }
 
-        return $this->template = $this->twig->load($this->config['controls_template']);
+        return sprintf('<i class="fa fa-%s %s"></i>', $icon, $classes);
     }
 
     /**
-     * Returns the asset url.
+     * Returns the asset twig extension.
      *
-     * @param string $path
-     *
-     * @return string
+     * @return AssetExtension
      */
-    private function getAssetUrl(string $path)
+    private function getAssetExtension(): AssetExtension
     {
-        if (!$this->asset) {
-            $this->asset = $this->twig->getExtension(AssetExtension::class);
+        if ($this->assetExtension) {
+            return $this->assetExtension;
         }
 
-        return $this->asset->getAssetUrl($path);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->assetExtension = $this->twig->getExtension(AssetExtension::class);
+    }
+
+    /**
+     * Returns the http twig extension.
+     *
+     * @return HttpFoundationExtension
+     */
+    private function getHttpExtension(): HttpFoundationExtension
+    {
+        if ($this->httpExtension) {
+            return $this->httpExtension;
+        }
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->httpExtension = $this->twig->getExtension(HttpFoundationExtension::class);
     }
 }

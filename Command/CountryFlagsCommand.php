@@ -5,6 +5,7 @@ namespace Ekyna\Bundle\CoreBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Intl\Intl;
 
@@ -26,7 +27,8 @@ class CountryFlagsCommand extends Command
     {
         $this
             ->setName('ekyna:core:country-flags')
-            ->setDescription("Downloads the country flags");
+            ->setDescription("Downloads the country flags")
+            ->addOption('less', null, InputOption::VALUE_NONE, 'Whether to generate less file only');
     }
 
     /**
@@ -34,6 +36,8 @@ class CountryFlagsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $lessOnly = $input->getOption('less');
+
         $lessPath = dirname(__DIR__) . "/Resources/private/less/flags.less";
         $pngPath = dirname(__DIR__) . "/Resources/private/img/flags.png";
 
@@ -44,7 +48,7 @@ class CountryFlagsCommand extends Command
         $png = imagecreatetruecolor($width * $columns, $height * $rows);
 
         $less = ".country-flag {\n";
-        $less .= "    background: url('/bundles/ekynacore/img/flags.png') no-repeat 0 0 scroll;\n\n";
+        $less .= "    background: url('../img/flags.png') no-repeat 0 0 scroll;\n";
         $less .= "    display: inline-block;\n";
         $less .= "    height: 15px;\n";
         $less .= "    width: 21px;\n";
@@ -57,9 +61,11 @@ class CountryFlagsCommand extends Command
         $progressBar->setMessage('Start');
         $progressBar->start();
 
-        $flag = $this->openFlag('none');
-        imagecopy($png, $flag, 0, 0, 0, 0, $width, $height);
-        imagedestroy($flag);
+        if (!$lessOnly) {
+            $flag = $this->openFlag('none');
+            imagecopy($png, $flag, 0, 0, 0, 0, $width, $height);
+            imagedestroy($flag);
+        }
 
         $c = 1;
         $r = 0;
@@ -69,11 +75,13 @@ class CountryFlagsCommand extends Command
             $x = $c * $width;
             $y = $r * $height;
 
-            if ($flag = $this->openFlag($code)) {
-                imagecopy($png, $flag, $x, $y, 0, 0, $width, $height);
-                imagedestroy($flag);
-            } else {
-                $failures[$code] = $country;
+            if (!$lessOnly) {
+                if ($flag = $this->openFlag($code)) {
+                    imagecopy($png, $flag, $x, $y, 0, 0, $width, $height);
+                    imagedestroy($flag);
+                } else {
+                    $failures[$code] = $country;
+                }
             }
 
             $less .= sprintf(
@@ -107,15 +115,18 @@ class CountryFlagsCommand extends Command
         $output->writeln('');
 
         // PNG
-        $output->write('Writing PNG file ... ');
-        if (imagepng($png, $pngPath, 0, null)) {
-            $output->writeln('<info>done</info>');
-        } else {
-            $output->writeln('<error>failure</error>');
-        }
-        $output->writeln('');
+        if (!$lessOnly) {
+            $output->write('Writing PNG file ... ');
+            if (imagepng($png, $pngPath, 0, null)) {
+                $output->writeln('<info>done</info>');
+            } else {
+                $output->writeln('<error>failure</error>');
+            }
+            $output->writeln('');
 
-        imagedestroy($png);
+            imagedestroy($png);
+        }
+
 
         if (empty($failures)) {
             return;

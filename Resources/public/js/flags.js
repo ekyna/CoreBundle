@@ -1,0 +1,1 @@
+define([],function(){const a="core-flags-stylesheet";return{load:function(){if(!document.getElementById(a)){var b=document.createElement("link");b.id=a,b.href=document.documentElement.getAttribute("data-asset-base-url")+"/bundles/ekynacore/css/flags.css",b.type="text/css",b.rel="stylesheet",document.head.appendChild(b)}}}});

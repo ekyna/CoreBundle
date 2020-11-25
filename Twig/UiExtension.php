@@ -19,11 +19,6 @@ use Twig\TwigTest;
 class UiExtension extends AbstractExtension
 {
     /**
-     * @var UiRenderer
-     */
-    private $uiRenderer;
-
-    /**
      * @var RequestStack
      */
     private $requestStack;
@@ -37,66 +32,69 @@ class UiExtension extends AbstractExtension
     /**
      * Constructor.
      *
-     * @param UiRenderer   $uiRenderer
      * @param RequestStack $requestStack
      */
-    public function __construct(UiRenderer $uiRenderer, RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->uiRenderer   = $uiRenderer;
         $this->requestStack = $requestStack;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getFunctions()
     {
         return [
             new TwigFunction(
+                'ui_assets_base_url',
+                [UiRenderer::class, 'renderAssetsBaseUrl'],
+                ['is_safe' => ['html']]
+            ),
+            new TwigFunction(
                 'ui_content_stylesheets',
-                [$this->uiRenderer, 'renderContentStylesheets'],
+                [UiRenderer::class, 'renderContentStylesheets'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_forms_stylesheets',
-                [$this->uiRenderer, 'renderFormsStylesheets'],
+                [UiRenderer::class, 'renderFormsStylesheets'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_fonts_stylesheets',
-                [$this->uiRenderer, 'renderFontsStylesheets'],
+                [UiRenderer::class, 'renderFontsStylesheets'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_no_image',
-                [$this->uiRenderer, 'renderNoImage'],
+                [UiRenderer::class, 'renderNoImage'],
                 ['is_safe' => ['html'],]
             ),
             new TwigFunction(
                 'ui_link',
-                [$this->uiRenderer, 'renderLink'],
+                [UiRenderer::class, 'renderLink'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_button',
-                [$this->uiRenderer, 'renderButton'],
+                [UiRenderer::class, 'renderButton'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_dropdown',
-                [$this->uiRenderer, 'renderDropdown'],
+                [UiRenderer::class, 'renderDropdown'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ui_fa_icon',
-                [$this->uiRenderer, 'renderFaIcon'],
+                [UiRenderer::class, 'renderFaIcon'],
                 ['is_safe' => ['html']]
             ),
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getFilters()
     {
@@ -119,74 +117,38 @@ class UiExtension extends AbstractExtension
             ),
             new TwigFilter(
                 'ui_fa_icon',
-                [$this->uiRenderer, 'renderFaIcon'],
+                [UiRenderer::class, 'renderFaIcon'],
                 ['is_safe' => ['html']]
             ),
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getTests()
     {
         return [
-            new TwigTest('form', function ($var) {
-                return $var instanceof FormView;
-            }),
+            new TwigTest(
+                'form',
+                function ($var) {
+                    return $var instanceof FormView;
+                }
+            ),
         ];
     }
 
     /**
      * Returns the language for the given locale.
      *
-     * @param string $locale
-     * @param string $displayLocale
+     * @param string      $locale
+     * @param string|null $displayLocale
      *
      * @return string
      */
-    public function getLanguage($locale, $displayLocale = null)
+    public function getLanguage(string $locale, string $displayLocale = null): string
     {
         return \Locale::getDisplayLanguage($locale, $displayLocale ?? $this->getInLocale());
-    }
-
-    /**
-     * Returns the country name for the given code.
-     *
-     * @param string $code
-     * @param string $displayLocale
-     *
-     * @return string
-     */
-    public function getCountry($code, $displayLocale = null)
-    {
-        return Intl::getRegionBundle()->getCountryName($code, $displayLocale ?? $this->getInLocale());
-    }
-
-    /**
-     * Returns the currency name for the given code.
-     *
-     * @param string $code
-     * @param string $displayLocale
-     *
-     * @return string
-     */
-    public function getCurrencyName($code, $displayLocale = null)
-    {
-        return Intl::getCurrencyBundle()->getCurrencyName($code, $displayLocale ?? $this->getInLocale());
-    }
-
-    /**
-     * Returns the currency symbol for the given code.
-     *
-     * @param string $code
-     * @param string $displayLocale
-     *
-     * @return string
-     */
-    public function getCurrencySymbol($code, $displayLocale = null)
-    {
-        return Intl::getCurrencyBundle()->getCurrencySymbol($code, $displayLocale ?? $this->getInLocale());
     }
 
     /**
@@ -194,7 +156,7 @@ class UiExtension extends AbstractExtension
      *
      * @return string
      */
-    private function getInLocale()
+    private function getInLocale(): string
     {
         if ($this->inLocale) {
             return $this->inLocale;
@@ -205,5 +167,44 @@ class UiExtension extends AbstractExtension
         }
 
         return $this->inLocale = \Locale::getDefault();
+    }
+
+    /**
+     * Returns the country name for the given code.
+     *
+     * @param string      $code
+     * @param string|null $displayLocale
+     *
+     * @return string
+     */
+    public function getCountry(string $code, string $displayLocale = null): string
+    {
+        return Intl::getRegionBundle()->getCountryName($code, $displayLocale ?? $this->getInLocale());
+    }
+
+    /**
+     * Returns the currency name for the given code.
+     *
+     * @param string      $code
+     * @param string|null $displayLocale
+     *
+     * @return string
+     */
+    public function getCurrencyName(string $code, string $displayLocale = null): string
+    {
+        return Intl::getCurrencyBundle()->getCurrencyName($code, $displayLocale ?? $this->getInLocale());
+    }
+
+    /**
+     * Returns the currency symbol for the given code.
+     *
+     * @param string      $code
+     * @param string|null $displayLocale
+     *
+     * @return string
+     */
+    public function getCurrencySymbol(string $code, string $displayLocale = null): string
+    {
+        return Intl::getCurrencyBundle()->getCurrencySymbol($code, $displayLocale ?? $this->getInLocale());
     }
 }

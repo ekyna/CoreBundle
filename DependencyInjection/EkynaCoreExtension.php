@@ -51,7 +51,7 @@ class EkynaCoreExtension extends Extension
         }
         $container
             ->getDefinition('ekyna_core.ui.renderer')
-            ->replaceArgument(1, $config['ui']);
+            ->replaceArgument(2, $config['ui']);
         $container
             ->getDefinition('ekyna_core.color_picker.form_type')
             ->replaceArgument(0, $config['ui']['colors']);

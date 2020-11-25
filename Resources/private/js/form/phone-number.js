@@ -1,17 +1,7 @@
-define(['jquery', 'ekyna-string'], function($) {
+define(['jquery', 'ekyna-flags', 'ekyna-string'], function($, Flags) {
     "use strict";
 
-    // Same in src/Ekyna/Bundle/CommerceBundle/Resources/private/ts/commerce.ts
-    if (0 === $('link#core-flags-stylesheet').length) {
-        var stylesheet = document.createElement('link');
-        stylesheet.id = 'core-flags-stylesheet';
-        stylesheet.href = '/bundles/ekynacore/css/flags.css';
-        stylesheet.type = 'text/css';
-        stylesheet.rel = 'stylesheet';
-        $('head').append(stylesheet);
-    }
-
-    var countries = $.getJSON('/' + $('html').attr('lang') + '/js/countries.json');
+    Flags.load();
 
     var PhoneNumberWidget = function(element) {
         this.$form = $(element);
@@ -32,7 +22,7 @@ define(['jquery', 'ekyna-string'], function($) {
 
     PhoneNumberWidget.prototype.init = function () {
         var that = this;
-        countries.then(function(data) {
+        $.getJSON('/' + $('html').attr('lang') + '/js/countries.json').then(function(data) {
             that.buildList(data);
         });
 

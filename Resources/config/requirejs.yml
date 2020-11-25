@@ -84,6 +84,7 @@ config:
         ekyna-string: bundles/ekynacore/js/string
         ekyna-polyfill: bundles/ekynacore/js/polyfill
         ekyna-routing: bundles/ekynacore/js/router
+        ekyna-flags: bundles/ekynacore/js/flags
         ekyna-modal: bundles/ekynacore/js/modal
         ekyna-clipboard-copy: bundles/ekynacore/js/clipboard-copy
         ekyna-ui: bundles/ekynacore/js/ui
