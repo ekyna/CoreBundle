@@ -81,6 +81,7 @@ ekyna_core:
         transform: Transformer
         notify: Notifier
         map: Carte
+        convert: Convertir
     field:
         name: Nom
         title: Titre
