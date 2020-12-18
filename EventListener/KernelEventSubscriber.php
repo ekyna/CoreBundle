@@ -49,6 +49,11 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
         $request = $event->getRequest();
 
         if ($exception instanceof NotFoundHttpException) {
+            // Skip admin / api paths
+            if (preg_match('~^/(admin|api)~', $request->getPathInfo())) {
+                return;
+            }
+
             $registry = $this->container->get('ekyna_core.redirection.provider_registry');
             foreach ($registry->getProviders() as $provider) {
                 if ($provider->supports($request) && false !== $response = $provider->redirect($request)) {
@@ -64,17 +69,21 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
                     return;
                 }
             }
-        } elseif ($exception instanceof AccessDeniedException) {
+
+            return;
+        }
+
+        if ($exception instanceof AccessDeniedException) {
             if ($request->isXmlHttpRequest()) {
                 $event->setResponse(new Response('', Response::HTTP_FORBIDDEN));
-
-                return;
             }
-        } elseif ($exception instanceof RedirectException) {
 
+            return;
+        }
+
+        if ($exception instanceof RedirectException) {
             // Check path
-            $path = $exception->getPath();
-            if (0 === strlen($path)) {
+            if (empty($path = $exception->getPath())) {
                 return;
             }
 
@@ -85,23 +94,26 @@ class KernelEventSubscriber implements EventSubscriberInterface, ContainerAwareI
             $event->setResponse($response);
 
             // Add flash
-            if (0 < strlen($message = $exception->getMessage())) {
+            if (!empty($message = $exception->getMessage())) {
                 $this->container
                     ->get('session')
                     ->getFlashBag()
                     ->add($exception->getMessageType(), $message);
             }
 
-        } elseif ($exception instanceof HttpException) {
+            return;
+        }
 
+        if ($exception instanceof HttpException) {
             // Don't send log about http exceptions.
             return;
-
-        } elseif (!$this->container->getParameter('kernel.debug')) {
-
-            $this->sendExceptionReport(FlattenException::create($exception), $request);
-
         }
+
+        if ($this->container->getParameter('kernel.debug')) {
+            return;
+        }
+
+        $this->sendExceptionReport(FlattenException::create($exception), $request);
     }
 
     /**
