@@ -3,6 +3,8 @@ define(['jquery', 'ekyna-flags', 'ekyna-string'], function($, Flags) {
 
     Flags.load();
 
+    var countries = $.getJSON('/' + $('html').attr('lang') + '/js/countries.json');
+
     var PhoneNumberWidget = function(element) {
         this.$form = $(element);
         this.$country = this.$form.find('#' + this.$form.attr('id') + '_country');
@@ -22,7 +24,7 @@ define(['jquery', 'ekyna-flags', 'ekyna-string'], function($, Flags) {
 
     PhoneNumberWidget.prototype.init = function () {
         var that = this;
-        $.getJSON('/' + $('html').attr('lang') + '/js/countries.json').then(function(data) {
+        countries.then(function(data) {
             that.buildList(data);
         });
 
