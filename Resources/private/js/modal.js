@@ -173,7 +173,11 @@ define(['require', 'jquery', 'bootstrap/dialog', 'ekyna-polyfill'], function (re
         },
         getContentType: function (jqXHR) {
             var type = 'html',
-                header = jqXHR.getResponseHeader('content-type');
+                header = jqXHR.getResponseHeader('Content-Type');
+
+            if (null === header) {
+                jqXHR.getResponseHeader('content-type')
+            }
 
             if (/json/.test(header)) {
                 type = 'json';

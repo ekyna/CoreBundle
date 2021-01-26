@@ -5,39 +5,42 @@ namespace Ekyna\Bundle\CoreBundle\Model;
 /**
  * Trait TreeTrait
  * @package Ekyna\Bundle\CoreBundle\Model
- * @author Étienne Dauvergne <contact@ekyna.com>
+ * @author  Étienne Dauvergne <contact@ekyna.com>
  */
 trait TreeTrait
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $left;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $right;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $root;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $level;
+
 
     /**
      * Sets the left.
      *
      * @param int $left
+     *
      * @return TreeInterface|$this
      */
-    public function setLeft($left)
+    public function setLeft(int $left): TreeInterface
     {
         $this->left = $left;
+
         return $this;
     }
 
@@ -46,7 +49,7 @@ trait TreeTrait
      *
      * @return int
      */
-    public function getLeft()
+    public function getLeft(): ?int
     {
         return $this->left;
     }
@@ -55,11 +58,13 @@ trait TreeTrait
      * Sets the right.
      *
      * @param int $right
+     *
      * @return TreeInterface|$this
      */
-    public function setRight($right)
+    public function setRight(int $right): TreeInterface
     {
         $this->right = $right;
+
         return $this;
     }
 
@@ -68,7 +73,7 @@ trait TreeTrait
      *
      * @return int
      */
-    public function getRight()
+    public function getRight(): ?int
     {
         return $this->right;
     }
@@ -77,11 +82,13 @@ trait TreeTrait
      * Sets the root.
      *
      * @param int $root
+     *
      * @return TreeInterface|$this
      */
-    public function setRoot($root)
+    public function setRoot(int $root): TreeInterface
     {
         $this->root = $root;
+
         return $this;
     }
 
@@ -90,7 +97,7 @@ trait TreeTrait
      *
      * @return int
      */
-    public function getRoot()
+    public function getRoot(): ?int
     {
         return $this->root;
     }
@@ -99,11 +106,13 @@ trait TreeTrait
      * Sets the level.
      *
      * @param int $level
+     *
      * @return TreeInterface|$this
      */
-    public function setLevel($level)
+    public function setLevel(int $level): TreeInterface
     {
         $this->level = $level;
+
         return $this;
     }
 
@@ -112,7 +121,7 @@ trait TreeTrait
      *
      * @return int
      */
-    public function getLevel()
+    public function getLevel(): ?int
     {
         return $this->level;
     }

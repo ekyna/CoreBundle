@@ -13,59 +13,63 @@ interface TreeInterface
      * Sets the left.
      *
      * @param int $left
+     *
      * @return TreeInterface|$this
      */
-    public function setLeft($left);
+    public function setLeft(int $left): TreeInterface;
 
     /**
      * Returns the left.
      *
      * @return int
      */
-    public function getLeft();
+    public function getLeft(): ?int;
 
     /**
      * Sets the right.
      *
      * @param int $right
+     *
      * @return TreeInterface|$this
      */
-    public function setRight($right);
+    public function setRight(int $right): TreeInterface;
 
     /**
      * Returns the right.
      *
      * @return int
      */
-    public function getRight();
+    public function getRight(): ?int;
 
     /**
      * Sets the root.
      *
      * @param int $root
+     *
      * @return TreeInterface|$this
      */
-    public function setRoot($root);
+    public function setRoot(int $root): TreeInterface;
 
     /**
      * Returns the root.
      *
      * @return int
      */
-    public function getRoot();
+    public function getRoot(): ?int;
 
     /**
      * Sets the level.
      *
      * @param int $level
+     *
      * @return TreeInterface|$this
      */
-    public function setLevel($level);
+    public function setLevel(int $level): TreeInterface;
 
     /**
      * Returns the level.
      *
      * @return int
      */
-    public function getLevel();
+    public function getLevel(): ?int;
 }
