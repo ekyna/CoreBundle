@@ -116,7 +116,7 @@ class IdentifierToObjectTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         if (null === $value) {
-            return '';
+            return null;
         }
 
         $class = $this->repository->getClassName();
